@@ -12,9 +12,10 @@ import {
 } from '@react-navigation/drawer';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { IMAGES, COLORS } from '../Constants/Theme'
+import useAuth from "../context/authContext";
 
 const CustomDrawer = props => {
-
+    const { logout } = useAuth();
     const CustomDrawerItem = ({ navigation, title, route }) => {
         return (
             <TouchableOpacity
@@ -205,13 +206,11 @@ const CustomDrawer = props => {
                             </View>
                         </View>
                     </View>
-
-                    {/* <DrawerItemList {...props} /> */}
                 </View>
             </DrawerContentScrollView>
             <View style={{ padding: 2, borderTopWidth: 1, borderTopColor: '#ccc' }}>
                 <TouchableOpacity
-                    onPress={() => { console.log("Log Out") }}
+                    onPress={() => logout()}
                     style={{ paddingVertical: 15 }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Ionicons name="exit-outline" size={22} style={{ marginStart: 15 }} />

@@ -1,0 +1,11 @@
+const route = {
+    PUBLIC_STACK: 'PUBLIC_STACK',
+    PRIVATE_STACK: 'PRIVATE_STACK',
+  
+    LOGIN_SCREEN: 'LOGIN_SCREEN',
+    FORGETPOSSWORD_SCREEN: 'FORGETPOSSWORD_SCREEN',
+    SPLASH_SCREEN: 'SPLASH_SCREEN',
+  };
+  
+  export default route;
+  
