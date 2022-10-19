@@ -5,7 +5,7 @@ import route from '../../Constants/route'
 import useApp from "../../context/appContext";
 import publicStack from "../PublicStack/publicStack";
 import privateStack from "../PrivateStack/privateStack";
-import appState from "../../constants/appstate";
+import appState from "../../Constants/appstate";
 import SplashScreen from "../../Screens/SplashScreen/SplashScreen";
 import { navigationRef } from './navigation_reference';
 

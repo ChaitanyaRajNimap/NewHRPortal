@@ -1,8 +1,8 @@
 import React, { useContext, createContext, useState, useCallback } from 'react';
 import { Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import useApp from './appcontext';
-import appState from '../constants/appstate';
+import useApp from './appContext';
+import appState from '../Constants/appstate';
 
 const AuthContext = createContext(null);
 function AuthProvider({ children }) {

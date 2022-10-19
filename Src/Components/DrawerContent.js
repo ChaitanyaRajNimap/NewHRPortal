@@ -25,7 +25,6 @@ const CustomDrawer = props => {
             </TouchableOpacity>
         );
     };
-
     return (
         <View style={{ flex: 1 }}>
             <DrawerContentScrollView
@@ -49,7 +48,7 @@ const CustomDrawer = props => {
                             marginBottom: 5,
                             alignSelf: 'center',
                         }}>
-                        {newData.name}
+                            ABC
                     </Text>
                 </ImageBackground>
 
@@ -62,7 +61,6 @@ const CustomDrawer = props => {
                                     title="Dashboard"
                                     route={'Home'}
                                 />
-
                                 <CustomDrawerItem
                                     navigation={props.navigation}
                                     title="Compare Report"

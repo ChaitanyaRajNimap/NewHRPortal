@@ -6,9 +6,11 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { applyMiddleware, createStore } from 'redux';
 import rootReducer from './Src/Redux/Reducers/rootReducer';
+import { LogBox } from 'react-native';
 
 const store = createStore(rootReducer, applyMiddleware(thunk))
 
+LogBox.ignoreLogs(["Got a component with the name"])
 
 const App = () => {
   return (

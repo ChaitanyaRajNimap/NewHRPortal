@@ -7,11 +7,8 @@ import Toast from 'react-native-simple-toast'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from 'axios'
 import { BASE_URL } from '../../Util/Configure'
-import useApp from '../../context/appContext'
-import appState from '../../constants/appstate'
 
 export function loginuser(username, password) {
-    const { setState } = useApp();
 
     return async (dispatch) => {
         dispatch(loginDispatch({ isLoading: true }, LOGIN_PROGRESS))
@@ -31,7 +28,6 @@ export function loginuser(username, password) {
                 );
                 await AsyncStorage.setItem('token', res.data.token);
             }
-            setState(appState.APP_STATE_PRIVATE);
         } catch (error) {
             console.log("Login Error", error)
             Toast.show('Please check user email and password');

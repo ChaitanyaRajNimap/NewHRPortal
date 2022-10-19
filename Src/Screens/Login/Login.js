@@ -14,6 +14,8 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import CustomButton from "../../Components/CustomButton";
 import { useSelector, useDispatch } from "react-redux";
 import { loginuser } from "../../Redux/Actions/loginAction";
+import useApp from "../../context/appContext";
+import appState from "../../Constants/appstate";
 
 const Login = ({ navigation }) => {
     const dispatch = useDispatch();
@@ -21,6 +23,11 @@ const Login = ({ navigation }) => {
     const [show, setShow] = useState(false);
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
+
+    const { setState } = useApp();
+
+    const reducerData = useSelector(state => state.loginReducer)
+    //console.log("login data of reducer--->", reducerData)
 
     const handleUserName = (data) => {
         setUserName(data)
@@ -30,6 +37,9 @@ const Login = ({ navigation }) => {
     }
     const loginUser = () => {
         dispatch(loginuser(userName, password));
+        if (reducerData.loginData.message === "Authenticate Successfully") {
+            setState(appState.APP_STATE_PRIVATE);
+        }
     }
     return (
         <SafeAreaView style={GLOBALSTYLE.safeAreaViewStyle}>

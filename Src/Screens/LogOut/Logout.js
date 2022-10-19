@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
 import { View, ActivityIndicator, StyleSheet } from 'react-native';
-import appState from '../../constants/appstate';
+import appState from '../../Constants/appstate';
 import useApp from '../../context/appContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 
 function Logout() {
 

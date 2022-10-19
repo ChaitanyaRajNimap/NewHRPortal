@@ -8,8 +8,8 @@ const publicstack = createNativeStackNavigator();
 function publicStack() {
     return (
         <publicstack.Navigator screenOptions={{ headerShown: false }} >
-            <Stack.Screen name='Login' component={Login} />
-            <Stack.Screen name='ForgotPassword' component={ForgotPassword} />
+            <publicstack.Screen name='Login' component={Login} />
+            <publicstack.Screen name='ForgotPassword' component={ForgotPassword} />
         </publicstack.Navigator>
     );
 }
