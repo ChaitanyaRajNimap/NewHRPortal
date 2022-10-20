@@ -18,5 +18,33 @@ export const GLOBALSTYLE = StyleSheet.create({
         borderRadius: 10,
         width: Dimensions.get('screen').width - 20,
         margin: 10
+    },
+    cardView: {
+        flex: 1,
+        marginVertical: 10,
+        padding: 10,
+        marginHorizontal: 20,
+        borderRadius: 10,
+        backgroundColor: COLORS.white,
+    },
+    columnView: {
+        flexDirection: 'column',
+        margin: 10
+    },
+    rowView: {
+        flexDirection: 'row',
+        margin: 5,
+        justifyContent:'space-between',
+    },
+    label: {
+        fontSize: 14,
+        color: COLORS.grey,
+        padding: 2,
+    },
+    text: {
+        fontSize: 14,
+        color: COLORS.black,
+        padding: 3,
+        flexWrap:'wrap'
     }
 })

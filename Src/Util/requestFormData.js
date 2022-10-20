@@ -1,7 +1,7 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BASE_URL } from './Configure';
-//import NavigationServices from '../navigation/rootroute/navigation_reference';
+import NavigationServices from '../Navigation/Rootroute/navigation_reference';
 
 const client = axios.create({
     baseURL: BASE_URL,
@@ -34,8 +34,8 @@ client.interceptors.response.use(
     async function (error) {
         if (error && error.response && error.response.status === 401) {
             if (error.response.data.message === 'Unauthorized') {
-                // await AsyncStorage.removeItem('token');
-                // NavigationServices.replace('Logout');
+                await AsyncStorage.removeItem('token');
+                NavigationServices.replace('Logout');
             } else {
                 return Promise.reject(error);
             }

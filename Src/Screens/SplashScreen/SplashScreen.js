@@ -5,7 +5,6 @@ import {
     SafeAreaView,
     StyleSheet
 } from "react-native";
-
 import { IMAGES, COLORS } from "../../Constants/Theme";
 import appState from "../../Constants/appstate";
 import useApp from "../../context/appContext";
