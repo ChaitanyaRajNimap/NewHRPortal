@@ -5,6 +5,7 @@ import {
 } from "react-native";
 import { GLOBALSTYLE } from "../Constants/Styles";
 import { COLORS } from "../Constants/Theme";
+import Feather from 'react-native-vector-icons/Feather'
 
 const SearchBox = props => {
     const handleChangeValue = value => {
@@ -19,6 +20,13 @@ const SearchBox = props => {
             borderRadius: 10,
             marginHorizontal: 15
         }}>
+            <Feather
+                name="search"
+                style={{
+                    fontSize:35,
+                    alignSelf:'center'
+                }}
+            />
             <TextInput
                 placeholder="Search"
                 style={{
