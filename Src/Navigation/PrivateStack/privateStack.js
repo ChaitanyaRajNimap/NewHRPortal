@@ -28,6 +28,7 @@ import UserSetting from "../../Screens/Masters/UserSetting/UserSetting";
 import Setting from "../../Screens/Masters/Setting/Setting";
 import Logout from "../../Screens/LogOut/Logout";
 import EditProjectTarget from "../../Screens/Masters/ProjectTarget/EditProjectTarget";
+import AddProjectTarget from "../../Screens/Masters/ProjectTarget/AddProjectTarget";
 
 const privatestack = createNativeStackNavigator();
 
@@ -62,6 +63,7 @@ function privateStack() {
             <privatestack.Screen name="Setting" component={Setting} />
             <privatestack.Screen name="Logout" component={Logout} />
             <privatestack.Screen name="EditProjectTarget" component={EditProjectTarget} />
+            <privatestack.Screen name="AddProjectTarget" component={AddProjectTarget} />
 
 
         </privatestack.Navigator>

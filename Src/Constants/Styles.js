@@ -18,7 +18,7 @@ export const GLOBALSTYLE = StyleSheet.create({
         borderRadius: 10,
         width: Dimensions.get('screen').width - 20,
         margin: 10,
-        alignSelf:'center'
+        alignSelf: 'center'
     },
     cardView: {
         flex: 1,
@@ -35,7 +35,7 @@ export const GLOBALSTYLE = StyleSheet.create({
     rowView: {
         flexDirection: 'row',
         margin: 5,
-        justifyContent:'space-between',
+        justifyContent: 'space-between',
     },
     label: {
         fontSize: 14,
@@ -46,6 +46,11 @@ export const GLOBALSTYLE = StyleSheet.create({
         fontSize: 14,
         color: COLORS.black,
         padding: 3,
-        flexWrap:'wrap'
+        flexWrap: 'wrap'
+    },
+    headerRightStyle: {
+        margin: 10,
+        fontWeight: 'bold',
+        marginEnd: 15
     }
 })

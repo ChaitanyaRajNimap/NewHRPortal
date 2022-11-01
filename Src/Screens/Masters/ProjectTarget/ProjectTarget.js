@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import SearchBox from "../../../Components/SearchBox";
 import { GLOBALSTYLE } from "../../../Constants/Styles";
-import { getResources } from "../../../Redux/Actions/ProjectTargetAction";
+import { getProjectTarget } from "../../../Redux/Actions/ProjectTargetAction";
 import { useSelector, useDispatch } from "react-redux";
 import SmallButton from "../../../Components/SmallButton";
 import { COLORS } from "../../../Constants/Theme";
@@ -24,7 +24,7 @@ const ProjectTarget = ({ navigation }) => {
 
     useEffect(() => {
         const unSubscribe = navigation.addListener('focus', () => {
-            dispatch(getResources())
+            dispatch(getProjectTarget())
             console.log("Project Target")
         });
         return unSubscribe;
