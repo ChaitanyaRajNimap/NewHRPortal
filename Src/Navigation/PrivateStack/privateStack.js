@@ -49,7 +49,7 @@ function privateStack() {
             <privatestack.Screen name="NonJoining" component={NonJoining} />
             <privatestack.Screen name="Project Target" component={ProjectTarget} />
             <privatestack.Screen name="Vendor" component={Vendor} />
-            <privatestack.Screen name="Resources" component={Resources} />
+            <privatestack.Screen name="Resource" component={Resources} />
             <privatestack.Screen name="ArchivedResources" component={ArchivedResources} />
             <privatestack.Screen name="InActiveResources" component={InActiveResources} />
             <privatestack.Screen name="Client" component={Client} />

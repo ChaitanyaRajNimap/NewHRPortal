@@ -10,7 +10,10 @@ import {
     GETRESOURCE_FAIL,
     ADDPROJECT_PROGRESS,
     ADDPROJECT_SUCCESS,
-    ADDPROJECT_FAIL
+    ADDPROJECT_FAIL,
+    DELETEPROJECT_PROGRESS,
+    DELETEPROJECT_SUCCESS,
+    DELETEPROJECT_FAIL
 } from "../ActionConstant";
 import request from "../../Util/request";
 import Toast from 'react-native-simple-toast'
@@ -94,6 +97,28 @@ export function addProjectTarget(values, navigation) {
         }
     }
 }
+
+export function deleteProjectTarget(values) {
+    return async (dispatch) => {
+        dispatch(projectTargetDispatch({}, DELETEPROJECT_PROGRESS))
+        try {
+            const data = await request({
+                url: `/project-target/${values}`,
+                method: 'DELETE',
+            });
+            console.log("deleteProjectTarget response", data.data)
+            if (data.data.message) {
+                dispatch(projectTargetDispatch(data, DELETEPROJECT_SUCCESS))
+                Toast.show('Project Target deleted Successfully');
+            }
+        } catch (err) {
+            console.log("deleteProjectTarget error", err)
+            dispatch(projectTargetDispatch(err, DELETEPROJECT_FAIL))
+            Toast.show('Project Target Not deleted Successfully');
+        }
+    }
+}
+
 projectTargetDispatch = (data, actionType) => {
     return {
         payload: data,

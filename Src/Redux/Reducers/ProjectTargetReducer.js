@@ -10,7 +10,10 @@ import {
     GETRESOURCE_FAIL,
     ADDPROJECT_PROGRESS,
     ADDPROJECT_SUCCESS,
-    ADDPROJECT_FAIL
+    ADDPROJECT_FAIL,
+    DELETEPROJECT_PROGRESS,
+    DELETEPROJECT_SUCCESS,
+    DELETEPROJECT_FAIL
 } from "../ActionConstant";
 
 const initalState = {
@@ -18,7 +21,8 @@ const initalState = {
     resourceData: {},
     updateProjectTarget: {},
     getResorceData: {},
-    addProjectData: {}
+    addProjectData: {},
+    deleteprojectData: {}
 }
 
 const ProjectTargetReducer = (state = initalState, action) => {
@@ -92,7 +96,24 @@ const ProjectTargetReducer = (state = initalState, action) => {
                 ...state,
                 isLoading: false,
                 addProjectData: action.payload
-            }
+            };
+        case DELETEPROJECT_PROGRESS:
+            return {
+                ...state,
+                isLoading: true
+            };
+        case DELETEPROJECT_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                deleteprojectData: action.payload
+            };
+        case DELETEPROJECT_FAIL:
+            return {
+                ...state,
+                isLoading: false,
+                deleteprojectData: action.payload
+            };
         default:
             return state;
     }

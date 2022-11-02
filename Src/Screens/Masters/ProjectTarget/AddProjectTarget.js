@@ -21,7 +21,6 @@ const AddProjectTarget = ({ navigation }) => {
     const dispatch = useDispatch()
     const reducerData = useSelector(state => state.ProjectTargetReducer)
     console.log("reducerdata------->", reducerData.getResorceData)
-    const [newData, setNewData] = useState(null);
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState(null);
     const [items, setItems] = useState([]);
@@ -47,13 +46,7 @@ const AddProjectTarget = ({ navigation }) => {
         setDatePicker(true);
     };
 
-    useEffect(() => {
-        navigation.addListener('focus', () => {
-            dispatch(getResources())
-        })
-    }, [])
-
-    useEffect(() => {
+       useEffect(() => {
         if (reducerData.getResorceData != null) {
             let newArray = [];
             for (i of reducerData.getResorceData) {

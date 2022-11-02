@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import SearchBox from "../../../Components/SearchBox";
 import { GLOBALSTYLE } from "../../../Constants/Styles";
-import { getProjectTarget } from "../../../Redux/Actions/ProjectTargetAction";
+import { getProjectTarget, deleteProjectTarget, getResources } from "../../../Redux/Actions/ProjectTargetAction";
 import { useSelector, useDispatch } from "react-redux";
 import SmallButton from "../../../Components/SmallButton";
 import { COLORS } from "../../../Constants/Theme";
@@ -21,11 +21,12 @@ const ProjectTarget = ({ navigation }) => {
     const [resources, setResources] = useState([]);
     const [filterResource, setFilterResources] = useState([]);
     const [search, setSearch] = useState('');
+    const [refreshFlatlist, setRefreshFlatList] = useState(false);
 
     useEffect(() => {
         const unSubscribe = navigation.addListener('focus', () => {
             dispatch(getProjectTarget())
-            console.log("Project Target")
+            dispatch(getResources())
         });
         return unSubscribe;
     }, [navigation]);
@@ -61,6 +62,13 @@ const ProjectTarget = ({ navigation }) => {
     };
     const editProject = (data) => {
         navigation.navigate('EditProjectTarget', { newData: data })
+    }
+    const deleteTarget = (id) => {
+        dispatch(deleteProjectTarget(id))
+        setRefreshFlatList(!refreshFlatlist)
+        setSearch('');
+        const remaningData = resources.filter(t => t.id !== id);
+        setFilterResources([...remaningData]);
 
     }
     return (
@@ -71,6 +79,7 @@ const ProjectTarget = ({ navigation }) => {
             <View>
                 <FlatList
                     data={filterResource}
+                    extraData={refreshFlatlist}
                     renderItem={({ item }) => (
                         <View style={GLOBALSTYLE.cardView}>
                             <View style={GLOBALSTYLE.columnView}>
@@ -122,6 +131,9 @@ const ProjectTarget = ({ navigation }) => {
                                 <SmallButton
                                     color={COLORS.red}
                                     title={"Delete"}
+                                    onPressFunction={() => {
+                                        deleteTarget(item.id)
+                                    }}
                                 />
                             </View>
                         </View>

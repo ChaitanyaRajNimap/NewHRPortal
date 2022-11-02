@@ -124,7 +124,7 @@ const DrawerNavigation = ({ navigation }) => {
                 options={{ headerShown: true, headerTitleAlign: 'center' }}
             />
             <Drawer.Screen
-                name="Resources"
+                name="Resource"
                 component={Resources}
                 options={{ headerShown: true, headerTitleAlign: 'center' }}
             />
