@@ -45,4 +45,9 @@ export const GLOBALSTYLE = StyleSheet.create({
     padding: 3,
     flexWrap: 'wrap',
   },
+  headerRightStyle: {
+    margin: 10,
+    fontWeight: 'bold',
+    marginEnd: 15,
+  },
 });

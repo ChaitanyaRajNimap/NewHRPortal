@@ -28,6 +28,7 @@ import UserSetting from '../../Screens/Masters/UserSetting/UserSetting';
 import Setting from '../../Screens/Masters/Setting/Setting';
 import Logout from '../../Screens/LogOut/Logout';
 import EditProjectTarget from '../../Screens/Masters/ProjectTarget/EditProjectTarget';
+import AddProjectTarget from '../../Screens/Masters/ProjectTarget/AddProjectTarget';
 
 const privatestack = createNativeStackNavigator();
 
@@ -60,7 +61,7 @@ function privateStack() {
       <privatestack.Screen name="NonJoining" component={NonJoining} />
       <privatestack.Screen name="Project Target" component={ProjectTarget} />
       <privatestack.Screen name="Vendor" component={Vendor} />
-      <privatestack.Screen name="Resources" component={Resources} />
+      <privatestack.Screen name="Resource" component={Resources} />
       <privatestack.Screen
         name="ArchivedResources"
         component={ArchivedResources}
@@ -82,6 +83,10 @@ function privateStack() {
       <privatestack.Screen
         name="EditProjectTarget"
         component={EditProjectTarget}
+      />
+      <privatestack.Screen
+        name="AddProjectTarget"
+        component={AddProjectTarget}
       />
     </privatestack.Navigator>
   );

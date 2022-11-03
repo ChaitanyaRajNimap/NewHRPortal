@@ -9,7 +9,11 @@ import {
 } from 'react-native';
 import SearchBox from '../../../Components/SearchBox';
 import {GLOBALSTYLE} from '../../../Constants/Styles';
-import {getResources} from '../../../Redux/Actions/ProjectTargetAction';
+import {
+  getProjectTarget,
+  deleteProjectTarget,
+  getResources,
+} from '../../../Redux/Actions/ProjectTargetAction';
 import {useSelector, useDispatch} from 'react-redux';
 import SmallButton from '../../../Components/SmallButton';
 import {COLORS} from '../../../Constants/Theme';
@@ -21,11 +25,12 @@ const ProjectTarget = ({navigation}) => {
   const [resources, setResources] = useState([]);
   const [filterResource, setFilterResources] = useState([]);
   const [search, setSearch] = useState('');
+  const [refreshFlatlist, setRefreshFlatList] = useState(false);
 
   useEffect(() => {
     const unSubscribe = navigation.addListener('focus', () => {
+      dispatch(getProjectTarget());
       dispatch(getResources());
-      console.log('Project Target');
     });
     return unSubscribe;
   }, [navigation]);
