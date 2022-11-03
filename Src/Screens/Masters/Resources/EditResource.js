@@ -7,11 +7,11 @@ import {
 import { GLOBALSTYLE } from "../../../Constants/Styles";
 
 
-const Resources = ({ navigation }) => {
+const EditResource = ({ navigation }) => {
     return (
         <SafeAreaView style={GLOBALSTYLE.safeAreaViewStyle}>
             <View style={GLOBALSTYLE.mainContainer}>
-                
+
             </View>
 
         </SafeAreaView>
@@ -22,4 +22,4 @@ const styles = StyleSheet.create({
 
 })
 
-export default Resources
+export default EditResource
