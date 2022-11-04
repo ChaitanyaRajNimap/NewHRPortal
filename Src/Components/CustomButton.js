@@ -14,7 +14,7 @@ const CustomButton = props => {
         marginVertical: 10,
         borderRadius: 10,
         alignItems: 'center',
-        backgroundColor: COLORS.blue,
+        backgroundColor: COLORS.lightBlue,
         width: Dimensions.get('window').width - 20,
       }}
       onPress={() => {

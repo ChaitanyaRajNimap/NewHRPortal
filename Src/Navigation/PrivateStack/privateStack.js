@@ -1,5 +1,5 @@
 import React from 'react';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import DrawerNavigation from '../../Components/DrawerNavigation';
 import Home from '../../Screens/DashBoard/Home';
 import CompareReport from '../../Screens/CompareReport/CompareReport';
@@ -29,12 +29,13 @@ import Setting from '../../Screens/Masters/Setting/Setting';
 import Logout from '../../Screens/LogOut/Logout';
 import EditProjectTarget from '../../Screens/Masters/ProjectTarget/EditProjectTarget';
 import AddProjectTarget from '../../Screens/Masters/ProjectTarget/AddProjectTarget';
+import Editvendor from '../../Screens/Masters/Vendor/EditVendor/EditVendor';
 
 const privatestack = createNativeStackNavigator();
 
 function privateStack() {
   return (
-    <privatestack.Navigator screenOptions={{headerShown: false}}>
+    <privatestack.Navigator screenOptions={{ headerShown: false }}>
       <privatestack.Screen
         name="DrawerNavigation"
         component={DrawerNavigation}
@@ -88,6 +89,7 @@ function privateStack() {
         name="AddProjectTarget"
         component={AddProjectTarget}
       />
+      <privatestack.Screen name='Editvendor' component={Editvendor} />
     </privatestack.Navigator>
   );
 }

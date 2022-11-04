@@ -1,56 +1,67 @@
 import React from 'react';
-import {FlatList, View, Text, StyleSheet} from 'react-native';
-import {GLOBALSTYLE} from '../../../../Constants/Styles';
-import {COLORS} from '../../../../Constants/Theme';
+import { FlatList, View, Text, StyleSheet } from 'react-native';
+import { GLOBALSTYLE } from '../../../../Constants/Styles';
+import { COLORS } from '../../../../Constants/Theme';
 import SmallButton from '../../../../Components/SmallButton';
 
-function VendorList({data}) {
-  const _renderItem = ({item}) => {
+function VendorList({ data, editVendor }) {
+  const _renderItem = ({ item }) => {
     return (
       <View style={[GLOBALSTYLE.cardView]}>
-        {item.company_name && (
-          <View style={styles.nameViewStyle}>
-            <Text style={styles.indicatorTextStyle}>Company Name</Text>
-            <Text style={styles.contentTextStyle}>{item.company_name}</Text>
-          </View>
-        )}
-        {item.contact_person && (
-          <View style={styles.personViewStyle}>
-            <Text style={styles.indicatorTextStyle}>Contact Person</Text>
-            <Text style={styles.contentTextStyle}>{item.contact_person}</Text>
-          </View>
-        )}
-        <View style={styles.upperViewStyle}>
-          {item.contact_email && (
-            <View style={styles.innerViewStyle}>
-              <Text style={styles.indicatorTextStyle}>Email Id</Text>
-              <Text style={styles.contentTextStyle}>{item.contact_email}</Text>
+        <View style={GLOBALSTYLE.rowView}>
+          {item.company_name && (
+            <View style={GLOBALSTYLE.columnView}>
+              <Text style={GLOBALSTYLE.label}>Company Name</Text>
+              <Text style={GLOBALSTYLE.text}>{item.company_name}</Text>
             </View>
           )}
-          {item.contact_number && (
-            <View style={styles.innerViewStyle}>
-              <Text style={styles.indicatorTextStyle}>Mobile</Text>
-              <Text style={styles.contentTextStyle}>{item.contact_number}</Text>
+          <View style={GLOBALSTYLE.columnView}>
+            <Text style={GLOBALSTYLE.label}>CP</Text>
+            <Text style={GLOBALSTYLE.text}>{item.credit_period}</Text>
+          </View>
+        </View>
+        <View style={GLOBALSTYLE.rowView}>
+          {item.nick_name && (
+            <View style={GLOBALSTYLE.columnView}>
+              <Text style={GLOBALSTYLE.label}>Nick Name</Text>
+              <Text style={GLOBALSTYLE.text}>{item.nick_name}</Text>
+            </View>
+          )}
+
+          {item.contact_person && (
+            <View style={GLOBALSTYLE.columnView}>
+              <Text style={GLOBALSTYLE.label}>Contact Person</Text>
+              <Text style={GLOBALSTYLE.text}>{item.contact_person}</Text>
             </View>
           )}
         </View>
-        <View style={styles.upperViewStyle}>
-          {item.gst && (
-            <View style={styles.innerViewStyle}>
-              <Text style={styles.indicatorTextStyle}>GST Number</Text>
-              <Text style={styles.contentTextStyle}>{item.gst}</Text>
+        {item.contact_email && (
+          <View style={GLOBALSTYLE.columnView}>
+            <Text style={GLOBALSTYLE.label}>Email Id</Text>
+            <Text style={GLOBALSTYLE.text}>{item.contact_email}</Text>
+          </View>
+        )}
+        <View style={GLOBALSTYLE.rowView}>
+          {item.contact_number && (
+            <View style={GLOBALSTYLE.columnView}>
+              <Text style={GLOBALSTYLE.label}>Mobile</Text>
+              <Text style={GLOBALSTYLE.text}>{item.contact_number}</Text>
             </View>
           )}
-          {item.pan && (
-            <View style={styles.innerViewStyle}>
-              <Text style={styles.indicatorTextStyle}>PAN Number</Text>
-              <Text style={styles.contentTextStyle}>{item.pan}</Text>
-            </View>
-          )}
+          <View style={GLOBALSTYLE.columnView}>
+            <Text style={GLOBALSTYLE.label}>Resource Count</Text>
+            <Text style={GLOBALSTYLE.text}>{item.resourceCount}</Text>
+          </View>
         </View>
         <View style={styles.upperViewStyle}>
           <View style={[styles.innerViewStyle]}>
-            <SmallButton color={COLORS.blue} title={'Edit'} />
+            <SmallButton
+              color={COLORS.lightBlue}
+              title={'Edit'}
+              onPressFunction={() => {
+                editVendor(item)
+              }}
+            />
           </View>
           <View style={[styles.innerViewStyle]}>
             <SmallButton color={COLORS.red} title={'Delete'} />

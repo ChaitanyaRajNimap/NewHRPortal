@@ -25,7 +25,7 @@ export function getProjectTarget() {
     );
     try {
       const res = await request({url: '/project-target', method: 'GET'});
-      console.log('Project Target Response', res.data.data);
+      //console.log('Project Target Response', res.data.data);
       dispatch(
         projectTargetDispatch(res.data.data.project, GETPROJECTTARGET_SUCCESS),
       );
@@ -51,7 +51,7 @@ export function updateProjectTarget(resource, date, id, navigation) {
         method: 'PUT',
         data: formData,
       });
-      console.log('updateProjectTarget response', data.data);
+     // console.log('updateProjectTarget response', data.data);
       if (data.message) {
         dispatch(projectTargetDispatch(data, EDITPROJECTTARGET_SUCCESS));
         Toast.show('Project Target Updated Successfully');
@@ -70,7 +70,7 @@ export function getResources() {
     dispatch(projectTargetDispatch({}, GETRESOURCE_PROGRESS));
     try {
       const data = await request({url: '/resource', method: 'GET'});
-      console.log('getResources response', data.data.data.resources);
+     // console.log('getResources response', data.data.data.resources);
       dispatch(
         projectTargetDispatch(data.data.data.resources, GETRESOURCE_SUCCESS),
       );
@@ -90,7 +90,7 @@ export function addProjectTarget(values, navigation) {
         method: 'POST',
         data: values,
       });
-      console.log('addProjectTarget response', data);
+      //console.log('addProjectTarget response', data);
       if (data.data.message) {
         dispatch(data.data, ADDPROJECT_SUCCESS);
         Toast.show('Project Target Added Successfully');
@@ -112,7 +112,7 @@ export function deleteProjectTarget(values) {
         url: `/project-target/${values}`,
         method: 'DELETE',
       });
-      console.log('deleteProjectTarget response', data.data);
+     // console.log('deleteProjectTarget response', data.data);
       if (data.data.message) {
         dispatch(projectTargetDispatch(data, DELETEPROJECT_SUCCESS));
         Toast.show('Project Target deleted Successfully');

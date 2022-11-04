@@ -122,7 +122,7 @@ const ProjectTarget = ({ navigation }) => {
                             </View>
                             <View style={GLOBALSTYLE.rowView}>
                                 <SmallButton
-                                    color={COLORS.blue}
+                                    color={COLORS.lightBlue}
                                     title={"Edit"}
                                     onPressFunction={() => {
                                         editProject(item)

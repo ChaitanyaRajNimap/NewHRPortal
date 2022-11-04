@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, ActivityIndicator} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {useSelector, useDispatch} from 'react-redux';
-import {fetchVenders} from './vendorServices';
-import {COLORS} from '../../../../Constants/Theme';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchVenders } from './vendorServices';
+import { COLORS } from '../../../../Constants/Theme';
 import SearchBox from '../../../../Components/SearchBox';
 import VendorList from './vendorlist';
 
@@ -12,17 +12,20 @@ const Vendor = () => {
   const navigation = useNavigation();
   const [loading, setLoading] = useState(true);
   const [vendors, setVendors] = useState(null);
+  const [filterVendor, setFilterVendor] = useState(null);
+  const [search, setSearch] = useState('');
   const [error, setError] = useState(null);
 
-  const {reducer} = useSelector(state => ({
+  const { reducer } = useSelector(state => ({
     reducer: state.vendor,
   }));
 
-  const {vendorError, vendorSuccess} = reducer;
+  const { vendorError, vendorSuccess } = reducer;
 
   useEffect(() => {
     if (vendorSuccess) {
       setVendors(vendorSuccess.data.vendors);
+      setFilterVendor(vendorSuccess.data.vendors)
       setLoading(false);
     }
   }, [vendorSuccess]);
@@ -33,6 +36,10 @@ const Vendor = () => {
       setVendors([]);
     }
   }, [vendorError]);
+
+  useEffect(() => {
+    getVendorFilterData();
+  }, [search])
 
   // useEffect(() => {
   //   if (vendorRequest) {
@@ -57,9 +64,37 @@ const Vendor = () => {
     return unsubscribe;
   }, [navigation, dispatch]);
 
+  const getVendorFilterData = () => {
+    const filterValue = vendors?.filter(data => {
+      if (search.length === 0) {
+        return data;
+      } else if (
+        data.company_name.toLowerCase().includes(search.toLowerCase()) ||
+        data.contact_person.toLowerCase().includes(search.toLowerCase()) ||
+        data.contact_number.toLowerCase().includes(search.toLowerCase()) ||
+        data.contact_email.toLowerCase().includes(search.toLowerCase()) ||
+        data.pan.toLowerCase().includes(search.toLowerCase()) ||
+        data.gst.toLowerCase().includes(search.toLowerCase())
+      ) {
+        console.log(data);
+        return data;
+      }
+    });
+    setFilterVendor(filterValue);
+
+  }
+
+  const setSearchValue = value => {
+    setSearch(value);
+  };
+  const editVendor = (data) => {
+    navigation.navigate('Editvendor', { newData: data })
+  }
   return (
     <View style={styles.container}>
-      <SearchBox />
+      <SearchBox
+        setSearchValue={setSearchValue}
+      />
 
       {loading && (
         <View style={styles.loadingContainer}>
@@ -79,7 +114,10 @@ const Vendor = () => {
       )}
       {!loading && vendors && vendors.length > 0 && (
         <View style={styles.listContainer}>
-          <VendorList data={vendors} />
+          <VendorList
+            data={filterVendor}
+            editVendor={editVendor}
+          />
         </View>
       )}
     </View>

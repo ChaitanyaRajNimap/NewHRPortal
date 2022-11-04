@@ -28,11 +28,13 @@ export const GLOBALSTYLE = StyleSheet.create({
   columnView: {
     flexDirection: 'column',
     margin: 10,
+    flex:2
   },
   rowView: {
     flexDirection: 'row',
     margin: 5,
     justifyContent: 'space-between',
+    flex:1
   },
   label: {
     fontSize: 14,
