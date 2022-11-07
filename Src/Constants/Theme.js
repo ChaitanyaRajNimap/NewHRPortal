@@ -5,6 +5,8 @@ export const COLORS = {
   lightBlue: '#91A3FF',
   grey: '#707070',
   red: '#FF0000',
+  tomatto: '#FFA86C',
+  lightgreen: '#8BC535',
 };
 
 const nimaplogo = require('../Constants/assets/images/nimap-logo.png');

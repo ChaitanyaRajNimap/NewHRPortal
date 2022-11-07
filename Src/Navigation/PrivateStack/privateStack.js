@@ -14,7 +14,7 @@ import LeavingOrgnisation from '../../Screens/Process/LeavingOrgnisation/Leaving
 import NonJoining from '../../Screens/Process/NonJoining/NonJoining';
 import ProjectTarget from '../../Screens/Masters/ProjectTarget/ProjectTarget';
 import Vendor from '../../Screens/Masters/Vendor/vendor/Vendor';
-import Resources from '../../Screens/Masters/Resources/Resources';
+import Resources from '../../Screens/Masters/Resources/resource/Resources';
 import ArchivedResources from '../../Screens/Masters/ArchivedResources/ArchivedResources';
 import InActiveResources from '../../Screens/Masters/InActiveResources/InActiveResources';
 import Client from '../../Screens/Masters/Client/Client';
@@ -29,6 +29,7 @@ import Setting from '../../Screens/Masters/Setting/Setting';
 import Logout from '../../Screens/LogOut/Logout';
 import EditProjectTarget from '../../Screens/Masters/ProjectTarget/EditProjectTarget';
 import AddProjectTarget from '../../Screens/Masters/ProjectTarget/AddProjectTarget';
+import AddResource from '../../Screens/Masters/Resources/addResource/addResourcse';
 
 const privatestack = createNativeStackNavigator();
 
@@ -88,6 +89,8 @@ function privateStack() {
         name="AddProjectTarget"
         component={AddProjectTarget}
       />
+
+      <privatestack.Screen name="AddResource" component={AddResource} />
     </privatestack.Navigator>
   );
 }

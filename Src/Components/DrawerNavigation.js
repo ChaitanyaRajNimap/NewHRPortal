@@ -15,7 +15,7 @@ import LeavingOrgnisation from '../Screens/Process/LeavingOrgnisation/LeavingOrg
 import NonJoining from '../Screens/Process/NonJoining/NonJoining';
 import ProjectTarget from '../Screens/Masters/ProjectTarget/ProjectTarget';
 import Vendor from '../Screens/Masters/Vendor/vendor/Vendor';
-import Resources from '../Screens/Masters/Resources/Resources';
+import Resources from '../Screens/Masters/Resources/resource/Resources';
 import ArchivedResources from '../Screens/Masters/ArchivedResources/ArchivedResources';
 import InActiveResources from '../Screens/Masters/InActiveResources/InActiveResources';
 import Client from '../Screens/Masters/Client/Client';
@@ -125,7 +125,19 @@ const DrawerNavigation = ({navigation}) => {
       <Drawer.Screen
         name="Resource"
         component={Resources}
-        options={{headerShown: true, headerTitleAlign: 'center'}}
+        options={{
+          headerShown: true,
+          headerTitleAlign: 'center',
+          headerRight: () => (
+            <AntDesign
+              name="plus"
+              size={25}
+              color="black"
+              style={GLOBALSTYLE.headerRightStyle}
+              onPress={() => navigation.navigate('AddResource')}
+            />
+          ),
+        }}
       />
       <Drawer.Screen
         name="Archived Resources"
