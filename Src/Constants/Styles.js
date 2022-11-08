@@ -1,6 +1,6 @@
-import {Dimensions, StyleSheet} from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 
-import {COLORS} from './Theme';
+import { COLORS } from './Theme';
 
 export const GLOBALSTYLE = StyleSheet.create({
   safeAreaViewStyle: {
@@ -14,7 +14,7 @@ export const GLOBALSTYLE = StyleSheet.create({
     backgroundColor: COLORS.white,
     borderRadius: 10,
     width: Dimensions.get('screen').width - 20,
-    margin: 10,
+    margin: 5,
     alignSelf: 'center',
   },
   cardView: {
@@ -28,13 +28,13 @@ export const GLOBALSTYLE = StyleSheet.create({
   columnView: {
     flexDirection: 'column',
     margin: 10,
-    flex:2
+    flex: 2
   },
   rowView: {
     flexDirection: 'row',
     margin: 5,
     justifyContent: 'space-between',
-    flex:1
+    flex: 1
   },
   label: {
     fontSize: 14,
@@ -52,4 +52,17 @@ export const GLOBALSTYLE = StyleSheet.create({
     fontWeight: 'bold',
     marginEnd: 15,
   },
+  uploadRowView: {
+    flexDirection: 'row',
+    margin: 5,
+    borderRadius: 10,
+    backgroundColor: COLORS.white,
+    width: Dimensions.get('screen').width - 20,
+  },
+  iconBackgroundView: {
+    justifyContent: 'center',
+    borderRadius: 10,
+    padding: 10,
+    backgroundColor: COLORS.whiteBlue,
+  }
 });
