@@ -5,6 +5,9 @@ import {
   DELETE_RESOURCE_FAILURE,
   DELETE_RESOURCE_SUCCESS,
   DELETE_RESOURCE_REQUEST,
+  ADD_RESOURCE_REQUEST,
+  ADD_RESOURCE_SUCCESS,
+  ADD_RESOURCE_FAILURE,
 } from '../ActionConstant';
 
 const fetchResourceRequest = () => {
@@ -31,6 +34,17 @@ const deleteResourceFailuer = error => {
   return {type: DELETE_RESOURCE_FAILURE, payload: error};
 };
 
+const addResourceRequest = () => {
+  return {type: ADD_RESOURCE_REQUEST};
+};
+
+const addResourceSuccess = addResources => {
+  return {type: ADD_RESOURCE_SUCCESS, payload: addResources};
+};
+
+const addResourceFailuer = error => {
+  return {type: ADD_RESOURCE_FAILURE, payload: error};
+};
 const resourceActions = {
   fetchResourceFailuer,
   fetchResourceRequest,
@@ -38,6 +52,9 @@ const resourceActions = {
   deleteResourceRequest,
   deleteResourceSuccess,
   deleteResourceFailuer,
+  addResourceRequest,
+  addResourceSuccess,
+  addResourceFailuer,
 };
 
 export default resourceActions;

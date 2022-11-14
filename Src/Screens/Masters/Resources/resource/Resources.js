@@ -90,11 +90,11 @@ const Resources = () => {
           </View>
         )}
 
-        {!loading && error && (
+        {/* {!loading && error !== null && (
           <View style={styles.loadingContainer}>
             <Text> Something went wrong. </Text>
           </View>
-        )}
+        )} */}
         {!loading && resources && error === null && resources.length === 0 && (
           <View style={styles.loadingContainer}>
             <Text> Resource Information is not found </Text>
