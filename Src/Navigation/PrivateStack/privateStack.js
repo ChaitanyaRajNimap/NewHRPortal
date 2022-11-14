@@ -30,6 +30,7 @@ import Logout from '../../Screens/LogOut/Logout';
 import EditProjectTarget from '../../Screens/Masters/ProjectTarget/EditProjectTarget';
 import AddProjectTarget from '../../Screens/Masters/ProjectTarget/AddProjectTarget';
 import Editvendor from '../../Screens/Masters/Vendor/EditVendor/EditVendor';
+import AddVendor from '../../Screens/Masters/Vendor/AddVendor/AddVendor';
 
 const privatestack = createNativeStackNavigator();
 
@@ -90,6 +91,7 @@ function privateStack() {
         component={AddProjectTarget}
       />
       <privatestack.Screen name='Editvendor' component={Editvendor} />
+      <privatestack.Screen name='AddVendor' component={AddVendor} />
     </privatestack.Navigator>
   );
 }

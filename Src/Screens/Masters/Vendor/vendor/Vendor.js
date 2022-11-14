@@ -6,6 +6,7 @@ import { fetchVenders } from './vendorServices';
 import { COLORS } from '../../../../Constants/Theme';
 import SearchBox from '../../../../Components/SearchBox';
 import VendorList from './vendorlist';
+import { deleteVendor } from '../../../../Redux/Actions/VendorMasterAction';
 
 const Vendor = () => {
   const dispatch = useDispatch();
@@ -90,6 +91,12 @@ const Vendor = () => {
   const editVendor = (data) => {
     navigation.navigate('Editvendor', { newData: data })
   }
+  const deletevendor = (id) => {
+    dispatch(deleteVendor(id))
+    setSearch('');
+    const remaningData = vendors.filter(t => t.id !== id);
+    setFilterVendor([...remaningData]);
+  }
   return (
     <View style={styles.container}>
       <SearchBox
@@ -117,6 +124,8 @@ const Vendor = () => {
           <VendorList
             data={filterVendor}
             editVendor={editVendor}
+            deleteVendor={deletevendor}
+
           />
         </View>
       )}

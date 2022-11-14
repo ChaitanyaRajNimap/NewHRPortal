@@ -1,62 +1,48 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
     View,
     SafeAreaView,
     StyleSheet,
-    Text,
     TextInput,
-    Dimensions,
-    TouchableOpacity,
     ScrollView,
+    TouchableOpacity,
+    Text,
+    Dimensions
 } from "react-native";
+import { useSelector, useDispatch } from "react-redux";
 import CustomNavigationBar from "../../../../Components/CustomNavigationBar";
 import { GLOBALSTYLE } from "../../../../Constants/Styles";
-import { COLORS } from "../../../../Constants/Theme";
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Upload from 'react-native-vector-icons/AntDesign';
 import DateTimePicker from '@react-native-community/datetimepicker'
 import CustomButton from "../../../../Components/CustomButton";
 import DocumentPicker from 'react-native-document-picker';
+import { COLORS } from "../../../../Constants/Theme";
 import Toast from 'react-native-simple-toast';
-import { updateVendor } from "../../../../Redux/Actions/VendorMasterAction";
-import { useSelector, useDispatch } from "react-redux";
+import { addVendor } from "../../../../Redux/Actions/VendorMasterAction";
 
-
-const Editvendor = ({ navigation, route }) => {
-    const params = route.params.newData;
-    console.log("Params", params)
+const AddVendor = ({ navigation }) => {
     const dispatch = useDispatch();
-    const [company, setCompany] = useState(params.company_name);
-    const [nickname, setnickname] = useState(params.nick_name);
-    const [person, setPerson] = useState(params.contact_person);
-    const [address, setAddress] = useState(params.company_address);
-    const [number, setNumber] = useState(params.contact_number);
-    const [email, setEmail] = useState(params.contact_email);
-    const [pan, setPan] = useState(params.pan);
+
+    const [company, setCompany] = useState(null);
+    const [nickname, setnickname] = useState(null);
+    const [person, setPerson] = useState(null);
+    const [address, setAddress] = useState(null);
+    const [number, setNumber] = useState(null);
+    const [email, setEmail] = useState(null);
+    const [pan, setPan] = useState(null);
     const [panFileName, setPanFileName] = useState(null);
-    const [gst, setGst] = useState(params.gst);
+    const [gst, setGst] = useState(null);
     const [gstFileName, setGstFileName] = useState(null);
     const [aggrementFileName, setAggrementFileName] = useState(null);
     const [panLink, setPanLink] = useState(null);
     const [gstLink, setGstLink] = useState(null);
     const [aggrementLink, setAggrementLink] = useState(null);
-    const [creditperiod, setcreditperiod] = useState(params.credit_period);
+    const [creditperiod, setcreditperiod] = useState(null);
     const [invoicedate, setinvoicedate] = useState(null);
     const [date, setDate] = useState(new Date(Date.now()));
     const [datePicker, setDatePicker] = useState(false);
 
-    const getFileName = (value) => {
-        let newArray = value.split('/');
-        const fileName = newArray.pop();
-        return fileName;
-    }
-    const convertDate = (value) => {
-        const currentDate = value || date;
-        let tempDate = new Date(currentDate);
-        let fDate = (tempDate.getMonth() + 1) + '/' + tempDate.getDate() + '/' + tempDate.getFullYear();
-        //console.log(fDate)
-        return (fDate)
-    }
     function onDateSelected(event, value) {
         setDatePicker(false);
         setDate(value);
@@ -66,16 +52,12 @@ const Editvendor = ({ navigation, route }) => {
     function showDatePicker() {
         setDatePicker(true);
     };
-
-    useEffect(() => {
-        setPanFileName(getFileName(params.pan_link));
-        setGstFileName(getFileName(params.gst_link));
-        setAggrementFileName(getFileName(params.agreement_link));
-        setinvoicedate(convertDate(params.invoice_date));
-        setPanLink(params.pan_link);
-        setGstLink(params.gst_link);
-        setAggrementLink(params.agreement_link);
-    }, [])
+    const convertDate = (value) => {
+        const currentDate = value || date;
+        let tempDate = new Date(currentDate);
+        let fDate = (tempDate.getMonth() + 1) + '/' + tempDate.getDate() + '/' + tempDate.getFullYear();
+        return (fDate)
+    }
     const selectpanFile = async () => {
         try {
             const res = await DocumentPicker.pickSingle({
@@ -160,13 +142,11 @@ const Editvendor = ({ navigation, route }) => {
         }
     };
 
-    const editVendor = () => {
-
+    const submitVendor = () => {
         var formData = {
             gst_link: gstLink,
             pan_link: panLink,
             agreement_link: aggrementLink,
-            isExternal: true,
             company_name: company,
             contact_person: person,
             company_address: address,
@@ -178,27 +158,29 @@ const Editvendor = ({ navigation, route }) => {
             invoice_date: invoicedate,
             nick_name: nickname
         };
-        dispatch(updateVendor(formData, params.id, navigation))
+        dispatch(addVendor(formData, navigation))
     }
 
     return (
         <SafeAreaView style={GLOBALSTYLE.safeAreaViewStyle}>
-            <CustomNavigationBar back={true} headername="Edit Vendor" />
+            <CustomNavigationBar back={true} headername="Add Vendor" />
             <ScrollView>
-                <View style={[GLOBALSTYLE.mainContainer, { margin: 10 }]}>
+                <View style={GLOBALSTYLE.mainContainer}>
                     <TextInput
-                        placeholder="Company Name"
-                        style={GLOBALSTYLE.TextInputStyle}
+                        placeholder="Company Name*"
+                        style={[GLOBALSTYLE.TextInputStyle, { marginTop: 10 }]}
                         value={company}
                         onChangeText={data => setCompany(data)}
                         keyboardType="default"
+                        maxLength={25}
                     />
                     <TextInput
-                        placeholder="Nick Name"
+                        placeholder="Nick Name*"
                         style={GLOBALSTYLE.TextInputStyle}
                         value={nickname}
                         onChangeText={data => setnickname(data)}
                         keyboardType="default"
+                        maxLength={25}
                     />
                     <TextInput
                         placeholder="Contact Person*"
@@ -332,14 +314,13 @@ const Editvendor = ({ navigation, route }) => {
                 </View>
             </ScrollView>
             <CustomButton
-                title="Update"
-                onPressFunction={() => editVendor()}
+                title="Submit"
+                onPressFunction={() => submitVendor()}
             />
-        </SafeAreaView>
+
+        </SafeAreaView >
     );
 };
-
-
 
 const styles = StyleSheet.create({
     btnStyle: {
@@ -351,7 +332,6 @@ const styles = StyleSheet.create({
         margin: 10,
         padding: 15
     },
-
 })
 
-export default Editvendor
+export default AddVendor

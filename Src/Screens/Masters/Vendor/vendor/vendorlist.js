@@ -4,7 +4,7 @@ import { GLOBALSTYLE } from '../../../../Constants/Styles';
 import { COLORS } from '../../../../Constants/Theme';
 import SmallButton from '../../../../Components/SmallButton';
 
-function VendorList({ data, editVendor }) {
+function VendorList({ data, editVendor, deleteVendor }) {
   const _renderItem = ({ item }) => {
     return (
       <View style={[GLOBALSTYLE.cardView]}>
@@ -64,7 +64,12 @@ function VendorList({ data, editVendor }) {
             />
           </View>
           <View style={[styles.innerViewStyle]}>
-            <SmallButton color={COLORS.red} title={'Delete'} />
+            <SmallButton color={COLORS.red}
+              title={'Delete'}
+              onPressFunction={() => {
+                deleteVendor(item.id)
+              }}
+            />
           </View>
         </View>
       </View>
