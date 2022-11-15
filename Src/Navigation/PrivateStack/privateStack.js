@@ -14,7 +14,7 @@ import LeavingOrgnisation from '../../Screens/Process/LeavingOrgnisation/Leaving
 import NonJoining from '../../Screens/Process/NonJoining/NonJoining';
 import ProjectTarget from '../../Screens/Masters/ProjectTarget/ProjectTarget';
 import Vendor from '../../Screens/Masters/Vendor/vendor/Vendor';
-import Resources from '../../Screens/Masters/Resources/Resources';
+import Resources from '../../Screens/Masters/Resources/resource/Resources';
 import ArchivedResources from '../../Screens/Masters/ArchivedResources/ArchivedResources';
 import InActiveResources from '../../Screens/Masters/InActiveResources/InActiveResources';
 import Client from '../../Screens/Masters/Client/Client';
@@ -31,6 +31,7 @@ import EditProjectTarget from '../../Screens/Masters/ProjectTarget/EditProjectTa
 import AddProjectTarget from '../../Screens/Masters/ProjectTarget/AddProjectTarget';
 import Editvendor from '../../Screens/Masters/Vendor/EditVendor/EditVendor';
 import AddVendor from '../../Screens/Masters/Vendor/AddVendor/AddVendor';
+import AddResource from '../../Screens/Masters/Resources/addResource/addResourcse';
 
 const privatestack = createNativeStackNavigator();
 
@@ -92,6 +93,8 @@ function privateStack() {
       />
       <privatestack.Screen name='Editvendor' component={Editvendor} />
       <privatestack.Screen name='AddVendor' component={AddVendor} />
+
+      <privatestack.Screen name="AddResource" component={AddResource} />
     </privatestack.Navigator>
   );
 }

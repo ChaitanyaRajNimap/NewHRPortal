@@ -24,7 +24,7 @@ const Vendor = () => {
   const { vendorError, vendorSuccess } = reducer;
 
   useEffect(() => {
-    if (vendorSuccess) {
+    if (vendorSuccess && vendorSuccess.data && vendorSuccess.data.vendors) {
       setVendors(vendorSuccess.data.vendors);
       setFilterVendor(vendorSuccess.data.vendors)
       setLoading(false);
@@ -33,6 +33,7 @@ const Vendor = () => {
 
   useEffect(() => {
     if (vendorError) {
+      setLoading(false);
       setError('Something Went Wrong.');
       setVendors([]);
     }
@@ -61,6 +62,7 @@ const Vendor = () => {
     const unsubscribe = navigation.addListener('blur', () => {
       setLoading(true);
       setVendors(null);
+      setError(null);
     });
     return unsubscribe;
   }, [navigation, dispatch]);
@@ -109,7 +111,7 @@ const Vendor = () => {
         </View>
       )}
 
-      {!loading && error && 0 && (
+      {!loading && error && (
         <View style={styles.loadingContainer}>
           <Text> Something Went Wrong</Text>
         </View>
