@@ -152,7 +152,7 @@ const DrawerNavigation = ({ navigation }) => {
         }}
       />
       <Drawer.Screen
-        name="Archived Resources"
+        name="Archive Resource"
         component={ArchivedResources}
         options={{ headerShown: true, headerTitleAlign: 'center' }}
       />

@@ -11,6 +11,7 @@ import {
 } from "../ActionConstant";
 import request from '../../Util/request';
 import Toast from 'react-native-simple-toast';
+import requestformData from "../../Util/requestFormData";
 
 
 export function updateVendor(formData, id, navigation) {
@@ -18,7 +19,7 @@ export function updateVendor(formData, id, navigation) {
         dispatch(vendorMasterDispatch({}, EDITVENDOR_PROGRESS))
         console.log("Form data", formData)
         try {
-            const data = await request({
+            const data = await requestformData({
                 url: `/vendor/${id}`,
                 method: 'PUT',
                 data: formData,
@@ -31,7 +32,7 @@ export function updateVendor(formData, id, navigation) {
             navigation.goBack();
 
         } catch (err) {
-            console.log('updateVendor error', err);
+            console.log('updateVendor error', err.data);
             dispatch(vendorMasterDispatch(err, EDITVENDOR_FAIL));
             Toast.show('Vendor Not Updated Successfully');
         }

@@ -6,7 +6,7 @@ import NavigationServices from '../Navigation/Rootroute/navigation_reference';
 const client = axios.create({
     baseURL: BASE_URL,
     headers: {
-        'Content-Type': 'multipart/form-data',
+        'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundaryD07UAHhgqXngVX8T',
         // Accept: 'application/json',
     },
     timeout: 10000,

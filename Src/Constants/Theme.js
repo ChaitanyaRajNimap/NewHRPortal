@@ -8,6 +8,8 @@ export const COLORS = {
   whiteBlue: '#CCE5FF',
   tomatto: '#FFA86C',
   lightgreen: '#8BC535',
+  green: '#58A158',
+
 };
 
 const nimaplogo = require('../Constants/assets/images/nimap-logo.png');

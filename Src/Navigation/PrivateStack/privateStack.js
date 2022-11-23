@@ -66,7 +66,7 @@ function privateStack() {
       <privatestack.Screen name="Vendor" component={Vendor} />
       <privatestack.Screen name="Resource" component={Resources} />
       <privatestack.Screen
-        name="ArchivedResources"
+        name="Archive Resource"
         component={ArchivedResources}
       />
       <privatestack.Screen

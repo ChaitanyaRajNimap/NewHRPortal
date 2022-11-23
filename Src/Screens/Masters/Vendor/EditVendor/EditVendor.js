@@ -21,10 +21,9 @@ import Toast from 'react-native-simple-toast';
 import { updateVendor } from "../../../../Redux/Actions/VendorMasterAction";
 import { useSelector, useDispatch } from "react-redux";
 
-
 const Editvendor = ({ navigation, route }) => {
     const params = route.params.newData;
-    console.log("Params", params)
+    // console.log("Params", params)
     const dispatch = useDispatch();
     const [company, setCompany] = useState(params.company_name);
     const [nickname, setnickname] = useState(params.nick_name);
@@ -162,7 +161,23 @@ const Editvendor = ({ navigation, route }) => {
 
     const editVendor = () => {
 
-        var formData = {
+        // let formdata = new FormData();
+        // formdata.append('gst_link', gstLink);
+        // formdata.append('pan_link', panLink);
+        // formdata.append('agreement_link', aggrementLink);
+        // formdata.append('isExternal', true);
+        // formdata.append('company_name', company);
+        // formdata.append('contact_person', person);
+        // formdata.append('company_address', address);
+        // formdata.append('contact_number', number);
+        // formdata.append('contact_email', email);
+        // formdata.append('pan', pan);
+        // formdata.append('gst', gst);
+        // formdata.append('credit_period', creditperiod);
+        // formdata.append('invoice_date', invoicedate);
+        // formdata.append('nick_name', nickname);
+
+        const formdata = {
             gst_link: gstLink,
             pan_link: panLink,
             agreement_link: aggrementLink,
@@ -178,7 +193,8 @@ const Editvendor = ({ navigation, route }) => {
             invoice_date: invoicedate,
             nick_name: nickname
         };
-        dispatch(updateVendor(formData, params.id, navigation))
+        //console.log(formdata);
+        dispatch(updateVendor(formdata, params.id, navigation))
     }
 
     return (

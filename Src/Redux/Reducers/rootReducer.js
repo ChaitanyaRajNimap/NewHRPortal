@@ -6,6 +6,7 @@ import vendorReducer from './vendorReducer';
 import VendorMasterReducer from './VendorMasterReducer';
 import resourceReducer from './resourceReducer';
 import technologyReducer from './technologyReducer';
+import ArchiveResourceReducer from './ArchiveResourceReducer';
 
 const rootReducer = combineReducers({
   loginReducer: loginReducer,
@@ -15,5 +16,6 @@ const rootReducer = combineReducers({
   VendorMasterReducer: VendorMasterReducer,
   resource: resourceReducer,
   technology: technologyReducer,
+  ArchiveResourceReducer: ArchiveResourceReducer
 });
 export default rootReducer;

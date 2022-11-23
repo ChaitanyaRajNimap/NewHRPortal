@@ -143,22 +143,23 @@ const AddVendor = ({ navigation }) => {
     };
 
     const submitVendor = () => {
-        var formData = {
-            gst_link: gstLink,
-            pan_link: panLink,
-            agreement_link: aggrementLink,
-            company_name: company,
-            contact_person: person,
-            company_address: address,
-            contact_number: number,
-            contact_email: email,
-            pan: pan,
-            gst: gst,
-            credit_period: creditperiod,
-            invoice_date: invoicedate,
-            nick_name: nickname
-        };
-        dispatch(addVendor(formData, navigation))
+
+        let formdata = new FormData();
+        formdata.append('gst_link', gstLink);
+        formdata.append('pan_link', panLink);
+        formdata.append('agreement_link', aggrementLink);
+        formdata.append('company_name', company);
+        formdata.append('contact_person', person);
+        formdata.append('company_address', address);
+        formdata.append('contact_number', number);
+        formdata.append('contact_email', email);
+        formdata.append('pan', pan);
+        formdata.append('gst', gst);
+        formdata.append('credit_period', creditperiod);
+        formdata.append('invoice_date', invoicedate);
+        formdata.append('nick_name', nickname);
+
+        dispatch(addVendor(formdata, navigation))
     }
 
     return (
