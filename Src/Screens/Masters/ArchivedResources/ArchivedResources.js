@@ -132,7 +132,7 @@ const ArchivedResources = ({ navigation }) => {
                                         : item.resident_address}</Text>
                                 </View>
                                 <View style={GLOBALSTYLE.columnView}>
-                                    <Text style={GLOBALSTYLE.label}>L1</Text>
+                                    <Text style={GLOBALSTYLE.label}>Interview Level</Text>
                                     <Text style={GLOBALSTYLE.text}>{item.l1 === null ? '-' : item.l1}</Text>
                                 </View>
                             </View>

@@ -147,7 +147,7 @@ const DrawerNavigation = ({ navigation }) => {
               color="black"
               style={GLOBALSTYLE.headerRightStyle}
               onPress={() => navigation.navigate('AddResource')}
-            />
+            /> 
           ),
         }}
       />
@@ -157,7 +157,7 @@ const DrawerNavigation = ({ navigation }) => {
         options={{ headerShown: true, headerTitleAlign: 'center' }}
       />
       <Drawer.Screen
-        name="InActive Resources"
+        name="InActive Resource"
         component={InActiveResources}
         options={{ headerShown: true, headerTitleAlign: 'center' }}
       />

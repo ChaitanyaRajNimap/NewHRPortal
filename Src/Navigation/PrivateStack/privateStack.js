@@ -70,7 +70,7 @@ function privateStack() {
         component={ArchivedResources}
       />
       <privatestack.Screen
-        name="InActiveResources"
+        name="InActive Resource"
         component={InActiveResources}
       />
       <privatestack.Screen name="Client" component={Client} />

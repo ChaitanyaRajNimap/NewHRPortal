@@ -17,7 +17,7 @@ export function getArchivedResources() {
 
             const res = await request({ url: '/resource/getAllArchive', method: 'GET' });
             console.log('Archived Resource Response', res.data.data);
-                        dispatch(
+            dispatch(
                 ArchivedResourceDispatch(res.data.data.resources, FETCH_ARCHIVED_SUCCESS),
             );
         } catch (error) {
@@ -31,8 +31,8 @@ export function ArchiveUser(id) {
     return async dispatch => {
         dispatch(ArchivedResourceDispatch({ isLading: true }, ARCHIVEUSER_PROGRESS))
         try {
-            console.log("Id",id)
-            const data = await requestformData({ url: '/resource/unarchive/' +  id , method: 'PUT' })
+            console.log("Id", id)
+            const data = await requestformData({ url: '/resource/unarchive/' + id, method: 'PUT' })
             console.log('ArchiveUser Response', data.data);
             if (data.data.message) {
                 Toast.show(

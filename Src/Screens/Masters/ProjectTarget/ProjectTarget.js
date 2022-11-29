@@ -5,7 +5,8 @@ import {
     StyleSheet,
     FlatList,
     Text,
-    TouchableOpacity
+    TouchableOpacity,
+    Alert
 } from "react-native";
 import SearchBox from "../../../Components/SearchBox";
 import { GLOBALSTYLE } from "../../../Constants/Styles";
@@ -63,12 +64,30 @@ const ProjectTarget = ({ navigation }) => {
     const editProject = (data) => {
         navigation.navigate('EditProjectTarget', { newData: data })
     }
-    const deleteTarget = (id) => {
+
+    const deleteOk = (id) => {
         dispatch(deleteProjectTarget(id))
         setRefreshFlatList(!refreshFlatlist)
         setSearch('');
         const remaningData = resources.filter(t => t.id !== id);
         setFilterResources([...remaningData]);
+    }
+    const deleteTarget = (id) => {
+        Alert.alert(
+            'Are you sure want to Delete?',
+            'You wont be able to revert this.',
+            [
+                {
+                    text: 'Yes, Delete it',
+                    onPress: () => deleteOk(id),
+                },
+                {
+                    type: 'cancel',
+                    text: 'Cancel',
+                    onPress: () => console.log("Cancel Pressed"),
+                },
+            ],
+        );
 
     }
     return (
