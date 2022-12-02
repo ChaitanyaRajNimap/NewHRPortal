@@ -8,6 +8,8 @@ import resourceReducer from './resourceReducer';
 import technologyReducer from './technologyReducer';
 import ArchiveResourceReducer from './ArchiveResourceReducer';
 import InActiveResourceReducer from './InActiveResourceReducer';
+import ExternalProdReducer from './ExternalProdReducer';
+import TechnologyMasterReducer from './TechnologyMasterReducer';
 
 const rootReducer = combineReducers({
   loginReducer: loginReducer,
@@ -18,6 +20,8 @@ const rootReducer = combineReducers({
   resource: resourceReducer,
   technology: technologyReducer,
   ArchiveResourceReducer: ArchiveResourceReducer,
-  InActiveResourceReducer: InActiveResourceReducer
+  InActiveResourceReducer: InActiveResourceReducer,
+  ExternalProdReducer: ExternalProdReducer,
+  TechnologyMasterReducer: TechnologyMasterReducer
 });
 export default rootReducer;

@@ -147,7 +147,7 @@ const DrawerNavigation = ({ navigation }) => {
               color="black"
               style={GLOBALSTYLE.headerRightStyle}
               onPress={() => navigation.navigate('AddResource')}
-            /> 
+            />
           ),
         }}
       />
@@ -169,7 +169,19 @@ const DrawerNavigation = ({ navigation }) => {
       <Drawer.Screen
         name="External Product"
         component={ExternalProduct}
-        options={{ headerShown: true, headerTitleAlign: 'center' }}
+        options={{
+          headerShown: true,
+          headerTitleAlign: 'center',
+          headerRight: () => (
+            <AntDesign
+              name="plus"
+              size={25}
+              color="black"
+              style={GLOBALSTYLE.headerRightStyle}
+              onPress={() => navigation.navigate('AddExternalProd')}
+            />
+          ),
+        }}
       />
       <Drawer.Screen
         name="Purchase Order"
@@ -194,7 +206,19 @@ const DrawerNavigation = ({ navigation }) => {
       <Drawer.Screen
         name="Technology"
         component={Technology}
-        options={{ headerShown: true, headerTitleAlign: 'center' }}
+        options={{
+          headerShown: true,
+          headerTitleAlign: 'center',
+          headerRight: () => (
+            <AntDesign
+              name="plus"
+              size={25}
+              color="black"
+              style={GLOBALSTYLE.headerRightStyle}
+              onPress={() => navigation.navigate('AddTechnology')}
+            />
+          ),
+        }}
       />
       <Drawer.Screen
         name="User Setting"

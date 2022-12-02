@@ -82,7 +82,7 @@ const Login = ({ navigation }) => {
         <TouchableOpacity
           style={{ alignSelf: 'flex-end', marginHorizontal: 10 }}
           onPress={() => navigation.navigate('ForgotPassword')}>
-          <Text>Forgot Password?</Text>
+          <Text style={{ color: COLORS.black }}>Forgot Password?</Text>
         </TouchableOpacity>
         <CustomButton title="Login" onPressFunction={() => loginUser()} />
       </View>

@@ -16,6 +16,7 @@ export const GLOBALSTYLE = StyleSheet.create({
     width: Dimensions.get('screen').width - 20,
     margin: 5,
     alignSelf: 'center',
+    color:COLORS.black
   },
   cardView: {
     flex: 1,

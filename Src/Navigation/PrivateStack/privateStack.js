@@ -32,6 +32,10 @@ import AddProjectTarget from '../../Screens/Masters/ProjectTarget/AddProjectTarg
 import Editvendor from '../../Screens/Masters/Vendor/EditVendor/EditVendor';
 import AddVendor from '../../Screens/Masters/Vendor/AddVendor/AddVendor';
 import AddResource from '../../Screens/Masters/Resources/addResource/addResourcse';
+import AddExternalProd from '../../Screens/Masters/ExternalProduct/AddExternalProd';
+import EditExternalProd from '../../Screens/Masters/ExternalProduct/EditExternalProd';
+import AddTechnology from '../../Screens/Masters/Technology/AddTechnology';
+import EditTechnology from '../../Screens/Masters/Technology/EditTechnology';
 
 const privatestack = createNativeStackNavigator();
 
@@ -95,6 +99,10 @@ function privateStack() {
       <privatestack.Screen name='AddVendor' component={AddVendor} />
 
       <privatestack.Screen name="AddResource" component={AddResource} />
+      <privatestack.Screen name='AddExternalProd' component={AddExternalProd} />
+      <privatestack.Screen name='EditExternalProd' component={EditExternalProd} />
+      <privatestack.Screen name='AddTechnology' component={AddTechnology} />
+      <privatestack.Screen name='EditTechnology' component={EditTechnology} />
     </privatestack.Navigator>
   );
 }
