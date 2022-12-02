@@ -10,6 +10,8 @@ import ArchiveResourceReducer from './ArchiveResourceReducer';
 import InActiveResourceReducer from './InActiveResourceReducer';
 import ExternalProdReducer from './ExternalProdReducer';
 import TechnologyMasterReducer from './TechnologyMasterReducer';
+import AccountReducer from './AccountReducer';
+import ReasonReducer from './ReasonReducer';
 
 const rootReducer = combineReducers({
   loginReducer: loginReducer,
@@ -22,6 +24,8 @@ const rootReducer = combineReducers({
   ArchiveResourceReducer: ArchiveResourceReducer,
   InActiveResourceReducer: InActiveResourceReducer,
   ExternalProdReducer: ExternalProdReducer,
-  TechnologyMasterReducer: TechnologyMasterReducer
+  TechnologyMasterReducer: TechnologyMasterReducer,
+  AccountReducer: AccountReducer,
+  ReasonReducer: ReasonReducer
 });
 export default rootReducer;

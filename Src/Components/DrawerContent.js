@@ -48,7 +48,7 @@ const CustomDrawer = props => {
                             marginBottom: 5,
                             alignSelf: 'center',
                         }}>
-                            ABC
+                        ABC
                     </Text>
                 </ImageBackground>
 
@@ -190,6 +190,11 @@ const CustomDrawer = props => {
                                     navigation={props.navigation}
                                     title="Technology"
                                     route={'Technology'}
+                                />
+                                <CustomDrawerItem
+                                    navigation={props.navigation}
+                                    title="Reason"
+                                    route={'Reason'}
                                 />
                                 <CustomDrawerItem
                                     navigation={props.navigation}

@@ -36,6 +36,11 @@ import AddExternalProd from '../../Screens/Masters/ExternalProduct/AddExternalPr
 import EditExternalProd from '../../Screens/Masters/ExternalProduct/EditExternalProd';
 import AddTechnology from '../../Screens/Masters/Technology/AddTechnology';
 import EditTechnology from '../../Screens/Masters/Technology/EditTechnology';
+import Reason from '../../Screens/Masters/Reason/Reason';
+import AddReason from '../../Screens/Masters/Reason/AddReason';
+import EditReason from '../../Screens/Masters/Reason/EditReason';
+import AddAccount from '../../Screens/Masters/Account/AddAccount';
+import EditAccount from '../../Screens/Masters/Account/EditAccount';
 
 const privatestack = createNativeStackNavigator();
 
@@ -103,6 +108,11 @@ function privateStack() {
       <privatestack.Screen name='EditExternalProd' component={EditExternalProd} />
       <privatestack.Screen name='AddTechnology' component={AddTechnology} />
       <privatestack.Screen name='EditTechnology' component={EditTechnology} />
+      <privatestack.Screen name='Reason' component={Reason} />
+      <privatestack.Screen name='AddReason' component={AddReason} />
+      <privatestack.Screen name='EditReason' component={EditReason} />
+      <privatestack.Screen name="AddAccount" component={AddAccount} />
+      <privatestack.Screen name="EditAccount" component={EditAccount} />
     </privatestack.Navigator>
   );
 }

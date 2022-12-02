@@ -12,62 +12,61 @@ import SearchBox from "../../../Components/SearchBox";
 import { useSelector, useDispatch } from "react-redux";
 import { COLORS } from "../../../Constants/Theme";
 import SmallButton from "../../../Components/SmallButton";
-import { getAccount, deleteAccount } from "../../../Redux/Actions/AccountAction";
+import {  deleteReason, getReason } from "../../../Redux/Actions/ReasonAction";
 
-const Account = ({ navigation }) => {
+const Reason = ({ navigation }) => {
     const dispatch = useDispatch();
-    const reducerData = useSelector(state => state.AccountReducer)
+    const reducerData = useSelector(state => state.ReasonReducer)
 
-    const [account, setAccount] = useState([]);
-    const [filterAccount, setFilterAccount] = useState([]);
+    const [reason, setReason] = useState([]);
+    const [filterReason, setFilterReason] = useState([]);
     const [search, setSearch] = useState('');
 
     useEffect(() => {
         const unSubscribe = navigation.addListener('focus', () => {
-            dispatch(getAccount())
+            dispatch(getReason())
         });
         return unSubscribe;
     }, [navigation]);
 
     useEffect(() => {
-        getAccountFilter();
+        getReasonFilter();
     }, [search])
 
     useEffect(() => {
-        // console.log("-------------------", reducerData.accountData)
-        setAccount(reducerData.accountData)
-        setFilterAccount(reducerData.accountData)
-    }, [reducerData.accountData])
+        // console.log("-------------------", reducerData.reasonData)
+        setReason(reducerData.reasonData)
+        setFilterReason(reducerData.reasonData)
+    }, [reducerData.reasonData])
 
     const setSearchValue = value => {
         setSearch(value);
     };
-    const getAccountFilter = () => {
-        const filterValue = account?.filter(data => {
+    const getReasonFilter = () => {
+        const filterValue = reason?.filter(data => {
             if (search.length === 0) {
                 return data;
             } else if (
-                data.name.toLowerCase().includes(search.toLowerCase()) ||
-                data.phone.toLowerCase().includes(search.toLowerCase()) ||
-                data.email.toLowerCase().includes(search.toLowerCase())
+                data.description.toLowerCase().includes(search.toLowerCase())
             ) {
                 console.log(data);
                 return data;
             }
         });
-        setFilterAccount(filterValue);
+        setFilterReason(filterValue);
 
     };
+
     const deleteOk = (id) => {
-        dispatch(deleteAccount(id))
+        dispatch(deleteReason(id))
         setSearch('');
-        const remaningData = account.filter(t => t.id !== id);
-        setFilterAccount([...remaningData]);
+        const remaningData = reason.filter(t => t.id !== id);
+        setFilterReason([...remaningData]);
     }
-    const editAccount = (item) => {
-        navigation.navigate('EditAccount', { newData: item })
+    const editReason = (item) => {
+        navigation.navigate('EditReason', { newData: item })
     }
-    const deleteaccount = (id) => {
+    const deleteareason = (id) => {
         Alert.alert(
             'Are you sure want to Delete?',
             'You wont be able to revert this.',
@@ -91,36 +90,27 @@ const Account = ({ navigation }) => {
             />
             <View>
                 <FlatList
-                    data={filterAccount}
+                    data={filterReason}
                     renderItem={({ item }) => (
                         <View style={GLOBALSTYLE.cardView}>
-                            <View style={GLOBALSTYLE.rowView}>
-                                <View style={GLOBALSTYLE.columnView}>
-                                    <Text style={GLOBALSTYLE.label}>Name</Text>
-                                    <Text style={GLOBALSTYLE.text}>{item.name === null ? '-' : item.name}</Text>
-                                </View>
-                                <View style={GLOBALSTYLE.columnView}>
-                                    <Text style={GLOBALSTYLE.label}>Mobile</Text>
-                                    <Text style={GLOBALSTYLE.text}>{item.phone === null ? '-' : item.phone}</Text>
-                                </View>
-                            </View>
+
                             <View style={GLOBALSTYLE.columnView}>
-                                <Text style={GLOBALSTYLE.label}>Email Id</Text>
-                                <Text style={GLOBALSTYLE.text}>{item.email === null ? '-' : item.email}</Text>
+                                <Text style={GLOBALSTYLE.label}>Reason</Text>
+                                <Text style={GLOBALSTYLE.text}>{item.description === null ? '-' : item.description}</Text>
                             </View>
                             <View style={GLOBALSTYLE.rowView}>
                                 <SmallButton
                                     color={COLORS.lightBlue}
                                     title={"Edit"}
                                     onPressFunction={() => {
-                                        editAccount(item)
+                                        editReason(item)
                                     }}
                                 />
                                 <SmallButton
                                     color={COLORS.red}
                                     title={"Delete"}
                                     onPressFunction={() => {
-                                        deleteaccount(item.id)
+                                        deleteareason(item.id)
                                     }}
                                 />
                             </View>
@@ -137,4 +127,4 @@ const styles = StyleSheet.create({
 
 })
 
-export default Account
+export default Reason

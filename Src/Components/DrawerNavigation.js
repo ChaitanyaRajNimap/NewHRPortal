@@ -27,6 +27,7 @@ import Account from '../Screens/Masters/Account/Account';
 import Technology from '../Screens/Masters/Technology/Technology';
 import UserSetting from '../Screens/Masters/UserSetting/UserSetting';
 import Setting from '../Screens/Masters/Setting/Setting';
+import Reason from '../Screens/Masters/Reason/Reason';
 import { GLOBALSTYLE } from '../Constants/Styles';
 
 const Drawer = createDrawerNavigator();
@@ -201,7 +202,19 @@ const DrawerNavigation = ({ navigation }) => {
       <Drawer.Screen
         name="Account"
         component={Account}
-        options={{ headerShown: true, headerTitleAlign: 'center' }}
+        options={{
+          headerShown: true,
+          headerTitleAlign: 'center',
+          headerRight: () => (
+            <AntDesign
+              name="plus"
+              size={25}
+              color="black"
+              style={GLOBALSTYLE.headerRightStyle}
+              onPress={() => navigation.navigate('AddAccount')}
+            />
+          ),
+        }}
       />
       <Drawer.Screen
         name="Technology"
@@ -216,6 +229,23 @@ const DrawerNavigation = ({ navigation }) => {
               color="black"
               style={GLOBALSTYLE.headerRightStyle}
               onPress={() => navigation.navigate('AddTechnology')}
+            />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Reason"
+        component={Reason}
+        options={{
+          headerShown: true,
+          headerTitleAlign: 'center',
+          headerRight: () => (
+            <AntDesign
+              name="plus"
+              size={25}
+              color="black"
+              style={GLOBALSTYLE.headerRightStyle}
+              onPress={() => navigation.navigate('AddReason')}
             />
           ),
         }}
