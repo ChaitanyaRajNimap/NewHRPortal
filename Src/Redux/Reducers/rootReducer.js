@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux';
+import {combineReducers} from 'redux';
 import loginReducer from './loginReducer';
 import forgotPasswordReducer from './forgotPasswordReducer';
 import ProjectTargetReducer from './ProjectTargetReducer';
@@ -12,6 +12,7 @@ import ExternalProdReducer from './ExternalProdReducer';
 import TechnologyMasterReducer from './TechnologyMasterReducer';
 import AccountReducer from './AccountReducer';
 import ReasonReducer from './ReasonReducer';
+import ClientAgreementReducer from './ClientAgreementReducer';
 
 const rootReducer = combineReducers({
   loginReducer: loginReducer,
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
   ExternalProdReducer: ExternalProdReducer,
   TechnologyMasterReducer: TechnologyMasterReducer,
   AccountReducer: AccountReducer,
-  ReasonReducer: ReasonReducer
+  ReasonReducer: ReasonReducer,
+  ClientAgreementReducer: ClientAgreementReducer,
 });
 export default rootReducer;

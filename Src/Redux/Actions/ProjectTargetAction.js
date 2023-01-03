@@ -18,6 +18,7 @@ import {
 import request from '../../Util/request';
 import Toast from 'react-native-simple-toast';
 
+//For displaying initial info
 export function getProjectTarget() {
   return async dispatch => {
     dispatch(
@@ -51,7 +52,7 @@ export function updateProjectTarget(resource, date, id, navigation) {
         method: 'PUT',
         data: formData,
       });
-     // console.log('updateProjectTarget response', data.data);
+      // console.log('updateProjectTarget response', data.data);
       if (data.message) {
         dispatch(projectTargetDispatch(data, EDITPROJECTTARGET_SUCCESS));
         Toast.show('Project Target Updated Successfully');
@@ -70,7 +71,7 @@ export function getResources() {
     dispatch(projectTargetDispatch({}, GETRESOURCE_PROGRESS));
     try {
       const data = await request({url: '/resource', method: 'GET'});
-     // console.log('getResources response', data.data.data.resources);
+      // console.log('getResources response', data.data.data.resources);
       dispatch(
         projectTargetDispatch(data.data.data.resources, GETRESOURCE_SUCCESS),
       );
@@ -112,7 +113,7 @@ export function deleteProjectTarget(values) {
         url: `/project-target/${values}`,
         method: 'DELETE',
       });
-     // console.log('deleteProjectTarget response', data.data);
+      // console.log('deleteProjectTarget response', data.data);
       if (data.data.message) {
         dispatch(projectTargetDispatch(data, DELETEPROJECT_SUCCESS));
         Toast.show('Project Target deleted Successfully');

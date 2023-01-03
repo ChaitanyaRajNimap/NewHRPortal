@@ -1,5 +1,5 @@
 import React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import DrawerNavigation from '../../Components/DrawerNavigation';
 import Home from '../../Screens/DashBoard/Home';
 import CompareReport from '../../Screens/CompareReport/CompareReport';
@@ -41,12 +41,13 @@ import AddReason from '../../Screens/Masters/Reason/AddReason';
 import EditReason from '../../Screens/Masters/Reason/EditReason';
 import AddAccount from '../../Screens/Masters/Account/AddAccount';
 import EditAccount from '../../Screens/Masters/Account/EditAccount';
+import AddClientAgreement from '../../Screens/Masters/ClientAgreement/addClientAgreement/AddClientAgreement';
 
 const privatestack = createNativeStackNavigator();
 
 function privateStack() {
   return (
-    <privatestack.Navigator screenOptions={{ headerShown: false }}>
+    <privatestack.Navigator screenOptions={{headerShown: false}}>
       <privatestack.Screen
         name="DrawerNavigation"
         component={DrawerNavigation}
@@ -100,17 +101,24 @@ function privateStack() {
         name="AddProjectTarget"
         component={AddProjectTarget}
       />
-      <privatestack.Screen name='Editvendor' component={Editvendor} />
-      <privatestack.Screen name='AddVendor' component={AddVendor} />
+      <privatestack.Screen name="Editvendor" component={Editvendor} />
+      <privatestack.Screen name="AddVendor" component={AddVendor} />
 
       <privatestack.Screen name="AddResource" component={AddResource} />
-      <privatestack.Screen name='AddExternalProd' component={AddExternalProd} />
-      <privatestack.Screen name='EditExternalProd' component={EditExternalProd} />
-      <privatestack.Screen name='AddTechnology' component={AddTechnology} />
-      <privatestack.Screen name='EditTechnology' component={EditTechnology} />
-      <privatestack.Screen name='Reason' component={Reason} />
-      <privatestack.Screen name='AddReason' component={AddReason} />
-      <privatestack.Screen name='EditReason' component={EditReason} />
+      <privatestack.Screen name="AddExternalProd" component={AddExternalProd} />
+      <privatestack.Screen
+        name="EditExternalProd"
+        component={EditExternalProd}
+      />
+      <privatestack.Screen
+        name="AddClientAgreement"
+        component={AddClientAgreement}
+      />
+      <privatestack.Screen name="AddTechnology" component={AddTechnology} />
+      <privatestack.Screen name="EditTechnology" component={EditTechnology} />
+      <privatestack.Screen name="Reason" component={Reason} />
+      <privatestack.Screen name="AddReason" component={AddReason} />
+      <privatestack.Screen name="EditReason" component={EditReason} />
       <privatestack.Screen name="AddAccount" component={AddAccount} />
       <privatestack.Screen name="EditAccount" component={EditAccount} />
     </privatestack.Navigator>

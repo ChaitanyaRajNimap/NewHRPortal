@@ -1,6 +1,6 @@
 import React from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 import CustomDrawer from './DrawerContent';
 import Home from '../Screens/DashBoard/Home';
 import CompareReport from '../Screens/CompareReport/CompareReport';
@@ -28,11 +28,11 @@ import Technology from '../Screens/Masters/Technology/Technology';
 import UserSetting from '../Screens/Masters/UserSetting/UserSetting';
 import Setting from '../Screens/Masters/Setting/Setting';
 import Reason from '../Screens/Masters/Reason/Reason';
-import { GLOBALSTYLE } from '../Constants/Styles';
+import {GLOBALSTYLE} from '../Constants/Styles';
 
 const Drawer = createDrawerNavigator();
 
-const DrawerNavigation = ({ navigation }) => {
+const DrawerNavigation = ({navigation}) => {
   return (
     <Drawer.Navigator
       drawerPosition="right"
@@ -49,57 +49,57 @@ const DrawerNavigation = ({ navigation }) => {
       <Drawer.Screen
         name="Home"
         component={Home}
-        options={{ headerShown: true, headerTitleAlign: 'center' }}
+        options={{headerShown: true, headerTitleAlign: 'center'}}
       />
       <Drawer.Screen
         name="Compare Report"
         component={CompareReport}
-        options={{ headerShown: true, headerTitleAlign: 'center' }}
+        options={{headerShown: true, headerTitleAlign: 'center'}}
       />
       <Drawer.Screen
         name="Invoice Status"
         component={InvoiceStatus}
-        options={{ headerShown: true, headerTitleAlign: 'center' }}
+        options={{headerShown: true, headerTitleAlign: 'center'}}
       />
       <Drawer.Screen
         name="Invoice History"
         component={InvoiceHistory}
-        options={{ headerShown: true, headerTitleAlign: 'center' }}
+        options={{headerShown: true, headerTitleAlign: 'center'}}
       />
       <Drawer.Screen
         name="External Project Invoice History"
         component={ExternalProjectInvoiceHistory}
-        options={{ headerShown: true, headerTitleAlign: 'center' }}
+        options={{headerShown: true, headerTitleAlign: 'center'}}
       />
       <Drawer.Screen
         name="External Project Invoice Status"
         component={ExternalProjectInvoiceStatus}
-        options={{ headerShown: true, headerTitleAlign: 'center' }}
+        options={{headerShown: true, headerTitleAlign: 'center'}}
       />
       <Drawer.Screen
         name="InterView Report"
         component={InterViewReport}
-        options={{ headerShown: true, headerTitleAlign: 'center' }}
+        options={{headerShown: true, headerTitleAlign: 'center'}}
       />
       <Drawer.Screen
         name="InterView"
         component={InterView}
-        options={{ headerShown: true, headerTitleAlign: 'center' }}
+        options={{headerShown: true, headerTitleAlign: 'center'}}
       />
       <Drawer.Screen
         name="Joining"
         component={Joining}
-        options={{ headerShown: true, headerTitleAlign: 'center' }}
+        options={{headerShown: true, headerTitleAlign: 'center'}}
       />
       <Drawer.Screen
         name="Leaving Orgnisation"
         component={LeavingOrgnisation}
-        options={{ headerShown: true, headerTitleAlign: 'center' }}
+        options={{headerShown: true, headerTitleAlign: 'center'}}
       />
       <Drawer.Screen
         name="Non Joining"
         component={NonJoining}
-        options={{ headerShown: true, headerTitleAlign: 'center' }}
+        options={{headerShown: true, headerTitleAlign: 'center'}}
       />
       <Drawer.Screen
         name="Project Target"
@@ -132,7 +132,7 @@ const DrawerNavigation = ({ navigation }) => {
               style={GLOBALSTYLE.headerRightStyle}
               onPress={() => navigation.navigate('AddVendor')}
             />
-          )
+          ),
         }}
       />
       <Drawer.Screen
@@ -155,17 +155,17 @@ const DrawerNavigation = ({ navigation }) => {
       <Drawer.Screen
         name="Archive Resource"
         component={ArchivedResources}
-        options={{ headerShown: true, headerTitleAlign: 'center' }}
+        options={{headerShown: true, headerTitleAlign: 'center'}}
       />
       <Drawer.Screen
         name="InActive Resource"
         component={InActiveResources}
-        options={{ headerShown: true, headerTitleAlign: 'center' }}
+        options={{headerShown: true, headerTitleAlign: 'center'}}
       />
       <Drawer.Screen
         name="Client"
         component={Client}
-        options={{ headerShown: true, headerTitleAlign: 'center' }}
+        options={{headerShown: true, headerTitleAlign: 'center'}}
       />
       <Drawer.Screen
         name="External Product"
@@ -187,17 +187,29 @@ const DrawerNavigation = ({ navigation }) => {
       <Drawer.Screen
         name="Purchase Order"
         component={PurchaseOrder}
-        options={{ headerShown: true, headerTitleAlign: 'center' }}
+        options={{headerShown: true, headerTitleAlign: 'center'}}
       />
       <Drawer.Screen
         name="Client Agreement"
         component={ClientAgreement}
-        options={{ headerShown: true, headerTitleAlign: 'center' }}
+        options={{
+          headerShown: true,
+          headerTitleAlign: 'center',
+          headerRight: () => (
+            <AntDesign
+              name="plus"
+              size={25}
+              color="black"
+              style={GLOBALSTYLE.headerRightStyle}
+              onPress={() => navigation.navigate('AddClientAgreement')}
+            />
+          ),
+        }}
       />
       <Drawer.Screen
         name="Request Client"
         component={RequestClient}
-        options={{ headerShown: true, headerTitleAlign: 'center' }}
+        options={{headerShown: true, headerTitleAlign: 'center'}}
       />
       <Drawer.Screen
         name="Account"
@@ -253,12 +265,12 @@ const DrawerNavigation = ({ navigation }) => {
       <Drawer.Screen
         name="User Setting"
         component={UserSetting}
-        options={{ headerShown: true, headerTitleAlign: 'center' }}
+        options={{headerShown: true, headerTitleAlign: 'center'}}
       />
       <Drawer.Screen
         name="Setting"
         component={Setting}
-        options={{ headerShown: true, headerTitleAlign: 'center' }}
+        options={{headerShown: true, headerTitleAlign: 'center'}}
       />
     </Drawer.Navigator>
   );
