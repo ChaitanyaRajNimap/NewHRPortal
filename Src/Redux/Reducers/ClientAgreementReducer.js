@@ -1,95 +1,33 @@
 import {
-  GETCLIENTAGREEMENT_PROGRESS,
-  GETCLIENTAGREEMENT_SUCCESS,
-  GETCLIENTAGREEMENT_FAIL,
-  ADDCLIENTAGREEMENT_PROGRESS,
-  ADDCLIENTAGREEMENT_SUCCESS,
-  ADDCLIENTAGREEMENT_FAIL,
-  EDITCLIENTAGREEMENT_PROGRESS,
-  EDITCLIENTAGREEMENT_SUCCESS,
-  EDITCLIENTAGREEMENT_FAIL,
-  DELETECLIENTAGREEMENT_PROGRESS,
-  DELETECLIENTAGREEMENT_SUCCESS,
-  DELETECLIENTAGREEMENT_FAIL,
+  FETCHCLIENTAGREEMENT_PROGRESS,
+  FETCHCLIENTAGREEMENT_SUCCESS,
+  FETCHCLIENTAGREEMENT_FAIL,
 } from '../ActionConstant';
 
 const initialState = {
   isLoading: false,
-  getClientAgreementData: {},
-  addClientAgreementData: {},
-  updateClientAgreementData: {},
-  deleteClientAgreementData: {},
+  clientAgreementData: {},
 };
 
 const ClientAgreementReducer = (state = initialState, action) => {
+  console.log('ClientAgreementReducer', action);
   switch (action.type) {
-    case GETCLIENTAGREEMENT_PROGRESS:
+    case FETCHCLIENTAGREEMENT_PROGRESS:
       return {
         ...state,
         isLoading: true,
       };
-    case GETCLIENTAGREEMENT_SUCCESS:
+    case FETCHCLIENTAGREEMENT_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        getClientAgreementData: action.payload,
+        clientAgreementData: action.payload,
       };
-    case GETCLIENTAGREEMENT_FAIL:
+    case FETCHCLIENTAGREEMENT_FAIL:
       return {
         ...state,
         isLoading: false,
-        getClientAgreementData: action.payload,
-      };
-    case EDITCLIENTAGREEMENT_PROGRESS:
-      return {
-        ...state,
-        isLoading: true,
-      };
-    case EDITCLIENTAGREEMENT_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        updateClientAgreementData: action.payload,
-      };
-    case EDITCLIENTAGREEMENT_FAIL:
-      return {
-        ...state,
-        isLoading: false,
-        updateClientAgreementData: action.payload,
-      };
-    case ADDCLIENTAGREEMENT_PROGRESS:
-      return {
-        ...state,
-        isLoading: true,
-      };
-    case ADDCLIENTAGREEMENT_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        addClientAgreementData: action.payload,
-      };
-    case ADDCLIENTAGREEMENT_FAIL:
-      return {
-        ...state,
-        isLoading: false,
-        addClientAgreementData: action.payload,
-      };
-    case DELETECLIENTAGREEMENT_PROGRESS:
-      return {
-        ...state,
-        isLoading: true,
-      };
-    case DELETECLIENTAGREEMENT_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        deleteClientAgreementData: action.payload,
-      };
-    case DELETECLIENTAGREEMENT_FAIL:
-      return {
-        ...state,
-        isLoading: false,
-        deleteClientAgreementData: action.payload,
+        clientAgreementData: action.payload,
       };
     default:
       return state;

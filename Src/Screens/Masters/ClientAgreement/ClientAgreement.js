@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
+import React, {useState, useEffect} from 'react';
+
 import {
   View,
   SafeAreaView,
@@ -11,162 +11,147 @@ import {
 } from 'react-native';
 import SearchBox from '../../../Components/SearchBox';
 import {GLOBALSTYLE} from '../../../Constants/Styles';
-import {
-  getClientAgreement,
-  addClientAgreement,
-  updateClientAgreement,
-  deleteClientAgreement,
-} from '../../../Redux/Actions/ClientAgreementAction';
+import {getInitialClientAgreement} from '../../../Redux/Actions/ClientAgreementAction';
+import {useSelector, useDispatch} from 'react-redux';
 import SmallButton from '../../../Components/SmallButton';
 import {COLORS} from '../../../Constants/Theme';
+import ViewClientAgreementPDF from './viewClientAgreementPDF/ViewClientAgreementPDF';
 
 const ClientAgreement = ({navigation}) => {
   const dispatch = useDispatch();
   const reducerData = useSelector(state => state.ClientAgreementReducer);
 
-  const [clientAgreement, setClientAgreement] = useState([]);
-  const [filterClientAgreement, setFilterClientAgreement] = useState([]);
+  const [clientAgreements, setClientAgreements] = useState([]);
+  const [filterClientAgreements, setFilterClientAgreements] = useState([]);
   const [search, setSearch] = useState('');
   const [refreshFlatlist, setRefreshFlatList] = useState(false);
+  const [modalIsVisible, setModalIsVisible] = useState(false);
 
   useEffect(() => {
     const unSubscribe = navigation.addListener('focus', () => {
-      dispatch(getClientAgreement());
+      dispatch(getInitialClientAgreement());
     });
     return unSubscribe;
   }, [navigation]);
 
   useEffect(() => {
-    getAccountFilterData();
-  }, [search]);
-
-  useEffect(() => {
-    console.log('-------------------', reducerData.getClientAgreementData);
-    setClientAgreement(reducerData.getClientAgreementData);
-    setFilterClientAgreement(reducerData.getClientAgreementData);
-  }, [reducerData.getClientAgreementData]);
+    // console.log("-------------------", reducerData.clientAgreementData)
+    setClientAgreements(reducerData.clientAgreementData);
+  }, [reducerData.clientAgreementData]);
 
   const setSearchValue = value => {
     setSearch(value);
   };
 
-  const getAccountFilterData = () => {
-    const filterValue = clientAgreement?.filter(data => {
-      if (search.length === 0) {
-        return data;
-      } else if (
-        data.fname.toLowerCase().includes(search.toLowerCase()) ||
-        data.lname.toLowerCase().includes(search.toLowerCase()) ||
-        data.resident_address.includes(search.toLowerCase())
-      ) {
-        console.log(data);
-        return data;
-      }
-    });
-    setFilterClientAgreement(filterValue);
+  //For making modal visible
+  const startPdfViewer = () => {
+    setModalIsVisible(true);
   };
 
-  const editClienAgreement = data => {
-    navigation.navigate('EditClientAgreement', {newData: data});
-  };
-
-  const deleteOk = id => {
-    dispatch(deleteClientAgreement(id));
-    setRefreshFlatList(!refreshFlatlist);
-    setSearch('');
-    const remaningData = clientAgreement.filter(t => t.id !== id);
-    setFilterClientAgreement([...remaningData]);
-  };
-
-  const deleteClientAg = id => {
-    Alert.alert(
-      'Are you sure want to Delete?',
-      'You wont be able to revert this.',
-      [
-        {
-          text: 'Yes, Delete it',
-          onPress: () => deleteOk(id),
-        },
-        {
-          type: 'cancel',
-          text: 'Cancel',
-          onPress: () => console.log('Cancel Pressed'),
-        },
-      ],
-    );
+  //For making modal invisible
+  const endPdfViewer = () => {
+    setModalIsVisible(false);
   };
 
   return (
     <SafeAreaView style={GLOBALSTYLE.safeAreaViewStyle}>
       <SearchBox setSearchValue={setSearchValue} />
-      <View>
-        <FlatList
-          data={filterClientAgreement}
-          extraData={refreshFlatlist}
-          renderItem={({item}) => (
-            <View style={GLOBALSTYLE.cardView}>
+      {/* <Text>{clientAgreements.map(item => console.log(item.id))}</Text> */}
+      <FlatList
+        data={clientAgreements}
+        renderItem={({item}) => (
+          <View style={GLOBALSTYLE.cardView}>
+            <View style={[GLOBALSTYLE.columnView, styles.columnViewAligner]}>
+              <Text style={GLOBALSTYLE.label}>Client Name</Text>
+              <TouchableOpacity>
+                <Text style={GLOBALSTYLE.text}>
+                  {item.client.client_name === null
+                    ? '-'
+                    : item.client.client_name}
+                </Text>
+              </TouchableOpacity>
+            </View>
+
+            <View style={GLOBALSTYLE.rowView}>
               <View style={GLOBALSTYLE.columnView}>
-                <Text style={GLOBALSTYLE.label}>Name</Text>
-                <TouchableOpacity>
-                  <Text style={GLOBALSTYLE.text}>
-                    {item.fname === null ? '-' : `${item.fname} ${item.lname}`}
+                <Text style={GLOBALSTYLE.label}>Resource</Text>
+                <Text style={GLOBALSTYLE.text}>
+                  {item.resources === null
+                    ? '-'
+                    : item.resources.map(item => item.fname + ' ' + item.lname)}
+                </Text>
+              </View>
+
+              <View style={GLOBALSTYLE.columnView}>
+                <Text style={GLOBALSTYLE.label}>PDF</Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    // Linking.openURL(item.resume === null ? '-' : item.resume);
+                    item.pdf_file === null ? '-' : startPdfViewer();
+                  }}>
+                  <ViewClientAgreementPDF
+                    pdfSrc={item.pdf_file}
+                    visible={modalIsVisible}
+                    onCancel={endPdfViewer}
+                  />
+                  <Text style={[GLOBALSTYLE.text, {color: COLORS.lightBlue}]}>
+                    View
                   </Text>
                 </TouchableOpacity>
               </View>
+            </View>
 
+            <View style={GLOBALSTYLE.rowView}>
               <View style={GLOBALSTYLE.columnView}>
-                <Text style={GLOBALSTYLE.label}>Locality</Text>
+                <Text style={GLOBALSTYLE.label}>Start Date</Text>
                 <Text style={GLOBALSTYLE.text}>
-                  {item.resident_address === null
+                  {item.start_date === null
                     ? '-'
-                    : item?.resident_address}
+                    : new Date(item.start_date)
+                        .toDateString('en-US', {})
+                        .split(' ')
+                        .slice(1)
+                        .join(' ')}
                 </Text>
               </View>
-              <View style={GLOBALSTYLE.rowView}>
-                <View style={GLOBALSTYLE.columnView}>
-                  <Text style={GLOBALSTYLE.label}>Skill</Text>
-                  <Text style={GLOBALSTYLE.text}>
-                    {item?.primary_skill === null ? '-' : item?.primary_skill}
-                  </Text>
-                </View>
-                <View style={GLOBALSTYLE.columnView}>
-                  <Text style={GLOBALSTYLE.label}>Target Date</Text>
 
-                  <Text style={GLOBALSTYLE.text}>
-                    {item.date === null
-                      ? '-'
-                      : new Date(item.date)
-                          .toDateString('en-US', {})
-                          .split(' ')
-                          .slice(1)
-                          .join(' ')}
-                  </Text>
-                </View>
-              </View>
-              <View style={GLOBALSTYLE.rowView}>
-                <SmallButton
-                  color={COLORS.lightBlue}
-                  title={'Edit'}
-                  onPressFunction={() => {
-                    editClienAgreement(item);
-                  }}
-                />
-                <SmallButton
-                  color={COLORS.red}
-                  title={'Delete'}
-                  onPressFunction={() => {
-                    deleteClientAg(item.id);
-                  }}
-                />
+              <View style={GLOBALSTYLE.columnView}>
+                <Text style={GLOBALSTYLE.label}>End Date</Text>
+                <Text style={GLOBALSTYLE.text}>
+                  {item.start_date === null
+                    ? '-'
+                    : new Date(item.end_date)
+                        .toDateString('en-US', {})
+                        .split(' ')
+                        .slice(1)
+                        .join(' ')}
+                </Text>
               </View>
             </View>
-          )}
-        />
-      </View>
+
+            <View style={[GLOBALSTYLE.columnView, styles.SmallButtonAligner]}>
+              <SmallButton
+                color={COLORS.lightBlue}
+                title={'Edit'}
+                onPressFunction={() => {
+                  // editProject(item);
+                }}
+              />
+            </View>
+          </View>
+        )}
+      />
     </SafeAreaView>
   );
 };
 
-const styles = StyleSheet.create({});
-
 export default ClientAgreement;
+
+const styles = StyleSheet.create({
+  columnViewAligner: {
+    marginHorizontal: 15,
+  },
+  SmallButtonAligner: {
+    marginHorizontal: 0,
+  },
+});
