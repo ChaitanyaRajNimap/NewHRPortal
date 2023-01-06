@@ -1,6 +1,6 @@
-import { Dimensions, StyleSheet } from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
 
-import { COLORS } from './Theme';
+import {COLORS} from './Theme';
 
 export const GLOBALSTYLE = StyleSheet.create({
   safeAreaViewStyle: {
@@ -8,7 +8,7 @@ export const GLOBALSTYLE = StyleSheet.create({
   },
   mainContainer: {
     flex: 1,
-    alignItems: 'center',
+    // alignItems: 'center',
   },
   TextInputStyle: {
     backgroundColor: COLORS.white,
@@ -16,7 +16,7 @@ export const GLOBALSTYLE = StyleSheet.create({
     width: Dimensions.get('screen').width - 20,
     margin: 5,
     alignSelf: 'center',
-    color:COLORS.black
+    color: COLORS.black,
   },
   cardView: {
     flex: 1,
@@ -29,13 +29,13 @@ export const GLOBALSTYLE = StyleSheet.create({
   columnView: {
     flexDirection: 'column',
     margin: 10,
-    flex: 2
+    flex: 2,
   },
   rowView: {
     flexDirection: 'row',
     margin: 5,
     justifyContent: 'space-between',
-    flex: 1
+    flex: 1,
   },
   label: {
     fontSize: 14,
@@ -65,5 +65,5 @@ export const GLOBALSTYLE = StyleSheet.create({
     borderRadius: 10,
     padding: 10,
     backgroundColor: COLORS.whiteBlue,
-  }
+  },
 });
