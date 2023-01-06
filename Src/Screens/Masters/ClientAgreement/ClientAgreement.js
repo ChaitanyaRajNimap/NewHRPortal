@@ -58,9 +58,10 @@ const ClientAgreement = ({navigation}) => {
       if (search.length === 0) {
         return data;
       } else if (
-        data.client.client_name.toLowerCase().includes(search.toLowerCase()) ||
-        data.lname.toLowerCase().includes(search.toLowerCase()) ||
-        data.resident_address.includes(search.toLowerCase())
+        data.client.client_name.toLowerCase().includes(search.toLowerCase())
+        //  ||
+        // data.lname.toLowerCase().includes(search.toLowerCase()) ||
+        // data.resident_address.includes(search.toLowerCase())
       ) {
         console.log(data);
         return data;
