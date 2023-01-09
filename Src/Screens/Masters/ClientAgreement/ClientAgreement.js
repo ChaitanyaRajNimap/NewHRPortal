@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-
 import {
   View,
   SafeAreaView,
@@ -16,7 +15,6 @@ import {useSelector, useDispatch} from 'react-redux';
 import SmallButton from '../../../Components/SmallButton';
 import {COLORS} from '../../../Constants/Theme';
 import CustomButton from '../../../Components/CustomButton';
-import ViewClientAgreementPDF from './viewClientAgreementPDF/ViewClientAgreementPDF';
 
 const ClientAgreement = ({navigation}) => {
   const dispatch = useDispatch();
@@ -55,16 +53,29 @@ const ClientAgreement = ({navigation}) => {
   //for filtering search results
   const getAccountFilterData = () => {
     const filterValue = clientAgreements?.filter(data => {
+      const resourceFirstName = data.resources.map(item =>
+        item.fname.toLowerCase(),
+      );
+      const resourceLastName = data.resources.map(item =>
+        item.lname.toLowerCase(),
+      );
+      const resourceFullNames = data.resources.map(
+        item => item.fname.toLowerCase() + ' ' + item.lname.toLowerCase(),
+      );
       if (search.length === 0) {
         return data;
-      } else if (
-        data.client.client_name.toLowerCase().includes(search.toLowerCase())
-        //  ||
-        // data.lname.toLowerCase().includes(search.toLowerCase()) ||
-        // data.resident_address.includes(search.toLowerCase())
-      ) {
-        console.log(data);
-        return data;
+      } else if (data.client !== null) {
+        if (
+          data.client.client_name
+            .toLowerCase()
+            .includes(search.toLowerCase()) ||
+          resourceFirstName.includes(search.toLowerCase()) ||
+          resourceLastName.includes(search.toLowerCase()) ||
+          resourceFullNames.includes(search.toLowerCase())
+        ) {
+          console.log('SERACH RESULTS : ' + data);
+          return data;
+        }
       }
     });
     setFilterClientAgreements(filterValue);
@@ -143,16 +154,6 @@ const ClientAgreement = ({navigation}) => {
             </View>
 
             {/* for edit button */}
-            <View style={[GLOBALSTYLE.columnView, styles.SmallButtonAligner]}>
-              <SmallButton
-                color={COLORS.lightBlue}
-                title={'Edit'}
-                onPressFunction={() => {
-                  // editProject(item);
-                }}
-              />
-            </View>
-
             <CustomButton
               title="Edit"
               onPressFunction={() => {}}
