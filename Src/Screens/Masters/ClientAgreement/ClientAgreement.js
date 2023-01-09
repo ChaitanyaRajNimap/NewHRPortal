@@ -7,6 +7,7 @@ import {
   Text,
   TouchableOpacity,
   Alert,
+  Modal,
 } from 'react-native';
 import SearchBox from '../../../Components/SearchBox';
 import {GLOBALSTYLE} from '../../../Constants/Styles';
@@ -15,6 +16,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import SmallButton from '../../../Components/SmallButton';
 import {COLORS} from '../../../Constants/Theme';
 import CustomButton from '../../../Components/CustomButton';
+import ViewClientAgreementPDF from './viewClientAgreementPDF/ViewClientAgreementPDF';
 
 const ClientAgreement = ({navigation}) => {
   const dispatch = useDispatch();
@@ -24,7 +26,8 @@ const ClientAgreement = ({navigation}) => {
   const [filterClientAgreements, setFilterClientAgreements] = useState([]);
   const [search, setSearch] = useState('');
   const [refreshFlatlist, setRefreshFlatList] = useState(false);
-  const [modalIsVisible, setModalIsVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [pdfSrc, setPdfSrc] = useState([]);
 
   useEffect(() => {
     //To fetch data when user navigate on this screen
@@ -73,7 +76,7 @@ const ClientAgreement = ({navigation}) => {
           resourceLastName.includes(search.toLowerCase()) ||
           resourceFullNames.includes(search.toLowerCase())
         ) {
-          console.log('SERACH RESULTS : ' + data);
+          // console.log('SERACH RESULTS : ' + data);
           return data;
         }
       }
@@ -81,8 +84,21 @@ const ClientAgreement = ({navigation}) => {
     setFilterClientAgreements(filterValue);
   };
 
+  //For closing model
+  const closeModalHandler = () => setModalVisible(!modalVisible);
+
   return (
     <SafeAreaView style={GLOBALSTYLE.safeAreaViewStyle}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalVisible(!modalVisible);
+        }}>
+        <ViewClientAgreementPDF pdfSrc={pdfSrc} onCancel={closeModalHandler} />
+      </Modal>
       <SearchBox setSearchValue={setSearchValue} />
       {/* <Text>{clientAgreements.map(item => console.log(item.id))}</Text> */}
       <FlatList
@@ -145,6 +161,8 @@ const ClientAgreement = ({navigation}) => {
               <Text style={GLOBALSTYLE.label}>PDF</Text>
               <TouchableOpacity
                 onPress={() => {
+                  setModalVisible(true);
+                  setPdfSrc(item.pdf_file);
                   // Linking.openURL(item.resume === null ? '-' : item.resume);
                 }}>
                 <Text style={[GLOBALSTYLE.text, {color: COLORS.lightBlue}]}>
