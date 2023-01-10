@@ -3,18 +3,20 @@ import {View, Text, StyleSheet, FlatList} from 'react-native';
 import {GLOBALSTYLE} from '../../../../Constants/Styles';
 import {COLORS} from '../../../../Constants/Theme';
 import SmallButton from '../../../../Components/SmallButton';
+import ViewPdf from '../ViewPdf';
 
 function ViewClientAgreementPDF({pdfSrc, onCancel}) {
   return (
     <View style={styles.centeredView}>
       <View style={styles.modalView}>
         <View style={styles.flatListContainer}>
-          <FlatList
+          {/* <FlatList
             data={pdfSrc}
             renderItem={({item}) => (
               <Text style={styles.modalText}>{item}</Text>
             )}
-          />
+          /> */}
+          <ViewPdf />
         </View>
         <SmallButton
           color={COLORS.grey}
@@ -59,7 +61,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   flatListContainer: {
-    maxHeight: 200,
+    maxHeight: 400,
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',

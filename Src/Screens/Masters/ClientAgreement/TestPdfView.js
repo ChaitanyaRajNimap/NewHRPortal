@@ -1,16 +1,15 @@
 import React from 'react';
-import {View, SafeAreaView, StyleSheet, Text} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 
-const AddClientAgreement = ({navigation}) => {
+function TestPdfView() {
   return (
     <View style={styles.rootContainer}>
-      <Text style={styles.textStyle}>Add Client Agreement</Text>
+      <Text style={styles.textStyle}> Test PDF Viewer</Text>
     </View>
   );
-};
+}
 
-export default AddClientAgreement;
-
+export default TestPdfView;
 const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,

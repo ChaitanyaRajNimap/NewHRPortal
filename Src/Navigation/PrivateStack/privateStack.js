@@ -42,6 +42,7 @@ import EditReason from '../../Screens/Masters/Reason/EditReason';
 import AddAccount from '../../Screens/Masters/Account/AddAccount';
 import EditAccount from '../../Screens/Masters/Account/EditAccount';
 import AddClientAgreement from '../../Screens/Masters/ClientAgreement/addClientAgreement/AddClientAgreement';
+// import TestPdfView from '../../Screens/Masters/ClientAgreement/TestPdfView';
 
 const privatestack = createNativeStackNavigator();
 
@@ -114,6 +115,7 @@ function privateStack() {
         name="AddClientAgreement"
         component={AddClientAgreement}
       />
+      {/* <privateStack.Screen name="TestPdfView" component={TestPdfView} /> */}
       <privatestack.Screen name="AddTechnology" component={AddTechnology} />
       <privatestack.Screen name="EditTechnology" component={EditTechnology} />
       <privatestack.Screen name="Reason" component={Reason} />
