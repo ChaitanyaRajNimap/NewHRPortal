@@ -8,18 +8,29 @@ function ViewClientAgreementPDF({pdfSrc, onCancel}) {
   return (
     <View style={styles.centeredView}>
       <View style={styles.modalView}>
-        <FlatList
-          data={pdfSrc}
-          renderItem={({item}) => <Text style={styles.modalText}>{item}</Text>}
-          style={{flex: 1}}
-        />
-
+        <View
+          style={{
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: COLORS.green,
+            maxHeight: 200,
+            overflow: 'hidden',
+          }}>
+          <FlatList
+            data={pdfSrc}
+            renderItem={({item}) => (
+              <Text style={styles.modalText}>{item}</Text>
+            )}
+          />
+        </View>
         <SmallButton
           color={COLORS.grey}
           title={'Cancel'}
           onPressFunction={() => {
             onCancel();
           }}
+          style={{flex: 1}}
         />
       </View>
     </View>
@@ -30,8 +41,8 @@ export default ViewClientAgreementPDF;
 
 const styles = StyleSheet.create({
   centeredView: {
-    // flex: 1,
-    // justifyContent: 'center',
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
     marginTop: 22,
   },
@@ -53,6 +64,7 @@ const styles = StyleSheet.create({
   },
   modalText: {
     marginBottom: 15,
+    backgroundColor: COLORS.blue,
     textAlign: 'center',
   },
 });
