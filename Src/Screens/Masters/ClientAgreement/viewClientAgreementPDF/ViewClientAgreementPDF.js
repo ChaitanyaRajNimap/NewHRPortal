@@ -8,15 +8,7 @@ function ViewClientAgreementPDF({pdfSrc, onCancel}) {
   return (
     <View style={styles.centeredView}>
       <View style={styles.modalView}>
-        <View
-          style={{
-            flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: COLORS.green,
-            maxHeight: 200,
-            overflow: 'hidden',
-          }}>
+        <View style={styles.flatListContainer}>
           <FlatList
             data={pdfSrc}
             renderItem={({item}) => (
@@ -64,7 +56,13 @@ const styles = StyleSheet.create({
   },
   modalText: {
     marginBottom: 15,
-    backgroundColor: COLORS.blue,
     textAlign: 'center',
+  },
+  flatListContainer: {
+    maxHeight: 200,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden',
   },
 });
