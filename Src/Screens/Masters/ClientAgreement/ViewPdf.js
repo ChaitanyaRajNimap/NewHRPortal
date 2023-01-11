@@ -1,17 +1,21 @@
 import React from 'react';
-import {View, Text, StyleSheet, Dimensions} from 'react-native';
+import {View, Text, StyleSheet, Dimensions, Button} from 'react-native';
 import Pdf from 'react-native-pdf';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {GLOBALSTYLE} from '../../../Constants/Styles';
+import CustomNavigationBar from '../../../Components/CustomNavigationBar';
 
-const ViewPdf = ({navigation}) => {
+const ViewPdf = ({navigation, onCancel}) => {
   const source = {
     uri: 'http://samples.leanpub.com/thereactnativebook-sample.pdf',
     cache: true,
   };
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={GLOBALSTYLE.safeAreaViewStyle}>
       <View style={styles.container}>
+        {/* <CustomNavigationBar back={true} headername="Pdf Viewer" /> */}
+        <Button title="Close" onPress={onCancel} />
         <Pdf
           trustAllCerts={false}
           source={source}

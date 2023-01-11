@@ -1,22 +1,27 @@
 import React from 'react';
-import {View, Text, StyleSheet, FlatList} from 'react-native';
+import {View, Text, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
 import {GLOBALSTYLE} from '../../../../Constants/Styles';
 import {COLORS} from '../../../../Constants/Theme';
 import SmallButton from '../../../../Components/SmallButton';
 import ViewPdf from '../ViewPdf';
 
-function ViewClientAgreementPDF({pdfSrc, onCancel}) {
+function ViewClientAgreementPDF({pdfSrc, onCancel, navigation}) {
   return (
     <View style={styles.centeredView}>
       <View style={styles.modalView}>
         <View style={styles.flatListContainer}>
-          {/* <FlatList
+          <FlatList
             data={pdfSrc}
             renderItem={({item}) => (
-              <Text style={styles.modalText}>{item}</Text>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate('ViewPdf', {onCancel: onCancel})
+                }>
+                <Text style={styles.modalText}>{item}</Text>
+              </TouchableOpacity>
             )}
-          /> */}
-          <ViewPdf />
+          />
+          {/* <ViewPdf /> */}
         </View>
         <SmallButton
           color={COLORS.grey}
@@ -47,7 +52,7 @@ const styles = StyleSheet.create({
     padding: 35,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: '#000',
+    shadowColor: COLORS.black,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -58,10 +63,12 @@ const styles = StyleSheet.create({
   },
   modalText: {
     marginBottom: 15,
+    color: COLORS.black,
     textAlign: 'center',
   },
+  onPress: {color: COLORS.blue},
   flatListContainer: {
-    maxHeight: 400,
+    maxHeight: 200,
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',

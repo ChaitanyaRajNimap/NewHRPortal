@@ -85,7 +85,10 @@ const ClientAgreement = ({navigation}) => {
   };
 
   //For closing model
-  const closeModalHandler = () => setModalVisible(!modalVisible);
+  const closeModalHandler = () => {
+    setModalVisible(!modalVisible);
+    console.log('----MODAL CLOSED!----');
+  };
 
   return (
     <SafeAreaView style={GLOBALSTYLE.safeAreaViewStyle}>
@@ -97,7 +100,11 @@ const ClientAgreement = ({navigation}) => {
           Alert.alert('Modal has been closed.');
           setModalVisible(!modalVisible);
         }}>
-        <ViewClientAgreementPDF pdfSrc={pdfSrc} onCancel={closeModalHandler} />
+        <ViewClientAgreementPDF
+          pdfSrc={pdfSrc}
+          onCancel={closeModalHandler}
+          navigation={navigation}
+        />
       </Modal>
       <SearchBox setSearchValue={setSearchValue} />
       {/* <Text>{clientAgreements.map(item => console.log(item.id))}</Text> */}
@@ -163,6 +170,7 @@ const ClientAgreement = ({navigation}) => {
                 onPress={() => {
                   setModalVisible(true);
                   setPdfSrc(item.pdf_file);
+                  console.log('----VIEW CLIKED!----');
                   // Linking.openURL(item.resume === null ? '-' : item.resume);
                 }}>
                 <Text style={[GLOBALSTYLE.text, {color: COLORS.lightBlue}]}>
@@ -179,6 +187,7 @@ const ClientAgreement = ({navigation}) => {
             />
           </View>
         )}
+        keyExtractor={item => item.id}
       />
     </SafeAreaView>
   );
