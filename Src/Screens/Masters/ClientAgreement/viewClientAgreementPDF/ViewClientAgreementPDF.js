@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useCallback} from 'react';
 import {View, Text, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
 import {GLOBALSTYLE} from '../../../../Constants/Styles';
 import {COLORS} from '../../../../Constants/Theme';
@@ -6,6 +6,12 @@ import SmallButton from '../../../../Components/SmallButton';
 import ViewPdf from '../ViewPdf';
 
 function ViewClientAgreementPDF({pdfSrc, onCancel, navigation}) {
+  // const [closeModal, setCloseModal] = useState('');
+
+  // const closeModalFunction = useCallback(() => {
+  //   setCloseModal(onCancel);
+  // }, [closeModal]);
+
   return (
     <View style={styles.centeredView}>
       <View style={styles.modalView}>
@@ -13,10 +19,7 @@ function ViewClientAgreementPDF({pdfSrc, onCancel, navigation}) {
           <FlatList
             data={pdfSrc}
             renderItem={({item}) => (
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate('ViewPdf', {onCancel: onCancel})
-                }>
+              <TouchableOpacity onPress={() => navigation.navigate('ViewPdf')}>
                 <Text style={styles.modalText}>{item}</Text>
               </TouchableOpacity>
             )}
