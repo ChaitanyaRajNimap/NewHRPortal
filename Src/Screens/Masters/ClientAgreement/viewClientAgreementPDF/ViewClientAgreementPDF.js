@@ -57,7 +57,10 @@ function ViewClientAgreementPDF({pdfSrc, onCancel, navigation}) {
                 onPress={() => {
                   onPressViewPdf(item.toString().trim());
                 }}>
-                <Text style={styles.modalText}>{item}</Text>
+                {/* <Text style={styles.modalText}>{item}</Text> */}
+                <Text style={styles.modalText}>
+                  {item.toString().split('_').pop()}
+                </Text>
               </TouchableOpacity>
             )}
           />
