@@ -1,16 +1,50 @@
-import React, {useState, useCallback} from 'react';
-import {View, Text, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
+import React from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+  Alert,
+  Linking,
+} from 'react-native';
 import {GLOBALSTYLE} from '../../../../Constants/Styles';
 import {COLORS} from '../../../../Constants/Theme';
 import SmallButton from '../../../../Components/SmallButton';
-import ViewPdf from '../ViewPdf';
 
 function ViewClientAgreementPDF({pdfSrc, onCancel, navigation}) {
-  // const [closeModal, setCloseModal] = useState('');
-
-  // const closeModalFunction = useCallback(() => {
-  //   setCloseModal(onCancel);
-  // }, [closeModal]);
+  const onPressViewPdf = url => {
+    if (url === null || url === undefined) {
+      Alert.alert(' ', 'Unable to download the document', [
+        {
+          text: 'OK',
+          style: 'cancel',
+        },
+      ]);
+      return;
+    }
+    Alert.alert('Download', 'Please download document here', [
+      {
+        text: 'Yes, Download',
+        onPress: () => {
+          Linking.canOpenURL(url).then(supported => {
+            console.log(url);
+            console.log('Download supported : ', supported);
+            // Linking.openURL(url);
+            if (supported) {
+              Linking.openURL(url);
+            } else {
+              // console.log("Don't know how to open URI: " + getDownloadLinkSuccess.downloadLink);
+            }
+          });
+        },
+      },
+      {
+        style: 'cancel',
+        text: 'No',
+      },
+    ]);
+  };
 
   return (
     <View style={styles.centeredView}>
@@ -19,7 +53,10 @@ function ViewClientAgreementPDF({pdfSrc, onCancel, navigation}) {
           <FlatList
             data={pdfSrc}
             renderItem={({item}) => (
-              <TouchableOpacity onPress={() => navigation.navigate('ViewPdf')}>
+              <TouchableOpacity
+                onPress={() => {
+                  onPressViewPdf(item.toString().trim());
+                }}>
                 <Text style={styles.modalText}>{item}</Text>
               </TouchableOpacity>
             )}

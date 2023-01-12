@@ -4,6 +4,7 @@ import Pdf from 'react-native-pdf';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {GLOBALSTYLE} from '../../../Constants/Styles';
 import CustomNavigationBar from '../../../Components/CustomNavigationBar';
+import {UserConsumer} from './useContext';
 
 const ViewPdf = ({navigation}) => {
   const source = {
@@ -15,7 +16,7 @@ const ViewPdf = ({navigation}) => {
     <SafeAreaView style={GLOBALSTYLE.safeAreaViewStyle}>
       <View style={styles.container}>
         <CustomNavigationBar back={true} headername="Pdf Viewer" />
-        <Button title="Close" onPress={() => {}} />
+        <Button title="Close" />
         <Pdf
           trustAllCerts={false}
           source={source}

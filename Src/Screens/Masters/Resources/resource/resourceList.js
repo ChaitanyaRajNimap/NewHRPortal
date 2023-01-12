@@ -22,7 +22,7 @@ function ResourceList({data, deleteResourcse, editResourcse}) {
         text: 'Yes, Download',
         onPress: () => {
           Linking.canOpenURL(url).then(supported => {
-            console.log(supported);
+            console.log('Download supported : ', supported);
             if (supported) {
               Linking.openURL(url);
             } else {
