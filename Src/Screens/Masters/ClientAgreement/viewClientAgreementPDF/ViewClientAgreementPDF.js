@@ -28,9 +28,7 @@ function ViewClientAgreementPDF({pdfSrc, onCancel, navigation}) {
         text: 'Yes, Download',
         onPress: () => {
           Linking.canOpenURL(url).then(supported => {
-            console.log(url);
-            console.log('Download supported : ', supported);
-            // Linking.openURL(url);
+            // console.log('Download supported : ', supported);
             if (supported) {
               Linking.openURL(url);
             } else {
@@ -65,7 +63,6 @@ function ViewClientAgreementPDF({pdfSrc, onCancel, navigation}) {
               </TouchableOpacity>
             )}
           />
-          {/* <ViewPdf /> */}
         </View>
         <SmallButton
           color={COLORS.grey}

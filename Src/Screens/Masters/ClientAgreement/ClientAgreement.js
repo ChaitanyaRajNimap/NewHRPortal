@@ -87,7 +87,7 @@ const ClientAgreement = ({navigation}) => {
   //For closing model
   const closeModalHandler = () => {
     setModalVisible(!modalVisible);
-    console.log('----MODAL CLOSED!----');
+    // console.log('----MODAL CLOSED!----');
   };
 
   return (
@@ -107,7 +107,6 @@ const ClientAgreement = ({navigation}) => {
         />
       </Modal>
       <SearchBox setSearchValue={setSearchValue} />
-      {/* <Text>{clientAgreements.map(item => console.log(item.id))}</Text> */}
       <FlatList
         data={filterClientAgreements}
         renderItem={({item}) => (
@@ -177,8 +176,7 @@ const ClientAgreement = ({navigation}) => {
                 onPress={() => {
                   setModalVisible(true);
                   setPdfSrc(item.pdf_file);
-                  console.log('----VIEW CLIKED!----');
-                  // Linking.openURL(item.resume === null ? '-' : item.resume);
+                  // console.log('----VIEW CLIKED!----');
                 }}>
                 <Text style={[GLOBALSTYLE.text, {color: COLORS.lightBlue}]}>
                   View
