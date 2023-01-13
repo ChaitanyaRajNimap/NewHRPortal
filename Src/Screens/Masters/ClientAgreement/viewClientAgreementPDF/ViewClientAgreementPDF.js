@@ -57,9 +57,10 @@ function ViewClientAgreementPDF({pdfSrc, onCancel, navigation}) {
                 onPress={() => {
                   onPressViewPdf(item.toString().trim());
                 }}>
-                {/* <Text style={styles.modalText}>{item}</Text> */}
                 <Text style={styles.modalText}>
-                  {item.toString().split('_').pop()}
+                  {item !== ''
+                    ? `\u2022 ${item.toString().split('_').pop()}`
+                    : null}
                 </Text>
               </TouchableOpacity>
             )}
@@ -89,10 +90,13 @@ const styles = StyleSheet.create({
     marginTop: 22,
   },
   modalView: {
-    margin: 20,
+    // margin: 20,
+    height: 250,
+    width: 270,
     backgroundColor: COLORS.white,
     borderRadius: 20,
-    padding: 35,
+    paddingVertical: 35,
+    paddingHorizontal: 30,
     alignItems: 'center',
     justifyContent: 'center',
     shadowColor: COLORS.black,
@@ -106,8 +110,10 @@ const styles = StyleSheet.create({
   },
   modalText: {
     marginBottom: 15,
-    color: COLORS.black,
-    textAlign: 'center',
+    color: COLORS.blue,
+    fontSize: 20,
+    // fontWeight: 'bold',
+    // textAlign: 'center',
   },
   onPress: {color: COLORS.blue},
   flatListContainer: {

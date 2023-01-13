@@ -119,7 +119,7 @@ const ClientAgreement = ({navigation}) => {
                 <Text style={GLOBALSTYLE.text}>
                   {item.client.client_name === null
                     ? '-'
-                    : item.client.client_name}
+                    : item.client.client_name.toString().trim()}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -130,7 +130,14 @@ const ClientAgreement = ({navigation}) => {
               <Text style={GLOBALSTYLE.text}>
                 {item.resources === null
                   ? '-'
-                  : item.resources.map(item => item.fname + ' ' + item.lname)}
+                  : item.resources
+                      .map(
+                        item =>
+                          item.fname.toString().trim() +
+                          ' ' +
+                          item.lname.toString().trim(),
+                      )
+                      .join(', ')}
               </Text>
             </View>
 
