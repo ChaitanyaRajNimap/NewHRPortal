@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Alert,
   Modal,
+  ActivityIndicator,
 } from 'react-native';
 import SearchBox from '../../../Components/SearchBox';
 import {GLOBALSTYLE} from '../../../Constants/Styles';
@@ -29,6 +30,10 @@ const ClientAgreement = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [pdfSrc, setPdfSrc] = useState([]);
 
+  //for showing loading
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   useEffect(() => {
     //To fetch data when user navigate on this screen
     const unSubscribe = navigation.addListener('focus', () => {
@@ -44,6 +49,7 @@ const ClientAgreement = ({navigation}) => {
 
   useEffect(() => {
     // console.log("-------------------", reducerData.clientAgreementData)
+    setLoading(false);
     setClientAgreements(reducerData.clientAgreementData);
     setFilterClientAgreements(reducerData.clientAgreementData);
   }, [reducerData.clientAgreementData]);
@@ -107,93 +113,116 @@ const ClientAgreement = ({navigation}) => {
         />
       </Modal>
       <SearchBox setSearchValue={setSearchValue} />
-      <FlatList
-        data={filterClientAgreements}
-        renderItem={({item}) => (
-          <View style={GLOBALSTYLE.cardView}>
-            {/* for client name */}
-            <View style={[GLOBALSTYLE.columnView, styles.columnViewAligner]}>
-              <Text style={GLOBALSTYLE.label}>Client Name</Text>
-              <TouchableOpacity>
-                <Text style={GLOBALSTYLE.text}>
-                  {item.client.client_name === null
-                    ? '-'
-                    : item.client.client_name.toString().trim()}
-                </Text>
-              </TouchableOpacity>
-            </View>
 
-            {/* for resources */}
-            <View style={[GLOBALSTYLE.columnView, styles.columnViewAligner]}>
-              <Text style={GLOBALSTYLE.label}>Resource</Text>
-              <Text style={GLOBALSTYLE.text}>
-                {item.resources === null
-                  ? '-'
-                  : item.resources
-                      .map(
-                        item =>
-                          item.fname.toString().trim() +
-                          ' ' +
-                          item.lname.toString().trim(),
-                      )
-                      .join(', ')}
-              </Text>
-            </View>
+      {/*Displaying loader while data fetching */}
+      {console.log('loading reached ' + loading)}
+      {loading && (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color={COLORS.blue} />
+        </View>
+      )}
 
-            {/* for start and end dates */}
-            <View style={GLOBALSTYLE.rowView}>
-              <View style={GLOBALSTYLE.columnView}>
-                <Text style={GLOBALSTYLE.label}>Start Date</Text>
+      {/* {!loading && error && (
+        <View style={styles.loadingContainer}>
+          <Text> Something Went Wrong</Text>
+        </View>
+      )}
+
+      {!loading && clientAgreements && clientAgreements.length === 0 && (
+        <View style={styles.loadingContainer}>
+          <Text> Client Agreements Information is not found </Text>
+        </View>
+      )} */}
+
+      {!loading && clientAgreements && clientAgreements.length > 0 && (
+        <FlatList
+          data={filterClientAgreements}
+          renderItem={({item}) => (
+            <View style={GLOBALSTYLE.cardView}>
+              {/* for client name */}
+              <View style={[GLOBALSTYLE.columnView, styles.columnViewAligner]}>
+                <Text style={GLOBALSTYLE.label}>Client Name</Text>
+                <TouchableOpacity>
+                  <Text style={GLOBALSTYLE.text}>
+                    {item.client.client_name === null
+                      ? '-'
+                      : item.client.client_name.toString().trim()}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+
+              {/* for resources */}
+              <View style={[GLOBALSTYLE.columnView, styles.columnViewAligner]}>
+                <Text style={GLOBALSTYLE.label}>Resource</Text>
                 <Text style={GLOBALSTYLE.text}>
-                  {item.start_date === null
+                  {item.resources === null
                     ? '-'
-                    : new Date(item.start_date)
-                        .toDateString('en-US', {})
-                        .split(' ')
-                        .slice(1)
-                        .join(' ')}
+                    : item.resources
+                        .map(
+                          item =>
+                            item.fname.toString().trim() +
+                            ' ' +
+                            item.lname.toString().trim(),
+                        )
+                        .join(', ')}
                 </Text>
               </View>
 
-              <View style={GLOBALSTYLE.columnView}>
-                <Text style={GLOBALSTYLE.label}>End Date</Text>
-                <Text style={GLOBALSTYLE.text}>
-                  {item.start_date === null
-                    ? '-'
-                    : new Date(item.end_date)
-                        .toDateString('en-US', {})
-                        .split(' ')
-                        .slice(1)
-                        .join(' ')}
-                </Text>
+              {/* for start and end dates */}
+              <View style={GLOBALSTYLE.rowView}>
+                <View style={GLOBALSTYLE.columnView}>
+                  <Text style={GLOBALSTYLE.label}>Start Date</Text>
+                  <Text style={GLOBALSTYLE.text}>
+                    {item.start_date === null
+                      ? '-'
+                      : new Date(item.start_date)
+                          .toDateString('en-US', {})
+                          .split(' ')
+                          .slice(1)
+                          .join(' ')}
+                  </Text>
+                </View>
+
+                <View style={GLOBALSTYLE.columnView}>
+                  <Text style={GLOBALSTYLE.label}>End Date</Text>
+                  <Text style={GLOBALSTYLE.text}>
+                    {item.start_date === null
+                      ? '-'
+                      : new Date(item.end_date)
+                          .toDateString('en-US', {})
+                          .split(' ')
+                          .slice(1)
+                          .join(' ')}
+                  </Text>
+                </View>
               </View>
-            </View>
 
-            {/* for pdf viewer */}
-            <View style={[GLOBALSTYLE.columnView, styles.columnViewAligner]}>
-              <Text style={GLOBALSTYLE.label}>PDF</Text>
-              <TouchableOpacity
-                onPress={() => {
-                  setModalVisible(true);
-                  setPdfSrc(item.pdf_file);
-                  // console.log('----VIEW CLIKED!----');
-                }}>
-                <Text style={[GLOBALSTYLE.text, {color: COLORS.lightBlue}]}>
-                  View
-                </Text>
-              </TouchableOpacity>
-            </View>
+              {/* for pdf viewer */}
+              <View style={[GLOBALSTYLE.columnView, styles.columnViewAligner]}>
+                <Text style={GLOBALSTYLE.label}>PDF</Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    setModalVisible(true);
+                    setPdfSrc(item.pdf_file);
+                    // console.log('----VIEW CLIKED!----');
+                  }}>
+                  <Text style={[GLOBALSTYLE.text, {color: COLORS.lightBlue}]}>
+                    View
+                  </Text>
+                </TouchableOpacity>
+              </View>
 
-            {/* for edit button */}
-            <CustomButton
-              title="Edit"
-              onPressFunction={() => {}}
-              style={styles.customBtnAligner}
-            />
-          </View>
-        )}
-        keyExtractor={item => item.id}
-      />
+              {/* for edit button */}
+              <CustomButton
+                title="Edit"
+                onPressFunction={() => {}}
+                style={styles.customBtnAligner}
+              />
+            </View>
+          )}
+          keyExtractor={item => item.id}
+        />
+      )}
     </SafeAreaView>
   );
 };
@@ -206,5 +235,10 @@ const styles = StyleSheet.create({
   },
   SmallButtonAligner: {
     marginHorizontal: 0,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

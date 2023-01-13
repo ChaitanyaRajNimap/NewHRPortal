@@ -22,6 +22,7 @@ import Toast from 'react-native-simple-toast';
 import {Dropdown} from 'react-native-element-dropdown';
 import validation from '../../../../Util/helper';
 import dayjs from 'dayjs';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
 
@@ -32,6 +33,58 @@ const AddClientAgreement = ({navigation}) => {
   const [agreementTypeList, setAgreementTypeList] = useState([]);
   const [openStartDatePicker, setStartOpenDatePicer] = useState(false);
   const [openEndDatePicker, setEndOpenDatePicer] = useState(false);
+  // const [date, setDate] = useState(new Date(Date.now()));
+  // const [datePicker, setDatePicker] = useState(false);
+  // const [displayDate, setDisplayDate] = useState('Select Date');
+  const [date, setDate] = useState({
+    startDate: new Date(Date.now()),
+    endDate: new Date(Date.now()),
+    // startDate: '',
+    // endDate: '',
+  });
+  const [datePicker, setDatePicker] = useState(false);
+  const [displayDate, setDisplayDate] = useState({
+    startDate: 'Start Date',
+    endDate: 'End Date',
+  });
+
+  const convertDate = value => {
+    const currentDate = value || date;
+    let tempDate = new Date(currentDate);
+    let fDate =
+      tempDate.getMonth() +
+      1 +
+      '/' +
+      tempDate.getDate() +
+      '/' +
+      tempDate.getFullYear();
+    //console.log(fDate)
+    return fDate;
+  };
+
+  function onStartDateSelected(event, value) {
+    setDatePicker(false);
+    setDate(prevDates => {
+      return {...prevDates, startDate: value};
+    });
+    setDisplayDate(prevDates => {
+      return {...prevDates, startDate: convertDate(value)};
+    });
+  }
+
+  function onEndDateSelected(event, value) {
+    setDatePicker(false);
+    setDate(prevDates => {
+      return {...prevDates, endDate: value};
+    });
+    setDisplayDate(prevDates => {
+      return {...prevDates, endDate: convertDate(value)};
+    });
+  }
+
+  function showDatePicker() {
+    setDatePicker(true);
+  }
 
   return (
     // <View style={styles.rootContainer}>
@@ -57,6 +110,72 @@ const AddClientAgreement = ({navigation}) => {
             {/* {formData.vendorError !== null && (
               <Text style={styles.errorText}>{formData.vendorError}</Text>
             )} */}
+            <View style={styles.verticalSpace} />
+            <Dropdown
+              data={resourceList}
+              style={styles.dropdownViewStyle}
+              selectedTextStyle={{color: COLORS.black}}
+              placeholderStyle={styles.dropDownPlaceholderStyle}
+              labelField="label"
+              valueField="value"
+              placeholder="Resource"
+              // value={formData.vendor}
+              onChange={() => {}}
+            />
+            {/* {formData.vendorError !== null && (
+              <Text style={styles.errorText}>{formData.vendorError}</Text>
+            )} */}
+            <View style={styles.verticalSpace} />
+            <Dropdown
+              data={agreementTypeList}
+              style={styles.dropdownViewStyle}
+              selectedTextStyle={{color: COLORS.black}}
+              placeholderStyle={styles.dropDownPlaceholderStyle}
+              labelField="label"
+              valueField="value"
+              placeholder="Agreement Type"
+              // value={formData.vendor}
+              onChange={() => {}}
+            />
+            {/* {formData.vendorError !== null && (
+              <Text style={styles.errorText}>{formData.vendorError}</Text>
+            )} */}
+            <View style={styles.verticalSpace} />
+            <TouchableOpacity style={styles.btnStyle} onPress={showDatePicker}>
+              <Text style={{color: COLORS.black}}>{displayDate.startDate}</Text>
+              <FontAwesome
+                name="calendar-o"
+                size={20}
+                style={{alignSelf: 'center', right: 30}}
+              />
+            </TouchableOpacity>
+            {datePicker === true ? (
+              <DateTimePicker
+                value={date.startDate}
+                mode={'date'}
+                display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                is24Hour={true}
+                onChange={onStartDateSelected}
+              />
+            ) : null}
+            <View style={styles.verticalSpace} />
+            <TouchableOpacity style={styles.btnStyle} onPress={showDatePicker}>
+              <Text style={{color: COLORS.black}}>{displayDate.endDate}</Text>
+              <FontAwesome
+                name="calendar-o"
+                size={20}
+                style={{alignSelf: 'center', right: 30}}
+              />
+            </TouchableOpacity>
+            {datePicker === true ? (
+              <DateTimePicker
+                value={date.endDate}
+                mode={'date'}
+                display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                is24Hour={true}
+                onChange={onEndDateSelected}
+              />
+            ) : null}
             <View style={styles.verticalSpace} />
           </View>
         </ScrollView>
@@ -94,5 +213,15 @@ const styles = StyleSheet.create({
   dropDownPlaceholderStyle: {
     color: 'gray',
     fontSize: 14,
+  },
+  btnStyle: {
+    // width: Dimensions.get('screen').width - 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    backgroundColor: COLORS.white,
+    borderRadius: 10,
+    margin: 10,
+    marginHorizontal: 15,
+    padding: 15,
   },
 });
