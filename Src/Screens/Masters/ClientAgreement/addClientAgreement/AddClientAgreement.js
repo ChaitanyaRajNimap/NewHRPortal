@@ -37,12 +37,15 @@ const AddClientAgreement = ({navigation}) => {
   // const [datePicker, setDatePicker] = useState(false);
   // const [displayDate, setDisplayDate] = useState('Select Date');
   const [date, setDate] = useState({
-    startDate: new Date(Date.now()),
-    endDate: new Date(Date.now()),
-    // startDate: '',
-    // endDate: '',
+    // startDate: new Date(Date.now()),
+    // endDate: new Date(Date.now()),
+    startDate: '',
+    endDate: '',
   });
-  const [datePicker, setDatePicker] = useState(false);
+  const [datePicker, setDatePicker] = useState({
+    startDatePicker: false,
+    endDatePicker: false,
+  });
   const [displayDate, setDisplayDate] = useState({
     startDate: 'Start Date',
     endDate: 'End Date',
@@ -63,7 +66,9 @@ const AddClientAgreement = ({navigation}) => {
   };
 
   function onStartDateSelected(event, value) {
-    setDatePicker(false);
+    setDatePicker(prevDatePickers => {
+      return {...prevDatePickers, startDatePicker: false};
+    });
     setDate(prevDates => {
       return {...prevDates, startDate: value};
     });
@@ -73,7 +78,9 @@ const AddClientAgreement = ({navigation}) => {
   }
 
   function onEndDateSelected(event, value) {
-    setDatePicker(false);
+    setDatePicker(prevDatePickers => {
+      return {...prevDatePickers, endDatePicker: false};
+    });
     setDate(prevDates => {
       return {...prevDates, endDate: value};
     });
@@ -82,8 +89,16 @@ const AddClientAgreement = ({navigation}) => {
     });
   }
 
-  function showDatePicker() {
-    setDatePicker(true);
+  function showStartDatePicker() {
+    setDatePicker(prevDatePickers => {
+      return {...prevDatePickers, startDatePicker: true};
+    });
+  }
+
+  function showEndDatePicker() {
+    setDatePicker(prevDatePickers => {
+      return {...prevDatePickers, endDatePicker: true};
+    });
   }
 
   return (
@@ -141,7 +156,9 @@ const AddClientAgreement = ({navigation}) => {
               <Text style={styles.errorText}>{formData.vendorError}</Text>
             )} */}
             <View style={styles.verticalSpace} />
-            <TouchableOpacity style={styles.btnStyle} onPress={showDatePicker}>
+            <TouchableOpacity
+              style={styles.btnStyle}
+              onPress={showStartDatePicker}>
               <Text style={{color: COLORS.black}}>{displayDate.startDate}</Text>
               <FontAwesome
                 name="calendar-o"
@@ -149,9 +166,9 @@ const AddClientAgreement = ({navigation}) => {
                 style={{alignSelf: 'center', right: 30}}
               />
             </TouchableOpacity>
-            {datePicker === true ? (
+            {datePicker.startDatePicker === true ? (
               <DateTimePicker
-                value={date.startDate}
+                value={new Date(Date.now())}
                 mode={'date'}
                 display={Platform.OS === 'ios' ? 'spinner' : 'default'}
                 is24Hour={true}
@@ -159,7 +176,9 @@ const AddClientAgreement = ({navigation}) => {
               />
             ) : null}
             <View style={styles.verticalSpace} />
-            <TouchableOpacity style={styles.btnStyle} onPress={showDatePicker}>
+            <TouchableOpacity
+              style={styles.btnStyle}
+              onPress={showEndDatePicker}>
               <Text style={{color: COLORS.black}}>{displayDate.endDate}</Text>
               <FontAwesome
                 name="calendar-o"
@@ -167,9 +186,9 @@ const AddClientAgreement = ({navigation}) => {
                 style={{alignSelf: 'center', right: 30}}
               />
             </TouchableOpacity>
-            {datePicker === true ? (
+            {datePicker.endDatePicker === true ? (
               <DateTimePicker
-                value={date.endDate}
+                value={new Date(Date.now())}
                 mode={'date'}
                 display={Platform.OS === 'ios' ? 'spinner' : 'default'}
                 is24Hour={true}
