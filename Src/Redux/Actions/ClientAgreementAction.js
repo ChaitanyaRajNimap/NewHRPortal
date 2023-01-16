@@ -2,6 +2,9 @@ import {
   FETCHCLIENTAGREEMENT_PROGRESS,
   FETCHCLIENTAGREEMENT_SUCCESS,
   FETCHCLIENTAGREEMENT_FAIL,
+  ADDCLIENTAGREEMENT_PROGRESS,
+  ADDCLIENTAGREEMENT_SUCCESS,
+  ADDCLIENTAGREEMENT_FAIL,
 } from '../ActionConstant';
 import request from '../../Util/request';
 import Toast from 'react-native-simple-toast';
@@ -23,6 +26,29 @@ export function getInitialClientAgreement() {
     } catch (error) {
       console.log('Client Agreement Error', error);
       dispatch(error, FETCHCLIENTAGREEMENT_FAIL);
+    }
+  };
+}
+
+export function addClientAgreement(values, navigation) {
+  return async dispatch => {
+    dispatch(clientAgreementDispatch({}, ADDCLIENTAGREEMENT_PROGRESS));
+    try {
+      const {data} = await request({
+        url: '/client-agreement',
+        method: 'POST',
+        data: values,
+      });
+      console.log('addClientAgreement response', data);
+      if (data.data.message) {
+        dispatch(data.data, ADDCLIENTAGREEMENT_SUCCESS);
+        Toast.show('Client Agreement Added Successfully');
+      }
+      navigation.goBack();
+    } catch (err) {
+      console.log('addClientAgreement error', err);
+      dispatch(clientAgreementDispatch(err, ADDCLIENTAGREEMENT_FAIL));
+      Toast.show('Client Agreement Not Added Successfully');
     }
   };
 }

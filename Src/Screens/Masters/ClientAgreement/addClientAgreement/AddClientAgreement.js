@@ -9,6 +9,7 @@ import {
   ScrollView,
   LogBox,
 } from 'react-native';
+import {addClientAgreement} from '../../../../Redux/Actions/ClientAgreementAction';
 import {GLOBALSTYLE} from '../../../../Constants/Styles';
 import CustomNavigationBar from '../../../../Components/CustomNavigationBar';
 import {useSelector, useDispatch} from 'react-redux';
@@ -20,6 +21,7 @@ import DocumentPicker from 'react-native-document-picker';
 import DatePicker from 'react-native-date-picker';
 import Toast from 'react-native-simple-toast';
 import {Dropdown} from 'react-native-element-dropdown';
+import DropDownPicker from 'react-native-dropdown-picker';
 import validation from '../../../../Util/helper';
 import dayjs from 'dayjs';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -27,20 +29,24 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
 
 const AddClientAgreement = ({navigation}) => {
+  const dispatch = useDispatch();
+  const reducerData = useSelector(state => state.ClientAgreementReducer);
+  // console.log('reducerdata------->', reducerData.clientAgreementData);
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  const [items, setItems] = useState([]);
+
   const [formData, dispatcher] = useReducer();
   const [clientList, setClientList] = useState([]);
   const [resourceList, setResourceList] = useState([]);
   const [agreementTypeList, setAgreementTypeList] = useState([]);
   const [openStartDatePicker, setStartOpenDatePicer] = useState(false);
   const [openEndDatePicker, setEndOpenDatePicer] = useState(false);
-  // const [date, setDate] = useState(new Date(Date.now()));
-  // const [datePicker, setDatePicker] = useState(false);
-  // const [displayDate, setDisplayDate] = useState('Select Date');
   const [date, setDate] = useState({
-    // startDate: new Date(Date.now()),
-    // endDate: new Date(Date.now()),
-    startDate: '',
-    endDate: '',
+    startDate: new Date(Date.now()),
+    endDate: new Date(Date.now()),
+    // startDate: '',
+    // endDate: '',
   });
   const [datePicker, setDatePicker] = useState({
     startDatePicker: false,
@@ -101,6 +107,74 @@ const AddClientAgreement = ({navigation}) => {
     });
   }
 
+  useEffect(() => {
+    if (reducerData.clientAgreementData != null) {
+      //For getting each clirnt record
+      let newArray = [];
+      //For getting each user only once
+      let newIdsList = [];
+      for (let i of reducerData.clientAgreementData) {
+        // console.log(i.client_id);
+
+        if (!newIdsList.some(o => o.client_id === i.client_id)) {
+          newIdsList.push({...i});
+        }
+      }
+
+      for (let i of newIdsList) {
+        let item;
+        // console.log(i);
+        if (i.client) {
+          if (i.client !== null) {
+            item = {
+              id: i.client.id,
+              label: i.client.client_name,
+              value: i.client.id,
+            };
+          }
+          newArray.push(item);
+        }
+      }
+      console.log('newIdsList : ', newIdsList);
+      setItems(newArray);
+    }
+  }, [reducerData.clientAgreementData]);
+
+  const selectResume = async (fileName, Error) => {
+    try {
+      const file = await DocumentPicker.pickSingle({
+        type: [
+          DocumentPicker.types.pdf,
+          DocumentPicker.types.docx,
+          DocumentPicker.types.doc,
+        ],
+      });
+      dispatcher({
+        type: fileName,
+        payload: {uri: file.uri, type: file.type, name: file.name},
+      });
+
+      dispatcher({
+        type: Error,
+        payload: validation.validatefile(file.uri),
+      });
+
+      if (file !== null) {
+        Toast.showWithGravity(
+          'File Selected Successfully',
+          Toast.SHORT,
+          Toast.BOTTOM,
+        );
+      }
+    } catch (e) {
+      Toast.showWithGravity(
+        'File Not Selected Successfully',
+        Toast.SHORT,
+        Toast.BOTTOM,
+      );
+    }
+  };
+
   return (
     // <View style={styles.rootContainer}>
     //   <Text style={styles.textStyle}>Add Client Agreement</Text>
@@ -111,9 +185,33 @@ const AddClientAgreement = ({navigation}) => {
         <CustomNavigationBar back={true} headername="Add Client Agreement" />
         <ScrollView style={styles.scrollViewStyle}>
           <View style={styles.formContainer}>
-            <Dropdown
-              data={clientList}
+            <DropDownPicker
               style={styles.dropdownViewStyle}
+              placeholder="Client Name"
+              placeholderStyle={{color: 'lightgray'}}
+              listMode="FLATLIST"
+              dropDownContainerStyle={styles.dropDownContainerStyle}
+              renderListItem={({item}) => {
+                return (
+                  <TouchableOpacity
+                    onPress={() => {
+                      setValue(item.value);
+                      setOpen(false);
+                    }}
+                    style={styles.cellStyle}>
+                    <Text style={styles.cellTextStyle}>{item.label}</Text>
+                  </TouchableOpacity>
+                );
+              }}
+              open={open}
+              value={value}
+              items={items}
+              setOpen={setOpen}
+              setItems={setItems}
+            />
+            {/* <Dropdown
+              data={clientList}
+              style={[styles.dropdownViewStyle, styles.dropDownAligner]}
               selectedTextStyle={{color: COLORS.black}}
               placeholderStyle={styles.dropDownPlaceholderStyle}
               labelField="label"
@@ -121,14 +219,14 @@ const AddClientAgreement = ({navigation}) => {
               placeholder="Client Name"
               // value={formData.vendor}
               onChange={() => {}}
-            />
+            /> */}
             {/* {formData.vendorError !== null && (
               <Text style={styles.errorText}>{formData.vendorError}</Text>
             )} */}
             <View style={styles.verticalSpace} />
             <Dropdown
               data={resourceList}
-              style={styles.dropdownViewStyle}
+              style={[styles.dropdownViewStyle, styles.dropDownAligner]}
               selectedTextStyle={{color: COLORS.black}}
               placeholderStyle={styles.dropDownPlaceholderStyle}
               labelField="label"
@@ -143,7 +241,7 @@ const AddClientAgreement = ({navigation}) => {
             <View style={styles.verticalSpace} />
             <Dropdown
               data={agreementTypeList}
-              style={styles.dropdownViewStyle}
+              style={[styles.dropdownViewStyle, styles.dropDownAligner]}
               selectedTextStyle={{color: COLORS.black}}
               placeholderStyle={styles.dropDownPlaceholderStyle}
               labelField="label"
@@ -157,7 +255,7 @@ const AddClientAgreement = ({navigation}) => {
             )} */}
             <View style={styles.verticalSpace} />
             <TouchableOpacity
-              style={styles.btnStyle}
+              style={styles.dateBtnStyle}
               onPress={showStartDatePicker}>
               <Text style={{color: COLORS.black}}>{displayDate.startDate}</Text>
               <FontAwesome
@@ -168,7 +266,7 @@ const AddClientAgreement = ({navigation}) => {
             </TouchableOpacity>
             {datePicker.startDatePicker === true ? (
               <DateTimePicker
-                value={new Date(Date.now())}
+                value={date.startDate}
                 mode={'date'}
                 display={Platform.OS === 'ios' ? 'spinner' : 'default'}
                 is24Hour={true}
@@ -177,7 +275,7 @@ const AddClientAgreement = ({navigation}) => {
             ) : null}
             <View style={styles.verticalSpace} />
             <TouchableOpacity
-              style={styles.btnStyle}
+              style={styles.dateBtnStyle}
               onPress={showEndDatePicker}>
               <Text style={{color: COLORS.black}}>{displayDate.endDate}</Text>
               <FontAwesome
@@ -188,13 +286,37 @@ const AddClientAgreement = ({navigation}) => {
             </TouchableOpacity>
             {datePicker.endDatePicker === true ? (
               <DateTimePicker
-                value={new Date(Date.now())}
+                value={date.endDate}
                 mode={'date'}
                 display={Platform.OS === 'ios' ? 'spinner' : 'default'}
                 is24Hour={true}
                 onChange={onEndDateSelected}
               />
             ) : null}
+            <View style={styles.verticalSpace} />
+            <TouchableOpacity
+              style={[styles.btnStyle, styles.uploadBtnAligner]}
+              onPress={() => {
+                selectResume('resume', 'resumeError');
+              }}>
+              <>
+                <AntDesign name="upload" color={COLORS.blue} size={24} />
+                <Text style={styles.uploadBtnTextStyle}>Upload SO/POW</Text>
+              </>
+              {/* {formData.resume !== null ? (
+                <Text style={styles.uploadBtnTextStyle}>
+                  {formData?.resume?.name}
+                </Text>
+              ) : (
+                <>
+                  <AntDesign name="upload" color={COLORS.blue} size={24} />
+                  <Text style={styles.uploadBtnTextStyle}>Upload SO/POW</Text>
+                </>
+              )} */}
+            </TouchableOpacity>
+            {/* {formData.resumeError !== null && (
+              <Text style={styles.errorText}>{formData.resumeError}</Text>
+            )} */}
             <View style={styles.verticalSpace} />
           </View>
         </ScrollView>
@@ -223,24 +345,63 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   dropdownViewStyle: {
-    backgroundColor: COLORS.white,
     height: 48,
-    borderRadius: 8,
     paddingHorizontal: 8,
+    borderRadius: 8,
     borderColor: COLORS.white,
+    marginTop: 10,
+    marginHorizontal: 10,
+    alignSelf: 'center',
+    backgroundColor: COLORS.white,
+  },
+  dropDownContainerStyle: {
+    marginVertical: 10,
+    paddingVertical: 4,
+    borderColor: '#fff',
   },
   dropDownPlaceholderStyle: {
     color: 'gray',
     fontSize: 14,
   },
-  btnStyle: {
+  dateBtnStyle: {
     // width: Dimensions.get('screen').width - 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
     backgroundColor: COLORS.white,
     borderRadius: 10,
-    margin: 10,
+    // margin: 10,
     marginHorizontal: 15,
     padding: 15,
+  },
+  cellStyle: {
+    padding: 8,
+    marginVertical: 4,
+  },
+  cellTextStyle: {
+    color: '#000',
+    fontSize: 14,
+    textTransform: 'capitalize',
+    fontWeight: '600',
+  },
+  btnStyle: {
+    height: 48,
+    backgroundColor: COLORS.lightBlue,
+    borderRadius: 8,
+    paddingHorizontal: 8,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  uploadBtnTextStyle: {
+    color: COLORS.blue,
+    fontSize: 16,
+    fontWeight: '600',
+    marginHorizontal: 4,
+  },
+  dropDownAligner: {
+    marginHorizontal: 15,
+  },
+  uploadBtnAligner: {
+    marginHorizontal: 15,
   },
 });

@@ -2,11 +2,15 @@ import {
   FETCHCLIENTAGREEMENT_PROGRESS,
   FETCHCLIENTAGREEMENT_SUCCESS,
   FETCHCLIENTAGREEMENT_FAIL,
+  ADDCLIENTAGREEMENT_PROGRESS,
+  ADDCLIENTAGREEMENT_SUCCESS,
+  ADDCLIENTAGREEMENT_FAIL,
 } from '../ActionConstant';
 
 const initialState = {
   isLoading: false,
   clientAgreementData: {},
+  addClientAgreementData: {},
 };
 
 const ClientAgreementReducer = (state = initialState, action) => {
@@ -28,6 +32,23 @@ const ClientAgreementReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         clientAgreementData: action.payload,
+      };
+    case ADDCLIENTAGREEMENT_PROGRESS:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case ADDCLIENTAGREEMENT_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        addClientAgreementData: action.payload,
+      };
+    case ADDCLIENTAGREEMENT_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        addClientAgreementData: action.payload,
       };
     default:
       return state;
