@@ -9,7 +9,10 @@ import {
   ScrollView,
   LogBox,
 } from 'react-native';
-import {addClientAgreement} from '../../../../Redux/Actions/ClientAgreementAction';
+import {
+  getResources,
+  addClientAgreement,
+} from '../../../../Redux/Actions/ClientAgreementAction';
 import {GLOBALSTYLE} from '../../../../Constants/Styles';
 import CustomNavigationBar from '../../../../Components/CustomNavigationBar';
 import {useSelector, useDispatch} from 'react-redux';
@@ -31,10 +34,14 @@ LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
 const AddClientAgreement = ({navigation}) => {
   const dispatch = useDispatch();
   const reducerData = useSelector(state => state.ClientAgreementReducer);
-  // console.log('reducerdata------->', reducerData.clientAgreementData);
+  console.log('reducerdata------->', reducerData);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [items, setItems] = useState([]);
+
+  const [openResource, setOpenResource] = useState(false);
+  const [valueResource, setValueResource] = useState(null);
+  const [itemsResource, setItemsResource] = useState([]);
 
   const [formData, dispatcher] = useReducer();
   const [clientList, setClientList] = useState([]);
@@ -107,38 +114,86 @@ const AddClientAgreement = ({navigation}) => {
     });
   }
 
+  //For client name
   useEffect(() => {
-    if (reducerData.clientAgreementData != null) {
-      //For getting each clirnt record
+    if (reducerData.getResourceData != null) {
       let newArray = [];
-      //For getting each user only once
-      let newIdsList = [];
-      for (let i of reducerData.clientAgreementData) {
-        // console.log(i.client_id);
-
-        if (!newIdsList.some(o => o.client_id === i.client_id)) {
-          newIdsList.push({...i});
-        }
-      }
-
-      for (let i of newIdsList) {
+      for (i of reducerData.getResourceData) {
         let item;
-        // console.log(i);
-        if (i.client) {
-          if (i.client !== null) {
-            item = {
-              id: i.client.id,
-              label: i.client.client_name,
-              value: i.client.id,
-            };
-          }
-          newArray.push(item);
-        }
+        console.log(i);
+        // if (i.resources !== null) {
+        //   item = {id: i.id, label: `${i.fname} ${i.lname}`, value: i.id};
+        // }
+        // newArray.push(item);
       }
-      console.log('newIdsList : ', newIdsList);
-      setItems(newArray);
+      // setItems(newArray);
+      // //For getting each clirnt record
+      // let newArray = [];
+      // //For getting each user only once
+      // let newIdsList = [];
+      // for (let i of reducerData.clientAgreementData) {
+      //   // console.log(i.client_id);
+
+      //   if (!newIdsList.some(o => o.client_id === i.client_id)) {
+      //     newIdsList.push({...i});
+      //   }
+      // }
+
+      // for (let i of newIdsList) {
+      //   let item;
+      //   // console.log(i);
+      //   if (i.client) {
+      //     if (i.client !== null) {
+      //       item = {
+      //         id: i.client.id,
+      //         label: i.client.client_name,
+      //         value: i.client.id,
+      //       };
+      //     }
+      //     newArray.push(item);
+      //   }
+      // }
+      // console.log('newIdsList : ', newIdsList);
+      // setItems(newArray);
     }
   }, [reducerData.clientAgreementData]);
+
+  //For resource
+  // useEffect(() => {
+  //   if (reducerData.clientAgreementData != null) {
+  //     //For getting each clirnt record
+  //     let newArray = [];
+  //     //For getting each user only once
+  //     let newIdsList = [];
+  //     for (let i of reducerData.clientAgreementData) {
+  //       if (i.resource_id) {
+  //         // console.log(i.resource_id);
+  //         if (!newIdsList.some(o => o.resource_id === i.resource_id)) {
+  //           console.log(i);
+  //           newIdsList.push({...i});
+  //         }
+  //       }
+  //     }
+
+  //     // for (let i of newIdsList) {
+  //     //   let item;
+  //     //   // console.log(i);
+  //     //   if (i.resources) {
+  //     //     if (i.resources !== null) {
+  //     //       console.log(i);
+  //     //       // item = {
+  //     //       //   id: i.resource_id,
+  //     //       //   label: i.client.client_name,
+  //     //       //   value: i.client.id,
+  //     //       // };
+  //     //     }
+  //     //     // newArray.push(item);
+  //     //   }
+  //     // }
+  //     // console.log('newIdsList : ', newIdsList);
+  //     // setItems(newArray);
+  //   }
+  // }, [reducerData.clientAgreementData]);
 
   const selectResume = async (fileName, Error) => {
     try {
@@ -186,9 +241,9 @@ const AddClientAgreement = ({navigation}) => {
         <ScrollView style={styles.scrollViewStyle}>
           <View style={styles.formContainer}>
             <DropDownPicker
-              style={styles.dropdownViewStyle}
+              style={[styles.dropdownViewStyle, styles.dropDownAligner]}
               placeholder="Client Name"
-              placeholderStyle={{color: 'lightgray'}}
+              placeholderStyle={{color: COLORS.black}}
               listMode="FLATLIST"
               dropDownContainerStyle={styles.dropDownContainerStyle}
               renderListItem={({item}) => {
@@ -224,7 +279,31 @@ const AddClientAgreement = ({navigation}) => {
               <Text style={styles.errorText}>{formData.vendorError}</Text>
             )} */}
             <View style={styles.verticalSpace} />
-            <Dropdown
+            {/* <DropDownPicker
+              style={[styles.dropdownViewStyle, styles.dropDownAligner]}
+              placeholder="Resource"
+              placeholderStyle={{color: COLORS.black}}
+              listMode="FLATLIST"
+              dropDownContainerStyle={styles.dropDownContainerStyle}
+              renderListItem={({item}) => {
+                return (
+                  <TouchableOpacity
+                    onPress={() => {
+                      setValueResource(item.value);
+                      setOpenResource(false);
+                    }}
+                    style={styles.cellStyle}>
+                    <Text style={styles.cellTextStyle}>{item.label}</Text>
+                  </TouchableOpacity>
+                );
+              }}
+              open={openResource}
+              value={valueResource}
+              items={itemsResource}
+              setOpen={setOpenResource}
+              setItems={setItemsResource}
+            /> */}
+            {/* <Dropdown
               data={resourceList}
               style={[styles.dropdownViewStyle, styles.dropDownAligner]}
               selectedTextStyle={{color: COLORS.black}}
@@ -234,7 +313,7 @@ const AddClientAgreement = ({navigation}) => {
               placeholder="Resource"
               // value={formData.vendor}
               onChange={() => {}}
-            />
+            /> */}
             {/* {formData.vendorError !== null && (
               <Text style={styles.errorText}>{formData.vendorError}</Text>
             )} */}

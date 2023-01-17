@@ -2,6 +2,9 @@ import {
   FETCHCLIENTAGREEMENT_PROGRESS,
   FETCHCLIENTAGREEMENT_SUCCESS,
   FETCHCLIENTAGREEMENT_FAIL,
+  GETRESOURCE_PROGRESS,
+  GETRESOURCE_SUCCESS,
+  GETRESOURCE_FAIL,
   ADDCLIENTAGREEMENT_PROGRESS,
   ADDCLIENTAGREEMENT_SUCCESS,
   ADDCLIENTAGREEMENT_FAIL,
@@ -10,6 +13,7 @@ import {
 const initialState = {
   isLoading: false,
   clientAgreementData: {},
+  getResorceData: {},
   addClientAgreementData: {},
 };
 
@@ -32,6 +36,23 @@ const ClientAgreementReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         clientAgreementData: action.payload,
+      };
+    case GETRESOURCE_PROGRESS:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case GETRESOURCE_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        getResorceData: action.payload,
+      };
+    case GETRESOURCE_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        getResorceData: action.payload,
       };
     case ADDCLIENTAGREEMENT_PROGRESS:
       return {

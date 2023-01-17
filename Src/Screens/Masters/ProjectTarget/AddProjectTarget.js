@@ -24,6 +24,7 @@ const AddProjectTarget = ({navigation}) => {
   const dispatch = useDispatch();
   const reducerData = useSelector(state => state.ProjectTargetReducer);
   console.log('reducerdata------->', reducerData.getResorceData);
+  console.log('reducerdata------->', reducerData);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [items, setItems] = useState([]);

@@ -2,6 +2,9 @@ import {
   FETCHCLIENTAGREEMENT_PROGRESS,
   FETCHCLIENTAGREEMENT_SUCCESS,
   FETCHCLIENTAGREEMENT_FAIL,
+  GETRESOURCE_PROGRESS,
+  GETRESOURCE_SUCCESS,
+  GETRESOURCE_FAIL,
   ADDCLIENTAGREEMENT_PROGRESS,
   ADDCLIENTAGREEMENT_SUCCESS,
   ADDCLIENTAGREEMENT_FAIL,
@@ -9,6 +12,7 @@ import {
 import request from '../../Util/request';
 import Toast from 'react-native-simple-toast';
 
+//For getting initial clientAgreement data to display
 export function getInitialClientAgreement() {
   return async dispatch => {
     dispatch(
@@ -30,6 +34,24 @@ export function getInitialClientAgreement() {
   };
 }
 
+//For getting resources to display in addClientAgreement
+export function getResources() {
+  return async dispatch => {
+    dispatch(clientAgreementDispatch({}, GETRESOURCE_PROGRESS));
+    try {
+      const data = await request({url: '/resource', method: 'GET'});
+      console.log('getResources response', data.data.data.resources);
+      dispatch(
+        clientAgreementDispatch(data.data.data.resources, GETRESOURCE_SUCCESS),
+      );
+    } catch (error) {
+      dispatch(clientAgreementDispatch(error, GETRESOURCE_FAIL));
+      console.log('getResources error', error);
+    }
+  };
+}
+
+//For adding client agreemnet data
 export function addClientAgreement(values, navigation) {
   return async dispatch => {
     dispatch(clientAgreementDispatch({}, ADDCLIENTAGREEMENT_PROGRESS));
