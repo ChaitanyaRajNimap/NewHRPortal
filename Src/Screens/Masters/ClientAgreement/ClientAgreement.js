@@ -12,7 +12,11 @@ import {
 } from 'react-native';
 import SearchBox from '../../../Components/SearchBox';
 import {GLOBALSTYLE} from '../../../Constants/Styles';
-import {getInitialClientAgreement} from '../../../Redux/Actions/ClientAgreementAction';
+import {
+  getInitialClientAgreement,
+  getResources,
+  getClient,
+} from '../../../Redux/Actions/ClientAgreementAction';
 import {useSelector, useDispatch} from 'react-redux';
 import SmallButton from '../../../Components/SmallButton';
 import {COLORS} from '../../../Constants/Theme';
@@ -38,6 +42,8 @@ const ClientAgreement = ({navigation}) => {
     //To fetch data when user navigate on this screen
     const unSubscribe = navigation.addListener('focus', () => {
       dispatch(getInitialClientAgreement());
+      dispatch(getResources());
+      dispatch(getClient());
     });
     return unSubscribe;
   }, [navigation]);

@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import {
   getResources,
+  getClient,
   addClientAgreement,
 } from '../../../../Redux/Actions/ClientAgreementAction';
 import {GLOBALSTYLE} from '../../../../Constants/Styles';
@@ -35,6 +36,7 @@ const AddClientAgreement = ({navigation}) => {
   const dispatch = useDispatch();
   const reducerData = useSelector(state => state.ClientAgreementReducer);
   console.log('reducerdata------->', reducerData);
+  // console.log('reducerdata.getClientData------->', reducerData.getClientData);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [items, setItems] = useState([]);
@@ -42,6 +44,10 @@ const AddClientAgreement = ({navigation}) => {
   const [openResource, setOpenResource] = useState(false);
   const [valueResource, setValueResource] = useState(null);
   const [itemsResource, setItemsResource] = useState([]);
+
+  const [openAgreementType, setOpenAgreementType] = useState(false);
+  const [valueAgreementType, setValueAgreementType] = useState(null);
+  const [itemsAgreementType, setItemsAgreementType] = useState([]);
 
   const [formData, dispatcher] = useReducer();
   const [clientList, setClientList] = useState([]);
@@ -52,8 +58,6 @@ const AddClientAgreement = ({navigation}) => {
   const [date, setDate] = useState({
     startDate: new Date(Date.now()),
     endDate: new Date(Date.now()),
-    // startDate: '',
-    // endDate: '',
   });
   const [datePicker, setDatePicker] = useState({
     startDatePicker: false,
@@ -116,86 +120,54 @@ const AddClientAgreement = ({navigation}) => {
 
   //For client name
   useEffect(() => {
-    if (reducerData.getResourceData != null) {
+    if (reducerData.getClientData != null) {
       let newArray = [];
-      for (i of reducerData.getResourceData) {
+      for (let i of reducerData.getClientData) {
         let item;
-        console.log(i);
-        // if (i.resources !== null) {
-        //   item = {id: i.id, label: `${i.fname} ${i.lname}`, value: i.id};
-        // }
-        // newArray.push(item);
+        if (i.client_name) {
+          if (i.client_name !== null) {
+            item = {id: i.id, label: i.client_name, value: i.id};
+          }
+          newArray.push(item);
+        }
       }
-      // setItems(newArray);
-      // //For getting each clirnt record
-      // let newArray = [];
-      // //For getting each user only once
-      // let newIdsList = [];
-      // for (let i of reducerData.clientAgreementData) {
-      //   // console.log(i.client_id);
-
-      //   if (!newIdsList.some(o => o.client_id === i.client_id)) {
-      //     newIdsList.push({...i});
-      //   }
-      // }
-
-      // for (let i of newIdsList) {
-      //   let item;
-      //   // console.log(i);
-      //   if (i.client) {
-      //     if (i.client !== null) {
-      //       item = {
-      //         id: i.client.id,
-      //         label: i.client.client_name,
-      //         value: i.client.id,
-      //       };
-      //     }
-      //     newArray.push(item);
-      //   }
-      // }
-      // console.log('newIdsList : ', newIdsList);
-      // setItems(newArray);
+      setItems(newArray);
     }
-  }, [reducerData.clientAgreementData]);
+  }, [reducerData.getClientData]);
 
-  //For resource
+  //For resources
+  useEffect(() => {
+    if (reducerData.getResorceData != null) {
+      let newArray = [];
+      for (let i of reducerData.getResorceData) {
+        let item;
+        if (i.resources !== null) {
+          item = {id: i.id, label: `${i.fname} ${i.lname}`, value: i.id};
+        }
+        newArray.push(item);
+      }
+      setItemsResource(newArray);
+    }
+  }, [reducerData.getResorceData]);
+
+  //For agreement types
   // useEffect(() => {
   //   if (reducerData.clientAgreementData != null) {
-  //     //For getting each clirnt record
   //     let newArray = [];
-  //     //For getting each user only once
-  //     let newIdsList = [];
   //     for (let i of reducerData.clientAgreementData) {
-  //       if (i.resource_id) {
-  //         // console.log(i.resource_id);
-  //         if (!newIdsList.some(o => o.resource_id === i.resource_id)) {
-  //           console.log(i);
-  //           newIdsList.push({...i});
+  //       let item;
+  //       if (i.agreement) {
+  //         if (i.agreement !== null) {
+  //           item = {id: i.id, label: i.agreement, value: i.id};
   //         }
+  //         newArray.push(item);
   //       }
   //     }
-
-  //     // for (let i of newIdsList) {
-  //     //   let item;
-  //     //   // console.log(i);
-  //     //   if (i.resources) {
-  //     //     if (i.resources !== null) {
-  //     //       console.log(i);
-  //     //       // item = {
-  //     //       //   id: i.resource_id,
-  //     //       //   label: i.client.client_name,
-  //     //       //   value: i.client.id,
-  //     //       // };
-  //     //     }
-  //     //     // newArray.push(item);
-  //     //   }
-  //     // }
-  //     // console.log('newIdsList : ', newIdsList);
-  //     // setItems(newArray);
+  //     setItemsAgreementType(newArray);
   //   }
   // }, [reducerData.clientAgreementData]);
 
-  const selectResume = async (fileName, Error) => {
+  const selectAgreement = async (fileName, Error) => {
     try {
       const file = await DocumentPicker.pickSingle({
         type: [
@@ -242,7 +214,7 @@ const AddClientAgreement = ({navigation}) => {
           <View style={styles.formContainer}>
             <DropDownPicker
               style={[styles.dropdownViewStyle, styles.dropDownAligner]}
-              placeholder="Client Name"
+              placeholder="Client"
               placeholderStyle={{color: COLORS.black}}
               listMode="FLATLIST"
               dropDownContainerStyle={styles.dropDownContainerStyle}
@@ -264,22 +236,11 @@ const AddClientAgreement = ({navigation}) => {
               setOpen={setOpen}
               setItems={setItems}
             />
-            {/* <Dropdown
-              data={clientList}
-              style={[styles.dropdownViewStyle, styles.dropDownAligner]}
-              selectedTextStyle={{color: COLORS.black}}
-              placeholderStyle={styles.dropDownPlaceholderStyle}
-              labelField="label"
-              valueField="value"
-              placeholder="Client Name"
-              // value={formData.vendor}
-              onChange={() => {}}
-            /> */}
             {/* {formData.vendorError !== null && (
               <Text style={styles.errorText}>{formData.vendorError}</Text>
             )} */}
             <View style={styles.verticalSpace} />
-            {/* <DropDownPicker
+            <DropDownPicker
               style={[styles.dropdownViewStyle, styles.dropDownAligner]}
               placeholder="Resource"
               placeholderStyle={{color: COLORS.black}}
@@ -302,32 +263,34 @@ const AddClientAgreement = ({navigation}) => {
               items={itemsResource}
               setOpen={setOpenResource}
               setItems={setItemsResource}
-            /> */}
-            {/* <Dropdown
-              data={resourceList}
-              style={[styles.dropdownViewStyle, styles.dropDownAligner]}
-              selectedTextStyle={{color: COLORS.black}}
-              placeholderStyle={styles.dropDownPlaceholderStyle}
-              labelField="label"
-              valueField="value"
-              placeholder="Resource"
-              // value={formData.vendor}
-              onChange={() => {}}
-            /> */}
+            />
             {/* {formData.vendorError !== null && (
               <Text style={styles.errorText}>{formData.vendorError}</Text>
             )} */}
             <View style={styles.verticalSpace} />
-            <Dropdown
-              data={agreementTypeList}
+            <DropDownPicker
               style={[styles.dropdownViewStyle, styles.dropDownAligner]}
-              selectedTextStyle={{color: COLORS.black}}
-              placeholderStyle={styles.dropDownPlaceholderStyle}
-              labelField="label"
-              valueField="value"
               placeholder="Agreement Type"
-              // value={formData.vendor}
-              onChange={() => {}}
+              placeholderStyle={{color: COLORS.black}}
+              listMode="FLATLIST"
+              dropDownContainerStyle={styles.dropDownContainerStyle}
+              renderListItem={({item}) => {
+                return (
+                  <TouchableOpacity
+                    onPress={() => {
+                      setValueAgreementType(item.value);
+                      setOpenAgreementType(false);
+                    }}
+                    style={styles.cellStyle}>
+                    <Text style={styles.cellTextStyle}>{item.label}</Text>
+                  </TouchableOpacity>
+                );
+              }}
+              open={openAgreementType}
+              value={valueAgreementType}
+              items={itemsAgreementType}
+              setOpen={setOpenAgreementType}
+              setItems={setItemsAgreementType}
             />
             {/* {formData.vendorError !== null && (
               <Text style={styles.errorText}>{formData.vendorError}</Text>
@@ -376,7 +339,7 @@ const AddClientAgreement = ({navigation}) => {
             <TouchableOpacity
               style={[styles.btnStyle, styles.uploadBtnAligner]}
               onPress={() => {
-                selectResume('resume', 'resumeError');
+                selectAgreement('agreement', 'agreementError');
               }}>
               <>
                 <AntDesign name="upload" color={COLORS.blue} size={24} />
@@ -432,6 +395,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     alignSelf: 'center',
     backgroundColor: COLORS.white,
+    zIndex: 1,
   },
   dropDownContainerStyle: {
     marginVertical: 10,

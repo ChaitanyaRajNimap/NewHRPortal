@@ -5,6 +5,9 @@ import {
   GETRESOURCE_PROGRESS,
   GETRESOURCE_SUCCESS,
   GETRESOURCE_FAIL,
+  GETCLIENT_PROGRESS,
+  GETCLIENT_SUCCESS,
+  GETCLIENT_FAIL,
   ADDCLIENTAGREEMENT_PROGRESS,
   ADDCLIENTAGREEMENT_SUCCESS,
   ADDCLIENTAGREEMENT_FAIL,
@@ -40,13 +43,30 @@ export function getResources() {
     dispatch(clientAgreementDispatch({}, GETRESOURCE_PROGRESS));
     try {
       const data = await request({url: '/resource', method: 'GET'});
-      console.log('getResources response', data.data.data.resources);
+      // console.log('getResources response', data.data.data.resources);
       dispatch(
         clientAgreementDispatch(data.data.data.resources, GETRESOURCE_SUCCESS),
       );
     } catch (error) {
       dispatch(clientAgreementDispatch(error, GETRESOURCE_FAIL));
       console.log('getResources error', error);
+    }
+  };
+}
+
+//For getting client to display in addClientAgreement
+export function getClient() {
+  return async dispatch => {
+    dispatch(clientAgreementDispatch({}, GETCLIENT_PROGRESS));
+    try {
+      const data = await request({url: '/client', method: 'GET'});
+      console.log('getClient response', data.data.data.clients);
+      dispatch(
+        clientAgreementDispatch(data.data.data.clients, GETCLIENT_SUCCESS),
+      );
+    } catch (error) {
+      dispatch(clientAgreementDispatch(error, GETCLIENT_FAIL));
+      console.log('getClient error', error);
     }
   };
 }
