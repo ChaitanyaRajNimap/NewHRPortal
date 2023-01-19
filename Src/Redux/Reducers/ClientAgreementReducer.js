@@ -22,7 +22,7 @@ const initialState = {
 };
 
 const ClientAgreementReducer = (state = initialState, action) => {
-  console.log('ClientAgreementReducer', action);
+  // console.log('ClientAgreementReducer', action);
   switch (action.type) {
     case FETCHCLIENTAGREEMENT_PROGRESS:
       return {

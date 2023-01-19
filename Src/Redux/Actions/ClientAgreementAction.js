@@ -60,7 +60,7 @@ export function getClient() {
     dispatch(clientAgreementDispatch({}, GETCLIENT_PROGRESS));
     try {
       const data = await request({url: '/client', method: 'GET'});
-      console.log('getClient response', data.data.data.clients);
+      // console.log('getClient response', data.data.data.clients);
       dispatch(
         clientAgreementDispatch(data.data.data.clients, GETCLIENT_SUCCESS),
       );

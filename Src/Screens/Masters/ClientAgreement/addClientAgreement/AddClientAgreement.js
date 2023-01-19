@@ -29,13 +29,14 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import validation from '../../../../Util/helper';
 import dayjs from 'dayjs';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import {initialState, reducer} from './AddClientAgreementFormData';
 
 LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
 
 const AddClientAgreement = ({navigation}) => {
   const dispatch = useDispatch();
   const reducerData = useSelector(state => state.ClientAgreementReducer);
-  console.log('reducerdata------->', reducerData);
+  // console.log('reducerdata------->', reducerData);
   // console.log('reducerdata.getClientData------->', reducerData.getClientData);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
@@ -49,10 +50,10 @@ const AddClientAgreement = ({navigation}) => {
   const [valueAgreementType, setValueAgreementType] = useState(null);
   const [itemsAgreementType, setItemsAgreementType] = useState([]);
 
-  const [formData, dispatcher] = useReducer();
-  const [clientList, setClientList] = useState([]);
-  const [resourceList, setResourceList] = useState([]);
-  const [agreementTypeList, setAgreementTypeList] = useState([]);
+  const [formData, dispatcher] = useReducer(reducer, initialState);
+  // const [clientList, setClientList] = useState([]);
+  // const [resourceList, setResourceList] = useState([]);
+  // const [agreementTypeList, setAgreementTypeList] = useState([]);
   const [openStartDatePicker, setStartOpenDatePicer] = useState(false);
   const [openEndDatePicker, setEndOpenDatePicer] = useState(false);
   const [date, setDate] = useState({
@@ -72,10 +73,9 @@ const AddClientAgreement = ({navigation}) => {
     const currentDate = value || date;
     let tempDate = new Date(currentDate);
     let fDate =
-      tempDate.getMonth() +
-      1 +
-      '/' +
       tempDate.getDate() +
+      '/' +
+      Number(tempDate.getMonth() + 1) +
       '/' +
       tempDate.getFullYear();
     //console.log(fDate)
@@ -92,6 +92,14 @@ const AddClientAgreement = ({navigation}) => {
     setDisplayDate(prevDates => {
       return {...prevDates, startDate: convertDate(value)};
     });
+    dispatcher({
+      type: 'startDate',
+      payload: value,
+    });
+    dispatcher({
+      type: 'startDateError',
+      payload: null,
+    });
   }
 
   function onEndDateSelected(event, value) {
@@ -103,6 +111,14 @@ const AddClientAgreement = ({navigation}) => {
     });
     setDisplayDate(prevDates => {
       return {...prevDates, endDate: convertDate(value)};
+    });
+    dispatcher({
+      type: 'endDate',
+      payload: value,
+    });
+    dispatcher({
+      type: 'endDateError',
+      payload: null,
     });
   }
 
@@ -151,21 +167,24 @@ const AddClientAgreement = ({navigation}) => {
   }, [reducerData.getResorceData]);
 
   //For agreement types
-  // useEffect(() => {
-  //   if (reducerData.clientAgreementData != null) {
-  //     let newArray = [];
-  //     for (let i of reducerData.clientAgreementData) {
-  //       let item;
-  //       if (i.agreement) {
-  //         if (i.agreement !== null) {
-  //           item = {id: i.id, label: i.agreement, value: i.id};
-  //         }
-  //         newArray.push(item);
-  //       }
-  //     }
-  //     setItemsAgreementType(newArray);
-  //   }
-  // }, [reducerData.clientAgreementData]);
+  useEffect(() => {
+    if (reducerData.clientAgreementData != null) {
+      let newArray = [];
+      for (let i of reducerData.clientAgreementData) {
+        let item;
+        if (
+          i.agreement === 'msa' ||
+          i.agreement === 'po' ||
+          i.agreement === 'sow'
+        ) {
+          item = {id: i.id, label: i.agreement, value: i.id};
+          newArray.push(item);
+        }
+      }
+      // console.log(newArray);
+      setItemsAgreementType(newArray);
+    }
+  }, [reducerData.clientAgreementData]);
 
   const selectAgreement = async (fileName, Error) => {
     try {
@@ -202,6 +221,41 @@ const AddClientAgreement = ({navigation}) => {
     }
   };
 
+  const onSubmit = () => {
+    const clientError = validation.validateField(formData.client);
+    const resourceError = validation.validateField(formData.resource);
+    const agreementTypeError = validation.validateField(formData.agreementType);
+    const startDateError = validation.validateField(formData.startDate);
+    const endDateError = validation.validateField(formData.endDate);
+    const agreementError = validation.validatefile(formData.agreement?.uri);
+
+    if (
+      clientError ||
+      resourceError ||
+      agreementTypeError ||
+      startDateError ||
+      endDateError ||
+      agreementError
+    ) {
+      dispatcher({type: 'clientError', payload: clientError});
+      dispatcher({type: 'resourceError', payload: resourceError});
+      dispatcher({type: 'agreementTypeError', payload: agreementTypeError});
+      dispatcher({type: 'startDateError', payload: startDateError});
+      dispatcher({type: 'endDateError', payload: endDateError});
+      dispatcher({type: 'agreementError', payload: agreementError});
+      return;
+    }
+
+    dispatcher({type: 'clientError', payload: null});
+    dispatcher({type: 'resourceError', payload: null});
+    dispatcher({type: 'agreementTypeError', payload: null});
+    dispatcher({type: 'startDateError', payload: null});
+    dispatcher({type: 'endDateError', payload: null});
+    dispatcher({type: 'agreementError', payload: null});
+
+    console.log(formData);
+  };
+
   return (
     // <View style={styles.rootContainer}>
     //   <Text style={styles.textStyle}>Add Client Agreement</Text>
@@ -224,6 +278,14 @@ const AddClientAgreement = ({navigation}) => {
                     onPress={() => {
                       setValue(item.value);
                       setOpen(false);
+                      dispatcher({
+                        type: 'client',
+                        payload: item.label,
+                      });
+                      dispatcher({
+                        type: 'clientError',
+                        payload: null,
+                      });
                     }}
                     style={styles.cellStyle}>
                     <Text style={styles.cellTextStyle}>{item.label}</Text>
@@ -236,9 +298,9 @@ const AddClientAgreement = ({navigation}) => {
               setOpen={setOpen}
               setItems={setItems}
             />
-            {/* {formData.vendorError !== null && (
-              <Text style={styles.errorText}>{formData.vendorError}</Text>
-            )} */}
+            {formData.clientError !== null && (
+              <Text style={styles.errorText}>{formData.clientError}</Text>
+            )}
             <View style={styles.verticalSpace} />
             <DropDownPicker
               style={[styles.dropdownViewStyle, styles.dropDownAligner]}
@@ -252,6 +314,14 @@ const AddClientAgreement = ({navigation}) => {
                     onPress={() => {
                       setValueResource(item.value);
                       setOpenResource(false);
+                      dispatcher({
+                        type: 'resource',
+                        payload: item.label,
+                      });
+                      dispatcher({
+                        type: 'resourceError',
+                        payload: null,
+                      });
                     }}
                     style={styles.cellStyle}>
                     <Text style={styles.cellTextStyle}>{item.label}</Text>
@@ -264,9 +334,9 @@ const AddClientAgreement = ({navigation}) => {
               setOpen={setOpenResource}
               setItems={setItemsResource}
             />
-            {/* {formData.vendorError !== null && (
-              <Text style={styles.errorText}>{formData.vendorError}</Text>
-            )} */}
+            {formData.resourceError !== null && (
+              <Text style={styles.errorText}>{formData.resourceError}</Text>
+            )}
             <View style={styles.verticalSpace} />
             <DropDownPicker
               style={[styles.dropdownViewStyle, styles.dropDownAligner]}
@@ -280,6 +350,14 @@ const AddClientAgreement = ({navigation}) => {
                     onPress={() => {
                       setValueAgreementType(item.value);
                       setOpenAgreementType(false);
+                      dispatcher({
+                        type: 'agreementType',
+                        payload: item.label,
+                      });
+                      dispatcher({
+                        type: 'agreementTypeError',
+                        payload: null,
+                      });
                     }}
                     style={styles.cellStyle}>
                     <Text style={styles.cellTextStyle}>{item.label}</Text>
@@ -292,9 +370,11 @@ const AddClientAgreement = ({navigation}) => {
               setOpen={setOpenAgreementType}
               setItems={setItemsAgreementType}
             />
-            {/* {formData.vendorError !== null && (
-              <Text style={styles.errorText}>{formData.vendorError}</Text>
-            )} */}
+            {formData.agreementTypeError !== null && (
+              <Text style={styles.errorText}>
+                {formData.agreementTypeError}
+              </Text>
+            )}
             <View style={styles.verticalSpace} />
             <TouchableOpacity
               style={styles.dateBtnStyle}
@@ -315,6 +395,9 @@ const AddClientAgreement = ({navigation}) => {
                 onChange={onStartDateSelected}
               />
             ) : null}
+            {formData.startDateError !== null && (
+              <Text style={styles.errorText}>{formData.startDateError}</Text>
+            )}
             <View style={styles.verticalSpace} />
             <TouchableOpacity
               style={styles.dateBtnStyle}
@@ -335,31 +418,41 @@ const AddClientAgreement = ({navigation}) => {
                 onChange={onEndDateSelected}
               />
             ) : null}
+            {formData.endDateError !== null && (
+              <Text style={styles.errorText}>{formData.endDateError}</Text>
+            )}
             <View style={styles.verticalSpace} />
             <TouchableOpacity
               style={[styles.btnStyle, styles.uploadBtnAligner]}
               onPress={() => {
                 selectAgreement('agreement', 'agreementError');
               }}>
-              <>
+              {/* <>
                 <AntDesign name="upload" color={COLORS.blue} size={24} />
                 <Text style={styles.uploadBtnTextStyle}>Upload SO/POW</Text>
-              </>
-              {/* {formData.resume !== null ? (
+              </> */}
+              {formData.agreement !== null ? (
                 <Text style={styles.uploadBtnTextStyle}>
-                  {formData?.resume?.name}
+                  {formData?.agreement?.name}
                 </Text>
               ) : (
                 <>
                   <AntDesign name="upload" color={COLORS.blue} size={24} />
                   <Text style={styles.uploadBtnTextStyle}>Upload SO/POW</Text>
                 </>
-              )} */}
+              )}
             </TouchableOpacity>
-            {/* {formData.resumeError !== null && (
-              <Text style={styles.errorText}>{formData.resumeError}</Text>
-            )} */}
+            {formData.agreementError !== null && (
+              <Text style={styles.errorText}>{formData.agreementError}</Text>
+            )}
             <View style={styles.verticalSpace} />
+            <TouchableOpacity
+              style={[styles.btnStyle, styles.submitBtnAligner]}
+              onPress={() => {
+                onSubmit();
+              }}>
+              <Text style={styles.submitBtnTextStyle}>Submit</Text>
+            </TouchableOpacity>
           </View>
         </ScrollView>
       </View>
@@ -446,5 +539,20 @@ const styles = StyleSheet.create({
   },
   uploadBtnAligner: {
     marginHorizontal: 15,
+  },
+  submitBtnAligner: {
+    marginHorizontal: 15,
+  },
+  submitBtnTextStyle: {
+    color: COLORS.white,
+    fontSize: 16,
+    fontWeight: '600',
+    marginHorizontal: 4,
+  },
+  errorText: {
+    color: COLORS.red,
+    fontSize: 12,
+    marginVertical: 2,
+    paddingHorizontal: 2,
   },
 });
