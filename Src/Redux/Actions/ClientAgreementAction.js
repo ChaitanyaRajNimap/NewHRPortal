@@ -73,6 +73,7 @@ export function getClient() {
 
 //For adding client agreemnet data
 export function addClientAgreement(values, navigation) {
+  console.log('addClientAgreement : ', values);
   return async dispatch => {
     dispatch(clientAgreementDispatch({}, ADDCLIENTAGREEMENT_PROGRESS));
     try {

@@ -54,10 +54,10 @@ const ClientAgreement = ({navigation}) => {
   }, [search]);
 
   useEffect(() => {
-    // console.log("-------------------", reducerData.clientAgreementData)
-    setLoading(false);
+    console.log('-------------------', reducerData.clientAgreementData);
     setClientAgreements(reducerData.clientAgreementData);
     setFilterClientAgreements(reducerData.clientAgreementData);
+    setLoading(false);
   }, [reducerData.clientAgreementData]);
 
   //for setting search input text

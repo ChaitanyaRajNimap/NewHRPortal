@@ -48,7 +48,20 @@ const AddClientAgreement = ({navigation}) => {
 
   const [openAgreementType, setOpenAgreementType] = useState(false);
   const [valueAgreementType, setValueAgreementType] = useState(null);
-  const [itemsAgreementType, setItemsAgreementType] = useState([]);
+  const [itemsAgreementType, setItemsAgreementType] = useState([
+    {
+      value: 'msa',
+      label: 'msa',
+    },
+    {
+      value: 'po',
+      label: 'po',
+    },
+    {
+      value: 'sow',
+      label: 'sow',
+    },
+  ]);
 
   const [formData, dispatcher] = useReducer(reducer, initialState);
   // const [clientList, setClientList] = useState([]);
@@ -94,12 +107,13 @@ const AddClientAgreement = ({navigation}) => {
     });
     dispatcher({
       type: 'startDate',
-      payload: value,
+      payload: convertDate(value),
     });
     dispatcher({
       type: 'startDateError',
       payload: null,
     });
+    console.log('onStartDateSelected--------------->');
   }
 
   function onEndDateSelected(event, value) {
@@ -114,21 +128,24 @@ const AddClientAgreement = ({navigation}) => {
     });
     dispatcher({
       type: 'endDate',
-      payload: value,
+      payload: convertDate(value),
     });
     dispatcher({
       type: 'endDateError',
       payload: null,
     });
+    console.log('onEndDateSelected--------------->');
   }
 
   function showStartDatePicker() {
+    console.log('Start Date Picker Opened!!');
     setDatePicker(prevDatePickers => {
       return {...prevDatePickers, startDatePicker: true};
     });
   }
 
   function showEndDatePicker() {
+    console.log('END Date Picker Opened!!');
     setDatePicker(prevDatePickers => {
       return {...prevDatePickers, endDatePicker: true};
     });
@@ -166,26 +183,6 @@ const AddClientAgreement = ({navigation}) => {
     }
   }, [reducerData.getResorceData]);
 
-  //For agreement types
-  useEffect(() => {
-    if (reducerData.clientAgreementData != null) {
-      let newArray = [];
-      for (let i of reducerData.clientAgreementData) {
-        let item;
-        if (
-          i.agreement === 'msa' ||
-          i.agreement === 'po' ||
-          i.agreement === 'sow'
-        ) {
-          item = {id: i.id, label: i.agreement, value: i.id};
-          newArray.push(item);
-        }
-      }
-      // console.log(newArray);
-      setItemsAgreementType(newArray);
-    }
-  }, [reducerData.clientAgreementData]);
-
   const selectAgreement = async (fileName, Error) => {
     try {
       const file = await DocumentPicker.pickSingle({
@@ -195,6 +192,8 @@ const AddClientAgreement = ({navigation}) => {
           DocumentPicker.types.doc,
         ],
       });
+
+      // console.log('FILE : ', file);
       dispatcher({
         type: fileName,
         payload: {uri: file.uri, type: file.type, name: file.name},
@@ -204,6 +203,18 @@ const AddClientAgreement = ({navigation}) => {
         type: Error,
         payload: validation.validatefile(file.uri),
       });
+
+      // if (file.length > 1) {
+      //   let fileArr = [];
+      //   file.forEach(item => {
+      //     let el = {
+      //       type: fileName,
+      //       payload: {uri: item.uri, type: item.type, name: item.name},
+      //     };
+      //     fileArr.push(el);
+      //   });
+      //   console.log(fileArr);
+      // }
 
       if (file !== null) {
         Toast.showWithGravity(
@@ -253,7 +264,14 @@ const AddClientAgreement = ({navigation}) => {
     dispatcher({type: 'endDateError', payload: null});
     dispatcher({type: 'agreementError', payload: null});
 
+    //Format data to post/add client agreement
+    // let reqdata={
+    //   end_date:
+    // }
+
     console.log(formData);
+
+    // dispatch(addClientAgreement(formData, navigation));
   };
 
   return (
