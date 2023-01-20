@@ -1,74 +1,66 @@
 import React, {useState, useEffect, useReducer} from 'react';
 import {
   View,
-  SafeAreaView,
-  StyleSheet,
   Text,
+  StyleSheet,
+  SafeAreaView,
   TouchableOpacity,
-  TextInput,
   ScrollView,
   LogBox,
 } from 'react-native';
-import {
-  getResources,
-  getClient,
-  addClientAgreement,
-} from '../../../../Redux/Actions/ClientAgreementAction';
-import {GLOBALSTYLE} from '../../../../Constants/Styles';
 import CustomNavigationBar from '../../../../Components/CustomNavigationBar';
 import {useSelector, useDispatch} from 'react-redux';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {COLORS} from '../../../../Constants/Theme';
 import DocumentPicker from 'react-native-document-picker';
-import DatePicker from 'react-native-date-picker';
-import Toast from 'react-native-simple-toast';
-import {Dropdown} from 'react-native-element-dropdown';
 import DropDownPicker from 'react-native-dropdown-picker';
-import validation from '../../../../Util/helper';
-import dayjs from 'dayjs';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {initialState, reducer} from './AddClientAgreementFormData';
+import Toast from 'react-native-simple-toast';
+import validation from '../../../../Util/helper';
+import {GLOBALSTYLE} from '../../../../Constants/Styles';
+import {COLORS} from '../../../../Constants/Theme';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import {initialState, reducer} from './EditClientAgreementFormData';
 
 LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
 
-const AddClientAgreement = ({navigation}) => {
-  const dispatch = useDispatch();
+const EditClientAgreement = ({navigation}) => {
+  //For getting data from ClientAgreementReducer
   const reducerData = useSelector(state => state.ClientAgreementReducer);
-  // console.log('reducerdata------->', reducerData);
-  // console.log('reducerdata.getClientData------->', reducerData.getClientData);
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
-  const [items, setItems] = useState([]);
-
-  // const [openResource, setOpenResource] = useState(false);
-  // const [valueResource, setValueResource] = useState(null);
-  // const [itemsResource, setItemsResource] = useState([]);
-
-  const [openAgreementType, setOpenAgreementType] = useState(false);
-  const [valueAgreementType, setValueAgreementType] = useState(null);
-  const [itemsAgreementType, setItemsAgreementType] = useState([
-    {
-      value: 'msa',
-      label: 'msa',
-    },
-    {
-      value: 'po',
-      label: 'po',
-    },
-    {
-      value: 'sow',
-      label: 'sow',
-    },
-  ]);
+  console.log('reducerdata------->', reducerData);
+  // console.log('reducerdata------->', reducerData.getClientData);
 
   const [formData, dispatcher] = useReducer(reducer, initialState);
-  // const [clientList, setClientList] = useState([]);
-  // const [resourceList, setResourceList] = useState([]);
-  // const [agreementTypeList, setAgreementTypeList] = useState([]);
-  // const [openStartDatePicker, setStartOpenDatePicer] = useState(false);
-  // const [openEndDatePicker, setEndOpenDatePicer] = useState(false);
+
+  //For storing dropdown state
+  const [open, setOpen] = useState({
+    clientOpen: false,
+    resourceOpen: false,
+    agreementTypeOpen: false,
+  });
+  const [value, setValue] = useState({
+    clientValue: null,
+    resourceValue: null,
+    agreementTypeValue: null,
+  });
+  const [items, setItems] = useState({
+    clientItems: [],
+    resourceItems: [],
+    agreementTypeItems: [
+      {
+        value: 'msa',
+        label: 'msa',
+      },
+      {
+        value: 'po',
+        label: 'po',
+      },
+      {
+        value: 'sow',
+        label: 'sow',
+      },
+    ],
+  });
+  //For storing date state
   const [date, setDate] = useState({
     startDate: new Date(Date.now()),
     endDate: new Date(Date.now()),
@@ -85,20 +77,6 @@ const AddClientAgreement = ({navigation}) => {
   const convertDate = value => {
     const currentDate = value || date;
     let tempDate = new Date(currentDate);
-    let fDate =
-      tempDate.getDate() +
-      '/' +
-      Number(tempDate.getMonth() + 1) +
-      '/' +
-      tempDate.getFullYear();
-    //console.log(fDate)
-    return fDate;
-  };
-
-  //Covert to send in post req
-  const convertDateToSend = value => {
-    const currentDate = value || date;
-    let tempDate = new Date(currentDate);
     let month = '' + (tempDate.getMonth() + 1),
       day = '' + tempDate.getDate(),
       year = tempDate.getFullYear();
@@ -110,9 +88,10 @@ const AddClientAgreement = ({navigation}) => {
       day = '0' + day;
     }
 
-    return [year, month, day].join('-');
+    return [year, month, day].join('/');
   };
 
+  //For storing start date in form data
   function onStartDateSelected(event, value) {
     setDatePicker(prevDatePickers => {
       return {...prevDatePickers, startDatePicker: false};
@@ -131,9 +110,10 @@ const AddClientAgreement = ({navigation}) => {
       type: 'startDateError',
       payload: null,
     });
-    // console.log('onStartDateSelected--------------->');
+    console.log('onStartDateSelected--------------->');
   }
 
+  //For storing end date in form data
   function onEndDateSelected(event, value) {
     setDatePicker(prevDatePickers => {
       return {...prevDatePickers, endDatePicker: false};
@@ -155,6 +135,7 @@ const AddClientAgreement = ({navigation}) => {
     // console.log('onEndDateSelected--------------->');
   }
 
+  //For showing start date picker
   function showStartDatePicker() {
     console.log('Start Date Picker Opened!!');
     setDatePicker(prevDatePickers => {
@@ -162,44 +143,77 @@ const AddClientAgreement = ({navigation}) => {
     });
   }
 
+  //For showing end date picker
   function showEndDatePicker() {
-    console.log('END Date Picker Opened!!');
+    console.log('End Date Picker Opened!!');
     setDatePicker(prevDatePickers => {
       return {...prevDatePickers, endDatePicker: true};
     });
   }
 
   //For client name
-  useEffect(() => {
-    if (reducerData.getClientData != null) {
-      let newArray = [];
-      for (let i of reducerData.getClientData) {
-        let item;
-        if (i.client_name) {
-          if (i.client_name !== null) {
-            item = {id: i.id, label: i.client_name, value: i.id};
-          }
-          newArray.push(item);
-        }
-      }
-      setItems(newArray);
-    }
-  }, [reducerData.getClientData]);
+  //   useEffect(() => {
+  //     if (reducerData.getClientData != null) {
+  //       let newArray = [];
+  //       for (let i of reducerData.getClientData) {
+  //         let item;
+  //         if (i.client_name) {
+  //           if (i.client_name !== null) {
+  //             item = {id: i.id, label: i.client_name, value: i.id};
+  //           }
+  //           newArray.push(item);
+  //         }
+  //       }
+  //       setItems(newArray);
+  //     }
+  //   }, [reducerData.getClientData]);
+
+  //For client name
+  //   useEffect(() => {
+  //     if (reducerData.getClientData != null) {
+  //       let newArray = [];
+  //       for (let i of reducerData.getClientData) {
+  //         let item;
+  //         if (i.client_name) {
+  //           if (i.client_name !== null) {
+  //             item = {id: i.id, label: i.client_name, value: i.id};
+  //           }
+  //           newArray.push(item);
+  //         }
+  //       }
+  //       setItems(newArray);
+  //     }
+  //   }, [reducerData.getClientData]);
 
   //For resources
-  // useEffect(() => {
-  //   if (reducerData.getResorceData != null) {
-  //     let newArray = [];
-  //     for (let i of reducerData.getResorceData) {
-  //       let item;
-  //       if (i.resources !== null) {
-  //         item = {id: i.id, label: `${i.fname} ${i.lname}`, value: i.id};
+  //   useEffect(() => {
+  //     if (reducerData.getResorceData != null) {
+  //       let newArray = [];
+  //       for (let i of reducerData.getResorceData) {
+  //         let item;
+  //         if (i.resources !== null) {
+  //           item = {id: i.id, label: `${i.fname} ${i.lname}`, value: i.id};
+  //         }
+  //         newArray.push(item);
   //       }
-  //       newArray.push(item);
+  //       setItemsResource(newArray);
   //     }
-  //     setItemsResource(newArray);
-  //   }
-  // }, [reducerData.getResorceData]);
+  //   }, [reducerData.getResorceData]);
+
+  //For resources
+  //   useEffect(() => {
+  //     if (reducerData.getResorceData != null) {
+  //       let newArray = [];
+  //       for (let i of reducerData.getResorceData) {
+  //         let item;
+  //         if (i.resources !== null) {
+  //           item = {id: i.id, label: `${i.fname} ${i.lname}`, value: i.id};
+  //         }
+  //         newArray.push(item);
+  //       }
+  //       setItemsResource(newArray);
+  //     }
+  //   }, [reducerData.getResorceData]);
 
   const selectAgreement = async (fileName, Error) => {
     try {
@@ -211,7 +225,6 @@ const AddClientAgreement = ({navigation}) => {
         ],
       });
 
-      // console.log('FILE : ', file);
       dispatcher({
         type: fileName,
         payload: {uri: file.uri, type: file.type, name: file.name},
@@ -221,18 +234,6 @@ const AddClientAgreement = ({navigation}) => {
         type: Error,
         payload: validation.validatefile(file.uri),
       });
-
-      // if (file.length > 1) {
-      //   let fileArr = [];
-      //   file.forEach(item => {
-      //     let el = {
-      //       type: fileName,
-      //       payload: {uri: item.uri, type: item.type, name: item.name},
-      //     };
-      //     fileArr.push(el);
-      //   });
-      //   console.log(fileArr);
-      // }
 
       if (file !== null) {
         Toast.showWithGravity(
@@ -248,42 +249,6 @@ const AddClientAgreement = ({navigation}) => {
         Toast.BOTTOM,
       );
     }
-  };
-
-  const convertClientAgreement = data => {
-    //Format data to post/add client agreement
-    // let dataToSend = {
-    //   agreement: data.agreementType,
-    //   client: {
-    //     client_name: data.client.client_name,
-    //     id: data.client.id,
-    //   },
-    //   client_id: data.client.id,
-    //   created_at: new Date().toISOString(),
-    //   deleted_at: null,
-    //   description: '',
-    //   end_date: data.endDate,
-    //   id: null,
-    //   msa: '',
-    //   pdf_file: [''],
-    //   po: '',
-    //   resource_id: null,
-    //   resources: [
-    //     {
-    //       clientAgreement_resource: {
-    //         clientAgreementId: null,
-    //         resourceId: null,
-    //       },
-    //       fname: '',
-    //       id: null,
-    //       lname: '',
-    //     },
-    //   ],
-    //   sow: 'null',
-    //   start_date: '',
-    //   title: null,
-    //   updated_at: '',
-    // };
   };
 
   const onSubmit = () => {
@@ -326,13 +291,9 @@ const AddClientAgreement = ({navigation}) => {
   };
 
   return (
-    // <View style={styles.rootContainer}>
-    //   <Text style={styles.textStyle}>Add Client Agreement</Text>
-    // </View>
-
     <SafeAreaView style={GLOBALSTYLE.safeAreaViewStyle}>
       <View style={styles.container}>
-        <CustomNavigationBar back={true} headername="Add Client Agreement" />
+        <CustomNavigationBar back={true} headername="Edit Client Agreement" />
         <ScrollView style={styles.scrollViewStyle}>
           <View style={styles.formContainer}>
             <DropDownPicker
@@ -345,8 +306,18 @@ const AddClientAgreement = ({navigation}) => {
                 return (
                   <TouchableOpacity
                     onPress={() => {
-                      setValue(item.value);
-                      setOpen(false);
+                      setValue(prevValue => {
+                        return {
+                          ...prevValue,
+                          clientValue: item.value,
+                        };
+                      });
+                      setOpen(prevOpen => {
+                        return {
+                          ...prevOpen,
+                          clientOpen: false,
+                        };
+                      });
                       dispatcher({
                         type: 'client',
                         // payload: item.value,
@@ -365,9 +336,9 @@ const AddClientAgreement = ({navigation}) => {
                   </TouchableOpacity>
                 );
               }}
-              open={open}
-              value={value}
-              items={items}
+              open={open.clientOpen}
+              value={value.clientValue}
+              items={items.clientItems}
               setOpen={setOpen}
               setItems={setItems}
             />
@@ -385,8 +356,20 @@ const AddClientAgreement = ({navigation}) => {
                 return (
                   <TouchableOpacity
                     onPress={() => {
-                      setValueResource(item.value);
-                      setOpenResource(false);
+                      //   setValueResource(item.value);
+                      setValue(prevValue => {
+                        return {
+                          ...prevValue,
+                          resourceValue: item.value,
+                        };
+                      });
+                      //   setOpenResource(false);
+                      setOpen(prevOpen => {
+                        return {
+                          ...prevOpen,
+                          resourceOpen: false,
+                        };
+                      });
                       dispatcher({
                         type: 'resource',
                         payload: item.value,
@@ -401,11 +384,11 @@ const AddClientAgreement = ({navigation}) => {
                   </TouchableOpacity>
                 );
               }}
-              open={openResource}
-              value={valueResource}
-              items={itemsResource}
-              setOpen={setOpenResource}
-              setItems={setItemsResource}
+              open={open.resourceOpen}
+              value={value.resourceValue}
+              items={items.resourceItems}
+              setOpen={setOpen}
+              setItems={setItems}
             /> */}
             {formData.resourceError !== null && (
               <Text style={styles.errorText}>{formData.resourceError}</Text>
@@ -421,8 +404,20 @@ const AddClientAgreement = ({navigation}) => {
                 return (
                   <TouchableOpacity
                     onPress={() => {
-                      setValueAgreementType(item.value);
-                      setOpenAgreementType(false);
+                      //   setValueAgreementType(item.value);
+                      setValue(prevValue => {
+                        return {
+                          ...prevValue,
+                          agreementTypeValue: item.value,
+                        };
+                      });
+                      //   setOpenAgreementType(false);
+                      setOpen(prevOpen => {
+                        return {
+                          ...prevOpen,
+                          agreementTypeOpen: false,
+                        };
+                      });
                       dispatcher({
                         type: 'agreementType',
                         payload: item.value,
@@ -437,11 +432,11 @@ const AddClientAgreement = ({navigation}) => {
                   </TouchableOpacity>
                 );
               }}
-              open={openAgreementType}
-              value={valueAgreementType}
-              items={itemsAgreementType}
-              setOpen={setOpenAgreementType}
-              setItems={setItemsAgreementType}
+              open={open.agreementTypeOpen}
+              value={value.agreementTypeValue}
+              items={items.agreementTypeItems}
+              setOpen={setOpen}
+              setItems={setItems}
             />
             {formData.agreementTypeError !== null && (
               <Text style={styles.errorText}>
@@ -534,18 +529,9 @@ const AddClientAgreement = ({navigation}) => {
   );
 };
 
-export default AddClientAgreement;
+export default EditClientAgreement;
 
 const styles = StyleSheet.create({
-  // rootContainer: {
-  //   flex: 1,
-  //   alignItems: 'center',
-  //   justifyContent: 'center',
-  // },
-  // textStyle: {
-  //   fontSize: 25,
-  //   color: '#000',
-  // },
   container: {flex: 1},
   verticalSpace: {height: 16},
   scrollViewStyle: {flex: 1},
@@ -574,12 +560,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   dateBtnStyle: {
-    // width: Dimensions.get('screen').width - 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
     backgroundColor: COLORS.white,
     borderRadius: 10,
-    // margin: 10,
     marginHorizontal: 15,
     padding: 15,
   },

@@ -22,6 +22,7 @@ import SmallButton from '../../../Components/SmallButton';
 import {COLORS} from '../../../Constants/Theme';
 import CustomButton from '../../../Components/CustomButton';
 import ViewClientAgreementPDF from './viewClientAgreementPDF/ViewClientAgreementPDF';
+import EditClientAgreement from './editClientAgreement/EditClientAgreement';
 
 const ClientAgreement = ({navigation}) => {
   const dispatch = useDispatch();
@@ -54,7 +55,10 @@ const ClientAgreement = ({navigation}) => {
   }, [search]);
 
   useEffect(() => {
-    console.log('-------------------', reducerData.clientAgreementData);
+    console.log(
+      'clientAgreementData------------------->',
+      reducerData.clientAgreementData,
+    );
     setClientAgreements(reducerData.clientAgreementData);
     setFilterClientAgreements(reducerData.clientAgreementData);
     setLoading(false);
@@ -101,6 +105,12 @@ const ClientAgreement = ({navigation}) => {
     setModalVisible(!modalVisible);
     // console.log('----MODAL CLOSED!----');
   };
+
+  // const editAgreement = () => {
+  //   // navigation.navigate('EditClientAgreement');
+  //   // navigation.navigate('EditClientAgreement');
+  //   console.log('Edit Agreement !!');
+  // };
 
   return (
     <SafeAreaView style={GLOBALSTYLE.safeAreaViewStyle}>
@@ -221,7 +231,10 @@ const ClientAgreement = ({navigation}) => {
               {/* for edit button */}
               <CustomButton
                 title="Edit"
-                onPressFunction={() => {}}
+                onPressFunction={() => {
+                  // editAgreement();
+                  navigation.navigate('EditClientAgreement');
+                }}
                 style={styles.customBtnAligner}
               />
             </View>

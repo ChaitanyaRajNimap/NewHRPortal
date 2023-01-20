@@ -43,7 +43,7 @@ export function getResources() {
     dispatch(clientAgreementDispatch({}, GETRESOURCE_PROGRESS));
     try {
       const data = await request({url: '/resource', method: 'GET'});
-      // console.log('getResources response', data.data.data.resources);
+      console.log('getResources response', data.data.data.resources);
       dispatch(
         clientAgreementDispatch(data.data.data.resources, GETRESOURCE_SUCCESS),
       );

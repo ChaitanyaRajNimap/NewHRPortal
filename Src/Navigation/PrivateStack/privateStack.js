@@ -42,6 +42,7 @@ import EditReason from '../../Screens/Masters/Reason/EditReason';
 import AddAccount from '../../Screens/Masters/Account/AddAccount';
 import EditAccount from '../../Screens/Masters/Account/EditAccount';
 import AddClientAgreement from '../../Screens/Masters/ClientAgreement/addClientAgreement/AddClientAgreement';
+import EditClientAgreement from '../../Screens/Masters/ClientAgreement/editClientAgreement/EditClientAgreement';
 
 const privatestack = createNativeStackNavigator();
 
@@ -121,6 +122,10 @@ function privateStack() {
       <privatestack.Screen name="EditReason" component={EditReason} />
       <privatestack.Screen name="AddAccount" component={AddAccount} />
       <privatestack.Screen name="EditAccount" component={EditAccount} />
+      <privatestack.Screen
+        name="EditClientAgreement"
+        component={EditClientAgreement}
+      />
     </privatestack.Navigator>
   );
 }
