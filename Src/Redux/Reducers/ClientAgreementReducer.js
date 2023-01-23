@@ -15,10 +15,10 @@ import {
 
 const initialState = {
   isLoading: false,
-  clientAgreementData: {},
-  getResorceData: {},
-  getClientData: {},
-  addClientAgreementData: {},
+  clientAgreementData: null,
+  getResorceData: null,
+  getClientData: null,
+  addClientAgreementData: null,
 };
 
 const ClientAgreementReducer = (state = initialState, action) => {

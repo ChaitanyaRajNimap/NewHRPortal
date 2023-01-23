@@ -27,7 +27,7 @@ import EditClientAgreement from './editClientAgreement/EditClientAgreement';
 const ClientAgreement = ({navigation}) => {
   const dispatch = useDispatch();
   const reducerData = useSelector(state => state.ClientAgreementReducer);
-
+  console.log('reducerData from clientagreement : ', reducerData);
   const [clientAgreements, setClientAgreements] = useState([]);
   const [filterClientAgreements, setFilterClientAgreements] = useState([]);
   const [search, setSearch] = useState('');
@@ -42,6 +42,7 @@ const ClientAgreement = ({navigation}) => {
   useEffect(() => {
     //To fetch data when user navigate on this screen
     const unSubscribe = navigation.addListener('focus', () => {
+      setLoading(true);
       dispatch(getInitialClientAgreement());
       dispatch(getResources());
       dispatch(getClient());
@@ -63,6 +64,28 @@ const ClientAgreement = ({navigation}) => {
     setFilterClientAgreements(reducerData.clientAgreementData);
     setLoading(false);
   }, [reducerData.clientAgreementData]);
+
+  // useEffect(() => {
+  //   console.warn(reducerData.getClientData);
+  //   if (JSON.stringify(reducerData.getClientData) !== '{}') {
+  //     Alert.alert('Gotcha!');
+  //     let newArray = [];
+  //     for (let i of reducerData.getClientData) {
+  //       console.log('i');
+  //     }
+  //     for (let i of reducerData.getClientData) {
+  //       let item;
+  //       if (i.client_name) {
+  //         if (i.client_name !== null) {
+  //           item = {id: i.id, label: i.client_name, value: i.id};
+  //         }
+  //         newArray.push(item);
+  //       }
+  //     }
+  //     setItems(newArray);
+  //     console.log('----------->>>', items);
+  //   }
+  // }, [reducerData.getClientData]);
 
   //for setting search input text
   const setSearchValue = value => {
@@ -105,12 +128,6 @@ const ClientAgreement = ({navigation}) => {
     setModalVisible(!modalVisible);
     // console.log('----MODAL CLOSED!----');
   };
-
-  // const editAgreement = () => {
-  //   // navigation.navigate('EditClientAgreement');
-  //   // navigation.navigate('EditClientAgreement');
-  //   console.log('Edit Agreement !!');
-  // };
 
   return (
     <SafeAreaView style={GLOBALSTYLE.safeAreaViewStyle}>
@@ -229,14 +246,23 @@ const ClientAgreement = ({navigation}) => {
               </View>
 
               {/* for edit button */}
-              <CustomButton
+              {/* <CustomButton
                 title="Edit"
                 onPressFunction={() => {
-                  // editAgreement();
+                  console.log('EditClientAgreement Data to pass : ', items);
                   navigation.navigate('EditClientAgreement');
                 }}
                 style={styles.customBtnAligner}
-              />
+              /> */}
+
+              <TouchableOpacity
+                onPress={() => {
+                  // console.log('EditClientAgreement Data to pass : ', items);
+                  console.log('Clicked!!!');
+                  navigation.navigate('EditClientAgreement');
+                }}>
+                <Text>Send</Text>
+              </TouchableOpacity>
             </View>
           )}
           keyExtractor={item => item.id}

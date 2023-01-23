@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ScrollView,
   LogBox,
+  Alert,
 } from 'react-native';
 import CustomNavigationBar from '../../../../Components/CustomNavigationBar';
 import {useSelector, useDispatch} from 'react-redux';
@@ -43,8 +44,8 @@ const EditClientAgreement = ({navigation}) => {
     agreementTypeValue: null,
   });
   const [items, setItems] = useState({
-    clientItems: [],
-    resourceItems: [],
+    clientItems: null,
+    resourceItems: null,
     agreementTypeItems: [
       {
         value: 'msa',
@@ -152,68 +153,37 @@ const EditClientAgreement = ({navigation}) => {
   }
 
   //For client name
-  //   useEffect(() => {
-  //     if (reducerData.getClientData != null) {
-  //       let newArray = [];
-  //       for (let i of reducerData.getClientData) {
-  //         let item;
-  //         if (i.client_name) {
-  //           if (i.client_name !== null) {
-  //             item = {id: i.id, label: i.client_name, value: i.id};
-  //           }
-  //           newArray.push(item);
-  //         }
-  //       }
-  //       setItems(newArray);
-  //     }
-  //   }, [reducerData.getClientData]);
-
-  //For client name
-  //   useEffect(() => {
-  //     if (reducerData.getClientData != null) {
-  //       let newArray = [];
-  //       for (let i of reducerData.getClientData) {
-  //         let item;
-  //         if (i.client_name) {
-  //           if (i.client_name !== null) {
-  //             item = {id: i.id, label: i.client_name, value: i.id};
-  //           }
-  //           newArray.push(item);
-  //         }
-  //       }
-  //       setItems(newArray);
-  //     }
-  //   }, [reducerData.getClientData]);
-
-  //For resources
-  //   useEffect(() => {
-  //     if (reducerData.getResorceData != null) {
-  //       let newArray = [];
-  //       for (let i of reducerData.getResorceData) {
-  //         let item;
-  //         if (i.resources !== null) {
-  //           item = {id: i.id, label: `${i.fname} ${i.lname}`, value: i.id};
-  //         }
-  //         newArray.push(item);
-  //       }
-  //       setItemsResource(newArray);
-  //     }
-  //   }, [reducerData.getResorceData]);
-
-  //For resources
-  //   useEffect(() => {
-  //     if (reducerData.getResorceData != null) {
-  //       let newArray = [];
-  //       for (let i of reducerData.getResorceData) {
-  //         let item;
-  //         if (i.resources !== null) {
-  //           item = {id: i.id, label: `${i.fname} ${i.lname}`, value: i.id};
-  //         }
-  //         newArray.push(item);
-  //       }
-  //       setItemsResource(newArray);
-  //     }
-  //   }, [reducerData.getResorceData]);
+  useEffect(() => {
+    // console.warn(reducerData.getClientData);
+    if (reducerData.getClientData !== null) {
+      // Alert.alert('Gotcha!');
+      let newArray = [];
+      let dummyArr = [];
+      for (let i of reducerData.getClientData) {
+        let item;
+        // console.log(i);
+        if (i.client_name) {
+          item = {id: i.id, label: i.client_name, value: i.id};
+          newArray.push(item);
+        }
+      }
+      // setItems(newArray);
+      setItems(prevState => {
+        return {
+          ...prevState,
+          clientItems: newArray,
+        };
+      });
+      console.log('----------->>>', reducerData.getClientData[0]);
+    } else {
+      setItems(prevState => {
+        return {
+          ...prevState,
+          clientItems: [],
+        };
+      });
+    }
+  }, [reducerData.getClientData]);
 
   const selectAgreement = async (fileName, Error) => {
     try {
@@ -296,52 +266,55 @@ const EditClientAgreement = ({navigation}) => {
         <CustomNavigationBar back={true} headername="Edit Client Agreement" />
         <ScrollView style={styles.scrollViewStyle}>
           <View style={styles.formContainer}>
-            <DropDownPicker
-              style={[styles.dropdownViewStyle, styles.dropDownAligner]}
-              placeholder="Client"
-              placeholderStyle={{color: COLORS.black}}
-              listMode="FLATLIST"
-              dropDownContainerStyle={styles.dropDownContainerStyle}
-              renderListItem={({item}) => {
-                return (
-                  <TouchableOpacity
-                    onPress={() => {
-                      setValue(prevValue => {
-                        return {
-                          ...prevValue,
-                          clientValue: item.value,
-                        };
-                      });
-                      setOpen(prevOpen => {
-                        return {
-                          ...prevOpen,
-                          clientOpen: false,
-                        };
-                      });
-                      dispatcher({
-                        type: 'client',
-                        // payload: item.value,
-                        payload: {
-                          client_name: item.label,
-                          id: item.value,
-                        },
-                      });
-                      dispatcher({
-                        type: 'clientError',
-                        payload: null,
-                      });
-                    }}
-                    style={styles.cellStyle}>
-                    <Text style={styles.cellTextStyle}>{item.label}</Text>
-                  </TouchableOpacity>
-                );
-              }}
-              open={open.clientOpen}
-              value={value.clientValue}
-              items={items.clientItems}
-              setOpen={setOpen}
-              setItems={setItems}
-            />
+            {console.log(items.clientItems)}
+            {items.clientItems && (
+              <DropDownPicker
+                style={[styles.dropdownViewStyle, styles.dropDownAligner]}
+                placeholder="Client"
+                placeholderStyle={{color: COLORS.black}}
+                listMode="FLATLIST"
+                dropDownContainerStyle={styles.dropDownContainerStyle}
+                renderListItem={({item}) => {
+                  return (
+                    <TouchableOpacity
+                      onPress={() => {
+                        setValue(prevValue => {
+                          return {
+                            ...prevValue,
+                            clientValue: item.value,
+                          };
+                        });
+                        setOpen(prevOpen => {
+                          return {
+                            ...prevOpen,
+                            clientOpen: false,
+                          };
+                        });
+                        dispatcher({
+                          type: 'client',
+                          // payload: item.value,
+                          payload: {
+                            client_name: item.label,
+                            id: item.value,
+                          },
+                        });
+                        dispatcher({
+                          type: 'clientError',
+                          payload: null,
+                        });
+                      }}
+                      style={styles.cellStyle}>
+                      <Text style={styles.cellTextStyle}>{item.label}</Text>
+                    </TouchableOpacity>
+                  );
+                }}
+                open={open.clientOpen}
+                value={value.clientValue}
+                items={items.clientItems}
+                setOpen={setOpen.clientOpen}
+                setItems={setItems.clientItems}
+              />
+            )}
             {formData.clientError !== null && (
               <Text style={styles.errorText}>{formData.clientError}</Text>
             )}
