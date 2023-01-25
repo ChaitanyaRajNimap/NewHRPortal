@@ -277,7 +277,7 @@ const AddClientAgreement = ({navigation}) => {
       client_id: data.client.id,
       created_at: new Date().toISOString(),
       deleted_at: null,
-      description: '',
+      description: 'Adding new client agreement',
       end_date: data.endDate,
       id: null,
       msa: data.agreementType === 'msa' ? 'msa' : null,
@@ -297,7 +297,7 @@ const AddClientAgreement = ({navigation}) => {
       ],
       sow: data.agreementType === 'sow' ? 'sow' : null,
       start_date: data.startDate,
-      title: null,
+      title: 'Add new client agreement',
       updated_at: '',
     };
 
@@ -336,10 +336,10 @@ const AddClientAgreement = ({navigation}) => {
     dispatcher({type: 'endDateError', payload: null});
     dispatcher({type: 'agreementError', payload: null});
 
-    // console.log('FORMDATA -------->', formData);
+    console.log('FORMDATA -------->', formData);
     let data = convertClientAgreement(formData);
 
-    // console.log('##DATA##', data);
+    console.log('##DATA##', data);
 
     dispatch(addClientAgreement(data, navigation));
   };

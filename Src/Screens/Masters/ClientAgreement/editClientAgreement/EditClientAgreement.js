@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useReducer} from 'react';
+import React, {useState, useEffect, useReducer, useCallback} from 'react';
 import {
   View,
   Text,
@@ -33,34 +33,46 @@ const EditClientAgreement = ({navigation}) => {
   const [formData, dispatcher] = useReducer(reducer, initialState);
 
   //For storing dropdown state
-  const [open, setOpen] = useState({
-    clientOpen: false,
-    resourceOpen: false,
-    agreementTypeOpen: false,
-  });
-  const [value, setValue] = useState({
-    clientValue: null,
-    resourceValue: null,
-    agreementTypeValue: null,
-  });
-  const [items, setItems] = useState({
-    clientItems: null,
-    resourceItems: null,
-    agreementTypeItems: [
-      {
-        value: 'msa',
-        label: 'msa',
-      },
-      {
-        value: 'po',
-        label: 'po',
-      },
-      {
-        value: 'sow',
-        label: 'sow',
-      },
-    ],
-  });
+  // const [open, setOpen] = useState({
+  //   clientOpen: false,
+  //   resourceOpen: false,
+  //   agreementTypeOpen: false,
+  // });
+  // const [value, setValue] = useState({
+  //   clientValue: null,
+  //   resourceValue: null,
+  //   agreementTypeValue: null,
+  // });
+  const [clientOpen, setClientOpen] = useState(false);
+  const [clientValue, setClientValue] = useState(null);
+  const [clientItems, setClientItems] = useState(null);
+
+  const [resourceOpen, setResourceOpen] = useState(false);
+  const [resourceValue, setResourceValue] = useState(null);
+  const [resourceItems, setResourceItems] = useState(null);
+
+  const [agreementTypeOpen, setAgreementTypeOpen] = useState(false);
+  const [agreementTypeValue, setAgreementTypeValue] = useState(null);
+  const [agreementTypeItems, setAgreementTypeItems] = useState([
+    {
+      value: 'msa',
+      label: 'msa',
+    },
+    {
+      value: 'po',
+      label: 'po',
+    },
+    {
+      value: 'sow',
+      label: 'sow',
+    },
+  ]);
+
+  // const [items, setItems] = useState({
+  //   clientItems: null,
+  //   resourceItems: null,
+  //   agreementTypeItems: ,
+  // });
   //For storing date state
   const [date, setDate] = useState({
     startDate: new Date(Date.now()),
@@ -90,6 +102,24 @@ const EditClientAgreement = ({navigation}) => {
     }
 
     return [year, month, day].join('/');
+  };
+
+  //Covert to send in post req
+  const convertDateToSend = value => {
+    const currentDate = value || date;
+    let tempDate = new Date(currentDate);
+    let month = '' + (tempDate.getMonth() + 1),
+      day = '' + tempDate.getDate(),
+      year = tempDate.getFullYear();
+
+    if (month.length < 2) {
+      month = '0' + month;
+    }
+    if (day.length < 2) {
+      day = '0' + day;
+    }
+
+    return [year, month, day].join('-');
   };
 
   //For storing start date in form data
@@ -137,53 +167,123 @@ const EditClientAgreement = ({navigation}) => {
   }
 
   //For showing start date picker
+  // function showStartDatePicker() {
+  //   console.log('Start Date Picker Opened!!');
+  //   setDatePicker(prevDatePickers => {
+  //     return {...prevDatePickers, startDatePicker: true};
+  //   });
+  // }
   function showStartDatePicker() {
-    console.log('Start Date Picker Opened!!');
+    // console.log('Start Date Picker Opened!!');
     setDatePicker(prevDatePickers => {
       return {...prevDatePickers, startDatePicker: true};
     });
+    setClientOpen(false);
+    setResourceOpen(false);
+    setAgreementTypeOpen(false);
   }
 
   //For showing end date picker
+  // function showEndDatePicker() {
+  //   console.log('End Date Picker Opened!!');
+  //   setDatePicker(prevDatePickers => {
+  //     return {...prevDatePickers, endDatePicker: true};
+  //   });
+  // }
   function showEndDatePicker() {
-    console.log('End Date Picker Opened!!');
+    // console.log('END Date Picker Opened!!');
     setDatePicker(prevDatePickers => {
       return {...prevDatePickers, endDatePicker: true};
     });
+    setClientOpen(false);
+    setResourceOpen(false);
+    setAgreementTypeOpen(false);
   }
 
+  //For closing other dropdowns
+  const onClientOpen = useCallback(() => {
+    setResourceOpen(false);
+    setAgreementTypeOpen(false);
+  }, []);
+
+  const onResourceOpen = useCallback(() => {
+    setClientOpen(false);
+    setAgreementTypeOpen(false);
+  }, []);
+
+  const onAgreementTypeOpen = useCallback(() => {
+    setClientOpen(false);
+    setResourceOpen(false);
+  }, []);
+
   //For client name
+  // useEffect(() => {
+  //   // console.warn(reducerData.getClientData);
+  //   if (reducerData.getClientData !== null) {
+  //     // Alert.alert('Gotcha!');
+  //     let newArray = [];
+  //     let dummyArr = [];
+  //     for (let i of reducerData.getClientData) {
+  //       let item;
+  //       // console.log(i);
+  //       if (i.client_name) {
+  //         item = {id: i.id, label: i.client_name, value: i.id};
+  //         newArray.push(item);
+  //       }
+  //     }
+  //     // setItems(newArray);
+  //     setItems(prevState => {
+  //       return {
+  //         ...prevState,
+  //         clientItems: newArray,
+  //       };
+  //     });
+  //     console.log('----------->>>', reducerData.getClientData[0]);
+  //   } else {
+  //     setItems(prevState => {
+  //       return {
+  //         ...prevState,
+  //         clientItems: [],
+  //       };
+  //     });
+  //   }
+  // }, [reducerData.getClientData]);
   useEffect(() => {
-    // console.warn(reducerData.getClientData);
-    if (reducerData.getClientData !== null) {
-      // Alert.alert('Gotcha!');
+    if (reducerData.getClientData != null) {
       let newArray = [];
-      let dummyArr = [];
       for (let i of reducerData.getClientData) {
         let item;
-        // console.log(i);
         if (i.client_name) {
-          item = {id: i.id, label: i.client_name, value: i.id};
+          if (i.client_name !== null) {
+            item = {id: i.id, label: i.client_name, value: i.id};
+          }
           newArray.push(item);
         }
       }
-      // setItems(newArray);
-      setItems(prevState => {
-        return {
-          ...prevState,
-          clientItems: newArray,
-        };
-      });
-      console.log('----------->>>', reducerData.getClientData[0]);
-    } else {
-      setItems(prevState => {
-        return {
-          ...prevState,
-          clientItems: [],
-        };
-      });
+      setClientItems(newArray);
     }
   }, [reducerData.getClientData]);
+
+  //For resources
+  useEffect(() => {
+    if (reducerData.getResorceData != null) {
+      let newArray = [];
+      for (let i of reducerData.getResorceData) {
+        let item;
+        if (i.resources !== null) {
+          item = {
+            id: i.id,
+            label: `${i.fname} ${i.lname}`,
+            value: i.id,
+            fname: i.fname,
+            lname: i.lname,
+          };
+        }
+        newArray.push(item);
+      }
+      setResourceItems(newArray);
+    }
+  }, [reducerData.getResorceData]);
 
   const selectAgreement = async (fileName, Error) => {
     try {
@@ -223,7 +323,7 @@ const EditClientAgreement = ({navigation}) => {
 
   const onSubmit = () => {
     const clientError = validation.validateField(formData.client);
-    // const resourceError = validation.validateField(formData.resource);
+    const resourceError = validation.validateField(formData.resource);
     const agreementTypeError = validation.validateField(formData.agreementType);
     const startDateError = validation.validateField(formData.startDate);
     const endDateError = validation.validateField(formData.endDate);
@@ -231,14 +331,14 @@ const EditClientAgreement = ({navigation}) => {
 
     if (
       clientError ||
-      // resourceError ||
+      resourceError ||
       agreementTypeError ||
       startDateError ||
       endDateError ||
       agreementError
     ) {
       dispatcher({type: 'clientError', payload: clientError});
-      // dispatcher({type: 'resourceError', payload: resourceError});
+      dispatcher({type: 'resourceError', payload: resourceError});
       dispatcher({type: 'agreementTypeError', payload: agreementTypeError});
       dispatcher({type: 'startDateError', payload: startDateError});
       dispatcher({type: 'endDateError', payload: endDateError});
@@ -247,7 +347,7 @@ const EditClientAgreement = ({navigation}) => {
     }
 
     dispatcher({type: 'clientError', payload: null});
-    // dispatcher({type: 'resourceError', payload: null});
+    dispatcher({type: 'resourceError', payload: null});
     dispatcher({type: 'agreementTypeError', payload: null});
     dispatcher({type: 'startDateError', payload: null});
     dispatcher({type: 'endDateError', payload: null});
@@ -278,18 +378,8 @@ const EditClientAgreement = ({navigation}) => {
                   return (
                     <TouchableOpacity
                       onPress={() => {
-                        setValue(prevValue => {
-                          return {
-                            ...prevValue,
-                            clientValue: item.value,
-                          };
-                        });
-                        setOpen(prevOpen => {
-                          return {
-                            ...prevOpen,
-                            clientOpen: false,
-                          };
-                        });
+                        setClientValue(item.value);
+                        setClientOpen(false);
                         dispatcher({
                           type: 'client',
                           // payload: item.value,
@@ -308,18 +398,19 @@ const EditClientAgreement = ({navigation}) => {
                     </TouchableOpacity>
                   );
                 }}
-                open={open.clientOpen}
-                value={value.clientValue}
-                items={items.clientItems}
-                setOpen={setOpen.clientOpen}
-                setItems={setItems.clientItems}
+                open={clientOpen}
+                onOpen={onClientOpen}
+                value={clientValue}
+                items={clientItems}
+                setOpen={setClientOpen}
+                setItems={setClientItems}
               />
             )}
             {formData.clientError !== null && (
               <Text style={styles.errorText}>{formData.clientError}</Text>
             )}
             <View style={styles.verticalSpace} />
-            {/* <DropDownPicker
+            <DropDownPicker
               style={[styles.dropdownViewStyle, styles.dropDownAligner]}
               placeholder="Resource"
               placeholderStyle={{color: COLORS.black}}
@@ -329,23 +420,16 @@ const EditClientAgreement = ({navigation}) => {
                 return (
                   <TouchableOpacity
                     onPress={() => {
-                      //   setValueResource(item.value);
-                      setValue(prevValue => {
-                        return {
-                          ...prevValue,
-                          resourceValue: item.value,
-                        };
-                      });
-                      //   setOpenResource(false);
-                      setOpen(prevOpen => {
-                        return {
-                          ...prevOpen,
-                          resourceOpen: false,
-                        };
-                      });
+                      setResourceValue(item.value);
+                      setResourceOpen(false);
                       dispatcher({
                         type: 'resource',
-                        payload: item.value,
+                        // payload: item.value,
+                        payload: {
+                          fname: item.fname,
+                          id: item.value,
+                          lname: item.lname,
+                        },
                       });
                       dispatcher({
                         type: 'resourceError',
@@ -357,12 +441,13 @@ const EditClientAgreement = ({navigation}) => {
                   </TouchableOpacity>
                 );
               }}
-              open={open.resourceOpen}
-              value={value.resourceValue}
-              items={items.resourceItems}
-              setOpen={setOpen}
-              setItems={setItems}
-            /> */}
+              open={resourceOpen}
+              onOpen={onResourceOpen}
+              value={resourceValue}
+              items={resourceItems}
+              setOpen={setResourceOpen}
+              setItems={setResourceItems}
+            />
             {formData.resourceError !== null && (
               <Text style={styles.errorText}>{formData.resourceError}</Text>
             )}
@@ -377,20 +462,8 @@ const EditClientAgreement = ({navigation}) => {
                 return (
                   <TouchableOpacity
                     onPress={() => {
-                      //   setValueAgreementType(item.value);
-                      setValue(prevValue => {
-                        return {
-                          ...prevValue,
-                          agreementTypeValue: item.value,
-                        };
-                      });
-                      //   setOpenAgreementType(false);
-                      setOpen(prevOpen => {
-                        return {
-                          ...prevOpen,
-                          agreementTypeOpen: false,
-                        };
-                      });
+                      setAgreementTypeValue(item.value);
+                      setAgreementTypeOpen(false);
                       dispatcher({
                         type: 'agreementType',
                         payload: item.value,
@@ -405,11 +478,12 @@ const EditClientAgreement = ({navigation}) => {
                   </TouchableOpacity>
                 );
               }}
-              open={open.agreementTypeOpen}
-              value={value.agreementTypeValue}
-              items={items.agreementTypeItems}
-              setOpen={setOpen}
-              setItems={setItems}
+              open={agreementTypeOpen}
+              onOpen={onAgreementTypeOpen}
+              value={agreementTypeValue}
+              items={agreementTypeItems}
+              setOpen={setAgreementTypeOpen}
+              setItems={setAgreementTypeItems}
             />
             {formData.agreementTypeError !== null && (
               <Text style={styles.errorText}>
