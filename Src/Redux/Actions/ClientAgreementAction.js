@@ -88,6 +88,7 @@ export function addClientAgreement(values, navigation) {
         Toast.show('Client Agreement Added Successfully');
       }
       navigation.goBack();
+      console.log('GO BACK REACHED!!!!!!!');
     } catch (err) {
       console.log('addClientAgreement error', err);
       dispatch(clientAgreementDispatch(err, ADDCLIENTAGREEMENT_FAIL));

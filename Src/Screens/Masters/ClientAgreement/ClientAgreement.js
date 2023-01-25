@@ -56,36 +56,19 @@ const ClientAgreement = ({navigation}) => {
   }, [search]);
 
   useEffect(() => {
-    console.log(
-      'clientAgreementData------------------->',
-      reducerData.clientAgreementData,
-    );
-    setClientAgreements(reducerData.clientAgreementData);
-    setFilterClientAgreements(reducerData.clientAgreementData);
-    setLoading(false);
+    if (reducerData.clientAgreementData) {
+      setError(null);
+      console.log(
+        'clientAgreementData------------------->',
+        reducerData.clientAgreementData,
+      );
+      setClientAgreements(reducerData.clientAgreementData);
+      setFilterClientAgreements(reducerData.clientAgreementData);
+      setLoading(false);
+    } else {
+      setError('Data not found!');
+    }
   }, [reducerData.clientAgreementData]);
-
-  // useEffect(() => {
-  //   console.warn(reducerData.getClientData);
-  //   if (JSON.stringify(reducerData.getClientData) !== '{}') {
-  //     Alert.alert('Gotcha!');
-  //     let newArray = [];
-  //     for (let i of reducerData.getClientData) {
-  //       console.log('i');
-  //     }
-  //     for (let i of reducerData.getClientData) {
-  //       let item;
-  //       if (i.client_name) {
-  //         if (i.client_name !== null) {
-  //           item = {id: i.id, label: i.client_name, value: i.id};
-  //         }
-  //         newArray.push(item);
-  //       }
-  //     }
-  //     setItems(newArray);
-  //     console.log('----------->>>', items);
-  //   }
-  // }, [reducerData.getClientData]);
 
   //for setting search input text
   const setSearchValue = value => {
@@ -155,7 +138,7 @@ const ClientAgreement = ({navigation}) => {
         </View>
       )}
 
-      {/* {!loading && error && (
+      {!loading && error && (
         <View style={styles.loadingContainer}>
           <Text> Something Went Wrong</Text>
         </View>
@@ -165,7 +148,7 @@ const ClientAgreement = ({navigation}) => {
         <View style={styles.loadingContainer}>
           <Text> Client Agreements Information is not found </Text>
         </View>
-      )} */}
+      )}
 
       {!loading && clientAgreements && clientAgreements.length > 0 && (
         <FlatList
@@ -246,23 +229,22 @@ const ClientAgreement = ({navigation}) => {
               </View>
 
               {/* for edit button */}
-              {/* <CustomButton
+              <CustomButton
                 title="Edit"
                 onPressFunction={() => {
-                  console.log('EditClientAgreement Data to pass : ', items);
                   navigation.navigate('EditClientAgreement');
                 }}
                 style={styles.customBtnAligner}
-              /> */}
+              />
 
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 onPress={() => {
                   // console.log('EditClientAgreement Data to pass : ', items);
                   console.log('Clicked!!!');
                   navigation.navigate('EditClientAgreement');
                 }}>
                 <Text>Send</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
           )}
           keyExtractor={item => item.id}

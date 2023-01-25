@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useReducer} from 'react';
+import React, {useState, useEffect, useReducer, useCallback} from 'react';
 import {
   View,
   SafeAreaView,
@@ -31,20 +31,25 @@ import dayjs from 'dayjs';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {initialState, reducer} from './AddClientAgreementFormData';
 
-LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+LogBox.ignoreLogs([
+  'VirtualizedLists should never be nested inside plain ScrollViews with the same orientation because it can break windowing and other functionality - use another VirtualizedList-backed container instead.',
+]);
 
 const AddClientAgreement = ({navigation}) => {
   const dispatch = useDispatch();
   const reducerData = useSelector(state => state.ClientAgreementReducer);
-  // console.log('reducerdata------->', reducerData);
-  // console.log('reducerdata.getClientData------->', reducerData.getClientData);
+  console.log('reducerdata from Add Client------->', reducerData);
+  console.log(
+    'reducerdata.getClientData from Add Client------->',
+    reducerData.getClientData,
+  );
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [items, setItems] = useState([]);
 
-  // const [openResource, setOpenResource] = useState(false);
-  // const [valueResource, setValueResource] = useState(null);
-  // const [itemsResource, setItemsResource] = useState([]);
+  const [openResource, setOpenResource] = useState(false);
+  const [valueResource, setValueResource] = useState(null);
+  const [itemsResource, setItemsResource] = useState([]);
 
   const [openAgreementType, setOpenAgreementType] = useState(false);
   const [valueAgreementType, setValueAgreementType] = useState(null);
@@ -64,11 +69,6 @@ const AddClientAgreement = ({navigation}) => {
   ]);
 
   const [formData, dispatcher] = useReducer(reducer, initialState);
-  // const [clientList, setClientList] = useState([]);
-  // const [resourceList, setResourceList] = useState([]);
-  // const [agreementTypeList, setAgreementTypeList] = useState([]);
-  // const [openStartDatePicker, setStartOpenDatePicer] = useState(false);
-  // const [openEndDatePicker, setEndOpenDatePicer] = useState(false);
   const [date, setDate] = useState({
     startDate: new Date(Date.now()),
     endDate: new Date(Date.now()),
@@ -156,18 +156,40 @@ const AddClientAgreement = ({navigation}) => {
   }
 
   function showStartDatePicker() {
-    console.log('Start Date Picker Opened!!');
+    // console.log('Start Date Picker Opened!!');
     setDatePicker(prevDatePickers => {
       return {...prevDatePickers, startDatePicker: true};
     });
+    setOpen(false);
+    setOpenResource(false);
+    setOpenAgreementType(false);
   }
 
   function showEndDatePicker() {
-    console.log('END Date Picker Opened!!');
+    // console.log('END Date Picker Opened!!');
     setDatePicker(prevDatePickers => {
       return {...prevDatePickers, endDatePicker: true};
     });
+    setOpen(false);
+    setOpenResource(false);
+    setOpenAgreementType(false);
   }
+
+  //For closing other dropdowns
+  const onClientOpen = useCallback(() => {
+    setOpenResource(false);
+    setOpenAgreementType(false);
+  }, []);
+
+  const onResourceOpen = useCallback(() => {
+    setOpen(false);
+    setOpenAgreementType(false);
+  }, []);
+
+  const onAgreementTypeOpen = useCallback(() => {
+    setOpen(false);
+    setOpenResource(false);
+  }, []);
 
   //For client name
   useEffect(() => {
@@ -187,19 +209,25 @@ const AddClientAgreement = ({navigation}) => {
   }, [reducerData.getClientData]);
 
   //For resources
-  // useEffect(() => {
-  //   if (reducerData.getResorceData != null) {
-  //     let newArray = [];
-  //     for (let i of reducerData.getResorceData) {
-  //       let item;
-  //       if (i.resources !== null) {
-  //         item = {id: i.id, label: `${i.fname} ${i.lname}`, value: i.id};
-  //       }
-  //       newArray.push(item);
-  //     }
-  //     setItemsResource(newArray);
-  //   }
-  // }, [reducerData.getResorceData]);
+  useEffect(() => {
+    if (reducerData.getResorceData != null) {
+      let newArray = [];
+      for (let i of reducerData.getResorceData) {
+        let item;
+        if (i.resources !== null) {
+          item = {
+            id: i.id,
+            label: `${i.fname} ${i.lname}`,
+            value: i.id,
+            fname: i.fname,
+            lname: i.lname,
+          };
+        }
+        newArray.push(item);
+      }
+      setItemsResource(newArray);
+    }
+  }, [reducerData.getResorceData]);
 
   const selectAgreement = async (fileName, Error) => {
     try {
@@ -222,18 +250,6 @@ const AddClientAgreement = ({navigation}) => {
         payload: validation.validatefile(file.uri),
       });
 
-      // if (file.length > 1) {
-      //   let fileArr = [];
-      //   file.forEach(item => {
-      //     let el = {
-      //       type: fileName,
-      //       payload: {uri: item.uri, type: item.type, name: item.name},
-      //     };
-      //     fileArr.push(el);
-      //   });
-      //   console.log(fileArr);
-      // }
-
       if (file !== null) {
         Toast.showWithGravity(
           'File Selected Successfully',
@@ -252,43 +268,45 @@ const AddClientAgreement = ({navigation}) => {
 
   const convertClientAgreement = data => {
     //Format data to post/add client agreement
-    // let dataToSend = {
-    //   agreement: data.agreementType,
-    //   client: {
-    //     client_name: data.client.client_name,
-    //     id: data.client.id,
-    //   },
-    //   client_id: data.client.id,
-    //   created_at: new Date().toISOString(),
-    //   deleted_at: null,
-    //   description: '',
-    //   end_date: data.endDate,
-    //   id: null,
-    //   msa: '',
-    //   pdf_file: [''],
-    //   po: '',
-    //   resource_id: null,
-    //   resources: [
-    //     {
-    //       clientAgreement_resource: {
-    //         clientAgreementId: null,
-    //         resourceId: null,
-    //       },
-    //       fname: '',
-    //       id: null,
-    //       lname: '',
-    //     },
-    //   ],
-    //   sow: 'null',
-    //   start_date: '',
-    //   title: null,
-    //   updated_at: '',
-    // };
+    let dataToSend = {
+      agreement: data.agreementType,
+      client: {
+        client_name: data.client.client_name,
+        id: data.client.id,
+      },
+      client_id: data.client.id,
+      created_at: new Date().toISOString(),
+      deleted_at: null,
+      description: '',
+      end_date: data.endDate,
+      id: null,
+      msa: data.agreementType === 'msa' ? 'msa' : null,
+      pdf_file: [data.agreement.uri],
+      po: data.agreementType === 'po' ? 'po' : null,
+      resource_id: data.resource.id,
+      resources: [
+        {
+          clientAgreement_resource: {
+            clientAgreementId: null,
+            resourceId: data.resource.id,
+          },
+          fname: data.resource.fname,
+          id: data.resource.id,
+          lname: data.resource.lname,
+        },
+      ],
+      sow: data.agreementType === 'sow' ? 'sow' : null,
+      start_date: data.startDate,
+      title: null,
+      updated_at: '',
+    };
+
+    return dataToSend;
   };
 
   const onSubmit = () => {
     const clientError = validation.validateField(formData.client);
-    // const resourceError = validation.validateField(formData.resource);
+    const resourceError = validation.validateField(formData.resource);
     const agreementTypeError = validation.validateField(formData.agreementType);
     const startDateError = validation.validateField(formData.startDate);
     const endDateError = validation.validateField(formData.endDate);
@@ -296,14 +314,14 @@ const AddClientAgreement = ({navigation}) => {
 
     if (
       clientError ||
-      // resourceError ||
+      resourceError ||
       agreementTypeError ||
       startDateError ||
       endDateError ||
       agreementError
     ) {
       dispatcher({type: 'clientError', payload: clientError});
-      // dispatcher({type: 'resourceError', payload: resourceError});
+      dispatcher({type: 'resourceError', payload: resourceError});
       dispatcher({type: 'agreementTypeError', payload: agreementTypeError});
       dispatcher({type: 'startDateError', payload: startDateError});
       dispatcher({type: 'endDateError', payload: endDateError});
@@ -312,24 +330,21 @@ const AddClientAgreement = ({navigation}) => {
     }
 
     dispatcher({type: 'clientError', payload: null});
-    // dispatcher({type: 'resourceError', payload: null});
+    dispatcher({type: 'resourceError', payload: null});
     dispatcher({type: 'agreementTypeError', payload: null});
     dispatcher({type: 'startDateError', payload: null});
     dispatcher({type: 'endDateError', payload: null});
     dispatcher({type: 'agreementError', payload: null});
 
-    // let data = convertClientAgreement(formData);
+    // console.log('FORMDATA -------->', formData);
+    let data = convertClientAgreement(formData);
 
-    console.log(formData);
+    // console.log('##DATA##', data);
 
-    // dispatch(addClientAgreement(formData, navigation));
+    dispatch(addClientAgreement(data, navigation));
   };
 
   return (
-    // <View style={styles.rootContainer}>
-    //   <Text style={styles.textStyle}>Add Client Agreement</Text>
-    // </View>
-
     <SafeAreaView style={GLOBALSTYLE.safeAreaViewStyle}>
       <View style={styles.container}>
         <CustomNavigationBar back={true} headername="Add Client Agreement" />
@@ -366,6 +381,7 @@ const AddClientAgreement = ({navigation}) => {
                 );
               }}
               open={open}
+              onOpen={onClientOpen}
               value={value}
               items={items}
               setOpen={setOpen}
@@ -375,13 +391,14 @@ const AddClientAgreement = ({navigation}) => {
               <Text style={styles.errorText}>{formData.clientError}</Text>
             )}
             <View style={styles.verticalSpace} />
-            {/* <DropDownPicker
+            <DropDownPicker
               style={[styles.dropdownViewStyle, styles.dropDownAligner]}
               placeholder="Resource"
               placeholderStyle={{color: COLORS.black}}
               listMode="FLATLIST"
               dropDownContainerStyle={styles.dropDownContainerStyle}
               renderListItem={({item}) => {
+                // console.log('Resource ITEM :- ', item);
                 return (
                   <TouchableOpacity
                     onPress={() => {
@@ -389,7 +406,12 @@ const AddClientAgreement = ({navigation}) => {
                       setOpenResource(false);
                       dispatcher({
                         type: 'resource',
-                        payload: item.value,
+                        // payload: item.value,
+                        payload: {
+                          fname: item.fname,
+                          id: item.value,
+                          lname: item.lname,
+                        },
                       });
                       dispatcher({
                         type: 'resourceError',
@@ -402,11 +424,12 @@ const AddClientAgreement = ({navigation}) => {
                 );
               }}
               open={openResource}
+              onOpen={onResourceOpen}
               value={valueResource}
               items={itemsResource}
               setOpen={setOpenResource}
               setItems={setItemsResource}
-            /> */}
+            />
             {formData.resourceError !== null && (
               <Text style={styles.errorText}>{formData.resourceError}</Text>
             )}
@@ -438,6 +461,7 @@ const AddClientAgreement = ({navigation}) => {
                 );
               }}
               open={openAgreementType}
+              onOpen={onAgreementTypeOpen}
               value={valueAgreementType}
               items={itemsAgreementType}
               setOpen={setOpenAgreementType}
