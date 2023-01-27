@@ -30,6 +30,7 @@ import validation from '../../../../Util/helper';
 import dayjs from 'dayjs';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {initialState, reducer} from './AddClientAgreementFormData';
+import axios from 'axios';
 
 LogBox.ignoreLogs([
   'VirtualizedLists should never be nested inside plain ScrollViews with the same orientation because it can break windowing and other functionality - use another VirtualizedList-backed container instead.',
@@ -345,6 +346,37 @@ const AddClientAgreement = ({navigation}) => {
     dispatch(addClientAgreement(data, navigation));
   };
 
+  const fun = () => {
+    // var axios = require('axios');
+    var data = JSON.stringify({
+      client_id: 46,
+      start_date: '12/29/2021',
+      end_date: '01/12/2022',
+      title: 'One Piece Anime',
+      description: '1000 Episodes Done ',
+      pdf_file: 'http://www.anime.com',
+    });
+
+    var config = {
+      method: 'post',
+      url: 'http://localhost:9000/api/client-agreement/',
+      headers: {
+        Authorization:
+          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzYsImVtYWlsIjoidGVzdEBuaW1hcGluZm90ZWNoLmNvbSIsImlhdCI6MTY0MzQzNjg1OSwiZXhwIjoxNjQzNTIzMjU5fQ.JwKk1htK6R5fW5W6q6u71t2HugXSjmgO4tkToh8Vl2o',
+        'Content-Type': 'application/json',
+      },
+      data: data,
+    };
+
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
   return (
     <SafeAreaView style={GLOBALSTYLE.safeAreaViewStyle}>
       <View style={styles.container}>
@@ -549,6 +581,7 @@ const AddClientAgreement = ({navigation}) => {
               style={[styles.btnStyle, styles.submitBtnAligner]}
               onPress={() => {
                 onSubmit();
+                // fun();
               }}>
               <Text style={styles.submitBtnTextStyle}>Submit</Text>
             </TouchableOpacity>

@@ -74,6 +74,16 @@ export function getClient() {
 //For adding client agreemnet data
 export function addClientAgreement(values, navigation) {
   console.log('addClientAgreement : ', values);
+  // const newData = {
+  //   client_id: 312,
+  //   start_date: '12/29/2021',
+  //   end_date: '01/12/2022',
+  //   title: 'One Piece Anime',
+  //   description: 'Wano arc finished ',
+  //   pdf_file: 'http://www.anime.com',
+  //   resource_id: 6,
+  // };
+
   return async dispatch => {
     // dispatch(clientAgreementDispatch({}, ADDCLIENTAGREEMENT_PROGRESS));
     try {
