@@ -23,7 +23,7 @@ export function getInitialClientAgreement() {
     );
     try {
       const res = await request({url: '/client-agreement', method: 'GET'});
-      console.log('Client Agreement Response', res.data.data);
+      // console.log('Client Agreement Response', res.data.data);
       dispatch(
         clientAgreementDispatch(
           res.data.data.clientAgreements,
@@ -43,7 +43,7 @@ export function getResources() {
     dispatch(clientAgreementDispatch({}, GETRESOURCE_PROGRESS));
     try {
       const data = await request({url: '/resource', method: 'GET'});
-      console.log('getResources response', data.data.data.resources);
+      // console.log('getResources response', data.data.data.resources);
       dispatch(
         clientAgreementDispatch(data.data.data.resources, GETRESOURCE_SUCCESS),
       );
@@ -75,7 +75,7 @@ export function getClient() {
 export function addClientAgreement(values, navigation) {
   console.log('addClientAgreement : ', values);
   return async dispatch => {
-    dispatch(clientAgreementDispatch({}, ADDCLIENTAGREEMENT_PROGRESS));
+    // dispatch(clientAgreementDispatch({}, ADDCLIENTAGREEMENT_PROGRESS));
     try {
       const {data} = await request({
         url: '/client-agreement',
@@ -83,12 +83,12 @@ export function addClientAgreement(values, navigation) {
         data: values,
       });
       console.log('addClientAgreement response', data);
-      if (data.data.message) {
-        dispatch(data.data, ADDCLIENTAGREEMENT_SUCCESS);
-        Toast.show('Client Agreement Added Successfully');
+      if (data.message) {
+        // dispatch(data, ADDCLIENTAGREEMENT_SUCCESS);
+        Toast.show(data.message);
       }
       navigation.goBack();
-      console.log('GO BACK REACHED!!!!!!!');
+      // console.log('GO BACK REACHED!!!!!!!');
     } catch (err) {
       console.log('addClientAgreement error', err);
       dispatch(clientAgreementDispatch(err, ADDCLIENTAGREEMENT_FAIL));

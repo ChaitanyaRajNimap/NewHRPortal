@@ -39,10 +39,10 @@ const AddClientAgreement = ({navigation}) => {
   const dispatch = useDispatch();
   const reducerData = useSelector(state => state.ClientAgreementReducer);
   console.log('reducerdata from Add Client------->', reducerData);
-  console.log(
-    'reducerdata.getClientData from Add Client------->',
-    reducerData.getClientData,
-  );
+  // console.log(
+  //   'reducerdata.getClientData from Add Client------->',
+  //   reducerData.getClientData,
+  // );
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [items, setItems] = useState([]);
@@ -269,36 +269,37 @@ const AddClientAgreement = ({navigation}) => {
   const convertClientAgreement = data => {
     //Format data to post/add client agreement
     let dataToSend = {
-      agreement: data.agreementType,
-      client: {
-        client_name: data.client.client_name,
-        id: data.client.id,
-      },
+      // agreement: data.agreementType,
+      // client: {
+      //   client_name: data.client.client_name,
+      //   id: data.client.id,
+      // },
       client_id: data.client.id,
-      created_at: new Date().toISOString(),
-      deleted_at: null,
+      // created_at: new Date().toISOString(),
+      // deleted_at: null,
       description: 'Adding new client agreement',
       end_date: data.endDate,
-      id: null,
-      msa: data.agreementType === 'msa' ? 'msa' : null,
-      pdf_file: [data.agreement.uri],
-      po: data.agreementType === 'po' ? 'po' : null,
+      // id: null,
+      // msa: data.agreementType === 'msa' ? 'msa' : null,
+      // pdf_file: [data.agreement.uri],
+      pdf_file: data.agreement,
+      // po: data.agreementType === 'po' ? 'po' : null,
       resource_id: data.resource.id,
-      resources: [
-        {
-          clientAgreement_resource: {
-            clientAgreementId: null,
-            resourceId: data.resource.id,
-          },
-          fname: data.resource.fname,
-          id: data.resource.id,
-          lname: data.resource.lname,
-        },
-      ],
-      sow: data.agreementType === 'sow' ? 'sow' : null,
+      // resources: [
+      //   {
+      //     clientAgreement_resource: {
+      //       clientAgreementId: null,
+      //       resourceId: data.resource.id,
+      //     },
+      //     fname: data.resource.fname,
+      //     id: data.resource.id,
+      //     lname: data.resource.lname,
+      //   },
+      // ],
+      // sow: data.agreementType === 'sow' ? 'sow' : null,
       start_date: data.startDate,
       title: 'Add new client agreement',
-      updated_at: '',
+      // updated_at: '',
     };
 
     return dataToSend;

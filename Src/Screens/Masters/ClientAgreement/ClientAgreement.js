@@ -58,10 +58,10 @@ const ClientAgreement = ({navigation}) => {
   useEffect(() => {
     if (reducerData.clientAgreementData) {
       setError(null);
-      console.log(
-        'clientAgreementData------------------->',
-        reducerData.clientAgreementData,
-      );
+      // console.log(
+      //   'clientAgreementData------------------->',
+      //   reducerData.clientAgreementData,
+      // );
       setClientAgreements(reducerData.clientAgreementData);
       setFilterClientAgreements(reducerData.clientAgreementData);
       setLoading(false);
@@ -131,7 +131,7 @@ const ClientAgreement = ({navigation}) => {
       <SearchBox setSearchValue={setSearchValue} />
 
       {/*Displaying loader while data fetching */}
-      {console.log('loading reached ' + loading)}
+      {/* {console.log('loading reached ' + loading)} */}
       {loading && (
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={COLORS.blue} />

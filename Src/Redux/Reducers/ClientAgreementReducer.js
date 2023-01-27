@@ -47,7 +47,7 @@ const ClientAgreementReducer = (state = initialState, action) => {
         isLoading: true,
       };
     case GETRESOURCE_SUCCESS:
-      console.log('GETRESOURCE_SUCCESS');
+      // console.log('GETRESOURCE_SUCCESS');
       return {
         ...state,
         isLoading: false,
