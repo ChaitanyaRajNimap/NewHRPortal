@@ -70,6 +70,17 @@ const AddClientAgreement = ({navigation}) => {
   ]);
 
   const [formData, dispatcher] = useReducer(reducer, initialState);
+  const [inputs, setInputs] = useState({
+    clientId: null,
+    startDate: new Date(Date.now()),
+    endDate: new Date(Date.now()),
+    title: 'Adding Client Agreement',
+    description: 'Adding New Client Agreement',
+    pdfFile: null,
+    resourceId: null,
+    agreement: null,
+  });
+
   const [date, setDate] = useState({
     startDate: new Date(Date.now()),
     endDate: new Date(Date.now()),
@@ -124,14 +135,20 @@ const AddClientAgreement = ({navigation}) => {
     setDisplayDate(prevDates => {
       return {...prevDates, startDate: convertDate(value)};
     });
-    dispatcher({
-      type: 'startDate',
-      payload: convertDateToSend(value),
+    setInputs(prevInputs => {
+      return {
+        ...prevInputs,
+        startDate: convertDateToSend(value),
+      };
     });
-    dispatcher({
-      type: 'startDateError',
-      payload: null,
-    });
+    // dispatcher({
+    //   type: 'startDate',
+    //   payload: convertDateToSend(value),
+    // });
+    // dispatcher({
+    //   type: 'startDateError',
+    //   payload: null,
+    // });
     // console.log('onStartDateSelected--------------->');
   }
 
@@ -145,14 +162,20 @@ const AddClientAgreement = ({navigation}) => {
     setDisplayDate(prevDates => {
       return {...prevDates, endDate: convertDate(value)};
     });
-    dispatcher({
-      type: 'endDate',
-      payload: convertDateToSend(value),
+    setInputs(prevInputs => {
+      return {
+        ...prevInputs,
+        endDate: convertDateToSend(value),
+      };
     });
-    dispatcher({
-      type: 'endDateError',
-      payload: null,
-    });
+    // dispatcher({
+    //   type: 'endDate',
+    //   payload: convertDateToSend(value),
+    // });
+    // dispatcher({
+    //   type: 'endDateError',
+    //   payload: null,
+    // });
     // console.log('onEndDateSelected--------------->');
   }
 
@@ -241,15 +264,21 @@ const AddClientAgreement = ({navigation}) => {
       });
 
       // console.log('FILE : ', file);
-      dispatcher({
-        type: fileName,
-        payload: {uri: file.uri, type: file.type, name: file.name},
+      setInputs(prevInputs => {
+        return {
+          ...prevInputs,
+          pdfFile: {uri: file.uri, type: file.type, name: file.name},
+        };
       });
+      // dispatcher({
+      //   type: fileName,
+      //   payload: {uri: file.uri, type: file.type, name: file.name},
+      // });
 
-      dispatcher({
-        type: Error,
-        payload: validation.validatefile(file.uri),
-      });
+      // dispatcher({
+      //   type: Error,
+      //   payload: validation.validatefile(file.uri),
+      // });
 
       if (file !== null) {
         Toast.showWithGravity(
@@ -307,43 +336,60 @@ const AddClientAgreement = ({navigation}) => {
   };
 
   const onSubmit = () => {
-    const clientError = validation.validateField(formData.client);
-    const resourceError = validation.validateField(formData.resource);
-    const agreementTypeError = validation.validateField(formData.agreementType);
-    const startDateError = validation.validateField(formData.startDate);
-    const endDateError = validation.validateField(formData.endDate);
-    const agreementError = validation.validatefile(formData.agreement?.uri);
+    // const clientError = validation.validateField(formData.client);
+    // const resourceError = validation.validateField(formData.resource);
+    // const agreementTypeError = validation.validateField(formData.agreementType);
+    // const startDateError = validation.validateField(formData.startDate);
+    // const endDateError = validation.validateField(formData.endDate);
+    // const agreementError = validation.validatefile(formData.agreement?.uri);
+    // if (
+    //   clientError ||
+    //   resourceError ||
+    //   agreementTypeError ||
+    //   startDateError ||
+    //   endDateError ||
+    //   agreementError
+    // ) {
+    //   dispatcher({type: 'clientError', payload: clientError});
+    //   dispatcher({type: 'resourceError', payload: resourceError});
+    //   dispatcher({type: 'agreementTypeError', payload: agreementTypeError});
+    //   dispatcher({type: 'startDateError', payload: startDateError});
+    //   dispatcher({type: 'endDateError', payload: endDateError});
+    //   dispatcher({type: 'agreementError', payload: agreementError});
+    //   return;
+    // }
+    // dispatcher({type: 'clientError', payload: null});
+    // dispatcher({type: 'resourceError', payload: null});
+    // dispatcher({type: 'agreementTypeError', payload: null});
+    // dispatcher({type: 'startDateError', payload: null});
+    // dispatcher({type: 'endDateError', payload: null});
+    // dispatcher({type: 'agreementError', payload: null});
+    // console.log('FORMDATA -------->', formData);
+    // let data = convertClientAgreement(formData);
+    // console.log('##DATA##', data);
+    // dispatch(addClientAgreement(data, navigation));
 
-    if (
-      clientError ||
-      resourceError ||
-      agreementTypeError ||
-      startDateError ||
-      endDateError ||
-      agreementError
-    ) {
-      dispatcher({type: 'clientError', payload: clientError});
-      dispatcher({type: 'resourceError', payload: resourceError});
-      dispatcher({type: 'agreementTypeError', payload: agreementTypeError});
-      dispatcher({type: 'startDateError', payload: startDateError});
-      dispatcher({type: 'endDateError', payload: endDateError});
-      dispatcher({type: 'agreementError', payload: agreementError});
-      return;
-    }
+    // : 341,
+    // : '01/30/2023',
+    // : '01/12/2024',
+    // : 'One Piece Anime',
+    // : 'Wano Arc Completed!',
+    // : 'http://www.anime.com',
+    // : 318,
 
-    dispatcher({type: 'clientError', payload: null});
-    dispatcher({type: 'resourceError', payload: null});
-    dispatcher({type: 'agreementTypeError', payload: null});
-    dispatcher({type: 'startDateError', payload: null});
-    dispatcher({type: 'endDateError', payload: null});
-    dispatcher({type: 'agreementError', payload: null});
+    // console.log('<------INPUTS DATA----->', inputs);
+    let formData = new FormData();
+    // formData.append('agreement', inputs.agreement);
+    formData.append('client_id', inputs.clientId);
+    formData.append('description', inputs.description);
+    formData.append('end_date', inputs.endDate);
+    formData.append('pdf_file', inputs.pdfFile);
+    formData.append('resource_id', inputs.resourceId.toString());
+    formData.append('start_date', inputs.startDate);
+    formData.append('title', inputs.title);
 
-    console.log('FORMDATA -------->', formData);
-    let data = convertClientAgreement(formData);
-
-    console.log('##DATA##', data);
-
-    dispatch(addClientAgreement(data, navigation));
+    // console.log('<------FORM DATA----->', formData);
+    dispatch(addClientAgreement(formData, navigation));
   };
 
   const fun = () => {
@@ -395,18 +441,24 @@ const AddClientAgreement = ({navigation}) => {
                     onPress={() => {
                       setValue(item.value);
                       setOpen(false);
-                      dispatcher({
-                        type: 'client',
-                        // payload: item.value,
-                        payload: {
-                          client_name: item.label,
-                          id: item.value,
-                        },
+                      setInputs(prevInputs => {
+                        return {
+                          ...prevInputs,
+                          clientId: item.value,
+                        };
                       });
-                      dispatcher({
-                        type: 'clientError',
-                        payload: null,
-                      });
+                      // dispatcher({
+                      //   type: 'client',
+                      //   // payload: item.value,
+                      //   payload: {
+                      //     client_name: item.label,
+                      //     id: item.value,
+                      //   },
+                      // });
+                      // dispatcher({
+                      //   type: 'clientError',
+                      //   payload: null,
+                      // });
                     }}
                     style={styles.cellStyle}>
                     <Text style={styles.cellTextStyle}>{item.label}</Text>
@@ -420,9 +472,9 @@ const AddClientAgreement = ({navigation}) => {
               setOpen={setOpen}
               setItems={setItems}
             />
-            {formData.clientError !== null && (
+            {/* {formData.clientError !== null && (
               <Text style={styles.errorText}>{formData.clientError}</Text>
-            )}
+            )} */}
             <View style={styles.verticalSpace} />
             <DropDownPicker
               style={[styles.dropdownViewStyle, styles.dropDownAligner]}
@@ -437,19 +489,25 @@ const AddClientAgreement = ({navigation}) => {
                     onPress={() => {
                       setValueResource(item.value);
                       setOpenResource(false);
-                      dispatcher({
-                        type: 'resource',
-                        // payload: item.value,
-                        payload: {
-                          fname: item.fname,
-                          id: item.value,
-                          lname: item.lname,
-                        },
+                      setInputs(prevInputs => {
+                        return {
+                          ...prevInputs,
+                          resourceId: item.value,
+                        };
                       });
-                      dispatcher({
-                        type: 'resourceError',
-                        payload: null,
-                      });
+                      // dispatcher({
+                      //   type: 'resource',
+                      //   // payload: item.value,
+                      //   payload: {
+                      //     fname: item.fname,
+                      //     id: item.value,
+                      //     lname: item.lname,
+                      //   },
+                      // });
+                      // dispatcher({
+                      //   type: 'resourceError',
+                      //   payload: null,
+                      // });
                     }}
                     style={styles.cellStyle}>
                     <Text style={styles.cellTextStyle}>{item.label}</Text>
@@ -463,9 +521,9 @@ const AddClientAgreement = ({navigation}) => {
               setOpen={setOpenResource}
               setItems={setItemsResource}
             />
-            {formData.resourceError !== null && (
+            {/* {formData.resourceError !== null && (
               <Text style={styles.errorText}>{formData.resourceError}</Text>
-            )}
+            )} */}
             <View style={styles.verticalSpace} />
             <DropDownPicker
               style={[styles.dropdownViewStyle, styles.dropDownAligner]}
@@ -479,14 +537,20 @@ const AddClientAgreement = ({navigation}) => {
                     onPress={() => {
                       setValueAgreementType(item.value);
                       setOpenAgreementType(false);
-                      dispatcher({
-                        type: 'agreementType',
-                        payload: item.value,
+                      setInputs(prevInputs => {
+                        return {
+                          ...prevInputs,
+                          agreement: item.value,
+                        };
                       });
-                      dispatcher({
-                        type: 'agreementTypeError',
-                        payload: null,
-                      });
+                      // dispatcher({
+                      //   type: 'agreementType',
+                      //   payload: item.value,
+                      // });
+                      // dispatcher({
+                      //   type: 'agreementTypeError',
+                      //   payload: null,
+                      // });
                     }}
                     style={styles.cellStyle}>
                     <Text style={styles.cellTextStyle}>{item.label}</Text>
@@ -500,11 +564,11 @@ const AddClientAgreement = ({navigation}) => {
               setOpen={setOpenAgreementType}
               setItems={setItemsAgreementType}
             />
-            {formData.agreementTypeError !== null && (
+            {/* {formData.agreementTypeError !== null && (
               <Text style={styles.errorText}>
                 {formData.agreementTypeError}
               </Text>
-            )}
+            )} */}
             <View style={styles.verticalSpace} />
             <TouchableOpacity
               style={styles.dateBtnStyle}
@@ -525,9 +589,9 @@ const AddClientAgreement = ({navigation}) => {
                 onChange={onStartDateSelected}
               />
             ) : null}
-            {formData.startDateError !== null && (
+            {/* {formData.startDateError !== null && (
               <Text style={styles.errorText}>{formData.startDateError}</Text>
-            )}
+            )} */}
             <View style={styles.verticalSpace} />
             <TouchableOpacity
               style={styles.dateBtnStyle}
@@ -549,9 +613,9 @@ const AddClientAgreement = ({navigation}) => {
                 minimumDate={date.startDate}
               />
             ) : null}
-            {formData.endDateError !== null && (
+            {/* {formData.endDateError !== null && (
               <Text style={styles.errorText}>{formData.endDateError}</Text>
-            )}
+            )} */}
             <View style={styles.verticalSpace} />
             <TouchableOpacity
               style={[styles.btnStyle, styles.uploadBtnAligner]}
@@ -562,9 +626,9 @@ const AddClientAgreement = ({navigation}) => {
                 <AntDesign name="upload" color={COLORS.blue} size={24} />
                 <Text style={styles.uploadBtnTextStyle}>Upload SO/POW</Text>
               </> */}
-              {formData.agreement !== null ? (
+              {inputs.pdfFile !== null ? (
                 <Text style={styles.uploadBtnTextStyle}>
-                  {formData?.agreement?.name}
+                  {inputs?.pdfFile?.name}
                 </Text>
               ) : (
                 <>
@@ -573,9 +637,9 @@ const AddClientAgreement = ({navigation}) => {
                 </>
               )}
             </TouchableOpacity>
-            {formData.agreementError !== null && (
+            {/* {formData.agreementError !== null && (
               <Text style={styles.errorText}>{formData.agreementError}</Text>
-            )}
+            )} */}
             <View style={styles.verticalSpace} />
             <TouchableOpacity
               style={[styles.btnStyle, styles.submitBtnAligner]}

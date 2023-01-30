@@ -72,17 +72,17 @@ export function getClient() {
 }
 
 //For adding client agreemnet data
-export function addClientAgreement(values, navigation) {
-  console.log('addClientAgreement : ', values);
-  // const newData = {
-  //   client_id: 312,
-  //   start_date: '12/29/2021',
-  //   end_date: '01/12/2022',
-  //   title: 'One Piece Anime',
-  //   description: 'Wano arc finished ',
-  //   pdf_file: 'http://www.anime.com',
-  //   resource_id: 6,
-  // };
+export function addClientAgreement(formData, navigation) {
+  console.log('addClientAgreement : ', formData);
+  const newData = {
+    client_id: 329,
+    start_date: '01/30/2023',
+    end_date: '10/15/2024',
+    title: 'One Piece Anime',
+    description: 'Wano Arc Completed ',
+    pdf_file: 'http://www.anime.com',
+    resource_id: '318',
+  };
 
   return async dispatch => {
     // dispatch(clientAgreementDispatch({}, ADDCLIENTAGREEMENT_PROGRESS));
@@ -90,7 +90,7 @@ export function addClientAgreement(values, navigation) {
       const {data} = await request({
         url: '/client-agreement',
         method: 'POST',
-        data: values,
+        data: newData,
       });
       console.log('addClientAgreement response', data);
       if (data.message) {
