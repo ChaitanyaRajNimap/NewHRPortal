@@ -72,8 +72,8 @@ export function getClient() {
 }
 
 //For adding client agreemnet data
-export function addClientAgreement(formData, navigation) {
-  console.log('addClientAgreement : ', formData);
+export function addClientAgreement(values, navigation) {
+  console.log('addClientAgreement : ', values);
   const newData = {
     client_id: 329,
     start_date: '01/30/2023',
@@ -81,16 +81,16 @@ export function addClientAgreement(formData, navigation) {
     title: 'One Piece Anime',
     description: 'Wano Arc Completed ',
     pdf_file: 'http://www.anime.com',
-    resource_id: '318',
+    resource_id: ['318', '1'],
   };
 
   return async dispatch => {
     // dispatch(clientAgreementDispatch({}, ADDCLIENTAGREEMENT_PROGRESS));
     try {
-      const {data} = await request({
+      const data = await request({
         url: '/client-agreement',
         method: 'POST',
-        data: newData,
+        data: values,
       });
       console.log('addClientAgreement response', data);
       if (data.message) {

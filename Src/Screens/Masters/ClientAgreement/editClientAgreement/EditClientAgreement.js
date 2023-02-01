@@ -366,46 +366,44 @@ const EditClientAgreement = ({navigation}) => {
         <CustomNavigationBar back={true} headername="Edit Client Agreement" />
         <ScrollView style={styles.scrollViewStyle}>
           <View style={styles.formContainer}>
-            {console.log(items.clientItems)}
-            {items.clientItems && (
-              <DropDownPicker
-                style={[styles.dropdownViewStyle, styles.dropDownAligner]}
-                placeholder="Client"
-                placeholderStyle={{color: COLORS.black}}
-                listMode="FLATLIST"
-                dropDownContainerStyle={styles.dropDownContainerStyle}
-                renderListItem={({item}) => {
-                  return (
-                    <TouchableOpacity
-                      onPress={() => {
-                        setClientValue(item.value);
-                        setClientOpen(false);
-                        dispatcher({
-                          type: 'client',
-                          // payload: item.value,
-                          payload: {
-                            client_name: item.label,
-                            id: item.value,
-                          },
-                        });
-                        dispatcher({
-                          type: 'clientError',
-                          payload: null,
-                        });
-                      }}
-                      style={styles.cellStyle}>
-                      <Text style={styles.cellTextStyle}>{item.label}</Text>
-                    </TouchableOpacity>
-                  );
-                }}
-                open={clientOpen}
-                onOpen={onClientOpen}
-                value={clientValue}
-                items={clientItems}
-                setOpen={setClientOpen}
-                setItems={setClientItems}
-              />
-            )}
+            {/* {console.log(items.clientItems)} */}
+            <DropDownPicker
+              style={[styles.dropdownViewStyle, styles.dropDownAligner]}
+              placeholder="Client"
+              placeholderStyle={{color: COLORS.black}}
+              listMode="FLATLIST"
+              dropDownContainerStyle={styles.dropDownContainerStyle}
+              renderListItem={({item}) => {
+                return (
+                  <TouchableOpacity
+                    onPress={() => {
+                      setClientValue(item.value);
+                      setClientOpen(false);
+                      dispatcher({
+                        type: 'client',
+                        // payload: item.value,
+                        payload: {
+                          client_name: item.label,
+                          id: item.value,
+                        },
+                      });
+                      dispatcher({
+                        type: 'clientError',
+                        payload: null,
+                      });
+                    }}
+                    style={styles.cellStyle}>
+                    <Text style={styles.cellTextStyle}>{item.label}</Text>
+                  </TouchableOpacity>
+                );
+              }}
+              open={clientOpen}
+              onOpen={onClientOpen}
+              value={clientValue}
+              items={clientItems}
+              setOpen={setClientOpen}
+              setItems={setClientItems}
+            />
             {formData.clientError !== null && (
               <Text style={styles.errorText}>{formData.clientError}</Text>
             )}
