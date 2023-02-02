@@ -313,6 +313,7 @@ const AddClientAgreement = ({navigation}) => {
     dispatch(addClientAgreement(data, navigation));
   };
 
+  //For dispatching resources to formdata
   useEffect(() => {
     dispatcher({
       type: 'resource',
@@ -323,6 +324,21 @@ const AddClientAgreement = ({navigation}) => {
       payload: null,
     });
   }, [resourceValue]);
+
+  //For adding res if not selected before
+  const addResIfNotPresent = (resVal, item) => {
+    if (resVal) {
+      if (resVal.includes(item.value)) {
+        let index = resVal.indexOf(item.value);
+        if (index > -1) {
+          resVal.splice(index, 1);
+        }
+        return setResourceValue([...resourceValue]);
+      } else {
+        return setResourceValue([...resourceValue, item.value]);
+      }
+    }
+  };
 
   return (
     <SafeAreaView style={GLOBALSTYLE.safeAreaViewStyle}>
@@ -376,13 +392,15 @@ const AddClientAgreement = ({navigation}) => {
               placeholderStyle={{color: COLORS.black}}
               listMode="FLATLIST"
               multiple={true}
+              mode="BADGE"
+              // extendableBadgeContainer={true}
+              badgeTextStyle={{color: '#000'}}
               dropDownContainerStyle={styles.dropDownContainerStyle}
               renderListItem={({item}) => {
                 return (
                   <TouchableOpacity
                     onPress={() => {
-                      // setResourceValue(item.value);
-                      setResourceValue([...resourceValue, item.value]);
+                      addResIfNotPresent(resourceValue, item);
                       setResourceOpen(false);
                     }}
                     style={styles.cellStyle}>
