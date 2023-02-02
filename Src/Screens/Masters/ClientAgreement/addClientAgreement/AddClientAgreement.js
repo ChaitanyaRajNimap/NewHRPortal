@@ -35,16 +35,14 @@ const AddClientAgreement = ({navigation}) => {
   const reducerData = useSelector(state => state.ClientAgreementReducer);
   console.log('reducerdata from Add Client------->', reducerData);
 
-  //For storing form data
   const [formData, dispatcher] = useReducer(reducer, initialState);
 
-  //For holding dropdown states
   const [clientOpen, setClientOpen] = useState(false);
   const [clientValue, setClientValue] = useState(null);
   const [clientItems, setClientItems] = useState([]);
 
   const [resourceOpen, setResourceOpen] = useState(false);
-  const [resourceValue, setResourceValue] = useState(null);
+  const [resourceValue, setResourceValue] = useState([]);
   const [resourceItems, setResourceItems] = useState([]);
 
   const [agreementTypeOpen, setAgreementTypeOpen] = useState(false);
@@ -64,7 +62,6 @@ const AddClientAgreement = ({navigation}) => {
     },
   ]);
 
-  //For date pickers state
   const [date, setDate] = useState({
     startDate: new Date(Date.now()),
     endDate: new Date(Date.now()),
@@ -78,7 +75,6 @@ const AddClientAgreement = ({navigation}) => {
     endDate: 'End Date',
   });
 
-  //Converting date to display
   const convertDate = value => {
     const currentDate = value || date;
     let tempDate = new Date(currentDate);
@@ -228,7 +224,6 @@ const AddClientAgreement = ({navigation}) => {
     }
   }, [reducerData.getResorceData]);
 
-  //For pdf uplaod
   const selectAgreement = async (fileName, Error) => {
     try {
       const file = await DocumentPicker.pickSingle({
@@ -265,6 +260,9 @@ const AddClientAgreement = ({navigation}) => {
   };
 
   const convertClientAgreement = data => {
+    //For converting resource id array ti string array to send
+    let resourcesArr = data.resource.map(id => id.toString());
+    console.log('resourcesArr : ', resourcesArr);
     //Format data to post/add client agreement
     let dataToSend = {
       client_id: data.client.id,
@@ -273,7 +271,7 @@ const AddClientAgreement = ({navigation}) => {
       title: 'Add New Client Agreement',
       description: 'Adding new client agreement',
       pdf_file: data.agreement,
-      resource_id: data.resource.id.toString(),
+      resource_id: resourcesArr,
     };
 
     return dataToSend;
@@ -308,11 +306,23 @@ const AddClientAgreement = ({navigation}) => {
     dispatcher({type: 'startDateError', payload: null});
     dispatcher({type: 'endDateError', payload: null});
     dispatcher({type: 'agreementError', payload: null});
+
     console.log('<--------- FORMDATA -------->', formData);
     let data = convertClientAgreement(formData);
     console.log('<---------# CONVERTED DATA #--------->', data);
     dispatch(addClientAgreement(data, navigation));
   };
+
+  useEffect(() => {
+    dispatcher({
+      type: 'resource',
+      payload: resourceValue,
+    });
+    dispatcher({
+      type: 'resourceError',
+      payload: null,
+    });
+  }, [resourceValue]);
 
   return (
     <SafeAreaView style={GLOBALSTYLE.safeAreaViewStyle}>
@@ -365,25 +375,15 @@ const AddClientAgreement = ({navigation}) => {
               placeholder="Resource"
               placeholderStyle={{color: COLORS.black}}
               listMode="FLATLIST"
+              multiple={true}
               dropDownContainerStyle={styles.dropDownContainerStyle}
               renderListItem={({item}) => {
                 return (
                   <TouchableOpacity
                     onPress={() => {
-                      setResourceValue(item.value);
+                      // setResourceValue(item.value);
+                      setResourceValue([...resourceValue, item.value]);
                       setResourceOpen(false);
-                      dispatcher({
-                        type: 'resource',
-                        payload: {
-                          fname: item.fname,
-                          id: item.value,
-                          lname: item.lname,
-                        },
-                      });
-                      dispatcher({
-                        type: 'resourceError',
-                        payload: null,
-                      });
                     }}
                     style={styles.cellStyle}>
                     <Text style={styles.cellTextStyle}>{item.label}</Text>
