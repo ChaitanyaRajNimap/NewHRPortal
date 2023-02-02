@@ -158,13 +158,11 @@ const ClientAgreement = ({navigation}) => {
               {/* for client name */}
               <View style={[GLOBALSTYLE.columnView, styles.columnViewAligner]}>
                 <Text style={GLOBALSTYLE.label}>Client Name</Text>
-                <TouchableOpacity>
-                  <Text style={GLOBALSTYLE.text}>
-                    {item.client.client_name === null
-                      ? '-'
-                      : item.client.client_name.toString().trim()}
-                  </Text>
-                </TouchableOpacity>
+                <Text style={GLOBALSTYLE.text}>
+                  {item.client.client_name === null
+                    ? '-'
+                    : item.client.client_name.toString().trim()}
+                </Text>
               </View>
 
               {/* for resources */}

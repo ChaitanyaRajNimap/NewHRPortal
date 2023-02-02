@@ -43,6 +43,7 @@ import AddAccount from '../../Screens/Masters/Account/AddAccount';
 import EditAccount from '../../Screens/Masters/Account/EditAccount';
 import AddClientAgreement from '../../Screens/Masters/ClientAgreement/addClientAgreement/AddClientAgreement';
 import EditClientAgreement from '../../Screens/Masters/ClientAgreement/editClientAgreement/EditClientAgreement';
+import AddClient from '../../Screens/Masters/Client/addClient/AddClient';
 
 const privatestack = createNativeStackNavigator();
 
@@ -126,6 +127,7 @@ function privateStack() {
         name="EditClientAgreement"
         component={EditClientAgreement}
       />
+      <privatestack.Screen name="AddClient" component={AddClient} />
     </privatestack.Navigator>
   );
 }

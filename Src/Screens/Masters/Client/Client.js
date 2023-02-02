@@ -20,7 +20,7 @@ const Client = ({navigation}) => {
   //For dispatching actions for client reducer
   const dispatch = useDispatch();
   const reducerData = useSelector(state => state.ClientReducer);
-  console.log('reducerData from client : ', reducerData);
+  //   console.log('reducerData from client : ', reducerData);
 
   const [clients, setClients] = useState([]);
   const [filterClients, setFilterClients] = useState([]);
@@ -86,13 +86,11 @@ const Client = ({navigation}) => {
         {/* for client name */}
         <View style={[GLOBALSTYLE.columnView, styles.columnViewAligner]}>
           <Text style={GLOBALSTYLE.label}>Client Name</Text>
-          <TouchableOpacity>
-            <Text style={GLOBALSTYLE.text}>
-              {item.client_name === null
-                ? '-'
-                : item.client_name.toString().trim()}
-            </Text>
-          </TouchableOpacity>
+          <Text style={GLOBALSTYLE.text}>
+            {item.client_name === null
+              ? '-'
+              : item.client_name.toString().trim()}
+          </Text>
         </View>
 
         {/*For Resource count and invoice date */}

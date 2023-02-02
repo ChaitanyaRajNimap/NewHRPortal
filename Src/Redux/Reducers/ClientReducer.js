@@ -10,7 +10,7 @@ const initialState = {
 };
 
 const ClientReducer = (state = initialState, action) => {
-  console.log('ClientReducer', action);
+  // console.log('ClientReducer', action);
   switch (action.type) {
     case GETCLIENT_PROGRESS:
       return {

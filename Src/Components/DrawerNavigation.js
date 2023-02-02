@@ -165,7 +165,19 @@ const DrawerNavigation = ({navigation}) => {
       <Drawer.Screen
         name="Client"
         component={Client}
-        options={{headerShown: true, headerTitleAlign: 'center'}}
+        options={{
+          headerShown: true,
+          headerTitleAlign: 'center',
+          headerRight: () => (
+            <AntDesign
+              name="plus"
+              size={25}
+              color="black"
+              style={GLOBALSTYLE.headerRightStyle}
+              onPress={() => navigation.navigate('AddClient')}
+            />
+          ),
+        }}
       />
       <Drawer.Screen
         name="External Product"
