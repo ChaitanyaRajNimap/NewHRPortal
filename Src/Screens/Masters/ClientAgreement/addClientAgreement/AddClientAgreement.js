@@ -25,6 +25,7 @@ import {COLORS} from '../../../../Constants/Theme';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {initialState, reducer} from './AddClientAgreementFormData';
+import axios from 'axios';
 
 LogBox.ignoreLogs([
   'VirtualizedLists should never be nested inside plain ScrollViews with the same orientation because it can break windowing and other functionality - use another VirtualizedList-backed container instead.',
@@ -277,7 +278,7 @@ const AddClientAgreement = ({navigation}) => {
     return dataToSend;
   };
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     const clientError = validation.validateField(formData.client);
     const resourceError = validation.validateField(formData.resource);
     const agreementTypeError = validation.validateField(formData.agreementType);
@@ -308,9 +309,43 @@ const AddClientAgreement = ({navigation}) => {
     dispatcher({type: 'agreementError', payload: null});
 
     console.log('<--------- FORMDATA -------->', formData);
-    let data = convertClientAgreement(formData);
-    console.log('<---------# CONVERTED DATA #--------->', data);
-    dispatch(addClientAgreement(data, navigation));
+    // let data = convertClientAgreement(formData);
+    // console.log('<---------# CONVERTED DATA #--------->', data);
+    // dispatch(addClientAgreement(data, navigation));
+
+    let fmData = new FormData();
+    let resourcesArr = formData.resource.map(id => id.toString());
+
+    fmData.append('client_id', formData.client.id);
+    fmData.append('start_date', formData.startDate);
+    fmData.append('end_date', formData.endDate);
+    fmData.append('title', 'Add New Client Agreement');
+    fmData.append('description', 'Adding new client agreement');
+    fmData.append('pdf_file', formData.agreement);
+    fmData.append('resource_id', resourcesArr);
+
+    console.log('FMDATA=========>', fmData);
+
+    const boundary = '--------------------------125436698574584';
+
+    try {
+      const response = await fetch(
+        'http://144.91.79.237:8905/api/client-agreement',
+        {
+          method: 'POST',
+          headers: {
+            Authorization:
+              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUzLCJlbWFpbCI6InRlc3RAbmltYXBpbmZvdGVjaC5jb20iLCJpYXQiOjE2NzUzMjkxNDIsImV4cCI6MTY3NTQxNTU0Mn0.yCXIdQAXyi9cXGnTRFjHkPDZuChZMjN9ppBuGtDJOpM',
+            'Content-Type': `multipart/form-data; boundary=${boundary}`,
+          },
+          body: formData,
+        },
+      );
+      const responseJson = await response.json();
+      console.log('ADD CLIENT AGREEMENT POST RESPONE ======> ', responseJson);
+    } catch (error) {
+      console.error('ADD CLIENT AGREEMENT POST ERROR ======> ', error);
+    }
   };
 
   //For dispatching resources to formdata
@@ -548,7 +583,7 @@ const styles = StyleSheet.create({
   scrollViewStyle: {flex: 1},
   formContainer: {
     marginVertical: 10,
-    paddingHorizontal: 10,
+    paddingHorizontal: 25,
   },
   dropdownViewStyle: {
     height: 48,
@@ -577,7 +612,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
     borderRadius: 10,
     // margin: 10,
-    marginHorizontal: 15,
+    marginHorizontal: 1,
     padding: 15,
   },
   cellStyle: {
@@ -609,10 +644,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
   },
   uploadBtnAligner: {
-    marginHorizontal: 15,
+    marginHorizontal: 1,
+    backgroundColor: COLORS.whiteBlue,
   },
   submitBtnAligner: {
-    marginHorizontal: 15,
+    marginHorizontal: 1,
   },
   submitBtnTextStyle: {
     color: COLORS.white,
