@@ -337,7 +337,7 @@ const AddClient = () => {
           <TextInput
             placeholder="Enter Client Name*"
             style={[GLOBALSTYLE.TextInputStyle, {marginTop: 10}]}
-            value={data.clientName}
+            value={formData.clientName}
             onChangeText={vlaue => {
               dispatcher({
                 type: 'clientName',
@@ -358,7 +358,7 @@ const AddClient = () => {
           <TextInput
             placeholder="Enter Reporting Manager Name*"
             style={GLOBALSTYLE.TextInputStyle}
-            value={data.reportManagerName}
+            value={formData.reportManagerName}
             onChangeText={vlaue => {
               dispatcher({
                 type: 'reportManagerName',
@@ -389,7 +389,7 @@ const AddClient = () => {
             </View>
             <TextInput
               placeholder="Enter Reporting Manager Contact No.*"
-              value={data.reportManagerContact}
+              value={formData.reportManagerContact}
               style={{flex: 1}}
               maxLength={10}
               onChangeText={vlaue => {
@@ -423,7 +423,7 @@ const AddClient = () => {
             </View>
             <TextInput
               placeholder="Enter Reporting Manager Email*"
-              value={data.reportManagerEmail}
+              value={formData.reportManagerEmail}
               style={{flex: 1}}
               onChangeText={vlaue => {
                 dispatcher({
@@ -448,7 +448,7 @@ const AddClient = () => {
           <TextInput
             placeholder="Enter HR Name*"
             style={GLOBALSTYLE.TextInputStyle}
-            value={data.hrName}
+            value={formData.hrName}
             onChangeText={vlaue => {
               dispatcher({
                 type: 'hrName',
@@ -477,7 +477,7 @@ const AddClient = () => {
             </View>
             <TextInput
               placeholder="Enter HR Contact No.*"
-              value={data.hrContact}
+              value={formData.hrContact}
               style={{flex: 1}}
               maxLength={10}
               onChangeText={vlaue => {
@@ -509,7 +509,7 @@ const AddClient = () => {
             </View>
             <TextInput
               placeholder="Enter HR Email*"
-              value={data.hrEmail}
+              value={formData.hrEmail}
               style={{flex: 1}}
               onChangeText={vlaue => {
                 dispatcher({
@@ -532,7 +532,7 @@ const AddClient = () => {
           <TextInput
             placeholder="Enter Interviewer Name*"
             style={GLOBALSTYLE.TextInputStyle}
-            value={data.interviewerName}
+            value={formData.interviewerName}
             onChangeText={vlaue => {
               dispatcher({
                 type: 'interviewerName',
@@ -563,7 +563,7 @@ const AddClient = () => {
             </View>
             <TextInput
               placeholder="Enter Interviewer Contact No.*"
-              value={data.interviewerContact}
+              value={formData.interviewerContact}
               style={{flex: 1}}
               maxLength={10}
               onChangeText={vlaue => {
@@ -597,7 +597,7 @@ const AddClient = () => {
             </View>
             <TextInput
               placeholder="Enter Interviewer Email*"
-              value={data.interviewerEmail}
+              value={formData.interviewerEmail}
               style={{flex: 1}}
               onChangeText={vlaue => {
                 dispatcher({
@@ -622,7 +622,7 @@ const AddClient = () => {
           <TextInput
             placeholder="Enter Finance Name*"
             style={GLOBALSTYLE.TextInputStyle}
-            value={data.financeName}
+            value={formData.financeName}
             onChangeText={vlaue => {
               dispatcher({
                 type: 'financeName',
@@ -651,7 +651,7 @@ const AddClient = () => {
             </View>
             <TextInput
               placeholder="Enter Finance Contact No.*"
-              value={data.financeContact}
+              value={formData.financeContact}
               style={{flex: 1}}
               maxLength={10}
               onChangeText={vlaue => {
@@ -683,7 +683,7 @@ const AddClient = () => {
             </View>
             <TextInput
               placeholder="Enter Finance Email*"
-              value={data.financeEmail}
+              value={formData.financeEmail}
               style={{flex: 1}}
               onChangeText={vlaue => {
                 dispatcher({
@@ -706,7 +706,7 @@ const AddClient = () => {
           <TextInput
             placeholder="Enter URL*"
             style={GLOBALSTYLE.TextInputStyle}
-            value={data.url}
+            value={formData.url}
             onChangeText={vlaue => {
               dispatcher({
                 type: 'url',
@@ -727,7 +727,7 @@ const AddClient = () => {
           <TextInput
             placeholder="Enter Address*"
             style={GLOBALSTYLE.TextInputStyle}
-            value={data.address}
+            value={formData.address}
             multiline={true}
             onChangeText={vlaue => {
               dispatcher({
@@ -749,7 +749,7 @@ const AddClient = () => {
           <TextInput
             placeholder="Enter Description*"
             style={GLOBALSTYLE.TextInputStyle}
-            value={data.description}
+            value={formData.description}
             multiline={true}
             onChangeText={vlaue => {
               dispatcher({
@@ -771,7 +771,7 @@ const AddClient = () => {
           <TextInput
             placeholder="Enter Billing Address*"
             style={GLOBALSTYLE.TextInputStyle}
-            value={data.billingAddress}
+            value={formData.billingAddress}
             multiline={true}
             onChangeText={vlaue => {
               dispatcher({
@@ -793,7 +793,7 @@ const AddClient = () => {
           <TextInput
             placeholder="Enter Operational Address*"
             style={GLOBALSTYLE.TextInputStyle}
-            value={data.operationalAddress}
+            value={formData.operationalAddress}
             multiline={true}
             onChangeText={vlaue => {
               dispatcher({
@@ -817,7 +817,7 @@ const AddClient = () => {
           <TextInput
             placeholder="Enter PAN Number*"
             style={GLOBALSTYLE.TextInputStyle}
-            value={data.panNumber}
+            value={formData.panNumber}
             onChangeText={vlaue => {
               dispatcher({
                 type: 'panNumber',
@@ -838,7 +838,7 @@ const AddClient = () => {
           <TextInput
             placeholder="Enter GST Number*"
             style={GLOBALSTYLE.TextInputStyle}
-            value={data.gstNumber}
+            value={formData.gstNumber}
             onChangeText={vlaue => {
               dispatcher({
                 type: 'gstNumber',
@@ -859,7 +859,7 @@ const AddClient = () => {
           <TextInput
             placeholder="Enter TAN Number*"
             style={GLOBALSTYLE.TextInputStyle}
-            value={data.tanNumber}
+            value={formData.tanNumber}
             onChangeText={vlaue => {
               dispatcher({
                 type: 'tanNumber',
@@ -880,7 +880,7 @@ const AddClient = () => {
           <TextInput
             placeholder="Enter Credit Period*"
             style={GLOBALSTYLE.TextInputStyle}
-            value={data.creditPeriod}
+            value={formData.creditPeriod}
             onChangeText={vlaue => {
               dispatcher({
                 type: 'creditPeriod',
@@ -940,7 +940,7 @@ const AddClient = () => {
           <TextInput
             placeholder="Enter Map Link*"
             style={GLOBALSTYLE.TextInputStyle}
-            value={data.mapLink}
+            value={formData.mapLink}
             onChangeText={vlaue => {
               dispatcher({
                 type: 'mapLink',
