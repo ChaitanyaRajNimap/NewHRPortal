@@ -18,11 +18,7 @@ import {COLORS} from '../../../../Constants/Theme';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {initialState, reducer} from './AddClientFormData';
-import RadioForm, {
-  RadioButton,
-  RadioButtonInput,
-  RadioButtonLabel,
-} from 'react-native-simple-radio-button';
+import CustomRadioButtons from '../../../../Components/CustomRadioButtons';
 
 LogBox.ignoreLogs([
   'VirtualizedLists should never be nested inside plain ScrollViews with the same orientation because it can break windowing and other functionality - use another VirtualizedList-backed container instead.',
@@ -30,14 +26,6 @@ LogBox.ignoreLogs([
 
 const AddClient = () => {
   const [formData, dispatcher] = useReducer(reducer, initialState);
-
-  //For radio button
-  const [value, setValue] = useState(0);
-
-  const items = [
-    {label: 'No', value: 0},
-    {label: 'Yes', value: 1},
-  ];
 
   //For date of invoice dropdown
   const [doiOpen, setDoiOpen] = useState(false);
@@ -74,6 +62,19 @@ const AddClient = () => {
   //For closing other dropdowns
   const onDoiOpen = useCallback(() => setNationalityOpen(false), []);
   const onNationalityOpen = useCallback(() => setDoiOpen(false), []);
+
+  //For radio buttons
+  const [radioValues, setRadioValues] = useState({
+    needTimesheet: 0,
+    needMachine: 0,
+    isWeekendWorking: 0,
+    isAgreementSigned: 0,
+    isFirstInvoiceSend: 0,
+    needPhysicalCopy: 0,
+    needPFProof: 0,
+    purchaseOrderRequired: 0,
+    isExternalProduct: 0,
+  });
 
   const [data, setData] = useState({
     clientName: null,
@@ -637,37 +638,137 @@ const AddClient = () => {
           />
           <View style={styles.verticalSpace} />
 
-          <RadioForm
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-around',
-            }}>
-            {items.map((obj, index) => (
-              <RadioButton style={{marginBottom: 20}} key={index}>
-                <RadioButtonInput
-                  obj={obj}
-                  index={index}
-                  isSelected={index === value}
-                  onPress={value => setValue(value)}
-                  borderWidth={2}
-                  buttonInnerColor="blue"
-                  buttonOuterColor={index === value ? 'blue' : 'grey'}
-                  buttonSize={12}
-                  buttonWrapStyle={{marginRight: 16}}
-                />
-                <RadioButtonLabel
-                  obj={obj}
-                  index={index}
-                  labelStyle={{
-                    fontSize: 16,
-                    fontWeight: 'bold',
-                  }}
-                />
-              </RadioButton>
-            ))}
-          </RadioForm>
+          {/*For Need Timesheet */}
+          <CustomRadioButtons
+            value={radioValues.needTimesheet}
+            title="Do you need timesheet?*"
+            onPressFunction={value =>
+              setRadioValues(prevValues => {
+                return {
+                  ...prevValues,
+                  needTimesheet: value,
+                };
+              })
+            }
+          />
 
-          {/* <RadioGroup radioButtons={radioBtns} onPress={onPressRadioButton} /> */}
+          {/*For Need Timesheet */}
+          <CustomRadioButtons
+            value={radioValues.needMachine}
+            title="Do you need machine?*"
+            onPressFunction={value =>
+              setRadioValues(prevValues => {
+                return {
+                  ...prevValues,
+                  needMachine: value,
+                };
+              })
+            }
+          />
+
+          {/*For weekend working */}
+          <CustomRadioButtons
+            value={radioValues.isWeekendWorking}
+            title="Weekend working?*"
+            onPressFunction={value =>
+              setRadioValues(prevValues => {
+                return {
+                  ...prevValues,
+                  isWeekendWorking: value,
+                };
+              })
+            }
+          />
+
+          {/*For Agreement Sign */}
+          <CustomRadioButtons
+            value={radioValues.isAgreementSigned}
+            title="Agreement Sign?*"
+            onPressFunction={value =>
+              setRadioValues(prevValues => {
+                return {
+                  ...prevValues,
+                  isAgreementSigned: value,
+                };
+              })
+            }
+          />
+
+          {/*For First Invoice Send */}
+          <CustomRadioButtons
+            value={radioValues.isFirstInvoiceSend}
+            title="First Invoice Send?*"
+            onPressFunction={value =>
+              setRadioValues(prevValues => {
+                return {
+                  ...prevValues,
+                  isFirstInvoiceSend: value,
+                };
+              })
+            }
+          />
+
+          {/*For Physical copy needed */}
+          <CustomRadioButtons
+            value={radioValues.needPhysicalCopy}
+            title="Physical copy needed?*"
+            onPressFunction={value =>
+              setRadioValues(prevValues => {
+                return {
+                  ...prevValues,
+                  needPhysicalCopy: value,
+                };
+              })
+            }
+          />
+
+          {/*For PF Proof needed */}
+          <CustomRadioButtons
+            value={radioValues.needPFProof}
+            title="PF Proof needed?*"
+            onPressFunction={value =>
+              setRadioValues(prevValues => {
+                return {
+                  ...prevValues,
+                  needPFProof: value,
+                };
+              })
+            }
+          />
+
+          {/*For Purchase Order Required */}
+          <CustomRadioButtons
+            value={radioValues.purchaseOrderRequired}
+            title="Is Purchase Order Required?*"
+            onPressFunction={value =>
+              setRadioValues(prevValues => {
+                return {
+                  ...prevValues,
+                  purchaseOrderRequired: value,
+                };
+              })
+            }
+          />
+
+          {/*For Purchase Order Required */}
+          <CustomRadioButtons
+            value={radioValues.isExternalProduct}
+            title="Is External Product?*"
+            onPressFunction={value =>
+              setRadioValues(prevValues => {
+                return {
+                  ...prevValues,
+                  isExternalProduct: value,
+                };
+              })
+            }
+          />
+
+          <TouchableOpacity
+            style={[styles.btnStyle, styles.submitBtnAligner]}
+            onPress={() => {}}>
+            <Text style={styles.submitBtnTextStyle}>Submit</Text>
+          </TouchableOpacity>
         </ScrollView>
       </View>
     </SafeAreaView>
@@ -678,6 +779,10 @@ export default AddClient;
 
 const styles = StyleSheet.create({
   container: {flex: 1},
+  scrollview: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+  },
   rootContainer: {
     flex: 1,
     alignItems: 'center',
@@ -693,7 +798,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     borderRadius: 8,
     borderColor: COLORS.white,
-    marginTop: 10,
+    marginTop: 5,
     marginHorizontal: 10,
     alignSelf: 'center',
     backgroundColor: COLORS.white,
@@ -712,5 +817,30 @@ const styles = StyleSheet.create({
     textTransform: 'capitalize',
     fontWeight: '600',
   },
-  verticalSpace: {height: 16},
+  verticalSpace: {height: 5},
+  btnStyle: {
+    height: 48,
+    backgroundColor: COLORS.lightBlue,
+    borderRadius: 8,
+    paddingHorizontal: 8,
+    marginBottom: 5,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  submitBtnAligner: {
+    marginHorizontal: 1,
+  },
+  submitBtnTextStyle: {
+    color: COLORS.white,
+    fontSize: 16,
+    fontWeight: '600',
+    marginHorizontal: 4,
+  },
+  errorText: {
+    color: COLORS.red,
+    fontSize: 12,
+    marginVertical: 2,
+    paddingHorizontal: 2,
+  },
 });
