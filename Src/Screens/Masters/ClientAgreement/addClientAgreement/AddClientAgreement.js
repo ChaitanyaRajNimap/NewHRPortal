@@ -263,7 +263,7 @@ const AddClientAgreement = ({navigation}) => {
   const convertClientAgreement = data => {
     //For converting resource id array ti string array to send
     let resourcesArr = data.resource.map(id => id.toString());
-    console.log('resourcesArr : ', resourcesArr);
+    // console.log('resourcesArr : ', resourcesArr);
     //Format data to post/add client agreement
     let dataToSend = {
       client_id: data.client.id,
@@ -271,7 +271,7 @@ const AddClientAgreement = ({navigation}) => {
       end_date: data.endDate,
       title: 'Add New Client Agreement',
       description: 'Adding new client agreement',
-      pdf_file: data.agreement,
+      // pdf_file: data.agreement,
       resource_id: resourcesArr,
     };
 
@@ -309,22 +309,28 @@ const AddClientAgreement = ({navigation}) => {
     dispatcher({type: 'agreementError', payload: null});
 
     console.log('<--------- FORMDATA -------->', formData);
-    // let data = convertClientAgreement(formData);
-    // console.log('<---------# CONVERTED DATA #--------->', data);
+    let data = convertClientAgreement(formData);
+    console.log('<---------# CONVERTED DATA #--------->', data);
     // dispatch(addClientAgreement(data, navigation));
 
-    let fmData = new FormData();
-    let resourcesArr = formData.resource.map(id => id.toString());
+    const fmData = new FormData();
 
-    fmData.append('client_id', formData.client.id);
-    fmData.append('start_date', formData.startDate);
-    fmData.append('end_date', formData.endDate);
-    fmData.append('title', 'Add New Client Agreement');
-    fmData.append('description', 'Adding new client agreement');
+    fmData.append('data', JSON.stringify(data));
     fmData.append('pdf_file', formData.agreement);
-    fmData.append('resource_id', resourcesArr);
 
     console.log('FMDATA=========>', fmData);
+
+    // let resourcesArr = formData.resource.map(id => id.toString());
+
+    // fmData.append('client_id', formData.client.id);
+    // fmData.append('start_date', formData.startDate);
+    // fmData.append('end_date', formData.endDate);
+    // fmData.append('title', 'Add New Client Agreement');
+    // fmData.append('description', 'Adding new client agreement');
+    // fmData.append('pdf_file', formData.agreement);
+    // fmData.append('resource_id', resourcesArr);
+
+    // console.log('FMDATA=========>', fmData);
 
     const boundary = '--------------------------125436698574584';
 
@@ -335,10 +341,10 @@ const AddClientAgreement = ({navigation}) => {
           method: 'POST',
           headers: {
             Authorization:
-              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUzLCJlbWFpbCI6InRlc3RAbmltYXBpbmZvdGVjaC5jb20iLCJpYXQiOjE2NzUzMjkxNDIsImV4cCI6MTY3NTQxNTU0Mn0.yCXIdQAXyi9cXGnTRFjHkPDZuChZMjN9ppBuGtDJOpM',
+              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUzLCJlbWFpbCI6InRlc3RAbmltYXBpbmZvdGVjaC5jb20iLCJpYXQiOjE2NzU0ODk2NzUsImV4cCI6MTY3NTU3NjA3NX0.aTBp8-quk-Ibb4UK-wLU9VhiTmEOxd4KDB8bDVVYMe0',
             'Content-Type': `multipart/form-data; boundary=${boundary}`,
           },
-          body: formData,
+          body: fmData,
         },
       );
       const responseJson = await response.json();

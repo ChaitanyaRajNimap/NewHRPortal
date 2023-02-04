@@ -23,7 +23,6 @@ import RadioForm, {
   RadioButtonInput,
   RadioButtonLabel,
 } from 'react-native-simple-radio-button';
-// import RadioButtonsGroup from 'react-native-radio-buttons-group';
 
 LogBox.ignoreLogs([
   'VirtualizedLists should never be nested inside plain ScrollViews with the same orientation because it can break windowing and other functionality - use another VirtualizedList-backed container instead.',
@@ -32,29 +31,13 @@ LogBox.ignoreLogs([
 const AddClient = () => {
   const [formData, dispatcher] = useReducer(reducer, initialState);
 
+  //For radio button
   const [value, setValue] = useState(0);
 
   const items = [
     {label: 'No', value: 0},
     {label: 'Yes', value: 1},
   ];
-
-  // const [radioBtns, setRadioBtns] = useState([
-  //   {
-  //     id: '1',
-  //     label: 'No',
-  //     value: 'No',
-  //   },
-  //   {
-  //     id: '2',
-  //     label: 'Yes',
-  //     value: 'Yes',
-  //   },
-  // ]);
-
-  // function onPressRadioButton(radioButtonsArray) {
-  //   setRadioBtns(radioButtonsArray);
-  // }
 
   //For date of invoice dropdown
   const [doiOpen, setDoiOpen] = useState(false);
