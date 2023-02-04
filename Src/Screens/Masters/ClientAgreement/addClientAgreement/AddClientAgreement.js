@@ -271,7 +271,7 @@ const AddClientAgreement = ({navigation}) => {
       end_date: data.endDate,
       title: 'Add New Client Agreement',
       description: 'Adding new client agreement',
-      // pdf_file: data.agreement,
+      pdf_file: data.agreement,
       resource_id: resourcesArr,
     };
 
@@ -315,22 +315,22 @@ const AddClientAgreement = ({navigation}) => {
 
     const fmData = new FormData();
 
-    fmData.append('data', JSON.stringify(data));
-    fmData.append('pdf_file', formData.agreement);
-
-    console.log('FMDATA=========>', fmData);
-
-    // let resourcesArr = formData.resource.map(id => id.toString());
-
-    // fmData.append('client_id', formData.client.id);
-    // fmData.append('start_date', formData.startDate);
-    // fmData.append('end_date', formData.endDate);
-    // fmData.append('title', 'Add New Client Agreement');
-    // fmData.append('description', 'Adding new client agreement');
+    // fmData.append('data', JSON.stringify(data));
     // fmData.append('pdf_file', formData.agreement);
-    // fmData.append('resource_id', resourcesArr);
 
     // console.log('FMDATA=========>', fmData);
+
+    let resourcesArr = formData.resource.map(id => id.toString());
+
+    fmData.append('client_id', formData.client.id);
+    fmData.append('start_date', formData.startDate);
+    fmData.append('end_date', formData.endDate);
+    fmData.append('title', 'Add New Client Agreement');
+    fmData.append('description', 'Adding new client agreement');
+    fmData.append('pdf_file', formData.agreement.uri);
+    fmData.append('resource_id', resourcesArr);
+
+    console.log('FMDATA=========>', fmData);
 
     const boundary = '--------------------------125436698574584';
 
