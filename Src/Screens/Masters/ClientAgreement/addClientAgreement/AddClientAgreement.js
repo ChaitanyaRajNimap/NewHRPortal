@@ -311,47 +311,47 @@ const AddClientAgreement = ({navigation}) => {
     console.log('<--------- FORMDATA -------->', formData);
     let data = convertClientAgreement(formData);
     console.log('<---------# CONVERTED DATA #--------->', data);
-    // dispatch(addClientAgreement(data, navigation));
+    dispatch(addClientAgreement(data, navigation));
 
-    const fmData = new FormData();
+    // const fmData = new FormData();
 
     // fmData.append('data', JSON.stringify(data));
     // fmData.append('pdf_file', formData.agreement);
 
     // console.log('FMDATA=========>', fmData);
 
-    let resourcesArr = formData.resource.map(id => id.toString());
+    // let resourcesArr = formData.resource.map(id => id.toString());
 
-    fmData.append('client_id', formData.client.id);
-    fmData.append('start_date', formData.startDate);
-    fmData.append('end_date', formData.endDate);
-    fmData.append('title', 'Add New Client Agreement');
-    fmData.append('description', 'Adding new client agreement');
-    fmData.append('pdf_file', formData.agreement.uri);
-    fmData.append('resource_id', resourcesArr);
+    // fmData.append('client_id', formData.client.id);
+    // fmData.append('start_date', formData.startDate);
+    // fmData.append('end_date', formData.endDate);
+    // fmData.append('title', 'Add New Client Agreement');
+    // fmData.append('description', 'Adding new client agreement');
+    // fmData.append('pdf_file', formData.agreement);
+    // fmData.append('resource_id', resourcesArr);
 
-    console.log('FMDATA=========>', fmData);
+    // console.log('FMDATA=========>', fmData);
 
-    const boundary = '--------------------------125436698574584';
+    // const boundary = '--------------------------125436698574584';
 
-    try {
-      const response = await fetch(
-        'http://144.91.79.237:8905/api/client-agreement',
-        {
-          method: 'POST',
-          headers: {
-            Authorization:
-              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUzLCJlbWFpbCI6InRlc3RAbmltYXBpbmZvdGVjaC5jb20iLCJpYXQiOjE2NzU0ODk2NzUsImV4cCI6MTY3NTU3NjA3NX0.aTBp8-quk-Ibb4UK-wLU9VhiTmEOxd4KDB8bDVVYMe0',
-            'Content-Type': `multipart/form-data; boundary=${boundary}`,
-          },
-          body: fmData,
-        },
-      );
-      const responseJson = await response.json();
-      console.log('ADD CLIENT AGREEMENT POST RESPONE ======> ', responseJson);
-    } catch (error) {
-      console.error('ADD CLIENT AGREEMENT POST ERROR ======> ', error);
-    }
+    // try {
+    //   const response = await fetch(
+    //     'http://144.91.79.237:8905/api/client-agreement',
+    //     {
+    //       method: 'POST',
+    //       headers: {
+    //         Authorization:
+    //           'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUzLCJlbWFpbCI6InRlc3RAbmltYXBpbmZvdGVjaC5jb20iLCJpYXQiOjE2NzU2NjE5NzcsImV4cCI6MTY3NTc0ODM3N30.HekSNjk8MkowydNgGjRh7m0wx5bHAFoHyKn4PmqYQwM',
+    //         'Content-Type': `multipart/form-data;`,
+    //       },
+    //       body: fmData,
+    //     },
+    //   );
+    //   const responseJson = await response.json();
+    //   console.log('ADD CLIENT AGREEMENT POST RESPONE ======> ', responseJson);
+    // } catch (error) {
+    //   console.error('ADD CLIENT AGREEMENT POST ERROR ======> ', error);
+    // }
   };
 
   //For dispatching resources to formdata

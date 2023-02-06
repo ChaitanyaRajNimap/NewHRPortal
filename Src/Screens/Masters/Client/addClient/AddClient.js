@@ -19,6 +19,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {initialState, reducer} from './AddClientFormData';
 import CustomRadioButtons from '../../../../Components/CustomRadioButtons';
+import {clockRunning} from 'react-native-reanimated';
 
 LogBox.ignoreLogs([
   'VirtualizedLists should never be nested inside plain ScrollViews with the same orientation because it can break windowing and other functionality - use another VirtualizedList-backed container instead.',
@@ -137,10 +138,8 @@ const AddClient = () => {
       formData.interviewerEmail,
     );
     const financeNameError = validation.validateCharField(formData.financeName);
-    const financeEmailError = validation.contactValidation(
-      formData.financeEmail,
-    );
-    const financeContactError = validation.validateEmail(
+    const financeEmailError = validation.validateEmail(formData.financeEmail);
+    const financeContactError = validation.contactValidation(
       formData.financeContact,
     );
     const urlError = validation.validateField(formData.url);
@@ -159,29 +158,65 @@ const AddClient = () => {
     const dateOfInvoiceError = validation.validateField(formData.dateOfInvoice);
     const mapLinkError = validation.validateField(formData.mapLink);
     const nationalityError = validation.validateField(formData.nationality);
-    const needTimesheetError = validation.validateField(formData.needTimesheet);
-    const needMachineError = validation.validateField(formData.needMachine);
-    const isWeekendWorkingError = validation.validateField(
-      formData.isWeekendWorking,
-    );
-    const isAgreementSignedError = validation.validateField(
-      formData.isAgreementSigned,
-    );
-    const isFirstInvoiceSendError = validation.validateField(
-      formData.isFirstInvoiceSend,
-    );
-    const needPhysicalCopyError = validation.validateField(
-      formData.needPhysicalCopy,
-    );
-    const needPFProofError = validation.validateField(formData.needPFProof);
-    const purchaseOrderRequiredError = validation.validateField(
-      formData.purchaseOrderRequired,
-    );
-    const isExternalProductError = validation.validateField(
-      formData.isExternalProduct,
-    );
+    // const needTimesheetError = validation.validateField(formData.needTimesheet);
+    // const needMachineError = validation.validateField(formData.needMachine);
+    // const isWeekendWorkingError = validation.validateField(
+    //   formData.isWeekendWorking,
+    // );
+    // const isAgreementSignedError = validation.validateField(
+    //   formData.isAgreementSigned,
+    // );
+    // const isFirstInvoiceSendError = validation.validateField(
+    //   formData.isFirstInvoiceSend,
+    // );
+    // const needPhysicalCopyError = validation.validateField(
+    //   formData.needPhysicalCopy,
+    // );
+    // const needPFProofError = validation.validateField(formData.needPFProof);
+    // const purchaseOrderRequiredError = validation.validateField(
+    //   formData.purchaseOrderRequired,
+    // );
+    // const isExternalProductError = validation.validateField(
+    //   formData.isExternalProduct,
+    // );
 
-    if (clientNameError) {
+    if (
+      clientNameError ||
+      reportManagerNameError ||
+      reportManagerContactError ||
+      reportManagerEmailError ||
+      hrNameError ||
+      hrContactError ||
+      hrEmailError ||
+      interviewerNameError ||
+      interviewerContactError ||
+      interviewerEmailError ||
+      financeNameError ||
+      financeEmailError ||
+      financeContactError ||
+      urlError ||
+      addressError ||
+      descriptionError ||
+      billingAddressError ||
+      operationalAddressError ||
+      panNumberError ||
+      gstNumberError ||
+      tanNumberError ||
+      creditPeriodError ||
+      dateOfInvoiceError ||
+      mapLinkError ||
+      nationalityError
+      // ||
+      // needTimesheetError ||
+      // needMachineError ||
+      // isWeekendWorkingError ||
+      // isAgreementSignedError ||
+      // isFirstInvoiceSendError ||
+      // needPhysicalCopyError ||
+      // needPFProofError ||
+      // purchaseOrderRequiredError ||
+      // isExternalProductError
+    ) {
       dispatcher({type: 'clientNameError', payload: clientNameError});
       dispatcher({
         type: 'reportManagerNameError',
@@ -225,33 +260,33 @@ const AddClient = () => {
       dispatcher({type: 'dateOfInvoiceError', payload: dateOfInvoiceError});
       dispatcher({type: 'mapLinkError', payload: mapLinkError});
       dispatcher({type: 'nationalityError', payload: nationalityError});
-      dispatcher({type: 'needTimesheetError', payload: needTimesheetError});
-      dispatcher({type: 'needMachineError', payload: needMachineError});
-      dispatcher({
-        type: 'isWeekendWorkingError',
-        payload: isWeekendWorkingError,
-      });
-      dispatcher({
-        type: 'isAgreementSignedError',
-        payload: isAgreementSignedError,
-      });
-      dispatcher({
-        type: 'isFirstInvoiceSendError',
-        payload: isFirstInvoiceSendError,
-      });
-      dispatcher({
-        type: 'needPhysicalCopyError',
-        payload: needPhysicalCopyError,
-      });
-      dispatcher({type: 'needPFProofError', payload: needPFProofError});
-      dispatcher({
-        type: 'purchaseOrderRequiredError',
-        payload: purchaseOrderRequiredError,
-      });
-      dispatcher({
-        type: 'isExternalProductError',
-        payload: isExternalProductError,
-      });
+      // dispatcher({type: 'needTimesheetError', payload: needTimesheetError});
+      // dispatcher({type: 'needMachineError', payload: needMachineError});
+      // dispatcher({
+      //   type: 'isWeekendWorkingError',
+      //   payload: isWeekendWorkingError,
+      // });
+      // dispatcher({
+      //   type: 'isAgreementSignedError',
+      //   payload: isAgreementSignedError,
+      // });
+      // dispatcher({
+      //   type: 'isFirstInvoiceSendError',
+      //   payload: isFirstInvoiceSendError,
+      // });
+      // dispatcher({
+      //   type: 'needPhysicalCopyError',
+      //   payload: needPhysicalCopyError,
+      // });
+      // dispatcher({type: 'needPFProofError', payload: needPFProofError});
+      // dispatcher({
+      //   type: 'purchaseOrderRequiredError',
+      //   payload: purchaseOrderRequiredError,
+      // });
+      // dispatcher({
+      //   type: 'isExternalProductError',
+      //   payload: isExternalProductError,
+      // });
       return;
     }
 
@@ -298,32 +333,81 @@ const AddClient = () => {
     dispatcher({type: 'dateOfInvoiceError', payload: null});
     dispatcher({type: 'mapLinkError', payload: null});
     dispatcher({type: 'nationalityError', payload: null});
-    dispatcher({type: 'needTimesheetError', payload: null});
-    dispatcher({type: 'needMachineError', payload: null});
+    // dispatcher({type: 'needTimesheetError', payload: null});
+    // dispatcher({type: 'needMachineError', payload: null});
+    // dispatcher({
+    //   type: 'isWeekendWorkingError',
+    //   payload: null,
+    // });
+    // dispatcher({
+    //   type: 'isAgreementSignedError',
+    //   payload: null,
+    // });
+    // dispatcher({
+    //   type: 'isFirstInvoiceSendError',
+    //   payload: null,
+    // });
+    // dispatcher({
+    //   type: 'needPhysicalCopyError',
+    //   payload: null,
+    // });
+    // dispatcher({type: 'needPFProofError', payload: needPFProofError});
+    // dispatcher({
+    //   type: 'purchaseOrderRequiredError',
+    //   payload: null,
+    // });
+    // dispatcher({
+    //   type: 'isExternalProductError',
+    //   payload: null,
+    // });
+
+    //dispatching radio values
+    let needTimesheet = formData.needTimesheet === 0 ? 'No' : 'Yes';
+    let needMachine = formData.needMachine === 0 ? 'No' : 'Yes';
+    let isWeekendWorking = formData.isWeekendWorking === 0 ? 'No' : 'Yes';
+    let isAgreementSigned = formData.isAgreementSigned === 0 ? 'No' : 'Yes';
+    let isFirstInvoiceSend = formData.isFirstInvoiceSend === 0 ? 'No' : 'Yes';
+    let needPhysicalCopy = formData.needPhysicalCopy === 0 ? 'No' : 'Yes';
+    let needPFProof = formData.needPFProof === 0 ? 'No' : 'Yes';
+    let purchaseOrderRequired =
+      formData.purchaseOrderRequired === 0 ? 'No' : 'Yes';
+    let isExternalProduct = formData.isExternalProduct === 0 ? 'No' : 'Yes';
+
     dispatcher({
-      type: 'isWeekendWorkingError',
-      payload: null,
+      type: 'needTimesheet',
+      payload: needTimesheet,
     });
     dispatcher({
-      type: 'isAgreementSignedError',
-      payload: null,
+      type: 'needMachine',
+      payload: needMachine,
     });
     dispatcher({
-      type: 'isFirstInvoiceSendError',
-      payload: null,
+      type: 'isWeekendWorking',
+      payload: isWeekendWorking,
     });
     dispatcher({
-      type: 'needPhysicalCopyError',
-      payload: null,
-    });
-    dispatcher({type: 'needPFProofError', payload: needPFProofError});
-    dispatcher({
-      type: 'purchaseOrderRequiredError',
-      payload: null,
+      type: 'isAgreementSigned',
+      payload: isAgreementSigned,
     });
     dispatcher({
-      type: 'isExternalProductError',
-      payload: null,
+      type: 'isFirstInvoiceSend',
+      payload: isFirstInvoiceSend,
+    });
+    dispatcher({
+      type: 'needPhysicalCopy',
+      payload: needPhysicalCopy,
+    });
+    dispatcher({
+      type: 'needPFProof',
+      payload: needPFProof,
+    });
+    dispatcher({
+      type: 'purchaseOrderRequired',
+      payload: purchaseOrderRequired,
+    });
+    dispatcher({
+      type: 'isExternalProduct',
+      payload: isExternalProduct,
     });
     console.log('<--------- FORMDATA -------->', formData);
   };
@@ -1001,237 +1085,237 @@ const AddClient = () => {
             value={radioValues.needTimesheet}
             title="Do you need timesheet?*"
             onPressFunction={value => {
-              dispatcher({
-                type: 'needTimesheet',
-                payload: value,
-              });
-              dispatcher({
-                type: 'needTimesheetError',
-                payload: null,
-              });
-              // setRadioValues(prevValues => {
-              //   return {
-              //     ...prevValues,
-              //     needTimesheet: value,
-              //   };
+              // dispatcher({
+              //   type: 'needTimesheet',
+              //   payload: value,
               // });
+              // dispatcher({
+              //   type: 'needTimesheetError',
+              //   payload: null,
+              // });
+              setRadioValues(prevValues => {
+                return {
+                  ...prevValues,
+                  needTimesheet: value,
+                };
+              });
             }}
           />
-          {formData.needTimesheetError !== null && (
+          {/* {formData.needTimesheetError !== null && (
             <Text style={styles.errorText}>{formData.needTimesheetError}</Text>
-          )}
+          )} */}
 
           {/*For Need Timesheet */}
           <CustomRadioButtons
             value={radioValues.needMachine}
             title="Do you need machine?*"
             onPressFunction={value => {
-              dispatcher({
-                type: 'needMachine',
-                payload: value,
-              });
-              dispatcher({
-                type: 'needMachineError',
-                payload: null,
-              });
-              // setRadioValues(prevValues => {
-              //   return {
-              //     ...prevValues,
-              //     needMachine: value,
-              //   };
+              // dispatcher({
+              //   type: 'needMachine',
+              //   payload: value,
               // });
+              // dispatcher({
+              //   type: 'needMachineError',
+              //   payload: null,
+              // });
+              setRadioValues(prevValues => {
+                return {
+                  ...prevValues,
+                  needMachine: value,
+                };
+              });
             }}
           />
-          {formData.needMachineError !== null && (
+          {/* {formData.needMachineError !== null && (
             <Text style={styles.errorText}>{formData.needMachineError}</Text>
-          )}
+          )} */}
 
           {/*For weekend working */}
           <CustomRadioButtons
             value={radioValues.isWeekendWorking}
             title="Weekend working?*"
             onPressFunction={value => {
-              dispatcher({
-                type: 'isWeekendWorking',
-                payload: value,
-              });
-              dispatcher({
-                type: 'isWeekendWorkingError',
-                payload: null,
-              });
-              // setRadioValues(prevValues => {
-              //   return {
-              //     ...prevValues,
-              //     isWeekendWorking: value,
-              //   };
+              // dispatcher({
+              //   type: 'isWeekendWorking',
+              //   payload: value,
               // });
+              // dispatcher({
+              //   type: 'isWeekendWorkingError',
+              //   payload: null,
+              // });
+              setRadioValues(prevValues => {
+                return {
+                  ...prevValues,
+                  isWeekendWorking: value,
+                };
+              });
             }}
           />
-          {formData.isWeekendWorkingError !== null && (
+          {/* {formData.isWeekendWorkingError !== null && (
             <Text style={styles.errorText}>
               {formData.isWeekendWorkingError}
             </Text>
-          )}
+          )} */}
 
           {/*For Agreement Sign */}
           <CustomRadioButtons
             value={radioValues.isAgreementSigned}
             title="Agreement Sign?*"
             onPressFunction={value => {
-              dispatcher({
-                type: 'isAgreementSigned',
-                payload: value,
-              });
-              dispatcher({
-                type: 'isAgreementSignedError',
-                payload: null,
-              });
-              // setRadioValues(prevValues => {
-              //   return {
-              //     ...prevValues,
-              //     isAgreementSigned: value,
-              //   };
+              // dispatcher({
+              //   type: 'isAgreementSigned',
+              //   payload: value,
               // });
+              // dispatcher({
+              //   type: 'isAgreementSignedError',
+              //   payload: null,
+              // });
+              setRadioValues(prevValues => {
+                return {
+                  ...prevValues,
+                  isAgreementSigned: value,
+                };
+              });
             }}
           />
-          {formData.isAgreementSignedError !== null && (
+          {/* {formData.isAgreementSignedError !== null && (
             <Text style={styles.errorText}>
               {formData.isAgreementSignedError}
             </Text>
-          )}
+          )} */}
 
           {/*For First Invoice Send */}
           <CustomRadioButtons
             value={radioValues.isFirstInvoiceSend}
             title="First Invoice Send?*"
             onPressFunction={value => {
-              dispatcher({
-                type: 'isFirstInvoiceSend',
-                payload: value,
-              });
-              dispatcher({
-                type: 'isFirstInvoiceSendError',
-                payload: null,
-              });
-              // setRadioValues(prevValues => {
-              //   return {
-              //     ...prevValues,
-              //     isFirstInvoiceSend: value,
-              //   };
+              // dispatcher({
+              //   type: 'isFirstInvoiceSend',
+              //   payload: value,
               // });
+              // dispatcher({
+              //   type: 'isFirstInvoiceSendError',
+              //   payload: null,
+              // });
+              setRadioValues(prevValues => {
+                return {
+                  ...prevValues,
+                  isFirstInvoiceSend: value,
+                };
+              });
             }}
           />
-          {formData.isFirstInvoiceSendError !== null && (
+          {/* {formData.isFirstInvoiceSendError !== null && (
             <Text style={styles.errorText}>
               {formData.isFirstInvoiceSendError}
             </Text>
-          )}
+          )} */}
 
           {/*For Physical copy needed */}
           <CustomRadioButtons
             value={radioValues.needPhysicalCopy}
             title="Physical copy needed?*"
             onPressFunction={value => {
-              dispatcher({
-                type: 'needPhysicalCopy',
-                payload: value,
-              });
-              dispatcher({
-                type: 'needPhysicalCopyError',
-                payload: null,
-              });
-              // setRadioValues(prevValues => {
-              //   return {
-              //     ...prevValues,
-              //     needPhysicalCopy: value,
-              //   };
+              // dispatcher({
+              //   type: 'needPhysicalCopy',
+              //   payload: value,
               // });
+              // dispatcher({
+              //   type: 'needPhysicalCopyError',
+              //   payload: null,
+              // });
+              setRadioValues(prevValues => {
+                return {
+                  ...prevValues,
+                  needPhysicalCopy: value,
+                };
+              });
             }}
           />
-          {formData.needPhysicalCopyError !== null && (
+          {/* {formData.needPhysicalCopyError !== null && (
             <Text style={styles.errorText}>
               {formData.needPhysicalCopyError}
             </Text>
-          )}
+          )} */}
 
           {/*For PF Proof needed */}
           <CustomRadioButtons
             value={radioValues.needPFProof}
             title="PF Proof needed?*"
             onPressFunction={value => {
-              dispatcher({
-                type: 'needPFProof',
-                payload: value,
-              });
-              dispatcher({
-                type: 'needPFProofError',
-                payload: null,
-              });
-              // setRadioValues(prevValues => {
-              //   return {
-              //     ...prevValues,
-              //     needPFProof: value,
-              //   };
+              // dispatcher({
+              //   type: 'needPFProof',
+              //   payload: value,
               // });
+              // dispatcher({
+              //   type: 'needPFProofError',
+              //   payload: null,
+              // });
+              setRadioValues(prevValues => {
+                return {
+                  ...prevValues,
+                  needPFProof: value,
+                };
+              });
             }}
           />
-          {formData.needPFProofError !== null && (
+          {/* {formData.needPFProofError !== null && (
             <Text style={styles.errorText}>{formData.needPFProofError}</Text>
-          )}
+          )} */}
 
           {/*For Purchase Order Required */}
           <CustomRadioButtons
             value={radioValues.purchaseOrderRequired}
             title="Is Purchase Order Required?*"
             onPressFunction={value => {
-              dispatcher({
-                type: 'purchaseOrderRequired',
-                payload: value,
-              });
-              dispatcher({
-                type: 'purchaseOrderRequiredError',
-                payload: null,
-              });
-              // setRadioValues(prevValues => {
-              //   return {
-              //     ...prevValues,
-              //     purchaseOrderRequired: value,
-              //   };
+              // dispatcher({
+              //   type: 'purchaseOrderRequired',
+              //   payload: value,
               // });
+              // dispatcher({
+              //   type: 'purchaseOrderRequiredError',
+              //   payload: null,
+              // });
+              setRadioValues(prevValues => {
+                return {
+                  ...prevValues,
+                  purchaseOrderRequired: value,
+                };
+              });
             }}
           />
-          {formData.purchaseOrderRequiredError !== null && (
+          {/* {formData.purchaseOrderRequiredError !== null && (
             <Text style={styles.errorText}>
               {formData.purchaseOrderRequiredError}
             </Text>
-          )}
+          )} */}
 
           {/*For Purchase Order Required */}
           <CustomRadioButtons
             value={radioValues.isExternalProduct}
             title="Is External Product?*"
             onPressFunction={value => {
-              dispatcher({
-                type: 'isExternalProduct',
-                payload: value,
-              });
-              dispatcher({
-                type: 'isExternalProductError',
-                payload: null,
-              });
-              // setRadioValues(prevValues => {
-              //   return {
-              //     ...prevValues,
-              //     isExternalProduct: value,
-              //   };
+              // dispatcher({
+              //   type: 'isExternalProduct',
+              //   payload: value,
               // });
+              // dispatcher({
+              //   type: 'isExternalProductError',
+              //   payload: null,
+              // });
+              setRadioValues(prevValues => {
+                return {
+                  ...prevValues,
+                  isExternalProduct: value,
+                };
+              });
             }}
           />
-          {formData.isExternalProductError !== null && (
+          {/* {formData.isExternalProductError !== null && (
             <Text style={styles.errorText}>
               {formData.isExternalProductError}
             </Text>
-          )}
+          )} */}
 
           <TouchableOpacity
             style={[styles.btnStyle, styles.submitBtnAligner]}
