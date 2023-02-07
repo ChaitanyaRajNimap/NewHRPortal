@@ -34,7 +34,7 @@ LogBox.ignoreLogs([
 const AddClientAgreement = ({navigation}) => {
   const dispatch = useDispatch();
   const reducerData = useSelector(state => state.ClientAgreementReducer);
-  console.log('reducerdata from Add Client------->', reducerData);
+  console.log('reducerdata from Add Client Agreement------->', reducerData);
 
   const [formData, dispatcher] = useReducer(reducer, initialState);
 

@@ -73,6 +73,17 @@ const validatefile = value => {
   return value ? null : message.VALID_FILE;
 };
 
+const validateNameFeild = value => {
+  let regX = /[a-zA-Z]+([\s][a-zA-Z]+)*/g;
+  if (value === undefined || value === null) {
+    return message.EMPTY_FIELD;
+  } else if (regX.test(value)) {
+    return null;
+  } else {
+    return value ? message.INVALID_FIELD : message.EMPTY_FIELD;
+  }
+};
+
 const validation = {
   validateEmail,
   numericValidation,
@@ -81,6 +92,7 @@ const validation = {
   validateNotRequiredEmail,
   contactValidation,
   validatefile,
+  validateNameFeild,
 };
 
 export default validation;

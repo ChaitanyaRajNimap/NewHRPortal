@@ -11,7 +11,7 @@ import {COLORS} from '../Constants/Theme';
 const CustomRadioButtons = props => {
   const onPressFun = value => {
     props.onPressFunction(value);
-    console.log('Radio Value : ', value);
+    // console.log('Radio Value : ', value);
   };
 
   const items = [

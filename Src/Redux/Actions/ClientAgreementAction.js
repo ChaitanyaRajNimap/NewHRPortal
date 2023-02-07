@@ -85,7 +85,7 @@ export function addClientAgreement(values, navigation) {
   };
 
   return async dispatch => {
-    // dispatch(clientAgreementDispatch({}, ADDCLIENTAGREEMENT_PROGRESS));
+    dispatch(clientAgreementDispatch({}, ADDCLIENTAGREEMENT_PROGRESS));
     try {
       const data = await request({
         url: '/client-agreement',
@@ -94,7 +94,7 @@ export function addClientAgreement(values, navigation) {
       });
       console.log('addClientAgreement response', data);
       if (data.message) {
-        // dispatch(data, ADDCLIENTAGREEMENT_SUCCESS);
+        dispatch(clientAgreementDispatch(data, ADDCLIENTAGREEMENT_SUCCESS));
         Toast.show(data.message);
       }
       navigation.goBack();
