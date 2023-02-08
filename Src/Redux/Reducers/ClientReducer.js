@@ -11,6 +11,9 @@ import {
   DELETECLIENT_PROGRESS,
   DELETECLIENT_SUCCESS,
   DELETECLIENT_FAIL,
+  EDITCLIENT_PROGRESS,
+  EDITCLIENT_SUCCESS,
+  EDITCLIENT_FAIL,
 } from '../ActionConstant';
 
 const initialState = {
@@ -19,6 +22,7 @@ const initialState = {
   getExternalProductData: null,
   addClientData: null,
   deleteClientData: null,
+  updateClientData: null,
 };
 
 const ClientReducer = (state = initialState, action) => {
@@ -91,6 +95,23 @@ const ClientReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         deleteClientData: action.payload,
+      };
+    case EDITCLIENT_PROGRESS:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case EDITCLIENT_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        updateClientData: action.payload,
+      };
+    case EDITCLIENT_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        updateClientData: action.payload,
       };
     default:
       return state;

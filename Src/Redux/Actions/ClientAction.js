@@ -11,6 +11,9 @@ import {
   DELETECLIENT_PROGRESS,
   DELETECLIENT_SUCCESS,
   DELETECLIENT_FAIL,
+  EDITCLIENT_PROGRESS,
+  EDITCLIENT_SUCCESS,
+  EDITCLIENT_FAIL,
 } from '../ActionConstant';
 import request from '../../Util/request';
 import Toast from 'react-native-simple-toast';
@@ -92,6 +95,30 @@ export function deleteClient(values) {
       console.log('deleteClient error', err);
       dispatch(clientDispatch(err, DELETECLIENT_FAIL));
       Toast.show('Client Not deleted Successfully');
+    }
+  };
+}
+
+//For editing client
+export function editClient(values, id, navigation) {
+  return async dispatch => {
+    dispatch(clientDispatch({isLoading: true}, EDITCLIENT_PROGRESS));
+    try {
+      const data = await request({
+        url: '/client/${id}',
+        method: 'PUT',
+        data: values,
+      });
+      console.log('editClient response data ====>', data);
+      if (data.message) {
+        dispatch(clientDispatch(data, EDITCLIENT_SUCCESS));
+        Toast.show(data.message);
+      }
+      navigation.goBack();
+    } catch (err) {
+      console.log('editClient error', err);
+      dispatch(clientDispatch(err, EDITCLIENT_FAIL));
+      Toast.show('Client Not Edited Successfully');
     }
   };
 }

@@ -85,6 +85,11 @@ const Client = ({navigation}) => {
     setFilterClients(filterValue);
   };
 
+  //For editing client
+  const editClient = data => {
+    navigation.navigate('EditClient', {newData: data});
+  };
+
   //For deleting client
   const deleteOk = id => {
     dispatch(deleteClient(id));
@@ -179,7 +184,9 @@ const Client = ({navigation}) => {
           <SmallButton
             color={COLORS.lightBlue}
             title={'Edit'}
-            onPressFunction={() => {}}
+            onPressFunction={() => {
+              editClient(item);
+            }}
           />
           <SmallButton
             color={COLORS.red}

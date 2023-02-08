@@ -68,7 +68,6 @@ const initialState = {
   needPFProofError: null,
   purchaseOrderRequiredError: null,
   isExternalProductError: null,
-  externalProductError: null,
 };
 
 const reducer = (state, action) => {
@@ -418,11 +417,6 @@ const reducer = (state, action) => {
       return {
         ...state,
         isExternalProductError: action.payload,
-      };
-    case 'externalProductError':
-      return {
-        ...state,
-        externalProductError: action.payload,
       };
     default:
       return state;

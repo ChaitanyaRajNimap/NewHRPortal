@@ -1,4 +1,4 @@
-import React, {useReducer, useState, useCallback, useEffect} from 'react';
+import React, {useState, useEffect, useReducer} from 'react';
 import {
   View,
   Text,
@@ -9,7 +9,7 @@ import {
   ScrollView,
   LogBox,
 } from 'react-native';
-import {addClient} from '../../../../Redux/Actions/ClientAction';
+import {editClient} from '../../../../Redux/Actions/ClientAction';
 import CustomNavigationBar from '../../../../Components/CustomNavigationBar';
 import {useSelector, useDispatch} from 'react-redux';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -19,17 +19,17 @@ import {GLOBALSTYLE} from '../../../../Constants/Styles';
 import {COLORS} from '../../../../Constants/Theme';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {initialState, reducer} from './AddClientFormData';
 import CustomRadioButtons from '../../../../Components/CustomRadioButtons';
+import {initialState, reducer} from './AddClientFormData';
 
 LogBox.ignoreLogs([
   'VirtualizedLists should never be nested inside plain ScrollViews with the same orientation because it can break windowing and other functionality - use another VirtualizedList-backed container instead.',
 ]);
 
-const AddClient = ({navigation}) => {
+const EditClient = ({navigation, route}) => {
+  const params = route.params.newData;
   const dispatch = useDispatch();
   const reducerData = useSelector(state => state.ClientReducer);
-  // console.log('reducerData from Add Client ====> ', reducerData);
 
   const [formData, dispatcher] = useReducer(reducer, initialState);
 
@@ -407,7 +407,7 @@ const AddClient = ({navigation}) => {
     console.log('<--------- FORMDATA -------->', formData);
     let data = convertClientData(formData);
     console.log('<---------# CONVERTED DATA #-------->', data);
-    dispatch(addClient(data, navigation));
+    // dispatch(editClient(data, navigation));
   };
 
   return (
@@ -419,7 +419,7 @@ const AddClient = ({navigation}) => {
           <TextInput
             placeholder="Enter Client Name*"
             style={[GLOBALSTYLE.TextInputStyle, {marginTop: 10}]}
-            value={formData.clientName}
+            value={params.clientName}
             onChangeText={vlaue => {
               dispatcher({
                 type: 'clientName',
@@ -1372,7 +1372,7 @@ const AddClient = ({navigation}) => {
   );
 };
 
-export default AddClient;
+export default EditClient;
 
 const styles = StyleSheet.create({
   container: {flex: 1},
