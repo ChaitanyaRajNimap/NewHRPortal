@@ -8,6 +8,9 @@ import {
   ADDCLIENT_PROGRESS,
   ADDCLIENT_SUCCESS,
   ADDCLIENT_FAIL,
+  DELETECLIENT_PROGRESS,
+  DELETECLIENT_SUCCESS,
+  DELETECLIENT_FAIL,
 } from '../ActionConstant';
 import request from '../../Util/request';
 import Toast from 'react-native-simple-toast';
@@ -67,6 +70,28 @@ export function addClient(values, navigation) {
       console.log('addClient error', err);
       dispatch(clientDispatch(err, ADDCLIENT_FAIL));
       Toast.show('Client Not Added Successfully');
+    }
+  };
+}
+
+//For deleteing client
+export function deleteClient(values) {
+  return async dispatch => {
+    dispatch(clientDispatch({}, DELETECLIENT_PROGRESS));
+    try {
+      const data = await request({
+        url: `/client/${values}`,
+        method: 'DELETE',
+      });
+      // console.log('deleteClient response ====>', data.data);
+      if (data.data.message) {
+        dispatch(clientDispatch(data, DELETECLIENT_SUCCESS));
+        Toast.show('Client deleted Successfully');
+      }
+    } catch (err) {
+      console.log('deleteClient error', err);
+      dispatch(clientDispatch(err, DELETECLIENT_FAIL));
+      Toast.show('Client Not deleted Successfully');
     }
   };
 }

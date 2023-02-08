@@ -12,6 +12,7 @@ import {
 import {
   getClient,
   getExternalProduct,
+  deleteClient,
 } from '../../../Redux/Actions/ClientAction';
 import {useSelector, useDispatch} from 'react-redux';
 import {GLOBALSTYLE} from '../../../Constants/Styles';
@@ -28,6 +29,7 @@ const Client = ({navigation}) => {
   const [clients, setClients] = useState([]);
   const [filterClients, setFilterClients] = useState([]);
   const [search, setSearch] = useState('');
+  const [refreshFlatlist, setRefreshFlatList] = useState(false);
 
   //for showing loading
   const [loading, setLoading] = useState(true);
@@ -81,6 +83,33 @@ const Client = ({navigation}) => {
       }
     });
     setFilterClients(filterValue);
+  };
+
+  //For deleting client
+  const deleteOk = id => {
+    dispatch(deleteClient(id));
+    setRefreshFlatList(!refreshFlatlist);
+    setSearch('');
+    const remaningData = clients.filter(t => t.id !== id);
+    setFilterClients([...remaningData]);
+  };
+
+  const deleteClientItem = id => {
+    Alert.alert(
+      'Are you sure want to Delete?',
+      'You wont be able to revert this.',
+      [
+        {
+          text: 'Yes, Delete it',
+          onPress: () => deleteOk(id),
+        },
+        {
+          type: 'cancel',
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+        },
+      ],
+    );
   };
 
   //For render item of flatlist
@@ -155,7 +184,9 @@ const Client = ({navigation}) => {
           <SmallButton
             color={COLORS.red}
             title={'Delete'}
-            onPressFunction={() => {}}
+            onPressFunction={() => {
+              deleteClientItem(item.id);
+            }}
           />
         </View>
       </View>
@@ -187,6 +218,7 @@ const Client = ({navigation}) => {
       {!loading && clients && clients.length > 0 && (
         <FlatList
           data={filterClients}
+          extraData={refreshFlatlist}
           renderItem={({item}) => {
             return renderItem(item);
           }}

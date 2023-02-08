@@ -8,6 +8,9 @@ import {
   ADDCLIENT_PROGRESS,
   ADDCLIENT_SUCCESS,
   ADDCLIENT_FAIL,
+  DELETECLIENT_PROGRESS,
+  DELETECLIENT_SUCCESS,
+  DELETECLIENT_FAIL,
 } from '../ActionConstant';
 
 const initialState = {
@@ -15,6 +18,7 @@ const initialState = {
   getClientData: null,
   getExternalProductData: null,
   addClientData: null,
+  deleteClientData: null,
 };
 
 const ClientReducer = (state = initialState, action) => {
@@ -70,6 +74,23 @@ const ClientReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         addClientData: action.payload,
+      };
+    case DELETECLIENT_PROGRESS:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case DELETECLIENT_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        deleteClientData: action.payload,
+      };
+    case DELETECLIENT_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        deleteClientData: action.payload,
       };
     default:
       return state;
