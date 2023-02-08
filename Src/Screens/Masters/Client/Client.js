@@ -9,7 +9,10 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
-import {getClient} from '../../../Redux/Actions/ClientAction';
+import {
+  getClient,
+  getExternalProduct,
+} from '../../../Redux/Actions/ClientAction';
 import {useSelector, useDispatch} from 'react-redux';
 import {GLOBALSTYLE} from '../../../Constants/Styles';
 import {COLORS} from '../../../Constants/Theme';
@@ -35,6 +38,7 @@ const Client = ({navigation}) => {
     const unSubscribe = navigation.addListener('focus', () => {
       setLoading(true);
       dispatch(getClient());
+      dispatch(getExternalProduct());
     });
     return unSubscribe;
   }, [navigation]);

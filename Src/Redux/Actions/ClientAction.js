@@ -18,10 +18,13 @@ export function getExternalProduct() {
     dispatch(clientDispatch({isLoading: true}, FETCHEXTERNALPROD_PROGRESS));
     try {
       const data = await request({url: '/external-products', method: 'GET'});
-      console.log('getExternalProduct response from Client :====> ', data);
-      // dispatch(
-      //   clientDispatch(data.data.data.clients, FETCHEXTERNALPROD_SUCCESS),
+      // console.log(
+      //   'getExternalProduct response from Client :====> ',
+      //   data.data.data.product,
       // );
+      dispatch(
+        clientDispatch(data.data.data.product, FETCHEXTERNALPROD_SUCCESS),
+      );
     } catch (error) {
       dispatch(clientDispatch(error, FETCHEXTERNALPROD_FAIL));
       console.log('getExternalProduct error', error);

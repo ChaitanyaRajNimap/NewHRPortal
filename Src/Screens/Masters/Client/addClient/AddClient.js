@@ -1,4 +1,4 @@
-import React, {useReducer, useState, useCallback} from 'react';
+import React, {useReducer, useState, useCallback, useEffect} from 'react';
 import {
   View,
   Text,
@@ -21,8 +21,6 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {initialState, reducer} from './AddClientFormData';
 import CustomRadioButtons from '../../../../Components/CustomRadioButtons';
-import {clockRunning} from 'react-native-reanimated';
-import {add} from 'date-fns';
 
 LogBox.ignoreLogs([
   'VirtualizedLists should never be nested inside plain ScrollViews with the same orientation because it can break windowing and other functionality - use another VirtualizedList-backed container instead.',
@@ -31,7 +29,7 @@ LogBox.ignoreLogs([
 const AddClient = ({navigation}) => {
   const dispatch = useDispatch();
   const reducerData = useSelector(state => state.ClientReducer);
-  console.log('reducerData from Add Client ====> ', reducerData);
+  // console.log('reducerData from Add Client ====> ', reducerData);
 
   const [formData, dispatcher] = useReducer(reducer, initialState);
 
@@ -86,7 +84,23 @@ const AddClient = ({navigation}) => {
   const onExternalProductOpen = useCallback(() => {
     setDoiOpen(false);
     setNationalityOpen(false);
-  });
+  }, []);
+
+  //For external products
+  useEffect(() => {
+    if (reducerData.getExternalProductData) {
+      let newArray = [];
+      for (let i of reducerData.getExternalProductData) {
+        let item;
+        if (i.name) {
+          item = {id: i.id, label: i.name, value: i.id};
+        }
+        newArray.push(item);
+      }
+      setExternalProductItems(newArray);
+      console.log('EXTERNAL PRODUCTS : ', newArray);
+    }
+  }, [reducerData.getExternalProductData]);
 
   //For radio buttons
   const [radioValues, setRadioValues] = useState({
@@ -137,7 +151,7 @@ const AddClient = ({navigation}) => {
       pf_proof: data.needPFProof,
       is_pruchase_ord_req: data.purchaseOrderRequired,
       is_external_product: data.isExternalProduct,
-      external_product: null,
+      external_product: data.externalProduct,
       holidays: 'N',
       invoice_client: 0,
     };
@@ -208,9 +222,9 @@ const AddClient = ({navigation}) => {
     const isExternalProductError = validation.validateField(
       formData.isExternalProduct,
     );
-    // const externalProductError = validation.validateField(
-    //   formData.externalProduct,
-    // );
+    const externalProductError = validation.validateField(
+      formData.externalProduct,
+    );
 
     if (
       clientNameError ||
@@ -246,9 +260,8 @@ const AddClient = ({navigation}) => {
       needPhysicalCopyError ||
       needPFProofError ||
       purchaseOrderRequiredError ||
-      isExternalProductError
-      // ||
-      // externalProductError
+      isExternalProductError ||
+      externalProductError
     ) {
       dispatcher({type: 'clientNameError', payload: clientNameError});
       dispatcher({
@@ -320,7 +333,7 @@ const AddClient = ({navigation}) => {
         type: 'isExternalProductError',
         payload: isExternalProductError,
       });
-      // dispatcher({type: 'externalProductError', payload: externalProductError});
+      dispatcher({type: 'externalProductError', payload: externalProductError});
 
       return;
     }
@@ -395,12 +408,12 @@ const AddClient = ({navigation}) => {
       type: 'isExternalProductError',
       payload: null,
     });
-    // dispatcher({type: 'externalProductError', payload: null});
+    dispatcher({type: 'externalProductError', payload: null});
 
     console.log('<--------- FORMDATA -------->', formData);
     let data = convertClientData(formData);
     console.log('<---------# CONVERTED DATA #-------->', data);
-    // dispatch(addClient(data, navigation));
+    dispatch(addClient(data, navigation));
   };
 
   return (
@@ -1317,6 +1330,50 @@ const AddClient = ({navigation}) => {
             </Text>
           )}
 
+          {radioValues.isExternalProduct === 1 ? (
+            <>
+              <DropDownPicker
+                style={[styles.dropdownViewStyle, styles.dropDownAligner]}
+                placeholder="External Product"
+                placeholderStyle={{color: COLORS.grey}}
+                listMode="FLATLIST"
+                dropDownContainerStyle={styles.dropDownContainerStyle}
+                renderListItem={({item}) => {
+                  return (
+                    <TouchableOpacity
+                      onPress={() => {
+                        setExternalProductValue(item.value);
+                        setExternalProductOpen(false);
+                        dispatcher({
+                          type: 'externalProduct',
+                          payload: item.label,
+                        });
+                        dispatcher({
+                          type: 'externalProductError',
+                          payload: null,
+                        });
+                      }}
+                      style={styles.cellStyle}>
+                      <Text style={styles.cellTextStyle}>{item.label}</Text>
+                    </TouchableOpacity>
+                  );
+                }}
+                open={externalProductOpen}
+                onOpen={onExternalProductOpen}
+                value={externalProductValue}
+                items={externalProductItems}
+                setOpen={setExternalProductOpen}
+                setItems={setExternalProductItems}
+              />
+              {formData.externalProductError !== null && (
+                <Text style={styles.errorText}>
+                  {formData.externalProductError}
+                </Text>
+              )}
+              <View style={styles.verticalSpace} />
+            </>
+          ) : null}
+
           <TouchableOpacity
             style={[styles.btnStyle, styles.submitBtnAligner]}
             onPress={() => {
@@ -1361,6 +1418,11 @@ const styles = StyleSheet.create({
   },
   dropDownAligner: {
     marginHorizontal: 15,
+  },
+  dropDownContainerStyle: {
+    margin: 10,
+    paddingVertical: 4,
+    borderColor: '#fff',
   },
   cellStyle: {
     padding: 8,

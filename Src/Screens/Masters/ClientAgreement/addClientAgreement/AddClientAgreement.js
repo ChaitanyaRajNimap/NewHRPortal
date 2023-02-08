@@ -26,6 +26,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {initialState, reducer} from './AddClientAgreementFormData';
 import axios from 'axios';
+import RNFS from 'react-native-fs';
 
 LogBox.ignoreLogs([
   'VirtualizedLists should never be nested inside plain ScrollViews with the same orientation because it can break windowing and other functionality - use another VirtualizedList-backed container instead.',
@@ -308,50 +309,59 @@ const AddClientAgreement = ({navigation}) => {
     dispatcher({type: 'endDateError', payload: null});
     dispatcher({type: 'agreementError', payload: null});
 
-    console.log('<--------- FORMDATA -------->', formData);
-    let data = convertClientAgreement(formData);
-    console.log('<---------# CONVERTED DATA #--------->', data);
-    dispatch(addClientAgreement(data, navigation));
+    // console.log('<--------- FORMDATA -------->', formData);
+    // let data = convertClientAgreement(formData);
+    // console.log('<---------# CONVERTED DATA #--------->', data);
+    // dispatch(addClientAgreement(data, navigation));
 
-    // const fmData = new FormData();
+    const fmData = new FormData();
 
     // fmData.append('data', JSON.stringify(data));
     // fmData.append('pdf_file', formData.agreement);
 
     // console.log('FMDATA=========>', fmData);
 
-    // let resourcesArr = formData.resource.map(id => id.toString());
+    let resourcesArr = formData.resource.map(id => id.toString());
 
-    // fmData.append('client_id', formData.client.id);
-    // fmData.append('start_date', formData.startDate);
-    // fmData.append('end_date', formData.endDate);
-    // fmData.append('title', 'Add New Client Agreement');
-    // fmData.append('description', 'Adding new client agreement');
-    // fmData.append('pdf_file', formData.agreement);
-    // fmData.append('resource_id', resourcesArr);
+    async function pdfToBinary(pdfPath) {
+      const pdfData = await RNFS.readFile(pdfPath, 'base64');
+      return pdfData;
+    }
 
-    // console.log('FMDATA=========>', fmData);
+    const pdfData = await pdfToBinary(formData.agreement.uri);
 
-    // const boundary = '--------------------------125436698574584';
+    console.log('pdfDAta', formData.agreement.uri, formData.client.id);
 
-    // try {
-    //   const response = await fetch(
-    //     'http://144.91.79.237:8905/api/client-agreement',
-    //     {
-    //       method: 'POST',
-    //       headers: {
-    //         Authorization:
-    //           'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUzLCJlbWFpbCI6InRlc3RAbmltYXBpbmZvdGVjaC5jb20iLCJpYXQiOjE2NzU2NjE5NzcsImV4cCI6MTY3NTc0ODM3N30.HekSNjk8MkowydNgGjRh7m0wx5bHAFoHyKn4PmqYQwM',
-    //         'Content-Type': `multipart/form-data;`,
-    //       },
-    //       body: fmData,
-    //     },
-    //   );
-    //   const responseJson = await response.json();
-    //   console.log('ADD CLIENT AGREEMENT POST RESPONE ======> ', responseJson);
-    // } catch (error) {
-    //   console.error('ADD CLIENT AGREEMENT POST ERROR ======> ', error);
-    // }
+    fmData.append('client_id', formData.client.id);
+    fmData.append('start_date', formData.startDate);
+    fmData.append('end_date', formData.endDate);
+    fmData.append('title', 'Add New Client Agreement');
+    fmData.append('description', 'Adding new client agreement');
+    fmData.append('pdf_file', pdfData);
+    fmData.append('resource_id', resourcesArr);
+
+    console.log('FMDATA=========>', fmData);
+
+    const boundary = '--------------------------125436698574584';
+
+    try {
+      const response = await fetch(
+        'http://144.91.79.237:8905/api/client-agreement',
+        {
+          method: 'POST',
+          headers: {
+            Authorization:
+              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUzLCJlbWFpbCI6InRlc3RAbmltYXBpbmZvdGVjaC5jb20iLCJpYXQiOjE2NzU4MzM2MTMsImV4cCI6MTY3NTkyMDAxM30.6Y0g6knLcsLzjAK33ZIvYvIexBpATF7Tsqq8reHaJ9o',
+            'Content-Type': `multipart/form-data;`,
+          },
+          body: fmData,
+        },
+      );
+      const responseJson = await response.json();
+      console.log('ADD CLIENT AGREEMENT POST RESPONE ======> ', responseJson);
+    } catch (error) {
+      console.error('ADD CLIENT AGREEMENT POST ERROR ======> ', error);
+    }
   };
 
   //For dispatching resources to formdata

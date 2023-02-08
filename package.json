@@ -25,6 +25,7 @@
     "react-native-document-picker": "^8.1.1",
     "react-native-dropdown-picker": "^5.4.2",
     "react-native-element-dropdown": "^2.3.1",
+    "react-native-fs": "^2.20.0",
     "react-native-gesture-handler": "^2.7.0",
     "react-native-pdf": "^6.6.2",
     "react-native-radio-buttons-group": "^2.3.0",

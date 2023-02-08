@@ -32,7 +32,7 @@ export function getExternalProduct() {
       );
     } catch (error) {
       console.log('ExternalProduct error', error);
-      ExternalProductDispatch(error, FETCHEXTERNALPROD_FAIL);
+      dispatch(ExternalProductDispatch(error, FETCHEXTERNALPROD_FAIL));
     }
   };
 }

@@ -33,6 +33,7 @@ const initialState = {
   needPFProof: null,
   purchaseOrderRequired: null,
   isExternalProduct: null,
+  externalProduct: null,
   clientNameError: null,
   reportManagerNameError: null,
   reportManagerContactError: null,
@@ -242,6 +243,11 @@ const reducer = (state, action) => {
         ...state,
         isExternalProduct: action.payload,
       };
+    case 'externalProduct':
+      return {
+        ...state,
+        externalProduct: action.payload,
+      };
 
     case 'clientNameError':
       return {
@@ -412,6 +418,11 @@ const reducer = (state, action) => {
       return {
         ...state,
         isExternalProductError: action.payload,
+      };
+    case 'externalProductError':
+      return {
+        ...state,
+        externalProductError: action.payload,
       };
     default:
       return state;
