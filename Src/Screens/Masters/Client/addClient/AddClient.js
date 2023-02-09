@@ -98,7 +98,6 @@ const AddClient = ({navigation}) => {
         newArray.push(item);
       }
       setExternalProductItems(newArray);
-      // console.log('EXTERNAL PRODUCTS : ', newArray);
     }
   }, [reducerData.getExternalProductData]);
 

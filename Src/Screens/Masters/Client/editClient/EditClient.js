@@ -20,7 +20,6 @@ import {COLORS} from '../../../../Constants/Theme';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import CustomRadioButtons from '../../../../Components/CustomRadioButtons';
-// import {initialState, reducer} from './AddClientFormData';
 import {reducer} from '../addClient/AddClientFormData';
 
 LogBox.ignoreLogs([
@@ -90,18 +89,7 @@ const EditClient = ({navigation, route}) => {
     gstNumberError: null,
     tanNumberError: null,
     creditPeriodError: null,
-    dateOfInvoiceError: null,
     mapLinkError: null,
-    nationalityError: null,
-    needTimesheetError: null,
-    needMachineError: null,
-    isWeekendWorkingError: null,
-    isAgreementSignedError: null,
-    isFirstInvoiceSendError: null,
-    needPhysicalCopyError: null,
-    needPFProofError: null,
-    purchaseOrderRequiredError: null,
-    isExternalProductError: null,
   });
 
   //For date of invoice dropdown
@@ -169,7 +157,6 @@ const EditClient = ({navigation, route}) => {
         newArray.push(item);
       }
       setExternalProductItems(newArray);
-      console.log('EXTERNAL PRODUCTS : ', newArray);
     }
   }, [reducerData.getExternalProductData]);
 
@@ -202,6 +189,7 @@ const EditClient = ({navigation, route}) => {
         : 0,
   });
 
+  //For setting initial values to radio buttons
   useEffect(() => {
     dispatcher({type: 'needTimesheet', payload: params.need_timesheet});
     dispatcher({type: 'needMachine', payload: params.need_machine});
@@ -303,30 +291,7 @@ const EditClient = ({navigation, route}) => {
     const gstNumberError = validation.validateField(formData.gstNumber);
     const tanNumberError = validation.validateField(formData.tanNumber);
     const creditPeriodError = validation.validateField(formData.creditPeriod);
-    const dateOfInvoiceError = validation.validateField(formData.dateOfInvoice);
     const mapLinkError = validation.validateField(formData.mapLink);
-    const nationalityError = validation.validateField(formData.nationality);
-    // const needTimesheetError = validation.validateField(formData.needTimesheet);
-    // const needMachineError = validation.validateField(formData.needMachine);
-    // const isWeekendWorkingError = validation.validateField(
-    //   formData.isWeekendWorking,
-    // );
-    // const isAgreementSignedError = validation.validateField(
-    //   formData.isAgreementSigned,
-    // );
-    // const isFirstInvoiceSendError = validation.validateField(
-    //   formData.isFirstInvoiceSend,
-    // );
-    // const needPhysicalCopyError = validation.validateField(
-    //   formData.needPhysicalCopy,
-    // );
-    // const needPFProofError = validation.validateField(formData.needPFProof);
-    // const purchaseOrderRequiredError = validation.validateField(
-    //   formData.purchaseOrderRequired,
-    // );
-    // const isExternalProductError = validation.validateField(
-    //   formData.isExternalProduct,
-    // );
 
     if (
       clientNameError ||
@@ -351,19 +316,7 @@ const EditClient = ({navigation, route}) => {
       gstNumberError ||
       tanNumberError ||
       creditPeriodError ||
-      dateOfInvoiceError ||
-      mapLinkError ||
-      nationalityError
-      // ||
-      // needTimesheetError ||
-      // needMachineError ||
-      // isWeekendWorkingError ||
-      // isAgreementSignedError ||
-      // isFirstInvoiceSendError ||
-      // needPhysicalCopyError ||
-      // needPFProofError ||
-      // purchaseOrderRequiredError ||
-      // isExternalProductError
+      mapLinkError
     ) {
       dispatcher({type: 'clientNameError', payload: clientNameError});
       dispatcher({
@@ -405,36 +358,7 @@ const EditClient = ({navigation, route}) => {
       dispatcher({type: 'gstNumberError', payload: gstNumberError});
       dispatcher({type: 'tanNumberError', payload: tanNumberError});
       dispatcher({type: 'creditPeriodError', payload: creditPeriodError});
-      dispatcher({type: 'dateOfInvoiceError', payload: dateOfInvoiceError});
       dispatcher({type: 'mapLinkError', payload: mapLinkError});
-      dispatcher({type: 'nationalityError', payload: nationalityError});
-      dispatcher({type: 'needTimesheetError', payload: needTimesheetError});
-      dispatcher({type: 'needMachineError', payload: needMachineError});
-      dispatcher({
-        type: 'isWeekendWorkingError',
-        payload: isWeekendWorkingError,
-      });
-      dispatcher({
-        type: 'isAgreementSignedError',
-        payload: isAgreementSignedError,
-      });
-      dispatcher({
-        type: 'isFirstInvoiceSendError',
-        payload: isFirstInvoiceSendError,
-      });
-      dispatcher({
-        type: 'needPhysicalCopyError',
-        payload: needPhysicalCopyError,
-      });
-      dispatcher({type: 'needPFProofError', payload: needPFProofError});
-      dispatcher({
-        type: 'purchaseOrderRequiredError',
-        payload: purchaseOrderRequiredError,
-      });
-      dispatcher({
-        type: 'isExternalProductError',
-        payload: isExternalProductError,
-      });
 
       return;
     }
@@ -479,40 +403,11 @@ const EditClient = ({navigation, route}) => {
     dispatcher({type: 'gstNumberError', payload: null});
     dispatcher({type: 'tanNumberError', payload: null});
     dispatcher({type: 'creditPeriodError', payload: null});
-    dispatcher({type: 'dateOfInvoiceError', payload: null});
     dispatcher({type: 'mapLinkError', payload: null});
-    dispatcher({type: 'nationalityError', payload: null});
-    dispatcher({type: 'needTimesheetError', payload: null});
-    dispatcher({type: 'needMachineError', payload: null});
-    dispatcher({
-      type: 'isWeekendWorkingError',
-      payload: null,
-    });
-    dispatcher({
-      type: 'isAgreementSignedError',
-      payload: null,
-    });
-    dispatcher({
-      type: 'isFirstInvoiceSendError',
-      payload: null,
-    });
-    dispatcher({
-      type: 'needPhysicalCopyError',
-      payload: null,
-    });
-    dispatcher({type: 'needPFProofError', payload: null});
-    dispatcher({
-      type: 'purchaseOrderRequiredError',
-      payload: null,
-    });
-    dispatcher({
-      type: 'isExternalProductError',
-      payload: null,
-    });
 
-    console.log('<--------- FORMDATA -------->', formData);
+    // console.log('<--------- FORMDATA -------->', formData);
     let data = convertClientData(formData);
-    console.log('<---------# CONVERTED DATA #-------->', data);
+    // console.log('<---------# CONVERTED DATA #-------->', data);
     dispatch(editClient(data, params.id, navigation));
   };
 
@@ -521,7 +416,6 @@ const EditClient = ({navigation, route}) => {
       <View style={styles.container}>
         <CustomNavigationBar back={true} headername="Edit Client" />
         <ScrollView style={GLOBALSTYLE.mainContainer}>
-          {/* {console.log('PARAMS ====>', params)} */}
           {/*For client Name */}
           <TextInput
             placeholder="Enter Client Name*"
@@ -1120,9 +1014,6 @@ const EditClient = ({navigation, route}) => {
             setOpen={setDoiOpen}
             setItems={setDoiItems}
           />
-          {formData.dateOfInvoiceError !== null && (
-            <Text style={styles.errorText}>{formData.dateOfInvoiceError}</Text>
-          )}
           <View style={styles.verticalSpace} />
 
           {/*For Map Link */}
@@ -1180,9 +1071,6 @@ const EditClient = ({navigation, route}) => {
             setOpen={setNationalityOpen}
             setItems={setNationalityItems}
           />
-          {formData.nationalityError !== null && (
-            <Text style={styles.errorText}>{formData.nationalityError}</Text>
-          )}
           <View style={styles.verticalSpace} />
 
           {/*For Need Timesheet */}
@@ -1207,9 +1095,6 @@ const EditClient = ({navigation, route}) => {
               });
             }}
           />
-          {/* {formData.needTimesheetError !== null && (
-            <Text style={styles.errorText}>{formData.needTimesheetError}</Text>
-          )} */}
 
           {/*For Need Machine */}
           <CustomRadioButtons
@@ -1233,9 +1118,6 @@ const EditClient = ({navigation, route}) => {
               });
             }}
           />
-          {/* {formData.needMachineError !== null && (
-            <Text style={styles.errorText}>{formData.needMachineError}</Text>
-          )} */}
 
           {/*For weekend working */}
           <CustomRadioButtons
@@ -1259,11 +1141,6 @@ const EditClient = ({navigation, route}) => {
               });
             }}
           />
-          {/* {formData.isWeekendWorkingError !== null && (
-            <Text style={styles.errorText}>
-              {formData.isWeekendWorkingError}
-            </Text>
-          )} */}
 
           {/*For Agreement Sign */}
           <CustomRadioButtons
@@ -1287,11 +1164,6 @@ const EditClient = ({navigation, route}) => {
               });
             }}
           />
-          {/* {formData.isAgreementSignedError !== null && (
-            <Text style={styles.errorText}>
-              {formData.isAgreementSignedError}
-            </Text>
-          )} */}
 
           {/*For First Invoice Send */}
           <CustomRadioButtons
@@ -1315,11 +1187,6 @@ const EditClient = ({navigation, route}) => {
               });
             }}
           />
-          {/* {formData.isFirstInvoiceSendError !== null && (
-            <Text style={styles.errorText}>
-              {formData.isFirstInvoiceSendError}
-            </Text>
-          )} */}
 
           {/*For Physical copy needed */}
           <CustomRadioButtons
@@ -1343,11 +1210,6 @@ const EditClient = ({navigation, route}) => {
               });
             }}
           />
-          {/* {formData.needPhysicalCopyError !== null && (
-            <Text style={styles.errorText}>
-              {formData.needPhysicalCopyError}
-            </Text>
-          )} */}
 
           {/*For PF Proof needed */}
           <CustomRadioButtons
@@ -1371,9 +1233,6 @@ const EditClient = ({navigation, route}) => {
               });
             }}
           />
-          {/* {formData.needPFProofError !== null && (
-            <Text style={styles.errorText}>{formData.needPFProofError}</Text>
-          )} */}
 
           {/*For Purchase Order Required */}
           <CustomRadioButtons
@@ -1397,11 +1256,6 @@ const EditClient = ({navigation, route}) => {
               });
             }}
           />
-          {/* {formData.purchaseOrderRequiredError !== null && (
-            <Text style={styles.errorText}>
-              {formData.purchaseOrderRequiredError}
-            </Text>
-          )} */}
 
           {/*For Purchase Order Required */}
           <CustomRadioButtons
@@ -1425,11 +1279,6 @@ const EditClient = ({navigation, route}) => {
               });
             }}
           />
-          {/* {formData.isExternalProductError !== null && (
-            <Text style={styles.errorText}>
-              {formData.isExternalProductError}
-            </Text>
-          )} */}
 
           {radioValues.isExternalProduct === 1 ? (
             <>
@@ -1553,16 +1402,3 @@ const styles = StyleSheet.create({
     paddingHorizontal: 2,
   },
 });
-
-// import React from 'react';
-// import {View, Text} from 'react-native';
-
-// const EditClient = () => {
-//   return (
-//     <View>
-//       <Text>EDIT CLIENT</Text>
-//     </View>
-//   );
-// };
-
-// export default EditClient;
