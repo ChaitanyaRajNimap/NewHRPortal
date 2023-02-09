@@ -184,7 +184,7 @@ const AddClient = ({navigation}) => {
     const financeContactError = validation.contactValidation(
       formData.financeContact,
     );
-    const urlError = validation.validateField(formData.url);
+    const urlError = validation.validateUrl(formData.url);
     const addressError = validation.validateNameFeild(formData.address);
     const descriptionError = validation.validateNameFeild(formData.description);
     const billingAddressError = validation.validateNameFeild(
@@ -193,12 +193,12 @@ const AddClient = ({navigation}) => {
     const operationalAddressError = validation.validateNameFeild(
       formData.operationalAddress,
     );
-    const panNumberError = validation.validateField(formData.panNumber);
-    const gstNumberError = validation.validateField(formData.gstNumber);
-    const tanNumberError = validation.validateField(formData.tanNumber);
-    const creditPeriodError = validation.validateField(formData.creditPeriod);
+    const panNumberError = validation.validatePan(formData.panNumber);
+    const gstNumberError = validation.validateGst(formData.gstNumber);
+    const tanNumberError = validation.validateTan(formData.tanNumber);
+    const creditPeriodError = validation.validateCP(formData.creditPeriod);
     const dateOfInvoiceError = validation.validateField(formData.dateOfInvoice);
-    const mapLinkError = validation.validateField(formData.mapLink);
+    const mapLinkError = validation.validateUrl(formData.mapLink);
     const nationalityError = validation.validateField(formData.nationality);
     const needTimesheetError = validation.validateField(formData.needTimesheet);
     const needMachineError = validation.validateField(formData.needMachine);

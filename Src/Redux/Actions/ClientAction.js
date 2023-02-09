@@ -112,7 +112,7 @@ export function editClient(values, id, navigation) {
       console.log('editClient response data ====>', data);
       if (data.message) {
         dispatch(clientDispatch(data, EDITCLIENT_SUCCESS));
-        Toast.show(data.message);
+        Toast.show('Client updated Successfully');
       }
       navigation.goBack();
     } catch (err) {
