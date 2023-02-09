@@ -88,6 +88,7 @@ const Client = ({navigation}) => {
   //For editing client
   const editClient = data => {
     navigation.navigate('EditClient', {newData: data});
+    // navigation.navigate('EditClient');
   };
 
   //For deleting client

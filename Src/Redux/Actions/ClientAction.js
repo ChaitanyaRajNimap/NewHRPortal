@@ -105,7 +105,7 @@ export function editClient(values, id, navigation) {
     dispatch(clientDispatch({isLoading: true}, EDITCLIENT_PROGRESS));
     try {
       const data = await request({
-        url: '/client/${id}',
+        url: `/client/${id}`,
         method: 'PUT',
         data: values,
       });

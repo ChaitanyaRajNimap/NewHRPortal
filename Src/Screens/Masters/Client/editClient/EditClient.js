@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useReducer} from 'react';
+import React, {useState, useEffect, useReducer, useCallback} from 'react';
 import {
   View,
   Text,
@@ -20,7 +20,8 @@ import {COLORS} from '../../../../Constants/Theme';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import CustomRadioButtons from '../../../../Components/CustomRadioButtons';
-import {initialState, reducer} from './AddClientFormData';
+// import {initialState, reducer} from './AddClientFormData';
+import {reducer} from '../addClient/AddClientFormData';
 
 LogBox.ignoreLogs([
   'VirtualizedLists should never be nested inside plain ScrollViews with the same orientation because it can break windowing and other functionality - use another VirtualizedList-backed container instead.',
@@ -31,11 +32,81 @@ const EditClient = ({navigation, route}) => {
   const dispatch = useDispatch();
   const reducerData = useSelector(state => state.ClientReducer);
 
-  const [formData, dispatcher] = useReducer(reducer, initialState);
+  const [formData, dispatcher] = useReducer(reducer, {
+    clientName: params.client_name,
+    reportManagerName: params.reporting_name,
+    reportManagerContact: params.reporting_contact,
+    reportManagerEmail: params.reporting_email,
+    hrName: params.hr_name,
+    hrContact: params.hr_contact,
+    hrEmail: params.hr_email,
+    interviewerName: params.Interviewer_name,
+    interviewerContact: params.Interviewer_contact,
+    interviewerEmail: params.Interviewer_email,
+    financeName: params.account_name,
+    financeEmail: params.account_email,
+    financeContact: params.account_mobile,
+    url: params.url,
+    address: params.address,
+    description: params.description,
+    billingAddress: params.billing_address,
+    operationalAddress: params.operational_address,
+    panNumber: params.pan,
+    gstNumber: params.gst,
+    tanNumber: params.tan,
+    creditPeriod: params.credit_period.toString(),
+    dateOfInvoice: params.invoice_date,
+    mapLink: params.address_map_link,
+    nationality: params.nationality,
+    needTimesheet: null,
+    needMachine: null,
+    isWeekendWorking: null,
+    isAgreementSigned: null,
+    isFirstInvoiceSend: null,
+    needPhysicalCopy: null,
+    needPFProof: null,
+    purchaseOrderRequired: null,
+    isExternalProduct: null,
+    externalProduct: null,
+    clientNameError: null,
+    reportManagerNameError: null,
+    reportManagerContactError: null,
+    reportManagerEmailError: null,
+    hrNameError: null,
+    hrContactError: null,
+    hrEmailError: null,
+    interviewerNameError: null,
+    interviewerContactError: null,
+    interviewerEmailError: null,
+    financeNameError: null,
+    financeEmailError: null,
+    financeContactError: null,
+    urlError: null,
+    addressError: null,
+    descriptionError: null,
+    billingAddressError: null,
+    operationalAddressError: null,
+    panNumberError: null,
+    gstNumberError: null,
+    tanNumberError: null,
+    creditPeriodError: null,
+    dateOfInvoiceError: null,
+    mapLinkError: null,
+    nationalityError: null,
+    needTimesheetError: null,
+    needMachineError: null,
+    isWeekendWorkingError: null,
+    isAgreementSignedError: null,
+    isFirstInvoiceSendError: null,
+    needPhysicalCopyError: null,
+    needPFProofError: null,
+    purchaseOrderRequiredError: null,
+    isExternalProductError: null,
+  });
 
   //For date of invoice dropdown
   const [doiOpen, setDoiOpen] = useState(false);
-  const [doiValue, setDoiValue] = useState(null);
+  const [doiValue, setDoiValue] = useState(params.invoice_date);
   const [doiItems, setDoiItems] = useState([
     {
       value: '1st Of Months',
@@ -53,7 +124,7 @@ const EditClient = ({navigation, route}) => {
 
   //For nationality dropdown
   const [nationalityOpen, setNationalityOpen] = useState(false);
-  const [nationalityValue, setNationalityValue] = useState(null);
+  const [nationalityValue, setNationalityValue] = useState(params.nationality);
   const [nationalityItems, setNationalityItems] = useState([
     {
       value: 'Other',
@@ -104,16 +175,50 @@ const EditClient = ({navigation, route}) => {
 
   //For radio buttons
   const [radioValues, setRadioValues] = useState({
-    needTimesheet: null,
-    needMachine: null,
-    isWeekendWorking: null,
-    isAgreementSigned: null,
-    isFirstInvoiceSend: null,
-    needPhysicalCopy: null,
-    needPFProof: null,
-    purchaseOrderRequired: null,
-    isExternalProduct: null,
+    needTimesheet:
+      params.need_timesheet === 'Y' || params.need_timesheet === 'Yes' ? 1 : 0,
+    needMachine:
+      params.need_machine === 'Y' || params.need_machine === 'Yes' ? 1 : 0,
+    isWeekendWorking:
+      params.weekend_working === 'Y' || params.weekend_working === 'Yes'
+        ? 1
+        : 0,
+    isAgreementSigned:
+      params.aggrement_sign === 'Y' || params.aggrement_sign === 'Yes' ? 1 : 0,
+    isFirstInvoiceSend:
+      params.first_invoice === 'Y' || params.first_invoice === 'Yes' ? 1 : 0,
+    needPhysicalCopy:
+      params.is_invoice_need === 'Y' || params.is_invoice_need === 'Yes'
+        ? 1
+        : 0,
+    needPFProof: params.pf_proof === 'Y' || params.pf_proof === 'Yes' ? 1 : 0,
+    purchaseOrderRequired:
+      params.is_pruchase_ord_req === 'Y' || params.is_pruchase_ord_req === 'Yes'
+        ? 1
+        : 0,
+    isExternalProduct:
+      params.is_external_product === 'Y' || params.is_external_product === 'Yes'
+        ? 1
+        : 0,
   });
+
+  useEffect(() => {
+    dispatcher({type: 'needTimesheet', payload: params.need_timesheet});
+    dispatcher({type: 'needMachine', payload: params.need_machine});
+    dispatcher({type: 'isWeekendWorking', payload: params.weekend_working});
+    dispatcher({type: 'isAgreementSigned', payload: params.aggrement_sign});
+    dispatcher({type: 'isFirstInvoiceSend', payload: params.first_invoice});
+    dispatcher({type: 'needPhysicalCopy', payload: params.is_invoice_need});
+    dispatcher({type: 'needPFProof', payload: params.pf_proof});
+    dispatcher({
+      type: 'purchaseOrderRequired',
+      payload: params.is_pruchase_ord_req,
+    });
+    dispatcher({
+      type: 'isExternalProduct',
+      payload: params.is_external_product,
+    });
+  }, []);
 
   const convertClientData = data => {
     return {
@@ -201,27 +306,27 @@ const EditClient = ({navigation, route}) => {
     const dateOfInvoiceError = validation.validateField(formData.dateOfInvoice);
     const mapLinkError = validation.validateField(formData.mapLink);
     const nationalityError = validation.validateField(formData.nationality);
-    const needTimesheetError = validation.validateField(formData.needTimesheet);
-    const needMachineError = validation.validateField(formData.needMachine);
-    const isWeekendWorkingError = validation.validateField(
-      formData.isWeekendWorking,
-    );
-    const isAgreementSignedError = validation.validateField(
-      formData.isAgreementSigned,
-    );
-    const isFirstInvoiceSendError = validation.validateField(
-      formData.isFirstInvoiceSend,
-    );
-    const needPhysicalCopyError = validation.validateField(
-      formData.needPhysicalCopy,
-    );
-    const needPFProofError = validation.validateField(formData.needPFProof);
-    const purchaseOrderRequiredError = validation.validateField(
-      formData.purchaseOrderRequired,
-    );
-    const isExternalProductError = validation.validateField(
-      formData.isExternalProduct,
-    );
+    // const needTimesheetError = validation.validateField(formData.needTimesheet);
+    // const needMachineError = validation.validateField(formData.needMachine);
+    // const isWeekendWorkingError = validation.validateField(
+    //   formData.isWeekendWorking,
+    // );
+    // const isAgreementSignedError = validation.validateField(
+    //   formData.isAgreementSigned,
+    // );
+    // const isFirstInvoiceSendError = validation.validateField(
+    //   formData.isFirstInvoiceSend,
+    // );
+    // const needPhysicalCopyError = validation.validateField(
+    //   formData.needPhysicalCopy,
+    // );
+    // const needPFProofError = validation.validateField(formData.needPFProof);
+    // const purchaseOrderRequiredError = validation.validateField(
+    //   formData.purchaseOrderRequired,
+    // );
+    // const isExternalProductError = validation.validateField(
+    //   formData.isExternalProduct,
+    // );
 
     if (
       clientNameError ||
@@ -248,16 +353,17 @@ const EditClient = ({navigation, route}) => {
       creditPeriodError ||
       dateOfInvoiceError ||
       mapLinkError ||
-      nationalityError ||
-      needTimesheetError ||
-      needMachineError ||
-      isWeekendWorkingError ||
-      isAgreementSignedError ||
-      isFirstInvoiceSendError ||
-      needPhysicalCopyError ||
-      needPFProofError ||
-      purchaseOrderRequiredError ||
-      isExternalProductError
+      nationalityError
+      // ||
+      // needTimesheetError ||
+      // needMachineError ||
+      // isWeekendWorkingError ||
+      // isAgreementSignedError ||
+      // isFirstInvoiceSendError ||
+      // needPhysicalCopyError ||
+      // needPFProofError ||
+      // purchaseOrderRequiredError ||
+      // isExternalProductError
     ) {
       dispatcher({type: 'clientNameError', payload: clientNameError});
       dispatcher({
@@ -407,19 +513,20 @@ const EditClient = ({navigation, route}) => {
     console.log('<--------- FORMDATA -------->', formData);
     let data = convertClientData(formData);
     console.log('<---------# CONVERTED DATA #-------->', data);
-    // dispatch(editClient(data, navigation));
+    dispatch(editClient(data, params.id, navigation));
   };
 
   return (
     <SafeAreaView style={GLOBALSTYLE.safeAreaViewStyle}>
       <View style={styles.container}>
-        <CustomNavigationBar back={true} headername="Add Client" />
+        <CustomNavigationBar back={true} headername="Edit Client" />
         <ScrollView style={GLOBALSTYLE.mainContainer}>
+          {/* {console.log('PARAMS ====>', params)} */}
           {/*For client Name */}
           <TextInput
             placeholder="Enter Client Name*"
             style={[GLOBALSTYLE.TextInputStyle, {marginTop: 10}]}
-            value={params.clientName}
+            value={formData.clientName}
             onChangeText={vlaue => {
               dispatcher({
                 type: 'clientName',
@@ -1100,9 +1207,9 @@ const EditClient = ({navigation, route}) => {
               });
             }}
           />
-          {formData.needTimesheetError !== null && (
+          {/* {formData.needTimesheetError !== null && (
             <Text style={styles.errorText}>{formData.needTimesheetError}</Text>
-          )}
+          )} */}
 
           {/*For Need Machine */}
           <CustomRadioButtons
@@ -1126,9 +1233,9 @@ const EditClient = ({navigation, route}) => {
               });
             }}
           />
-          {formData.needMachineError !== null && (
+          {/* {formData.needMachineError !== null && (
             <Text style={styles.errorText}>{formData.needMachineError}</Text>
-          )}
+          )} */}
 
           {/*For weekend working */}
           <CustomRadioButtons
@@ -1152,11 +1259,11 @@ const EditClient = ({navigation, route}) => {
               });
             }}
           />
-          {formData.isWeekendWorkingError !== null && (
+          {/* {formData.isWeekendWorkingError !== null && (
             <Text style={styles.errorText}>
               {formData.isWeekendWorkingError}
             </Text>
-          )}
+          )} */}
 
           {/*For Agreement Sign */}
           <CustomRadioButtons
@@ -1180,11 +1287,11 @@ const EditClient = ({navigation, route}) => {
               });
             }}
           />
-          {formData.isAgreementSignedError !== null && (
+          {/* {formData.isAgreementSignedError !== null && (
             <Text style={styles.errorText}>
               {formData.isAgreementSignedError}
             </Text>
-          )}
+          )} */}
 
           {/*For First Invoice Send */}
           <CustomRadioButtons
@@ -1208,11 +1315,11 @@ const EditClient = ({navigation, route}) => {
               });
             }}
           />
-          {formData.isFirstInvoiceSendError !== null && (
+          {/* {formData.isFirstInvoiceSendError !== null && (
             <Text style={styles.errorText}>
               {formData.isFirstInvoiceSendError}
             </Text>
-          )}
+          )} */}
 
           {/*For Physical copy needed */}
           <CustomRadioButtons
@@ -1236,11 +1343,11 @@ const EditClient = ({navigation, route}) => {
               });
             }}
           />
-          {formData.needPhysicalCopyError !== null && (
+          {/* {formData.needPhysicalCopyError !== null && (
             <Text style={styles.errorText}>
               {formData.needPhysicalCopyError}
             </Text>
-          )}
+          )} */}
 
           {/*For PF Proof needed */}
           <CustomRadioButtons
@@ -1264,9 +1371,9 @@ const EditClient = ({navigation, route}) => {
               });
             }}
           />
-          {formData.needPFProofError !== null && (
+          {/* {formData.needPFProofError !== null && (
             <Text style={styles.errorText}>{formData.needPFProofError}</Text>
-          )}
+          )} */}
 
           {/*For Purchase Order Required */}
           <CustomRadioButtons
@@ -1290,11 +1397,11 @@ const EditClient = ({navigation, route}) => {
               });
             }}
           />
-          {formData.purchaseOrderRequiredError !== null && (
+          {/* {formData.purchaseOrderRequiredError !== null && (
             <Text style={styles.errorText}>
               {formData.purchaseOrderRequiredError}
             </Text>
-          )}
+          )} */}
 
           {/*For Purchase Order Required */}
           <CustomRadioButtons
@@ -1318,11 +1425,11 @@ const EditClient = ({navigation, route}) => {
               });
             }}
           />
-          {formData.isExternalProductError !== null && (
+          {/* {formData.isExternalProductError !== null && (
             <Text style={styles.errorText}>
               {formData.isExternalProductError}
             </Text>
-          )}
+          )} */}
 
           {radioValues.isExternalProduct === 1 ? (
             <>
@@ -1446,3 +1553,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 2,
   },
 });
+
+// import React from 'react';
+// import {View, Text} from 'react-native';
+
+// const EditClient = () => {
+//   return (
+//     <View>
+//       <Text>EDIT CLIENT</Text>
+//     </View>
+//   );
+// };
+
+// export default EditClient;
