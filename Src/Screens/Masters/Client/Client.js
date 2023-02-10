@@ -24,7 +24,7 @@ const Client = ({navigation}) => {
   //For dispatching actions for client reducer
   const dispatch = useDispatch();
   const reducerData = useSelector(state => state.ClientReducer);
-  //   console.log('reducerData from client : ', reducerData);
+  console.log('reducerData from client : ', reducerData);
 
   const [clients, setClients] = useState([]);
   const [filterClients, setFilterClients] = useState([]);
@@ -187,6 +187,9 @@ const Client = ({navigation}) => {
             title={'Edit'}
             onPressFunction={() => {
               editClient(item);
+              {
+                console.log('ITEM FROM CLIENT ====>', item);
+              }
             }}
           />
           <SmallButton

@@ -414,957 +414,991 @@ const AddClient = ({navigation}) => {
       <View style={styles.container}>
         <CustomNavigationBar back={true} headername="Add Client" />
         <ScrollView style={GLOBALSTYLE.mainContainer}>
-          {/*For client Name */}
-          <TextInput
-            placeholder="Enter Client Name*"
-            style={[GLOBALSTYLE.TextInputStyle, {marginTop: 10}]}
-            value={formData.clientName}
-            onChangeText={vlaue => {
-              dispatcher({
-                type: 'clientName',
-                payload: vlaue,
-              });
-              dispatcher({
-                type: 'clientNameError',
-                payload: null,
-              });
-            }}
-            keyboardType="default"
-          />
-          {formData.clientNameError !== null && (
-            <Text style={styles.errorText}>{formData.clientNameError}</Text>
-          )}
-
-          {/*For Reporting Manager Name */}
-          <TextInput
-            placeholder="Enter Reporting Manager Name*"
-            style={GLOBALSTYLE.TextInputStyle}
-            value={formData.reportManagerName}
-            onChangeText={vlaue => {
-              dispatcher({
-                type: 'reportManagerName',
-                payload: vlaue,
-              });
-              dispatcher({
-                type: 'reportManagerNameError',
-                payload: null,
-              });
-            }}
-            keyboardType="default"
-          />
-          {formData.reportManagerNameError !== null && (
-            <Text style={styles.errorText}>
-              {formData.reportManagerNameError}
-            </Text>
-          )}
-
-          {/*For Reporting Manager Contact */}
-          <View style={GLOBALSTYLE.uploadRowView}>
-            <View style={GLOBALSTYLE.iconBackgroundView}>
-              <FontAwesome
-                color={COLORS.lightBlue}
-                name="phone"
-                size={30}
-                style={{right: 15, marginStart: 27}}
-              />
-            </View>
+          <View style={styles.formContainer}>
+            {/*For client Name */}
             <TextInput
-              placeholder="Enter Reporting Manager Contact No.*"
-              value={formData.reportManagerContact}
-              style={{flex: 1}}
-              maxLength={10}
+              placeholder="Enter Client Name*"
+              style={[
+                GLOBALSTYLE.TextInputStyle,
+                {marginTop: 10},
+                styles.inputAligner,
+              ]}
+              value={formData.clientName}
               onChangeText={vlaue => {
                 dispatcher({
-                  type: 'reportManagerContact',
+                  type: 'clientName',
                   payload: vlaue,
                 });
                 dispatcher({
-                  type: 'reportManagerContactError',
+                  type: 'clientNameError',
                   payload: null,
                 });
               }}
-              keyboardType="numeric"
+              keyboardType="default"
             />
-          </View>
-          {formData.reportManagerContactError !== null && (
-            <Text style={styles.errorText}>
-              {formData.reportManagerContactError}
-            </Text>
-          )}
+            {formData.clientNameError !== null && (
+              <Text style={styles.errorText}>{formData.clientNameError}</Text>
+            )}
 
-          {/*For Reporting Manager Email */}
-          <View style={GLOBALSTYLE.uploadRowView}>
-            <View style={GLOBALSTYLE.iconBackgroundView}>
-              <FontAwesome
-                color={COLORS.lightBlue}
-                name="envelope-o"
-                size={30}
-                style={{right: 10, marginStart: 20}}
-              />
-            </View>
+            {/*For Reporting Manager Name */}
             <TextInput
-              placeholder="Enter Reporting Manager Email*"
-              value={formData.reportManagerEmail}
-              style={{flex: 1}}
+              placeholder="Enter Reporting Manager Name*"
+              style={[GLOBALSTYLE.TextInputStyle, styles.inputAligner]}
+              value={formData.reportManagerName}
               onChangeText={vlaue => {
                 dispatcher({
-                  type: 'reportManagerEmail',
+                  type: 'reportManagerName',
                   payload: vlaue,
                 });
                 dispatcher({
-                  type: 'reportManagerEmailError',
+                  type: 'reportManagerNameError',
                   payload: null,
                 });
               }}
-              keyboardType="email-address"
+              keyboardType="default"
             />
-          </View>
-          {formData.reportManagerEmailError !== null && (
-            <Text style={styles.errorText}>
-              {formData.reportManagerEmailError}
-            </Text>
-          )}
+            {formData.reportManagerNameError !== null && (
+              <Text style={styles.errorText}>
+                {formData.reportManagerNameError}
+              </Text>
+            )}
 
-          {/*For HR Name */}
-          <TextInput
-            placeholder="Enter HR Name*"
-            style={GLOBALSTYLE.TextInputStyle}
-            value={formData.hrName}
-            onChangeText={vlaue => {
-              dispatcher({
-                type: 'hrName',
-                payload: vlaue,
-              });
-              dispatcher({
-                type: 'hrNameError',
-                payload: null,
-              });
-            }}
-            keyboardType="default"
-          />
-          {formData.hrNameError !== null && (
-            <Text style={styles.errorText}>{formData.hrNameError}</Text>
-          )}
-
-          {/*For HR Contact */}
-          <View style={GLOBALSTYLE.uploadRowView}>
-            <View style={GLOBALSTYLE.iconBackgroundView}>
-              <FontAwesome
-                color={COLORS.lightBlue}
-                name="phone"
-                size={30}
-                style={{right: 15, marginStart: 27}}
-              />
-            </View>
-            <TextInput
-              placeholder="Enter HR Contact No.*"
-              value={formData.hrContact}
-              style={{flex: 1}}
-              maxLength={10}
-              onChangeText={vlaue => {
-                dispatcher({
-                  type: 'hrContact',
-                  payload: vlaue,
-                });
-                dispatcher({
-                  type: 'hrContactError',
-                  payload: null,
-                });
-              }}
-              keyboardType="numeric"
-            />
-          </View>
-          {formData.hrContactError !== null && (
-            <Text style={styles.errorText}>{formData.hrContactError}</Text>
-          )}
-
-          {/*For HR Email */}
-          <View style={GLOBALSTYLE.uploadRowView}>
-            <View style={GLOBALSTYLE.iconBackgroundView}>
-              <FontAwesome
-                color={COLORS.lightBlue}
-                name="envelope-o"
-                size={30}
-                style={{right: 10, marginStart: 20}}
-              />
-            </View>
-            <TextInput
-              placeholder="Enter HR Email*"
-              value={formData.hrEmail}
-              style={{flex: 1}}
-              onChangeText={vlaue => {
-                dispatcher({
-                  type: 'hrEmail',
-                  payload: vlaue,
-                });
-                dispatcher({
-                  type: 'hrEmailError',
-                  payload: null,
-                });
-              }}
-              keyboardType="email-address"
-            />
-          </View>
-          {formData.hrEmailError !== null && (
-            <Text style={styles.errorText}>{formData.hrEmailError}</Text>
-          )}
-
-          {/*For Interviewer Name */}
-          <TextInput
-            placeholder="Enter Interviewer Name*"
-            style={GLOBALSTYLE.TextInputStyle}
-            value={formData.interviewerName}
-            onChangeText={vlaue => {
-              dispatcher({
-                type: 'interviewerName',
-                payload: vlaue,
-              });
-              dispatcher({
-                type: 'interviewerNameError',
-                payload: null,
-              });
-            }}
-            keyboardType="default"
-          />
-          {formData.interviewerNameError !== null && (
-            <Text style={styles.errorText}>
-              {formData.interviewerNameError}
-            </Text>
-          )}
-
-          {/*For Interviewer Contact */}
-          <View style={GLOBALSTYLE.uploadRowView}>
-            <View style={GLOBALSTYLE.iconBackgroundView}>
-              <FontAwesome
-                color={COLORS.lightBlue}
-                name="phone"
-                size={30}
-                style={{right: 15, marginStart: 27}}
-              />
-            </View>
-            <TextInput
-              placeholder="Enter Interviewer Contact No.*"
-              value={formData.interviewerContact}
-              style={{flex: 1}}
-              maxLength={10}
-              onChangeText={vlaue => {
-                dispatcher({
-                  type: 'interviewerContact',
-                  payload: vlaue,
-                });
-                dispatcher({
-                  type: 'interviewerContactError',
-                  payload: null,
-                });
-              }}
-              keyboardType="numeric"
-            />
-          </View>
-          {formData.interviewerContactError !== null && (
-            <Text style={styles.errorText}>
-              {formData.interviewerContactError}
-            </Text>
-          )}
-
-          {/*For Interviewer Email */}
-          <View style={GLOBALSTYLE.uploadRowView}>
-            <View style={GLOBALSTYLE.iconBackgroundView}>
-              <FontAwesome
-                color={COLORS.lightBlue}
-                name="envelope-o"
-                size={30}
-                style={{right: 10, marginStart: 20}}
-              />
-            </View>
-            <TextInput
-              placeholder="Enter Interviewer Email*"
-              value={formData.interviewerEmail}
-              style={{flex: 1}}
-              onChangeText={vlaue => {
-                dispatcher({
-                  type: 'interviewerEmail',
-                  payload: vlaue,
-                });
-                dispatcher({
-                  type: 'interviewerEmailError',
-                  payload: null,
-                });
-              }}
-              keyboardType="email-address"
-            />
-          </View>
-          {formData.interviewerEmailError !== null && (
-            <Text style={styles.errorText}>
-              {formData.interviewerEmailError}
-            </Text>
-          )}
-
-          {/*For Finance Name */}
-          <TextInput
-            placeholder="Enter Finance Name*"
-            style={GLOBALSTYLE.TextInputStyle}
-            value={formData.financeName}
-            onChangeText={vlaue => {
-              dispatcher({
-                type: 'financeName',
-                payload: vlaue,
-              });
-              dispatcher({
-                type: 'financeNameError',
-                payload: null,
-              });
-            }}
-            keyboardType="default"
-          />
-          {formData.financeNameError !== null && (
-            <Text style={styles.errorText}>{formData.financeNameError}</Text>
-          )}
-
-          {/*For Finance Contact */}
-          <View style={GLOBALSTYLE.uploadRowView}>
-            <View style={GLOBALSTYLE.iconBackgroundView}>
-              <FontAwesome
-                color={COLORS.lightBlue}
-                name="phone"
-                size={30}
-                style={{right: 15, marginStart: 27}}
-              />
-            </View>
-            <TextInput
-              placeholder="Enter Finance Contact No.*"
-              value={formData.financeContact}
-              style={{flex: 1}}
-              maxLength={10}
-              onChangeText={vlaue => {
-                dispatcher({
-                  type: 'financeContact',
-                  payload: vlaue,
-                });
-                dispatcher({
-                  type: 'financeContactError',
-                  payload: null,
-                });
-              }}
-              keyboardType="numeric"
-            />
-          </View>
-          {formData.financeContactError !== null && (
-            <Text style={styles.errorText}>{formData.financeContactError}</Text>
-          )}
-
-          {/*For Finance Email */}
-          <View style={GLOBALSTYLE.uploadRowView}>
-            <View style={GLOBALSTYLE.iconBackgroundView}>
-              <FontAwesome
-                color={COLORS.lightBlue}
-                name="envelope-o"
-                size={30}
-                style={{right: 10, marginStart: 20}}
-              />
-            </View>
-            <TextInput
-              placeholder="Enter Finance Email*"
-              value={formData.financeEmail}
-              style={{flex: 1}}
-              onChangeText={vlaue => {
-                dispatcher({
-                  type: 'financeEmail',
-                  payload: vlaue,
-                });
-                dispatcher({
-                  type: 'financeEmailError',
-                  payload: null,
-                });
-              }}
-              keyboardType="email-address"
-            />
-          </View>
-          {formData.financeEmailError !== null && (
-            <Text style={styles.errorText}>{formData.financeEmailError}</Text>
-          )}
-
-          {/*For URL */}
-          <TextInput
-            placeholder="Enter URL*"
-            style={GLOBALSTYLE.TextInputStyle}
-            value={formData.url}
-            onChangeText={vlaue => {
-              dispatcher({
-                type: 'url',
-                payload: vlaue,
-              });
-              dispatcher({
-                type: 'urlError',
-                payload: null,
-              });
-            }}
-            keyboardType="default"
-          />
-          {formData.urlError !== null && (
-            <Text style={styles.errorText}>{formData.urlError}</Text>
-          )}
-
-          {/*For Address */}
-          <TextInput
-            placeholder="Enter Address*"
-            style={GLOBALSTYLE.TextInputStyle}
-            value={formData.address}
-            multiline={true}
-            onChangeText={vlaue => {
-              dispatcher({
-                type: 'address',
-                payload: vlaue,
-              });
-              dispatcher({
-                type: 'addressError',
-                payload: null,
-              });
-            }}
-            keyboardType="default"
-          />
-          {formData.addressError !== null && (
-            <Text style={styles.errorText}>{formData.addressError}</Text>
-          )}
-
-          {/*For Description */}
-          <TextInput
-            placeholder="Enter Description*"
-            style={GLOBALSTYLE.TextInputStyle}
-            value={formData.description}
-            multiline={true}
-            onChangeText={vlaue => {
-              dispatcher({
-                type: 'description',
-                payload: vlaue,
-              });
-              dispatcher({
-                type: 'descriptionError',
-                payload: null,
-              });
-            }}
-            keyboardType="default"
-          />
-          {formData.descriptionError !== null && (
-            <Text style={styles.errorText}>{formData.descriptionError}</Text>
-          )}
-
-          {/*For Billing Address */}
-          <TextInput
-            placeholder="Enter Billing Address*"
-            style={GLOBALSTYLE.TextInputStyle}
-            value={formData.billingAddress}
-            multiline={true}
-            onChangeText={vlaue => {
-              dispatcher({
-                type: 'billingAddress',
-                payload: vlaue,
-              });
-              dispatcher({
-                type: 'billingAddressError',
-                payload: null,
-              });
-            }}
-            keyboardType="default"
-          />
-          {formData.billingAddressError !== null && (
-            <Text style={styles.errorText}>{formData.billingAddressError}</Text>
-          )}
-
-          {/*For Operational Address */}
-          <TextInput
-            placeholder="Enter Operational Address*"
-            style={GLOBALSTYLE.TextInputStyle}
-            value={formData.operationalAddress}
-            multiline={true}
-            onChangeText={vlaue => {
-              dispatcher({
-                type: 'operationalAddress',
-                payload: vlaue,
-              });
-              dispatcher({
-                type: 'operationalAddressError',
-                payload: null,
-              });
-            }}
-            keyboardType="default"
-          />
-          {formData.operationalAddressError !== null && (
-            <Text style={styles.errorText}>
-              {formData.operationalAddressError}
-            </Text>
-          )}
-
-          {/*For PAN Number */}
-          <TextInput
-            placeholder="Enter PAN Number*"
-            style={GLOBALSTYLE.TextInputStyle}
-            value={formData.panNumber}
-            onChangeText={vlaue => {
-              dispatcher({
-                type: 'panNumber',
-                payload: vlaue,
-              });
-              dispatcher({
-                type: 'panNumberError',
-                payload: null,
-              });
-            }}
-            keyboardType="default"
-          />
-          {formData.panNumberError !== null && (
-            <Text style={styles.errorText}>{formData.panNumberError}</Text>
-          )}
-
-          {/*For GST Number */}
-          <TextInput
-            placeholder="Enter GST Number*"
-            style={GLOBALSTYLE.TextInputStyle}
-            value={formData.gstNumber}
-            onChangeText={vlaue => {
-              dispatcher({
-                type: 'gstNumber',
-                payload: vlaue,
-              });
-              dispatcher({
-                type: 'gstNumberError',
-                payload: null,
-              });
-            }}
-            keyboardType="default"
-          />
-          {formData.gstNumberError !== null && (
-            <Text style={styles.errorText}>{formData.gstNumberError}</Text>
-          )}
-
-          {/*For TAN Number */}
-          <TextInput
-            placeholder="Enter TAN Number*"
-            style={GLOBALSTYLE.TextInputStyle}
-            value={formData.tanNumber}
-            onChangeText={vlaue => {
-              dispatcher({
-                type: 'tanNumber',
-                payload: vlaue,
-              });
-              dispatcher({
-                type: 'tanNumberError',
-                payload: null,
-              });
-            }}
-            keyboardType="default"
-          />
-          {formData.tanNumberError !== null && (
-            <Text style={styles.errorText}>{formData.tanNumberError}</Text>
-          )}
-
-          {/*For Credit Period */}
-          <TextInput
-            placeholder="Enter Credit Period*"
-            style={GLOBALSTYLE.TextInputStyle}
-            value={formData.creditPeriod}
-            onChangeText={vlaue => {
-              dispatcher({
-                type: 'creditPeriod',
-                payload: vlaue,
-              });
-              dispatcher({
-                type: 'creditPeriodError',
-                payload: null,
-              });
-            }}
-            keyboardType="default"
-          />
-          {formData.creditPeriodError !== null && (
-            <Text style={styles.errorText}>{formData.creditPeriodError}</Text>
-          )}
-
-          {/*For Date Of Invoice */}
-          <DropDownPicker
-            style={[styles.dropdownViewStyle, styles.dropDownAligner]}
-            placeholder="Date Of Invoice*"
-            placeholderStyle={{color: COLORS.grey}}
-            listMode="FLATLIST"
-            dropDownContainerStyle={styles.dropDownContainerStyle}
-            renderListItem={({item}) => {
-              return (
-                <TouchableOpacity
-                  onPress={() => {
-                    setDoiValue(item.value);
-                    setDoiOpen(false);
-                    dispatcher({
-                      type: 'dateOfInvoice',
-                      payload: item.value,
-                    });
-                    dispatcher({
-                      type: 'dateOfInvoiceError',
-                      payload: null,
-                    });
-                  }}
-                  style={styles.cellStyle}>
-                  <Text style={styles.cellTextStyle}>{item.label}</Text>
-                </TouchableOpacity>
-              );
-            }}
-            open={doiOpen}
-            onOpen={onDoiOpen}
-            value={doiValue}
-            items={doiItems}
-            setOpen={setDoiOpen}
-            setItems={setDoiItems}
-          />
-          {formData.dateOfInvoiceError !== null && (
-            <Text style={styles.errorText}>{formData.dateOfInvoiceError}</Text>
-          )}
-          <View style={styles.verticalSpace} />
-
-          {/*For Map Link */}
-          <TextInput
-            placeholder="Enter Map Link*"
-            style={GLOBALSTYLE.TextInputStyle}
-            value={formData.mapLink}
-            onChangeText={vlaue => {
-              dispatcher({
-                type: 'mapLink',
-                payload: vlaue,
-              });
-              dispatcher({
-                type: 'mapLinkError',
-                payload: null,
-              });
-            }}
-            keyboardType="default"
-          />
-          {formData.mapLinkError !== null && (
-            <Text style={styles.errorText}>{formData.mapLinkError}</Text>
-          )}
-
-          {/*For Nationality */}
-          <DropDownPicker
-            style={[styles.dropdownViewStyle, styles.dropDownAligner]}
-            placeholder="Nationality*"
-            placeholderStyle={{color: COLORS.grey}}
-            listMode="FLATLIST"
-            dropDownContainerStyle={styles.dropDownContainerStyle}
-            renderListItem={({item}) => {
-              return (
-                <TouchableOpacity
-                  onPress={() => {
-                    setNationalityValue(item.value);
-                    setNationalityOpen(false);
-                    dispatcher({
-                      type: 'nationality',
-                      payload: item.value,
-                    });
-                    dispatcher({
-                      type: 'nationalityError',
-                      payload: null,
-                    });
-                  }}
-                  style={styles.cellStyle}>
-                  <Text style={styles.cellTextStyle}>{item.label}</Text>
-                </TouchableOpacity>
-              );
-            }}
-            open={nationalityOpen}
-            onOpen={onNationalityOpen}
-            value={nationalityValue}
-            items={nationalityItems}
-            setOpen={setNationalityOpen}
-            setItems={setNationalityItems}
-          />
-          {formData.nationalityError !== null && (
-            <Text style={styles.errorText}>{formData.nationalityError}</Text>
-          )}
-          <View style={styles.verticalSpace} />
-
-          {/*For Need Timesheet */}
-          <CustomRadioButtons
-            value={radioValues.needTimesheet}
-            title="Do you need timesheet?*"
-            onPressFunction={value => {
-              let needTimesheet = value === 0 ? 'No' : 'Yes';
-              dispatcher({
-                type: 'needTimesheet',
-                payload: needTimesheet,
-              });
-              dispatcher({
-                type: 'needTimesheetError',
-                payload: null,
-              });
-              setRadioValues(prevValues => {
-                return {
-                  ...prevValues,
-                  needTimesheet: value,
-                };
-              });
-            }}
-          />
-          {formData.needTimesheetError !== null && (
-            <Text style={styles.errorText}>{formData.needTimesheetError}</Text>
-          )}
-
-          {/*For Need Machine */}
-          <CustomRadioButtons
-            value={radioValues.needMachine}
-            title="Do you need machine?*"
-            onPressFunction={value => {
-              let needMachine = value === 0 ? 'No' : 'Yes';
-              dispatcher({
-                type: 'needMachine',
-                payload: needMachine,
-              });
-              dispatcher({
-                type: 'needMachineError',
-                payload: null,
-              });
-              setRadioValues(prevValues => {
-                return {
-                  ...prevValues,
-                  needMachine: value,
-                };
-              });
-            }}
-          />
-          {formData.needMachineError !== null && (
-            <Text style={styles.errorText}>{formData.needMachineError}</Text>
-          )}
-
-          {/*For weekend working */}
-          <CustomRadioButtons
-            value={radioValues.isWeekendWorking}
-            title="Weekend working?*"
-            onPressFunction={value => {
-              let isWeekendWorking = value === 0 ? 'No' : 'Yes';
-              dispatcher({
-                type: 'isWeekendWorking',
-                payload: isWeekendWorking,
-              });
-              dispatcher({
-                type: 'isWeekendWorkingError',
-                payload: null,
-              });
-              setRadioValues(prevValues => {
-                return {
-                  ...prevValues,
-                  isWeekendWorking: value,
-                };
-              });
-            }}
-          />
-          {formData.isWeekendWorkingError !== null && (
-            <Text style={styles.errorText}>
-              {formData.isWeekendWorkingError}
-            </Text>
-          )}
-
-          {/*For Agreement Sign */}
-          <CustomRadioButtons
-            value={radioValues.isAgreementSigned}
-            title="Agreement Sign?*"
-            onPressFunction={value => {
-              let isAgreementSigned = value === 0 ? 'No' : 'Yes';
-              dispatcher({
-                type: 'isAgreementSigned',
-                payload: isAgreementSigned,
-              });
-              dispatcher({
-                type: 'isAgreementSignedError',
-                payload: null,
-              });
-              setRadioValues(prevValues => {
-                return {
-                  ...prevValues,
-                  isAgreementSigned: value,
-                };
-              });
-            }}
-          />
-          {formData.isAgreementSignedError !== null && (
-            <Text style={styles.errorText}>
-              {formData.isAgreementSignedError}
-            </Text>
-          )}
-
-          {/*For First Invoice Send */}
-          <CustomRadioButtons
-            value={radioValues.isFirstInvoiceSend}
-            title="First Invoice Send?*"
-            onPressFunction={value => {
-              let isFirstInvoiceSend = value === 0 ? 'No' : 'Yes';
-              dispatcher({
-                type: 'isFirstInvoiceSend',
-                payload: isFirstInvoiceSend,
-              });
-              dispatcher({
-                type: 'isFirstInvoiceSendError',
-                payload: null,
-              });
-              setRadioValues(prevValues => {
-                return {
-                  ...prevValues,
-                  isFirstInvoiceSend: value,
-                };
-              });
-            }}
-          />
-          {formData.isFirstInvoiceSendError !== null && (
-            <Text style={styles.errorText}>
-              {formData.isFirstInvoiceSendError}
-            </Text>
-          )}
-
-          {/*For Physical copy needed */}
-          <CustomRadioButtons
-            value={radioValues.needPhysicalCopy}
-            title="Physical copy needed?*"
-            onPressFunction={value => {
-              let needPhysicalCopy = value === 0 ? 'No' : 'Yes';
-              dispatcher({
-                type: 'needPhysicalCopy',
-                payload: needPhysicalCopy,
-              });
-              dispatcher({
-                type: 'needPhysicalCopyError',
-                payload: null,
-              });
-              setRadioValues(prevValues => {
-                return {
-                  ...prevValues,
-                  needPhysicalCopy: value,
-                };
-              });
-            }}
-          />
-          {formData.needPhysicalCopyError !== null && (
-            <Text style={styles.errorText}>
-              {formData.needPhysicalCopyError}
-            </Text>
-          )}
-
-          {/*For PF Proof needed */}
-          <CustomRadioButtons
-            value={radioValues.needPFProof}
-            title="PF Proof needed?*"
-            onPressFunction={value => {
-              let needPFProof = value === 0 ? 'No' : 'Yes';
-              dispatcher({
-                type: 'needPFProof',
-                payload: needPFProof,
-              });
-              dispatcher({
-                type: 'needPFProofError',
-                payload: null,
-              });
-              setRadioValues(prevValues => {
-                return {
-                  ...prevValues,
-                  needPFProof: value,
-                };
-              });
-            }}
-          />
-          {formData.needPFProofError !== null && (
-            <Text style={styles.errorText}>{formData.needPFProofError}</Text>
-          )}
-
-          {/*For Purchase Order Required */}
-          <CustomRadioButtons
-            value={radioValues.purchaseOrderRequired}
-            title="Is Purchase Order Required?*"
-            onPressFunction={value => {
-              let purchaseOrderRequired = value === 0 ? 'No' : 'Yes';
-              dispatcher({
-                type: 'purchaseOrderRequired',
-                payload: purchaseOrderRequired,
-              });
-              dispatcher({
-                type: 'purchaseOrderRequiredError',
-                payload: null,
-              });
-              setRadioValues(prevValues => {
-                return {
-                  ...prevValues,
-                  purchaseOrderRequired: value,
-                };
-              });
-            }}
-          />
-          {formData.purchaseOrderRequiredError !== null && (
-            <Text style={styles.errorText}>
-              {formData.purchaseOrderRequiredError}
-            </Text>
-          )}
-
-          {/*For Purchase Order Required */}
-          <CustomRadioButtons
-            value={radioValues.isExternalProduct}
-            title="Is External Product?*"
-            onPressFunction={value => {
-              let isExternalProduct = value === 0 ? 'No' : 'Yes';
-              dispatcher({
-                type: 'isExternalProduct',
-                payload: isExternalProduct,
-              });
-              dispatcher({
-                type: 'isExternalProductError',
-                payload: null,
-              });
-              setRadioValues(prevValues => {
-                return {
-                  ...prevValues,
-                  isExternalProduct: value,
-                };
-              });
-            }}
-          />
-          {formData.isExternalProductError !== null && (
-            <Text style={styles.errorText}>
-              {formData.isExternalProductError}
-            </Text>
-          )}
-
-          {radioValues.isExternalProduct === 1 ? (
-            <>
-              <DropDownPicker
-                style={[styles.dropdownViewStyle, styles.dropDownAligner]}
-                placeholder="External Product"
-                placeholderStyle={{color: COLORS.grey}}
-                listMode="FLATLIST"
-                dropDownContainerStyle={styles.dropDownContainerStyle}
-                renderListItem={({item}) => {
-                  return (
-                    <TouchableOpacity
-                      onPress={() => {
-                        setExternalProductValue(item.value);
-                        setExternalProductOpen(false);
-                        dispatcher({
-                          type: 'externalProduct',
-                          payload: item.label,
-                        });
-                      }}
-                      style={styles.cellStyle}>
-                      <Text style={styles.cellTextStyle}>{item.label}</Text>
-                    </TouchableOpacity>
-                  );
+            {/*For Reporting Manager Contact */}
+            <View
+              style={[GLOBALSTYLE.uploadRowView, styles.uploadRowViewAligner]}>
+              <View style={GLOBALSTYLE.iconBackgroundView}>
+                <FontAwesome
+                  color={COLORS.lightBlue}
+                  name="phone"
+                  size={30}
+                  style={{right: 15, marginStart: 27}}
+                />
+              </View>
+              <TextInput
+                placeholder="Enter Reporting Manager Contact No.*"
+                value={formData.reportManagerContact}
+                style={{flex: 1}}
+                maxLength={10}
+                onChangeText={vlaue => {
+                  dispatcher({
+                    type: 'reportManagerContact',
+                    payload: vlaue,
+                  });
+                  dispatcher({
+                    type: 'reportManagerContactError',
+                    payload: null,
+                  });
                 }}
-                open={externalProductOpen}
-                onOpen={onExternalProductOpen}
-                value={externalProductValue}
-                items={externalProductItems}
-                setOpen={setExternalProductOpen}
-                setItems={setExternalProductItems}
+                keyboardType="numeric"
               />
-              <View style={styles.verticalSpace} />
-            </>
-          ) : null}
+            </View>
+            {formData.reportManagerContactError !== null && (
+              <Text style={styles.errorText}>
+                {formData.reportManagerContactError}
+              </Text>
+            )}
 
-          <TouchableOpacity
-            style={[styles.btnStyle, styles.submitBtnAligner]}
-            onPress={() => {
-              onSubmit();
-            }}>
-            <Text style={styles.submitBtnTextStyle}>Submit</Text>
-          </TouchableOpacity>
+            {/*For Reporting Manager Email */}
+            <View
+              style={[GLOBALSTYLE.uploadRowView, styles.uploadRowViewAligner]}>
+              <View style={GLOBALSTYLE.iconBackgroundView}>
+                <FontAwesome
+                  color={COLORS.lightBlue}
+                  name="envelope-o"
+                  size={30}
+                  style={{right: 10, marginStart: 20}}
+                />
+              </View>
+              <TextInput
+                placeholder="Enter Reporting Manager Email*"
+                value={formData.reportManagerEmail}
+                style={{flex: 1}}
+                onChangeText={vlaue => {
+                  dispatcher({
+                    type: 'reportManagerEmail',
+                    payload: vlaue,
+                  });
+                  dispatcher({
+                    type: 'reportManagerEmailError',
+                    payload: null,
+                  });
+                }}
+                keyboardType="email-address"
+              />
+            </View>
+            {formData.reportManagerEmailError !== null && (
+              <Text style={styles.errorText}>
+                {formData.reportManagerEmailError}
+              </Text>
+            )}
+
+            {/*For HR Name */}
+            <TextInput
+              placeholder="Enter HR Name*"
+              style={[GLOBALSTYLE.TextInputStyle, styles.inputAligner]}
+              value={formData.hrName}
+              onChangeText={vlaue => {
+                dispatcher({
+                  type: 'hrName',
+                  payload: vlaue,
+                });
+                dispatcher({
+                  type: 'hrNameError',
+                  payload: null,
+                });
+              }}
+              keyboardType="default"
+            />
+            {formData.hrNameError !== null && (
+              <Text style={styles.errorText}>{formData.hrNameError}</Text>
+            )}
+
+            {/*For HR Contact */}
+            <View
+              style={[GLOBALSTYLE.uploadRowView, styles.uploadRowViewAligner]}>
+              <View style={GLOBALSTYLE.iconBackgroundView}>
+                <FontAwesome
+                  color={COLORS.lightBlue}
+                  name="phone"
+                  size={30}
+                  style={{right: 15, marginStart: 27}}
+                />
+              </View>
+              <TextInput
+                placeholder="Enter HR Contact No.*"
+                value={formData.hrContact}
+                style={{flex: 1}}
+                maxLength={10}
+                onChangeText={vlaue => {
+                  dispatcher({
+                    type: 'hrContact',
+                    payload: vlaue,
+                  });
+                  dispatcher({
+                    type: 'hrContactError',
+                    payload: null,
+                  });
+                }}
+                keyboardType="numeric"
+              />
+            </View>
+            {formData.hrContactError !== null && (
+              <Text style={styles.errorText}>{formData.hrContactError}</Text>
+            )}
+
+            {/*For HR Email */}
+            <View
+              style={[GLOBALSTYLE.uploadRowView, styles.uploadRowViewAligner]}>
+              <View style={GLOBALSTYLE.iconBackgroundView}>
+                <FontAwesome
+                  color={COLORS.lightBlue}
+                  name="envelope-o"
+                  size={30}
+                  style={{right: 10, marginStart: 20}}
+                />
+              </View>
+              <TextInput
+                placeholder="Enter HR Email*"
+                value={formData.hrEmail}
+                style={{flex: 1}}
+                onChangeText={vlaue => {
+                  dispatcher({
+                    type: 'hrEmail',
+                    payload: vlaue,
+                  });
+                  dispatcher({
+                    type: 'hrEmailError',
+                    payload: null,
+                  });
+                }}
+                keyboardType="email-address"
+              />
+            </View>
+            {formData.hrEmailError !== null && (
+              <Text style={styles.errorText}>{formData.hrEmailError}</Text>
+            )}
+
+            {/*For Interviewer Name */}
+            <TextInput
+              placeholder="Enter Interviewer Name*"
+              style={[GLOBALSTYLE.TextInputStyle, styles.inputAligner]}
+              value={formData.interviewerName}
+              onChangeText={vlaue => {
+                dispatcher({
+                  type: 'interviewerName',
+                  payload: vlaue,
+                });
+                dispatcher({
+                  type: 'interviewerNameError',
+                  payload: null,
+                });
+              }}
+              keyboardType="default"
+            />
+            {formData.interviewerNameError !== null && (
+              <Text style={styles.errorText}>
+                {formData.interviewerNameError}
+              </Text>
+            )}
+
+            {/*For Interviewer Contact */}
+            <View
+              style={[GLOBALSTYLE.uploadRowView, styles.uploadRowViewAligner]}>
+              <View style={GLOBALSTYLE.iconBackgroundView}>
+                <FontAwesome
+                  color={COLORS.lightBlue}
+                  name="phone"
+                  size={30}
+                  style={{right: 15, marginStart: 27}}
+                />
+              </View>
+              <TextInput
+                placeholder="Enter Interviewer Contact No.*"
+                value={formData.interviewerContact}
+                style={{flex: 1}}
+                maxLength={10}
+                onChangeText={vlaue => {
+                  dispatcher({
+                    type: 'interviewerContact',
+                    payload: vlaue,
+                  });
+                  dispatcher({
+                    type: 'interviewerContactError',
+                    payload: null,
+                  });
+                }}
+                keyboardType="numeric"
+              />
+            </View>
+            {formData.interviewerContactError !== null && (
+              <Text style={styles.errorText}>
+                {formData.interviewerContactError}
+              </Text>
+            )}
+
+            {/*For Interviewer Email */}
+            <View
+              style={[GLOBALSTYLE.uploadRowView, styles.uploadRowViewAligner]}>
+              <View style={GLOBALSTYLE.iconBackgroundView}>
+                <FontAwesome
+                  color={COLORS.lightBlue}
+                  name="envelope-o"
+                  size={30}
+                  style={{right: 10, marginStart: 20}}
+                />
+              </View>
+              <TextInput
+                placeholder="Enter Interviewer Email*"
+                value={formData.interviewerEmail}
+                style={{flex: 1}}
+                onChangeText={vlaue => {
+                  dispatcher({
+                    type: 'interviewerEmail',
+                    payload: vlaue,
+                  });
+                  dispatcher({
+                    type: 'interviewerEmailError',
+                    payload: null,
+                  });
+                }}
+                keyboardType="email-address"
+              />
+            </View>
+            {formData.interviewerEmailError !== null && (
+              <Text style={styles.errorText}>
+                {formData.interviewerEmailError}
+              </Text>
+            )}
+
+            {/*For Finance Name */}
+            <TextInput
+              placeholder="Enter Finance Name*"
+              style={[GLOBALSTYLE.TextInputStyle, styles.inputAligner]}
+              value={formData.financeName}
+              onChangeText={vlaue => {
+                dispatcher({
+                  type: 'financeName',
+                  payload: vlaue,
+                });
+                dispatcher({
+                  type: 'financeNameError',
+                  payload: null,
+                });
+              }}
+              keyboardType="default"
+            />
+            {formData.financeNameError !== null && (
+              <Text style={styles.errorText}>{formData.financeNameError}</Text>
+            )}
+
+            {/*For Finance Contact */}
+            <View
+              style={[GLOBALSTYLE.uploadRowView, styles.uploadRowViewAligner]}>
+              <View style={GLOBALSTYLE.iconBackgroundView}>
+                <FontAwesome
+                  color={COLORS.lightBlue}
+                  name="phone"
+                  size={30}
+                  style={{right: 15, marginStart: 27}}
+                />
+              </View>
+              <TextInput
+                placeholder="Enter Finance Contact No.*"
+                value={formData.financeContact}
+                style={{flex: 1}}
+                maxLength={10}
+                onChangeText={vlaue => {
+                  dispatcher({
+                    type: 'financeContact',
+                    payload: vlaue,
+                  });
+                  dispatcher({
+                    type: 'financeContactError',
+                    payload: null,
+                  });
+                }}
+                keyboardType="numeric"
+              />
+            </View>
+            {formData.financeContactError !== null && (
+              <Text style={styles.errorText}>
+                {formData.financeContactError}
+              </Text>
+            )}
+
+            {/*For Finance Email */}
+            <View
+              style={[GLOBALSTYLE.uploadRowView, styles.uploadRowViewAligner]}>
+              <View style={GLOBALSTYLE.iconBackgroundView}>
+                <FontAwesome
+                  color={COLORS.lightBlue}
+                  name="envelope-o"
+                  size={30}
+                  style={{right: 10, marginStart: 20}}
+                />
+              </View>
+              <TextInput
+                placeholder="Enter Finance Email*"
+                value={formData.financeEmail}
+                style={{flex: 1}}
+                onChangeText={vlaue => {
+                  dispatcher({
+                    type: 'financeEmail',
+                    payload: vlaue,
+                  });
+                  dispatcher({
+                    type: 'financeEmailError',
+                    payload: null,
+                  });
+                }}
+                keyboardType="email-address"
+              />
+            </View>
+            {formData.financeEmailError !== null && (
+              <Text style={styles.errorText}>{formData.financeEmailError}</Text>
+            )}
+
+            {/*For URL */}
+            <TextInput
+              placeholder="Enter URL*"
+              style={[GLOBALSTYLE.TextInputStyle, styles.inputAligner]}
+              value={formData.url}
+              onChangeText={vlaue => {
+                dispatcher({
+                  type: 'url',
+                  payload: vlaue,
+                });
+                dispatcher({
+                  type: 'urlError',
+                  payload: null,
+                });
+              }}
+              keyboardType="default"
+            />
+            {formData.urlError !== null && (
+              <Text style={styles.errorText}>{formData.urlError}</Text>
+            )}
+
+            {/*For Address */}
+            <TextInput
+              placeholder="Enter Address*"
+              style={[GLOBALSTYLE.TextInputStyle, styles.inputAligner]}
+              value={formData.address}
+              multiline={true}
+              onChangeText={vlaue => {
+                dispatcher({
+                  type: 'address',
+                  payload: vlaue,
+                });
+                dispatcher({
+                  type: 'addressError',
+                  payload: null,
+                });
+              }}
+              keyboardType="default"
+            />
+            {formData.addressError !== null && (
+              <Text style={styles.errorText}>{formData.addressError}</Text>
+            )}
+
+            {/*For Description */}
+            <TextInput
+              placeholder="Enter Description*"
+              style={[GLOBALSTYLE.TextInputStyle, styles.inputAligner]}
+              value={formData.description}
+              multiline={true}
+              onChangeText={vlaue => {
+                dispatcher({
+                  type: 'description',
+                  payload: vlaue,
+                });
+                dispatcher({
+                  type: 'descriptionError',
+                  payload: null,
+                });
+              }}
+              keyboardType="default"
+            />
+            {formData.descriptionError !== null && (
+              <Text style={styles.errorText}>{formData.descriptionError}</Text>
+            )}
+
+            {/*For Billing Address */}
+            <TextInput
+              placeholder="Enter Billing Address*"
+              style={[GLOBALSTYLE.TextInputStyle, styles.inputAligner]}
+              value={formData.billingAddress}
+              multiline={true}
+              onChangeText={vlaue => {
+                dispatcher({
+                  type: 'billingAddress',
+                  payload: vlaue,
+                });
+                dispatcher({
+                  type: 'billingAddressError',
+                  payload: null,
+                });
+              }}
+              keyboardType="default"
+            />
+            {formData.billingAddressError !== null && (
+              <Text style={styles.errorText}>
+                {formData.billingAddressError}
+              </Text>
+            )}
+
+            {/*For Operational Address */}
+            <TextInput
+              placeholder="Enter Operational Address*"
+              style={[GLOBALSTYLE.TextInputStyle, styles.inputAligner]}
+              value={formData.operationalAddress}
+              multiline={true}
+              onChangeText={vlaue => {
+                dispatcher({
+                  type: 'operationalAddress',
+                  payload: vlaue,
+                });
+                dispatcher({
+                  type: 'operationalAddressError',
+                  payload: null,
+                });
+              }}
+              keyboardType="default"
+            />
+            {formData.operationalAddressError !== null && (
+              <Text style={styles.errorText}>
+                {formData.operationalAddressError}
+              </Text>
+            )}
+
+            {/*For PAN Number */}
+            <TextInput
+              placeholder="Enter PAN Number*"
+              style={[GLOBALSTYLE.TextInputStyle, styles.inputAligner]}
+              value={formData.panNumber}
+              onChangeText={vlaue => {
+                dispatcher({
+                  type: 'panNumber',
+                  payload: vlaue,
+                });
+                dispatcher({
+                  type: 'panNumberError',
+                  payload: null,
+                });
+              }}
+              keyboardType="default"
+            />
+            {formData.panNumberError !== null && (
+              <Text style={styles.errorText}>{formData.panNumberError}</Text>
+            )}
+
+            {/*For GST Number */}
+            <TextInput
+              placeholder="Enter GST Number*"
+              style={[GLOBALSTYLE.TextInputStyle, styles.inputAligner]}
+              value={formData.gstNumber}
+              onChangeText={vlaue => {
+                dispatcher({
+                  type: 'gstNumber',
+                  payload: vlaue,
+                });
+                dispatcher({
+                  type: 'gstNumberError',
+                  payload: null,
+                });
+              }}
+              keyboardType="default"
+            />
+            {formData.gstNumberError !== null && (
+              <Text style={styles.errorText}>{formData.gstNumberError}</Text>
+            )}
+
+            {/*For TAN Number */}
+            <TextInput
+              placeholder="Enter TAN Number*"
+              style={[GLOBALSTYLE.TextInputStyle, styles.inputAligner]}
+              value={formData.tanNumber}
+              onChangeText={vlaue => {
+                dispatcher({
+                  type: 'tanNumber',
+                  payload: vlaue,
+                });
+                dispatcher({
+                  type: 'tanNumberError',
+                  payload: null,
+                });
+              }}
+              keyboardType="default"
+            />
+            {formData.tanNumberError !== null && (
+              <Text style={styles.errorText}>{formData.tanNumberError}</Text>
+            )}
+
+            {/*For Credit Period */}
+            <TextInput
+              placeholder="Enter Credit Period*"
+              style={[GLOBALSTYLE.TextInputStyle, styles.inputAligner]}
+              value={formData.creditPeriod}
+              onChangeText={vlaue => {
+                dispatcher({
+                  type: 'creditPeriod',
+                  payload: vlaue,
+                });
+                dispatcher({
+                  type: 'creditPeriodError',
+                  payload: null,
+                });
+              }}
+              keyboardType="default"
+            />
+            {formData.creditPeriodError !== null && (
+              <Text style={styles.errorText}>{formData.creditPeriodError}</Text>
+            )}
+
+            {/*For Date Of Invoice */}
+            <DropDownPicker
+              style={[
+                styles.dropdownViewStyle,
+                styles.dropDownAligner,
+                styles.inputAligner,
+              ]}
+              placeholder="Date Of Invoice*"
+              placeholderStyle={{color: COLORS.grey}}
+              listMode="FLATLIST"
+              dropDownContainerStyle={styles.dropDownContainerStyle}
+              renderListItem={({item}) => {
+                return (
+                  <TouchableOpacity
+                    onPress={() => {
+                      setDoiValue(item.value);
+                      setDoiOpen(false);
+                      dispatcher({
+                        type: 'dateOfInvoice',
+                        payload: item.value,
+                      });
+                      dispatcher({
+                        type: 'dateOfInvoiceError',
+                        payload: null,
+                      });
+                    }}
+                    style={styles.cellStyle}>
+                    <Text style={styles.cellTextStyle}>{item.label}</Text>
+                  </TouchableOpacity>
+                );
+              }}
+              open={doiOpen}
+              onOpen={onDoiOpen}
+              value={doiValue}
+              items={doiItems}
+              setOpen={setDoiOpen}
+              setItems={setDoiItems}
+            />
+            {formData.dateOfInvoiceError !== null && (
+              <Text style={styles.errorText}>
+                {formData.dateOfInvoiceError}
+              </Text>
+            )}
+            <View style={styles.verticalSpace} />
+
+            {/*For Map Link */}
+            <TextInput
+              placeholder="Enter Map Link*"
+              style={[GLOBALSTYLE.TextInputStyle, styles.inputAligner]}
+              value={formData.mapLink}
+              onChangeText={vlaue => {
+                dispatcher({
+                  type: 'mapLink',
+                  payload: vlaue,
+                });
+                dispatcher({
+                  type: 'mapLinkError',
+                  payload: null,
+                });
+              }}
+              keyboardType="default"
+            />
+            {formData.mapLinkError !== null && (
+              <Text style={styles.errorText}>{formData.mapLinkError}</Text>
+            )}
+
+            {/*For Nationality */}
+            <DropDownPicker
+              style={[
+                styles.dropdownViewStyle,
+                styles.dropDownAligner,
+                styles.inputAligner,
+              ]}
+              placeholder="Nationality*"
+              placeholderStyle={{color: COLORS.grey}}
+              listMode="FLATLIST"
+              dropDownContainerStyle={styles.dropDownContainerStyle}
+              renderListItem={({item}) => {
+                return (
+                  <TouchableOpacity
+                    onPress={() => {
+                      setNationalityValue(item.value);
+                      setNationalityOpen(false);
+                      dispatcher({
+                        type: 'nationality',
+                        payload: item.value,
+                      });
+                      dispatcher({
+                        type: 'nationalityError',
+                        payload: null,
+                      });
+                    }}
+                    style={styles.cellStyle}>
+                    <Text style={styles.cellTextStyle}>{item.label}</Text>
+                  </TouchableOpacity>
+                );
+              }}
+              open={nationalityOpen}
+              onOpen={onNationalityOpen}
+              value={nationalityValue}
+              items={nationalityItems}
+              setOpen={setNationalityOpen}
+              setItems={setNationalityItems}
+            />
+            {formData.nationalityError !== null && (
+              <Text style={styles.errorText}>{formData.nationalityError}</Text>
+            )}
+            <View style={styles.verticalSpace} />
+
+            {/*For Need Timesheet */}
+            <CustomRadioButtons
+              value={radioValues.needTimesheet}
+              title="Do you need timesheet?*"
+              onPressFunction={value => {
+                let needTimesheet = value === 0 ? 'No' : 'Yes';
+                dispatcher({
+                  type: 'needTimesheet',
+                  payload: needTimesheet,
+                });
+                dispatcher({
+                  type: 'needTimesheetError',
+                  payload: null,
+                });
+                setRadioValues(prevValues => {
+                  return {
+                    ...prevValues,
+                    needTimesheet: value,
+                  };
+                });
+              }}
+            />
+            {formData.needTimesheetError !== null && (
+              <Text style={styles.errorText}>
+                {formData.needTimesheetError}
+              </Text>
+            )}
+
+            {/*For Need Machine */}
+            <CustomRadioButtons
+              value={radioValues.needMachine}
+              title="Do you need machine?*"
+              onPressFunction={value => {
+                let needMachine = value === 0 ? 'No' : 'Yes';
+                dispatcher({
+                  type: 'needMachine',
+                  payload: needMachine,
+                });
+                dispatcher({
+                  type: 'needMachineError',
+                  payload: null,
+                });
+                setRadioValues(prevValues => {
+                  return {
+                    ...prevValues,
+                    needMachine: value,
+                  };
+                });
+              }}
+            />
+            {formData.needMachineError !== null && (
+              <Text style={styles.errorText}>{formData.needMachineError}</Text>
+            )}
+
+            {/*For weekend working */}
+            <CustomRadioButtons
+              value={radioValues.isWeekendWorking}
+              title="Weekend working?*"
+              onPressFunction={value => {
+                let isWeekendWorking = value === 0 ? 'No' : 'Yes';
+                dispatcher({
+                  type: 'isWeekendWorking',
+                  payload: isWeekendWorking,
+                });
+                dispatcher({
+                  type: 'isWeekendWorkingError',
+                  payload: null,
+                });
+                setRadioValues(prevValues => {
+                  return {
+                    ...prevValues,
+                    isWeekendWorking: value,
+                  };
+                });
+              }}
+            />
+            {formData.isWeekendWorkingError !== null && (
+              <Text style={styles.errorText}>
+                {formData.isWeekendWorkingError}
+              </Text>
+            )}
+
+            {/*For Agreement Sign */}
+            <CustomRadioButtons
+              value={radioValues.isAgreementSigned}
+              title="Agreement Sign?*"
+              onPressFunction={value => {
+                let isAgreementSigned = value === 0 ? 'No' : 'Yes';
+                dispatcher({
+                  type: 'isAgreementSigned',
+                  payload: isAgreementSigned,
+                });
+                dispatcher({
+                  type: 'isAgreementSignedError',
+                  payload: null,
+                });
+                setRadioValues(prevValues => {
+                  return {
+                    ...prevValues,
+                    isAgreementSigned: value,
+                  };
+                });
+              }}
+            />
+            {formData.isAgreementSignedError !== null && (
+              <Text style={styles.errorText}>
+                {formData.isAgreementSignedError}
+              </Text>
+            )}
+
+            {/*For First Invoice Send */}
+            <CustomRadioButtons
+              value={radioValues.isFirstInvoiceSend}
+              title="First Invoice Send?*"
+              onPressFunction={value => {
+                let isFirstInvoiceSend = value === 0 ? 'No' : 'Yes';
+                dispatcher({
+                  type: 'isFirstInvoiceSend',
+                  payload: isFirstInvoiceSend,
+                });
+                dispatcher({
+                  type: 'isFirstInvoiceSendError',
+                  payload: null,
+                });
+                setRadioValues(prevValues => {
+                  return {
+                    ...prevValues,
+                    isFirstInvoiceSend: value,
+                  };
+                });
+              }}
+            />
+            {formData.isFirstInvoiceSendError !== null && (
+              <Text style={styles.errorText}>
+                {formData.isFirstInvoiceSendError}
+              </Text>
+            )}
+
+            {/*For Physical copy needed */}
+            <CustomRadioButtons
+              value={radioValues.needPhysicalCopy}
+              title="Physical copy needed?*"
+              onPressFunction={value => {
+                let needPhysicalCopy = value === 0 ? 'No' : 'Yes';
+                dispatcher({
+                  type: 'needPhysicalCopy',
+                  payload: needPhysicalCopy,
+                });
+                dispatcher({
+                  type: 'needPhysicalCopyError',
+                  payload: null,
+                });
+                setRadioValues(prevValues => {
+                  return {
+                    ...prevValues,
+                    needPhysicalCopy: value,
+                  };
+                });
+              }}
+            />
+            {formData.needPhysicalCopyError !== null && (
+              <Text style={styles.errorText}>
+                {formData.needPhysicalCopyError}
+              </Text>
+            )}
+
+            {/*For PF Proof needed */}
+            <CustomRadioButtons
+              value={radioValues.needPFProof}
+              title="PF Proof needed?*"
+              onPressFunction={value => {
+                let needPFProof = value === 0 ? 'No' : 'Yes';
+                dispatcher({
+                  type: 'needPFProof',
+                  payload: needPFProof,
+                });
+                dispatcher({
+                  type: 'needPFProofError',
+                  payload: null,
+                });
+                setRadioValues(prevValues => {
+                  return {
+                    ...prevValues,
+                    needPFProof: value,
+                  };
+                });
+              }}
+            />
+            {formData.needPFProofError !== null && (
+              <Text style={styles.errorText}>{formData.needPFProofError}</Text>
+            )}
+
+            {/*For Purchase Order Required */}
+            <CustomRadioButtons
+              value={radioValues.purchaseOrderRequired}
+              title="Is Purchase Order Required?*"
+              onPressFunction={value => {
+                let purchaseOrderRequired = value === 0 ? 'No' : 'Yes';
+                dispatcher({
+                  type: 'purchaseOrderRequired',
+                  payload: purchaseOrderRequired,
+                });
+                dispatcher({
+                  type: 'purchaseOrderRequiredError',
+                  payload: null,
+                });
+                setRadioValues(prevValues => {
+                  return {
+                    ...prevValues,
+                    purchaseOrderRequired: value,
+                  };
+                });
+              }}
+            />
+            {formData.purchaseOrderRequiredError !== null && (
+              <Text style={styles.errorText}>
+                {formData.purchaseOrderRequiredError}
+              </Text>
+            )}
+
+            {/*For Purchase Order Required */}
+            <CustomRadioButtons
+              value={radioValues.isExternalProduct}
+              title="Is External Product?*"
+              onPressFunction={value => {
+                let isExternalProduct = value === 0 ? 'No' : 'Yes';
+                dispatcher({
+                  type: 'isExternalProduct',
+                  payload: isExternalProduct,
+                });
+                dispatcher({
+                  type: 'isExternalProductError',
+                  payload: null,
+                });
+                setRadioValues(prevValues => {
+                  return {
+                    ...prevValues,
+                    isExternalProduct: value,
+                  };
+                });
+              }}
+            />
+            {formData.isExternalProductError !== null && (
+              <Text style={styles.errorText}>
+                {formData.isExternalProductError}
+              </Text>
+            )}
+
+            {radioValues.isExternalProduct === 1 ? (
+              <>
+                <DropDownPicker
+                  style={[
+                    styles.dropdownViewStyle,
+                    styles.dropDownAligner,
+                    styles.inputAligner,
+                  ]}
+                  placeholder="External Product"
+                  placeholderStyle={{color: COLORS.grey}}
+                  listMode="SCROLLVIEW"
+                  dropDownContainerStyle={styles.dropDownContainerStyle}
+                  renderListItem={({item}) => {
+                    return (
+                      <TouchableOpacity
+                        onPress={() => {
+                          setExternalProductValue(item.value);
+                          setExternalProductOpen(false);
+                          dispatcher({
+                            type: 'externalProduct',
+                            payload: item.label,
+                          });
+                        }}
+                        style={styles.cellStyle}>
+                        <Text style={styles.cellTextStyle}>{item.label}</Text>
+                      </TouchableOpacity>
+                    );
+                  }}
+                  open={externalProductOpen}
+                  onOpen={onExternalProductOpen}
+                  value={externalProductValue}
+                  items={externalProductItems}
+                  setOpen={setExternalProductOpen}
+                  setItems={setExternalProductItems}
+                />
+                <View style={styles.verticalSpace} />
+              </>
+            ) : null}
+
+            <TouchableOpacity
+              style={[styles.btnStyle, styles.submitBtnAligner]}
+              onPress={() => {
+                onSubmit();
+              }}>
+              <Text style={styles.submitBtnTextStyle}>Submit</Text>
+            </TouchableOpacity>
+          </View>
         </ScrollView>
       </View>
     </SafeAreaView>
@@ -1376,19 +1410,21 @@ export default AddClient;
 const styles = StyleSheet.create({
   container: {flex: 1},
   scrollview: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-  },
-  rootContainer: {
+    // paddingVertical: 10,
+    // paddingHorizontal: 20,
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+  },
+  formContainer: {
+    marginVertical: 10,
+    paddingHorizontal: 15,
   },
   heading: {
     color: '#f00',
     fontSize: 25,
     fontWeight: 'bold',
   },
+  uploadRowViewAligner: {width: 350},
+  inputAligner: {width: 350},
   dropdownViewStyle: {
     height: 48,
     paddingHorizontal: 8,
@@ -1430,7 +1466,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   submitBtnAligner: {
-    marginHorizontal: 1,
+    marginVertical: 10,
+    marginHorizontal: 7,
   },
   submitBtnTextStyle: {
     color: COLORS.white,

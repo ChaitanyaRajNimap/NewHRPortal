@@ -57,6 +57,7 @@ export default CustomRadioButtons;
 
 const styles = StyleSheet.create({
   container: {
+    width: 350,
     marginBottom: 5,
   },
   title: {
