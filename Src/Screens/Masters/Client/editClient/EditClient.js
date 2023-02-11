@@ -164,50 +164,128 @@ const EditClient = ({navigation, route}) => {
   //For radio buttons
   const [radioValues, setRadioValues] = useState({
     needTimesheet:
-      params.need_timesheet === 'Y' || params.need_timesheet === 'Yes' ? 1 : 0,
+      params.need_timesheet === 'Y' ||
+      params.need_timesheet === 'Yes' ||
+      params.need_timesheet === 1
+        ? 1
+        : 0,
     needMachine:
-      params.need_machine === 'Y' || params.need_machine === 'Yes' ? 1 : 0,
+      params.need_machine === 'Y' ||
+      params.need_machine === 'Yes' ||
+      params.need_machine === 1
+        ? 1
+        : 0,
     isWeekendWorking:
-      params.weekend_working === 'Y' || params.weekend_working === 'Yes'
+      params.weekend_working === 'Y' ||
+      params.weekend_working === 'Yes' ||
+      params.weekend_working === 1
         ? 1
         : 0,
     isAgreementSigned:
-      params.aggrement_sign === 'Y' || params.aggrement_sign === 'Yes' ? 1 : 0,
-    isFirstInvoiceSend:
-      params.first_invoice === 'Y' || params.first_invoice === 'Yes' ? 1 : 0,
-    needPhysicalCopy:
-      params.is_invoice_need === 'Y' || params.is_invoice_need === 'Yes'
+      params.aggrement_sign === 'Y' ||
+      params.aggrement_sign === 'Yes' ||
+      params.aggrement_sign === 1
         ? 1
         : 0,
-    needPFProof: params.pf_proof === 'Y' || params.pf_proof === 'Yes' ? 1 : 0,
+    isFirstInvoiceSend:
+      params.first_invoice === 'Y' ||
+      params.first_invoice === 'Yes' ||
+      params.first_invoice === 1
+        ? 1
+        : 0,
+    needPhysicalCopy:
+      params.is_invoice_need === 'Y' ||
+      params.is_invoice_need === 'Yes' ||
+      params.is_invoice_need === 1
+        ? 1
+        : 0,
+    needPFProof:
+      params.pf_proof === 'Y' ||
+      params.pf_proof === 'Yes' ||
+      params.pf_proof === 1
+        ? 1
+        : 0,
     purchaseOrderRequired:
-      params.is_pruchase_ord_req === 'Y' || params.is_pruchase_ord_req === 'Yes'
+      params.is_pruchase_ord_req === 'Y' ||
+      params.is_pruchase_ord_req === 'Yes' ||
+      params.is_pruchase_ord_req === 1
         ? 1
         : 0,
     isExternalProduct:
-      params.is_external_product === 'Y' || params.is_external_product === 'Yes'
+      params.is_external_product === 'Y' ||
+      params.is_external_product === 'Yes' ||
+      params.is_external_product === 1
         ? 1
         : 0,
   });
 
-  //For setting initial values to radio buttons
-  // useEffect(() => {
-  //   dispatcher({type: 'needTimesheet', payload: params.need_timesheet});
-  //   dispatcher({type: 'needMachine', payload: params.need_machine});
-  //   dispatcher({type: 'isWeekendWorking', payload: params.weekend_working});
-  //   dispatcher({type: 'isAgreementSigned', payload: params.aggrement_sign});
-  //   dispatcher({type: 'isFirstInvoiceSend', payload: params.first_invoice});
-  //   dispatcher({type: 'needPhysicalCopy', payload: params.is_invoice_need});
-  //   dispatcher({type: 'needPFProof', payload: params.pf_proof});
-  //   dispatcher({
-  //     type: 'purchaseOrderRequired',
-  //     payload: params.is_pruchase_ord_req,
-  //   });
-  //   dispatcher({
-  //     type: 'isExternalProduct',
-  //     payload: params.is_external_product,
-  //   });
-  // }, [navigation]);
+  //For setting initial values of radio buttons to formdata
+  useEffect(() => {
+    let needTimesheet =
+      params.need_timesheet === 'Y' ||
+      params.need_timesheet === 'Yes' ||
+      params.need_timesheet === 1
+        ? 'Yes'
+        : 'No';
+    let needMachine =
+      params.need_machine === 'Y' ||
+      params.need_machine === 'Yes' ||
+      params.need_machine === 1
+        ? 'Yes'
+        : 'No';
+    let isWeekendWorking =
+      params.weekend_working === 'Y' ||
+      params.weekend_working === 'Yes' ||
+      params.weekend_working === 1
+        ? 'Yes'
+        : 'No';
+    let isAgreementSigned =
+      params.aggrement_sign === 'Y' ||
+      params.aggrement_sign === 'Yes' ||
+      params.aggrement_sign === 1
+        ? 'Yes'
+        : 'No';
+    let isFirstInvoiceSend =
+      params.first_invoice === 'Y' ||
+      params.first_invoice === 'Yes' ||
+      params.first_invoice === 1
+        ? 'Yes'
+        : 'No';
+    let needPhysicalCopy =
+      params.is_invoice_need === 'Y' ||
+      params.is_invoice_need === 'Yes' ||
+      params.is_invoice_need === 1
+        ? 'Yes'
+        : 'No';
+    let needPFProof =
+      params.pf_proof === 'Y' ||
+      params.pf_proof === 'Yes' ||
+      params.pf_proof === 1
+        ? 'Yes'
+        : 'No';
+    let purchaseOrderRequired =
+      params.is_pruchase_ord_req === 'Y' ||
+      params.is_pruchase_ord_req === 'Yes' ||
+      params.is_pruchase_ord_req === 1
+        ? 'Yes'
+        : 'No';
+    let isExternalProduct =
+      params.is_external_product === 'Y' ||
+      params.is_external_product === 'Yes' ||
+      params.is_external_product === 1
+        ? 'Yes'
+        : 'No';
+
+    dispatcher({type: 'needTimesheet', payload: needTimesheet});
+    dispatcher({type: 'needMachine', payload: needMachine});
+    dispatcher({type: 'isWeekendWorking', payload: isWeekendWorking});
+    dispatcher({type: 'isAgreementSigned', payload: isAgreementSigned});
+    dispatcher({type: 'isFirstInvoiceSend', payload: isFirstInvoiceSend});
+    dispatcher({type: 'needPhysicalCopy', payload: needPhysicalCopy});
+    dispatcher({type: 'needPFProof', payload: needPFProof});
+    dispatcher({type: 'purchaseOrderRequired', payload: purchaseOrderRequired});
+    dispatcher({type: 'isExternalProduct', payload: isExternalProduct});
+  }, [navigation]);
 
   const convertClientData = data => {
     return {

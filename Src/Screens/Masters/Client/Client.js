@@ -187,9 +187,6 @@ const Client = ({navigation}) => {
             title={'Edit'}
             onPressFunction={() => {
               editClient(item);
-              {
-                console.log('ITEM FROM CLIENT ====>', item);
-              }
             }}
           />
           <SmallButton
