@@ -21,7 +21,7 @@ import {COLORS} from '../../../../Constants/Theme';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import CustomRadioButtons from '../../../../Components/CustomRadioButtons';
-import {reducer} from '../addClient/AddClientFormData';
+import {reducer} from '../ClientFormData';
 
 LogBox.ignoreLogs([
   'VirtualizedLists should never be nested inside plain ScrollViews with the same orientation because it can break windowing and other functionality - use another VirtualizedList-backed container instead.',

@@ -20,7 +20,7 @@ import {GLOBALSTYLE} from '../../../../Constants/Styles';
 import {COLORS} from '../../../../Constants/Theme';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {initialState, reducer} from './AddClientFormData';
+import {initialState, reducer} from '../ClientFormData';
 import CustomRadioButtons from '../../../../Components/CustomRadioButtons';
 
 LogBox.ignoreLogs([
