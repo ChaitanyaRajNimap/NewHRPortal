@@ -15,15 +15,57 @@ import ResourceList from './resourceList';
 import SearchBox from '../../../../Components/SearchBox';
 
 const Resources = () => {
+  //For dispatching actions for resources reducer
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const [loading, setLoading] = useState(true);
+
   const [resources, setResources] = useState(null);
+  const [filterResources, setFilterResources] = useState([]);
+  const [search, setSearch] = useState('');
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const {reducer} = useSelector(state => ({
     reducer: state.resource,
   }));
+
+  //for getting filter data on search
+  useEffect(() => {
+    getResourceFilterData();
+  }, [search]);
+
+  //for setting search input text
+  const setSearchValue = value => {
+    setSearch(value);
+  };
+
+  //for filtering search results
+  const getResourceFilterData = () => {
+    const filterValue = resources?.filter(data => {
+      // let resFullName = data.fname.toLowerCase() + data.lname.toLowerCase();
+      // let currStatus = data.on_bench === 1 ? 'Bench' : data.client_name;
+      if (search.length === 0) {
+        return data;
+      } else if (data.company_name) {
+        if (
+          data.fname.toLowerCase().includes(search.toLowerCase()) ||
+          data.lname.toLowerCase().includes(search.toLowerCase()) ||
+          data.company_name.toLowerCase().includes(search.toLowerCase()) ||
+          data.l1.toLowerCase().includes(search.toLowerCase()) ||
+          data.passing_year.toLowerCase().includes(search.toLowerCase()) ||
+          // data.project.toLowerCase().includes(search.toLowerCase()) ||
+          data.primary_skill.toLowerCase().includes(search.toLowerCase()) ||
+          data.resident_address.toLowerCase().includes(search.toLowerCase())
+          // ||
+          // currStatus.includes(search.toLowerCase()) ||
+          // resFullName.includes(search.toLowerCase())
+        ) {
+          return data;
+        }
+      }
+    });
+    setFilterResources(filterValue);
+  };
 
   const {
     resourceError,
@@ -51,7 +93,9 @@ const Resources = () => {
 
   useEffect(() => {
     if (resourceSuccess) {
+      console.log('RESOURCE DATA ++>', resourceSuccess.data.resources);
       setResources(resourceSuccess.data.resources);
+      setFilterResources(resourceSuccess.data.resources);
       setLoading(false);
     }
   }, [resourceSuccess]);
@@ -83,7 +127,7 @@ const Resources = () => {
   return (
     <SafeAreaView style={GLOBALSTYLE.safeAreaViewStyle}>
       <View style={styles.container}>
-        <SearchBox />
+        <SearchBox setSearchValue={setSearchValue} />
         {loading && (
           <View style={styles.loadingContainer}>
             <ActivityIndicator size="large" color={COLORS.blue} />
@@ -103,7 +147,7 @@ const Resources = () => {
         {!loading && resources && resources.length > 0 && (
           <View style={styles.listContainer}>
             <ResourceList
-              data={resources}
+              data={filterResources}
               deleteResourcse={DeleteResource}
               editResourcse={EditResource}
             />
