@@ -29,7 +29,7 @@ LogBox.ignoreLogs([
 
 const EditClient = ({navigation, route}) => {
   const params = route.params.newData;
-  console.log('PARAMS from EditClient : =====> ', params);
+  // console.log('PARAMS from EditClient : =====> ', params);
   const dispatch = useDispatch();
   const reducerData = useSelector(state => state.ClientReducer);
 

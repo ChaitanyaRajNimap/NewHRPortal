@@ -404,9 +404,9 @@ const AddClient = ({navigation}) => {
       payload: null,
     });
 
-    console.log('<--------- FORMDATA -------->', formData);
+    // console.log('<--------- FORMDATA -------->', formData);
     let data = convertClientData(formData);
-    console.log('<---------# CONVERTED DATA #-------->', data);
+    // console.log('<---------# CONVERTED DATA #-------->', data);
     dispatch(addClient(data, navigation));
   };
 

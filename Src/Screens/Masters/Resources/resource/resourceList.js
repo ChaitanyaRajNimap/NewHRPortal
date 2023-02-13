@@ -41,73 +41,118 @@ function ResourceList({data, deleteResourcse, editResourcse}) {
   const _renderItem = ({item}) => {
     return (
       <View style={[GLOBALSTYLE.cardView]}>
-        {(item.fname || item.lname) && (
-          <View style={styles.nameViewStyle}>
+        <View style={[styles.upperViewStyle, styles.upperViewStyleAligner]}>
+          <View style={styles.innerViewStyle}>
             <Text style={styles.indicatorTextStyle}>Name</Text>
             <Text style={styles.contentTextStyle}>
               {item.fname} {item.lname}
             </Text>
           </View>
-        )}
-        {item.resident_address && (
-          <View style={styles.personViewStyle}>
-            <Text style={styles.indicatorTextStyle}>Address</Text>
-            <Text style={styles.contentTextStyle}>{item.resident_address}</Text>
+          <View style={styles.innerViewStyle}>
+            <Text style={styles.indicatorTextStyle}>Vender</Text>
+            <Text style={styles.contentTextStyle}>
+              {item.company_name ? item.company_name : '--'}
+            </Text>
           </View>
-        )}
-        <View style={styles.upperViewStyle}>
-          {item.email && (
-            <View style={styles.innerViewStyle}>
-              <Text style={styles.indicatorTextStyle}>Email Id:</Text>
-              <Text style={styles.contentTextStyle}>{item.email}</Text>
-            </View>
-          )}
-          {item.phone && (
-            <View style={styles.innerViewStyle}>
-              <Text style={styles.indicatorTextStyle}>Mobile</Text>
-              <Text style={styles.contentTextStyle}>{item.phone}</Text>
-            </View>
-          )}
         </View>
-        <View style={styles.upperViewStyle}>
-          {item.language && (
-            <View style={styles.innerViewStyle}>
-              <Text style={styles.indicatorTextStyle}>Language</Text>
-              <Text style={styles.contentTextStyle}>{item.language}</Text>
-            </View>
-          )}
-          {item.resume && (
-            <View style={styles.innerViewStyle}>
-              <Text style={styles.indicatorTextStyle}>CV</Text>
-              <TouchableOpacity
-                onPress={() => {
-                  onPressViewReport(item.resume);
-                }}>
-                <Text style={styles.btnTextStyle}>View</Text>
-              </TouchableOpacity>
-            </View>
-          )}
+        <View style={[styles.upperViewStyle, styles.upperViewStyleAligner]}>
+          <View style={styles.innerViewStyle}>
+            <Text style={styles.indicatorTextStyle}>Phone No</Text>
+            <Text style={styles.contentTextStyle}>
+              {item.phone ? item.phone : '--'}
+            </Text>
+          </View>
+          <View style={styles.innerViewStyle}>
+            <Text style={styles.indicatorTextStyle}>Alternate No</Text>
+            <Text style={styles.contentTextStyle}>
+              {item.alternate_no ? item.alternate_no : '--'}
+            </Text>
+          </View>
+        </View>
+        <View style={[styles.upperViewStyle, styles.upperViewStyleAligner]}>
+          <View style={styles.innerViewStyle}>
+            <Text style={styles.indicatorTextStyle}>Email Id</Text>
+            <Text style={styles.contentTextStyle}>
+              {item.personal_email ? item.personal_email : '--'}
+            </Text>
+          </View>
+          <View style={styles.innerViewStyle}>
+            <Text style={styles.indicatorTextStyle}>Intr Level</Text>
+            <Text style={styles.contentTextStyle}>
+              {item.l1 ? item.l1 : '--'}
+            </Text>
+          </View>
+        </View>
+        <View style={[styles.upperViewStyle, styles.upperViewStyleAligner]}>
+          <View style={styles.innerViewStyle}>
+            <Text style={styles.indicatorTextStyle}>Cost</Text>
+            <Text style={styles.contentTextStyle}>
+              {item.cost ? item.cost : '--'}
+            </Text>
+          </View>
+          <View style={styles.innerViewStyle}>
+            <Text style={styles.indicatorTextStyle}>Pass Year</Text>
+            <Text style={styles.contentTextStyle}>
+              {item.passing_year ? item.passing_year : '--'}
+            </Text>
+          </View>
+        </View>
+        <View style={[styles.upperViewStyle, styles.upperViewStyleAligner]}>
+          <View style={styles.innerViewStyle}>
+            <Text style={styles.indicatorTextStyle}>Project</Text>
+            <Text style={styles.contentTextStyle}>
+              {item.project ? item.project : '--'}
+            </Text>
+          </View>
+          <View style={styles.innerViewStyle}>
+            <Text style={styles.indicatorTextStyle}>Skills</Text>
+            <Text style={styles.contentTextStyle}>
+              {item.primary_skill ? item.primary_skill : '--'}
+            </Text>
+          </View>
+        </View>
+        <View style={[styles.upperViewStyle, styles.upperViewStyleAligner]}>
+          <View style={styles.innerViewStyle}>
+            <Text style={styles.indicatorTextStyle}>Locality</Text>
+            <Text style={styles.contentTextStyle}>
+              {item.resident_address ? item.resident_address : '--'}
+            </Text>
+          </View>
+          <View style={styles.innerViewStyle}>
+            <Text style={styles.indicatorTextStyle}>CV</Text>
+            <TouchableOpacity
+              onPress={() => {
+                let resume = item.resume ? item.resume : '--';
+                onPressViewReport(resume);
+              }}>
+              <Text style={styles.btnTextStyle}>View</Text>
+            </TouchableOpacity>
+          </View>
         </View>
         {item.on_bench === 1 && (
-          <View style={styles.personViewStyle}>
+          <View style={[styles.personViewStyle, styles.personViewStyleAligner]}>
             <Text style={styles.indicatorTextStyle}>Status</Text>
-            <Text style={styles.benchStatusTextStyle}>
-              Bench(
-              {item.contract_start_date
-                ? dayjs(item.contract_start_date).format('D MMM, YYYY')
-                : null}
-              {item.contract_start_date ? ' - ' : null}
-              {item.contract_end_date
-                ? dayjs(item.contract_end_date).format('D MMM, YYYY')
-                : null}
-              )
-            </Text>
+            <Text style={styles.benchStatusTextStyle}>Bench</Text>
           </View>
         )}
         {item.on_bench === 0 && (
-          <View style={styles.personViewStyle}>
+          <View style={[styles.personViewStyle, styles.personViewStyleAligner]}>
             <Text style={styles.indicatorTextStyle}>Status</Text>
-            <Text style={styles.clientStatusTextStyle}>Client Side</Text>
+            <Text style={styles.clientStatusTextStyle}>
+              <Text>{item.client_name ? item.client_name : ' -- '}</Text> (
+              <Text style={styles.clientStatusStartTextStyle}>
+                {item.contract_start_date
+                  ? dayjs(item.contract_start_date).format(' D MMM YYYY ')
+                  : null}
+              </Text>
+              {item.contract_start_date ? ' - ' : null}
+              <Text style={styles.clientStatusEndTextStyle}>
+                {item.contract_end_date
+                  ? dayjs(item.contract_end_date).format(' D MMM YYYY ')
+                  : null}
+              </Text>
+              )
+            </Text>
           </View>
         )}
         <View style={styles.upperViewStyle}>
@@ -163,6 +208,7 @@ const styles = StyleSheet.create({
     width: '100%',
     marginTop: 10,
   },
+  personViewStyleAligner: {paddingHorizontal: 17},
   innerViewStyle: {
     flex: 1,
   },
@@ -171,6 +217,9 @@ const styles = StyleSheet.create({
     width: '100%',
     flexWrap: 'wrap',
     marginTop: 10,
+  },
+  upperViewStyleAligner: {
+    marginHorizontal: 17,
   },
   indicatorTextStyle: {
     color: COLORS.grey,
@@ -185,11 +234,13 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   benchStatusTextStyle: {
-    color: COLORS.tomatto,
+    color: COLORS.black,
     fontSize: 14,
   },
   clientStatusTextStyle: {
-    color: COLORS.lightgreen,
+    color: COLORS.black,
     fontSize: 14,
   },
+  clientStatusStartTextStyle: {color: COLORS.lightgreen},
+  clientStatusEndTextStyle: {color: COLORS.tomatto},
 });

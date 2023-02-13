@@ -63,7 +63,7 @@ export function addClient(values, navigation) {
         method: 'POST',
         data: values,
       });
-      console.log('addClient response data ====>', data);
+      // console.log('addClient response data ====>', data);
       if (data.message) {
         dispatch(clientDispatch(data, ADDCLIENT_SUCCESS));
         Toast.show(data.message);
