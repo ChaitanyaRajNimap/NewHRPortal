@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {FlatList, View, Text, StyleSheet, Alert, Linking} from 'react-native';
 import {GLOBALSTYLE} from '../../../../Constants/Styles';
 import {COLORS} from '../../../../Constants/Theme';
@@ -6,8 +6,11 @@ import SmallButton from '../../../../Components/SmallButton';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import dayjs from 'dayjs';
+import CheckBox from '../../../../Components/CheckBox';
 
 function ResourceList({data, deleteResourcse, editResourcse}) {
+  const [checkbox, setCheckbox] = useState(false);
+
   const onPressViewReport = url => {
     if (url === null || url === undefined) {
       Alert.alert(' ', 'Unable to download the document', [
@@ -42,6 +45,11 @@ function ResourceList({data, deleteResourcse, editResourcse}) {
   const _renderItem = ({item}) => {
     return (
       <View style={[GLOBALSTYLE.cardView]}>
+        {/* <CheckBox
+          onPress={() => setCheckbox(!checkbox)}
+          title=""
+          isChecked={checkbox}
+        /> */}
         <TouchableOpacity style={styles.archiveIconContainer}>
           <MaterialIcons name={'archive'} size={26} color={COLORS.purple} />
         </TouchableOpacity>
@@ -77,7 +85,9 @@ function ResourceList({data, deleteResourcse, editResourcse}) {
           <View style={styles.innerViewStyle}>
             <Text style={styles.indicatorTextStyle}>Email Id</Text>
             <Text style={styles.contentTextStyle}>
-              {item.personal_email ? item.personal_email : '--'}
+              {item.personal_email
+                ? item.email + '\n' + item.personal_email
+                : '--'}
             </Text>
           </View>
           <View style={styles.innerViewStyle}>
@@ -217,8 +227,9 @@ const styles = StyleSheet.create({
     width: '100%',
     marginTop: 10,
   },
-  personViewStyleAligner: {paddingHorizontal: 17},
+  personViewStyleAligner: {paddingHorizontal: 21},
   innerViewStyle: {
+    marginHorizontal: 5,
     flex: 1,
   },
   upperViewStyle: {

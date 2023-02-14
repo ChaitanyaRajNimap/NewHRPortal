@@ -46,7 +46,7 @@ const Resources = () => {
         ? data.fname.toLowerCase() + ' ' + data.lname.toLowerCase()
         : '';
       let currStatus = data.on_bench === 1 ? 'Bench' : data.client_name;
-      console.log('RESFULL NAME & STATUS : ', resFullName, currStatus);
+      // console.log('RESFULL NAME & STATUS : ', resFullName, currStatus);
       if (search.length === 0) {
         return data;
       } else if (data.company_name) {
@@ -95,7 +95,7 @@ const Resources = () => {
 
   useEffect(() => {
     if (resourceSuccess) {
-      console.log('RESOURCE DATA ++>', resourceSuccess.data.resources);
+      // console.log('RESOURCE DATA ++>', resourceSuccess.data.resources);
       setResources(resourceSuccess.data.resources);
       setFilterResources(resourceSuccess.data.resources);
       setLoading(false);

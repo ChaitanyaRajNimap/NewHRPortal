@@ -1,104 +1,109 @@
 const initalState = {
-  vendor: null,
-  firstName: null,
-  lastName: null,
-  mobile: null,
-  personalEmail: null,
-  officialEmail: null,
-  projectname: null,
-  primarySkill: null,
-  secondarySkill: null,
+  vendor_id: null,
+  fname: null,
+  lname: null,
+  phone: null,
+  personal_email: null,
+  email: null,
+  project: null,
+  primary_skill: null,
+  secondary_skill: null,
   experience: null,
   relationship: null,
-  alternativeContact: null,
-  residentLocality: null,
+  alternate_no: null,
+  resident_address: null,
   resume: null,
-  usaShift: null,
-  ukShift: null,
-  relocate: null,
-  contractStartDate: null,
-  contractEndDate: null,
-  contractFile: null,
-  checkList: null,
-  otherDocument: null,
-  passingYear: null,
-  panCard: null,
-  aadharCard: null,
-  pfForm: null,
+  us_shift: null,
+  uk_shift: null,
+  can_relocate: null,
+  contract_start_date: null,
+  contract_end_date: null,
+  contract_file: null,
+  checklist: null,
+  other_docs: null,
+  passing_year: null,
+  pan_link: null,
+  aadhar: null,
+  pf_opt_out_form_link: null,
   cost: null,
-  vendorError: null,
-  firstNameError: null,
-  lastNameError: null,
-  mobileError: null,
-  personalEmailError: null,
-  officialEmailError: null,
-  primarySkillError: null,
-  experienceError: null,
-  relationshipError: null,
-  alternativeContactError: null,
-  residentLocalityError: null,
-  resumeError: null,
-  usaShiftError: null,
-  ukShiftError: null,
-  relocateError: null,
-  contractStartDateError: null,
-  contractEndDateError: null,
-  contractFileError: null,
-  checkListError: null,
-  otherDocumentError: null,
-  passingYearError: null,
-  panCardError: null,
-  aadharCardError: null,
-  pfFormError: null,
-  costError: null,
+  l1: null,
+
+  vendor_id_error: null,
+  fname_error: null,
+  lname_error: null,
+  phone_error: null,
+  personal_email_error: null,
+  email_error: null,
+  project_error: null,
+  primary_skill_error: null,
+  secondary_skill_error: null,
+  experience_error: null,
+  relationship_error: null,
+  alternate_no_error: null,
+  resident_address_error: null,
+  resume_error: null,
+  us_shift_error: null,
+  uk_shift_error: null,
+  can_relocate_error: null,
+  contract_start_date_error: null,
+  contract_end_date_error: null,
+  contract_file_error: null,
+  checklist_error: null,
+  other_docs_error: null,
+  passing_year_error: null,
+  pan_link_error: null,
+  aadhar_error: null,
+  pf_opt_out_form_link_error: null,
+  cost_error: null,
+  l1_error: null,
 };
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case 'vendor':
+    case 'vendor_id':
       return {
         ...state,
-        vendor: action.payload,
+        vendor_id: action.payload,
       };
-    case 'firstname':
+    case 'fname':
       return {
         ...state,
-        firstName: action.payload,
+        fname: action.payload,
       };
-    case 'lastname':
+    case 'lname':
       return {
         ...state,
-        lastName: action.payload,
+        lname: action.payload,
       };
-    case 'mobile':
+    case 'phone':
       return {
         ...state,
-        mobile: action.payload,
+        phone: action.payload,
       };
-    case 'personalEmail':
+    case 'personal_email':
       return {
         ...state,
-        personalEmail: action.payload,
+        personal_email: action.payload,
       };
-    case 'officialEmail':
+    case 'email':
       return {
         ...state,
-        officialEmail: action.payload,
+        email: action.payload,
       };
-    case 'projectname':
+    case 'project':
       return {
         ...state,
-        projectname: action.payload,
+        project: action.payload,
       };
-    case 'primarySkill':
+    case 'primary_skill':
       return {
         ...state,
-        primarySkill: action.payload,
+        primary_skill: action.payload,
       };
-    case 'secondarySkill':
+    case 'secondary_skill':
       return {
         ...state,
-        secondarySkill: action.payload,
+        secondary_skill: action.payload,
       };
     case 'experience':
       return {
@@ -110,211 +115,233 @@ const reducer = (state, action) => {
         ...state,
         relationship: action.payload,
       };
-    case 'alternativeContact':
+    case 'alternate_no':
       return {
         ...state,
-        alternativeContact: action.payload,
+        alternate_no: action.payload,
       };
-    case 'residentLocality':
+    case 'resident_address':
       return {
         ...state,
-        residentLocality: action.payload,
+        resident_address: action.payload,
       };
     case 'resume':
       return {
         ...state,
         resume: action.payload,
       };
-    case 'usaShift':
+    case 'us_shift':
       return {
         ...state,
-        usaShift: action.payload,
+        us_shift: action.payload,
       };
-    case 'ukShift':
+    case 'uk_shift':
       return {
         ...state,
-        ukShift: action.payload,
+        uk_shift: action.payload,
       };
-    case 'relocate':
+    case 'can_relocate':
       return {
         ...state,
-        relocate: action.payload,
+        can_relocate: action.payload,
       };
-    case 'contractStartDate':
+    case 'contract_start_date':
       return {
         ...state,
-        contractStartDate: action.payload,
+        contract_start_date: action.payload,
       };
-    case 'contractEndDate':
+    case 'contract_end_date':
       return {
         ...state,
-        contractEndDate: action.payload,
+        contract_end_date: action.payload,
       };
-    case 'contractFile':
+    case 'contract_file':
       return {
         ...state,
-        contractFile: action.payload,
+        contract_file: action.payload,
       };
-    case 'checkList':
+    case 'checklist':
       return {
         ...state,
-        checkList: action.payload,
+        checklist: action.payload,
       };
-    case 'otherDocument':
+    case 'other_docs':
       return {
         ...state,
-        otherDocument: action.payload,
+        other_docs: action.payload,
       };
-    case 'passingYear':
+    case 'passing_year':
       return {
         ...state,
-        passingYear: action.payload,
+        passing_year: action.payload,
       };
-    case 'panCard':
+    case 'pan_link':
       return {
         ...state,
-        panCard: action.payload,
+        pan_link: action.payload,
       };
-    case 'aadharCard':
+    case 'aadhar':
       return {
         ...state,
-        aadharCard: action.payload,
+        aadhar: action.payload,
       };
-    case 'pfForm':
+    case 'pf_opt_out_form_link':
       return {
         ...state,
-        pfForm: action.payload,
+        pf_opt_out_form_link: action.payload,
       };
     case 'cost':
       return {
         ...state,
         cost: action.payload,
       };
-    case 'vendorError':
+    case 'l1':
       return {
         ...state,
-        vendorError: action.payload,
+        l1: action.payload,
       };
-    case 'firstNameError':
+
+    case 'vendor_id_error':
       return {
         ...state,
-        firstNameError: action.payload,
+        vendor_id_error: action.payload,
       };
-    case 'lastNameError':
+    case 'fname_error':
       return {
         ...state,
-        lastNameError: action.payload,
+        fname_error: action.payload,
       };
-    case 'mobileError':
+    case 'lname_error':
       return {
         ...state,
-        mobileError: action.payload,
+        lname_error: action.payload,
       };
-    case 'personalEmailError':
+    case 'phone_error':
       return {
         ...state,
-        personalEmailError: action.payload,
+        phone_error: action.payload,
       };
-    case 'officialEmailError':
+    case 'personal_email_error':
       return {
         ...state,
-        officialEmailError: action.payload,
+        personal_email_error: action.payload,
       };
-    case 'primarySkillError':
+    case 'email_error':
       return {
         ...state,
-        primarySkillError: action.payload,
+        email_error: action.payload,
       };
-    case 'experienceError':
+    case 'project_error':
       return {
         ...state,
-        experienceError: action.payload,
+        project_error: action.payload,
       };
-    case 'relationshipError':
+    case 'primary_skill_error':
       return {
         ...state,
-        relationshipError: action.payload,
+        primary_skill_error: action.payload,
       };
-    case 'alternativeContactError':
+    case 'secondary_skill_error':
       return {
         ...state,
-        alternativeContactError: action.payload,
+        secondary_skill_error: action.payload,
       };
-    case 'residentLocalityError':
+    case 'experience_error':
       return {
         ...state,
-        residentLocalityError: action.payload,
+        experience_error: action.payload,
       };
-    case 'resumeError':
+    case 'relationship_error':
       return {
         ...state,
-        resumeError: action.payload,
+        relationship_error: action.payload,
       };
-    case 'usaShiftError':
+    case 'alternate_no_error':
       return {
         ...state,
-        usaShiftError: action.payload,
+        alternate_no_error: action.payload,
       };
-    case 'ukShiftError':
+    case 'resident_address_error':
       return {
         ...state,
-        ukShiftError: action.payload,
+        resident_address_error: action.payload,
       };
-    case 'relocateError':
+    case 'resume_error':
       return {
         ...state,
-        relocateError: action.payload,
+        resume_error: action.payload,
       };
-    case 'contractStartDateError':
+    case 'us_shift_error':
       return {
         ...state,
-        contractStartDateError: action.payload,
+        us_shift_error: action.payload,
       };
-    case 'contractEndDateError':
+    case 'uk_shift_error':
       return {
         ...state,
-        contractEndDateError: action.payload,
+        uk_shift_error: action.payload,
       };
-    case 'contractFileError':
+    case 'can_relocate_error':
       return {
         ...state,
-        contractFileError: action.payload,
+        can_relocate_error: action.payload,
       };
-    case 'checkListError':
+    case 'contract_start_date_error':
       return {
         ...state,
-        checkList: action.payload,
+        contract_start_date_error: action.payload,
       };
-    case 'otherDocumentError':
+    case 'contract_end_date_error':
       return {
         ...state,
-        otherDocument: action.payload,
+        contract_end_date_error: action.payload,
       };
-    case 'passingYearError':
+    case 'contract_file_error':
       return {
         ...state,
-        passingYearError: action.payload,
+        contract_file_error: action.payload,
       };
-    case 'panCardError':
+    case 'checklist_error':
       return {
         ...state,
-        panCardError: action.payload,
+        checklist_error: action.payload,
       };
-    case 'aadharCardError':
+    case 'other_docs_error':
       return {
         ...state,
-        aadharCardError: action.payload,
+        other_docs_error: action.payload,
       };
-    case 'pfFormError':
+    case 'passing_year_error':
       return {
         ...state,
-        pfFormError: action.payload,
+        passing_year_error: action.payload,
       };
-    case 'costError':
+    case 'pan_link_error':
       return {
         ...state,
-        costError: action.payload,
+        pan_link_error: action.payload,
       };
+    case 'aadhar_error':
+      return {
+        ...state,
+        aadhar_error: action.payload,
+      };
+    case 'pf_opt_out_form_link_error':
+      return {
+        ...state,
+        pf_opt_out_form_link_error: action.payload,
+      };
+    case 'cost_error':
+      return {
+        ...state,
+        cost_error: action.payload,
+      };
+    case 'l1_error':
+      return {
+        ...state,
+        l1_error: action.payload,
+      };
+
     default:
       return state;
   }

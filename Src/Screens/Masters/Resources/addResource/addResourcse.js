@@ -28,334 +28,6 @@ import dayjs from 'dayjs';
 
 LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
 
-// const initalState = {
-//   vendor: null,
-//   firstName: null,
-//   lastName: null,
-//   mobile: null,
-//   personalEmail: null,
-//   officialEmail: null,
-//   projectname: null,
-//   primarySkill: null,
-//   secondarySkill: null,
-//   experience: null,
-//   relationship: null,
-//   alternativeContact: null,
-//   residentLocality: null,
-//   resume: null,
-//   usaShift: null,
-//   ukShift: null,
-//   relocate: null,
-//   contractStartDate: null,
-//   contractEndDate: null,
-//   contractFile: null,
-//   checkList: null,
-//   otherDocument: null,
-//   passingYear: null,
-//   panCard: null,
-//   aadharCard: null,
-//   pfForm: null,
-//   cost: null,
-//   vendorError: null,
-//   firstNameError: null,
-//   lastNameError: null,
-//   mobileError: null,
-//   personalEmailError: null,
-//   officialEmailError: null,
-//   primarySkillError: null,
-//   secondarySkillError: null,
-//   experienceError: null,
-//   relationshipError: null,
-//   alternativeContactError: null,
-//   residentLocalityError: null,
-//   resumeError: null,
-//   usaShiftError: null,
-//   ukShiftError: null,
-//   relocateError: null,
-//   contractStartDateError: null,
-//   contractEndDateError: null,
-//   contractFileError: null,
-//   checkListError: null,
-//   otherDocumentError: null,
-//   passingYearError: null,
-//   panCardError: null,
-//   aadharCarderror: null,
-//   pfFormError: null,
-//   costError: null,
-// };
-
-// const reducer = (state, action) => {
-//   switch (action.type) {
-//     case 'vendor':
-//       return {
-//         ...state,
-//         vendor: action.payload,
-//       };
-//     case 'firstname':
-//       return {
-//         ...state,
-//         firstName: action.payload,
-//       };
-//     case 'lastname':
-//       return {
-//         ...state,
-//         lastName: action.payload,
-//       };
-//     case 'mobile':
-//       return {
-//         ...state,
-//         mobile: action.payload,
-//       };
-//     case 'personalEmail':
-//       return {
-//         ...state,
-//         personalEmail: action.payload,
-//       };
-//     case 'officialEmail':
-//       return {
-//         ...state,
-//         officialEmail: action.payload,
-//       };
-//     case 'projectname':
-//       return {
-//         ...state,
-//         projectname: action.payload,
-//       };
-//     case 'primarySkill':
-//       return {
-//         ...state,
-//         primarySkill: action.payload,
-//       };
-//     case 'secondarySkill':
-//       return {
-//         ...state,
-//         secondarySkill: action.payload,
-//       };
-//     case 'experience':
-//       return {
-//         ...state,
-//         experience: action.payload,
-//       };
-//     case 'relationship':
-//       return {
-//         ...state,
-//         relationship: action.payload,
-//       };
-//     case 'alternativeContact':
-//       return {
-//         ...state,
-//         alternativeContact: action.payload,
-//       };
-//     case 'residentLocality':
-//       return {
-//         ...state,
-//         residentLocality: action.payload,
-//       };
-//     case 'resume':
-//       return {
-//         ...state,
-//         resume: action.payload,
-//       };
-//     case 'usaShift':
-//       return {
-//         ...state,
-//         usaShift: action.payload,
-//       };
-//     case 'ukShift':
-//       return {
-//         ...state,
-//         ukShift: action.payload,
-//       };
-//     case 'relocate':
-//       return {
-//         ...state,
-//         relocate: action.payload,
-//       };
-//     case 'contractStartDate':
-//       return {
-//         ...state,
-//         contractStartDate: action.payload,
-//       };
-//     case 'contractEndDate':
-//       return {
-//         ...state,
-//         contractEndDate: action.payload,
-//       };
-//     case 'contractFile':
-//       return {
-//         ...state,
-//         contractFile: action.payload,
-//       };
-//     case 'checkList':
-//       return {
-//         ...state,
-//         checkList: action.payload,
-//       };
-//     case 'otherDocument':
-//       return {
-//         ...state,
-//         otherDocument: action.payload,
-//       };
-//     case 'passingYear':
-//       return {
-//         ...state,
-//         passingYear: action.payload,
-//       };
-//     case 'panCard':
-//       return {
-//         ...state,
-//         panCard: action.payload,
-//       };
-//     case 'aadharCard':
-//       return {
-//         ...state,
-//         aadharCard: action.payload,
-//       };
-//     case 'pfForm':
-//       return {
-//         ...state,
-//         pfForm: action.payload,
-//       };
-//     case 'cost':
-//       return {
-//         ...state,
-//         cost: action.payload,
-//       };
-//     case 'vendorError':
-//       return {
-//         ...state,
-//         vendorError: action.payload,
-//       };
-//     case 'firstnameError':
-//       return {
-//         ...state,
-//         firstNameError: action.payload,
-//       };
-//     case 'lastnameError':
-//       return {
-//         ...state,
-//         lastNameError: action.payload,
-//       };
-//     case 'mobileError':
-//       return {
-//         ...state,
-//         mobileError: action.payload,
-//       };
-//     case 'personalEmailError':
-//       return {
-//         ...state,
-//         personalEmail: action.payload,
-//       };
-//     case 'officialEmailError':
-//       return {
-//         ...state,
-//         officialEmailError: action.payload,
-//       };
-//     case 'primarySkillError':
-//       return {
-//         ...state,
-//         primarySkillError: action.payload,
-//       };
-//     case 'secondarySkillError':
-//       return {
-//         ...state,
-//         secondarySkillError: action.payload,
-//       };
-//     case 'experienceError':
-//       return {
-//         ...state,
-//         experienceError: action.payload,
-//       };
-//     case 'relationshipError':
-//       return {
-//         ...state,
-//         relationshipError: action.payload,
-//       };
-//     case 'alternativeContactError':
-//       return {
-//         ...state,
-//         alternativeContactError: action.payload,
-//       };
-//     case 'residentLocalityError':
-//       return {
-//         ...state,
-//         residentLocalityError: action.payload,
-//       };
-//     case 'resumeError':
-//       return {
-//         ...state,
-//         resumeError: action.payload,
-//       };
-//     case 'usaShiftError':
-//       return {
-//         ...state,
-//         usaShiftError: action.payload,
-//       };
-//     case 'ukShiftError':
-//       return {
-//         ...state,
-//         ukShiftError: action.payload,
-//       };
-//     case 'relocateError':
-//       return {
-//         ...state,
-//         relocateError: action.payload,
-//       };
-//     case 'contractStartDateError':
-//       return {
-//         ...state,
-//         contractStartDateError: action.payload,
-//       };
-//     case 'contractEndDateError':
-//       return {
-//         ...state,
-//         contractEndDateError: action.payload,
-//       };
-//     case 'contractFileError':
-//       return {
-//         ...state,
-//         contractFileError: action.payload,
-//       };
-//     case 'checkListError':
-//       return {
-//         ...state,
-//         checkList: action.payload,
-//       };
-//     case 'otherDocumentError':
-//       return {
-//         ...state,
-//         otherDocument: action.payload,
-//       };
-//     case 'passingYearError':
-//       return {
-//         ...state,
-//         passingYearError: action.payload,
-//       };
-//     case 'panCardError':
-//       return {
-//         ...state,
-//         panCardError: action.payload,
-//       };
-//     case 'aadharCardError':
-//       return {
-//         ...state,
-//         aadharCardError: action.payload,
-//       };
-//     case 'pfFormError':
-//       return {
-//         ...state,
-//         pfFormError: action.payload,
-//       };
-//     case 'costError':
-//       return {
-//         ...state,
-//         costError: action.payload,
-//       };
-//     default:
-//       return state;
-//   }
-// };
-
 const AddResource = () => {
   const dispatch = useDispatch();
 
@@ -396,7 +68,7 @@ const AddResource = () => {
     dispatch(fetchTechnology());
   }, []);
 
-  console.log(formData);
+  // console.log(formData);
 
   const selectResume = async (fileName, Error) => {
     try {
@@ -434,101 +106,167 @@ const AddResource = () => {
   };
 
   const onSubmit = () => {
-    const vendorError = validation.validateField(formData.vendor);
-    const firstNameError = validation.validateCharField(formData.firstName);
-    const lastNameError = validation.validateCharField(formData.lastName);
-    const mobileError = validation.contactValidation(formData.mobile);
-    const personalEmailError = validation.validateEmail(formData.personalEmail);
-    const primarySkillError = validation.validateField(formData.primarySkill);
+    // const vendorError = validation.validateField(formData.vendor);
+    // const firstNameError = validation.validateCharField(formData.firstName);
+    // const lastNameError = validation.validateCharField(formData.lastName);
+    // const mobileError = validation.contactValidation(formData.mobile);
+    // const personalEmailError = validation.validateEmail(formData.personalEmail);
+    // const primarySkillError = validation.validateField(formData.primarySkill);
+    // const experienceError = validation.validateField(formData.experience);
+    // const relationshipError = validation.validateField(formData.relationship);
+    // const alternativeContactError = validation.contactValidation(
+    //   formData.alternativeContact,
+    // );
+    // const residentLocalityError = validation.validateField(
+    //   formData.residentLocality,
+    // );
+
+    // const resumeError = validation.validatefile(formData.resume?.uri);
+    // const usaShiftError = validation.validateField(formData.usaShift);
+    // const ukShiftError = validation.validateField(formData.ukShift);
+    // const relocateError = validation.validateField(formData.relocate);
+    // const passingYearError = validation.numericValidation(formData.passingYear);
+    // const panCardError = validation.validatefile(formData.panCard?.uri);
+    // const aadharCardError = validation.validatefile(formData.aadharCard?.uri);
+    // const pfFormError = validation.validatefile(formData.pfForm?.uri);
+
+    const vendorError = validation.validateField(formData.vendor_id);
+    const fnameError = validation.validateField(formData.fname);
+    const lnameError = validation.validateField(formData.lname);
+    const phoneError = validation.validateField(formData.phone);
+    const personalEmailError = validation.validateField(
+      formData.personal_email,
+    );
+    const emailError = validation.validateField(formData.email);
+    const projectError = validation.validateField(formData.project);
+    const primarySkillError = validation.validateField(formData.primary_skill);
+    const secondarySkillError = validation.validateField(
+      formData.secondary_skill,
+    );
     const experienceError = validation.validateField(formData.experience);
     const relationshipError = validation.validateField(formData.relationship);
-    const alternativeContactError = validation.contactValidation(
-      formData.alternativeContact,
+    const alternateNoError = validation.validateField(formData.alternate_no);
+    const residentAddressError = validation.validateField(
+      formData.resident_address,
     );
-    const residentLocalityError = validation.validateField(
-      formData.residentLocality,
+    const resumeError = validation.validateField(formData.resume);
+    const usShiftError = validation.validateField(formData.us_shift);
+    const ukShiftError = validation.validateField(formData.uk_shift);
+    const canRelocateError = validation.validateField(formData.can_relocate);
+    const contractStartDateError = validation.validateField(
+      formData.contract_start_date,
     );
-
-    const resumeError = validation.validatefile(formData.resume?.uri);
-    const usaShiftError = validation.validateField(formData.usaShift);
-    const ukShiftError = validation.validateField(formData.ukShift);
-    const relocateError = validation.validateField(formData.relocate);
-    const passingYearError = validation.numericValidation(formData.passingYear);
-    const panCardError = validation.validatefile(formData.panCard?.uri);
-    const aadharCardError = validation.validatefile(formData.aadharCard?.uri);
-    const pfFormError = validation.validatefile(formData.pfForm?.uri);
+    const contractEndDateError = validation.validateField(
+      formData.contract_end_date,
+    );
+    const contractFileError = validation.validateField(formData.contract_file);
+    const checklistError = validation.validateField(formData.checklist);
+    const otherDocsError = validation.validateField(formData.other_docs);
+    const passingYearError = validation.validateField(formData.passing_year);
+    const panLinkError = validation.validateField(formData.pan_link);
+    const aadharError = validation.validateField(formData.aadhar);
+    const pfOptOutFormLinkError = validation.validateField(
+      formData.pf_opt_out_form_link,
+    );
+    const costError = validation.validateField(formData.cost);
+    // const l1Error = validation.validateField(formData.l1);
 
     if (
       vendorError ||
-      firstNameError ||
-      lastNameError ||
-      mobileError ||
+      fnameError ||
+      lnameError ||
+      phoneError ||
       personalEmailError ||
+      emailError ||
+      projectError ||
       primarySkillError ||
+      secondarySkillError ||
       experienceError ||
       relationshipError ||
-      alternativeContactError ||
-      residentLocalityError ||
+      alternateNoError ||
+      residentAddressError ||
       resumeError ||
-      usaShiftError ||
+      usShiftError ||
       ukShiftError ||
-      relocateError ||
+      canRelocateError ||
+      contractStartDateError ||
+      contractEndDateError ||
+      contractFileError ||
+      checklistError ||
+      otherDocsError ||
       passingYearError ||
-      panCardError ||
-      aadharCardError ||
-      pfFormError
+      panLinkError ||
+      aadharError ||
+      pfOptOutFormLinkError ||
+      costError
+      // ||
+      // l1Error
     ) {
       dispatcher({type: 'vendorError', payload: vendorError});
-      dispatcher({type: 'firstNameError', payload: firstNameError});
-      dispatcher({type: 'lastNameError', payload: lastNameError});
-      dispatcher({type: 'mobileError', payload: mobileError});
+      dispatcher({type: 'fnameError', payload: fnameError});
+      dispatcher({type: 'lnameError', payload: lnameError});
+      dispatcher({type: 'phoneError', payload: phoneError});
       dispatcher({type: 'personalEmailError', payload: personalEmailError});
+      dispatcher({type: 'emailError', payload: emailError});
+      dispatcher({type: 'projectError', payload: projectError});
       dispatcher({type: 'primarySkillError', payload: primarySkillError});
+      dispatcher({type: 'secondarySkillError', payload: secondarySkillError});
       dispatcher({type: 'experienceError', payload: experienceError});
       dispatcher({type: 'relationshipError', payload: relationshipError});
-      dispatcher({
-        type: 'alternativeContactError',
-        payload: alternativeContactError,
-      });
-      dispatcher({
-        type: 'residentLocalityError',
-        payload: residentLocalityError,
-      });
+      dispatcher({type: 'alternateNoError', payload: alternateNoError});
+      dispatcher({type: 'residentAddressError', payload: residentAddressError});
       dispatcher({type: 'resumeError', payload: resumeError});
-      dispatcher({type: 'usaShiftError', payload: usaShiftError});
+      dispatcher({type: 'usShiftError', payload: usShiftError});
       dispatcher({type: 'ukShiftError', payload: ukShiftError});
-      dispatcher({type: 'relocateError', payload: relocateError});
+      dispatcher({type: 'canRelocateError', payload: canRelocateError});
+      dispatcher({
+        type: 'contractStartDateError',
+        payload: contractStartDateError,
+      });
+      dispatcher({type: 'contractEndDateError', payload: contractEndDateError});
+      dispatcher({type: 'contractFileError', payload: contractFileError});
+      dispatcher({type: 'checklistError', payload: checklistError});
+      dispatcher({type: 'otherDocsError', payload: otherDocsError});
       dispatcher({type: 'passingYearError', payload: passingYearError});
-      dispatcher({type: 'panCardError', payload: panCardError});
-      dispatcher({type: 'aadharCardError', payload: aadharCardError});
-      dispatcher({type: 'pfFormError', payload: pfFormError});
+      dispatcher({type: 'panLinkError', payload: panLinkError});
+      dispatcher({type: 'aadharError', payload: aadharError});
+      dispatcher({
+        type: 'pfOptOutFormLinkError',
+        payload: pfOptOutFormLinkError,
+      });
+      dispatcher({type: 'costError', payload: costError});
+      // dispatcher({type: 'l1Error', payload: l1Error});
 
       return;
     }
     dispatcher({type: 'vendorError', payload: null});
-    dispatcher({type: 'firstNameError', payload: null});
-    dispatcher({type: 'lastNameError', payload: null});
-    dispatcher({type: 'mobileError', payload: null});
+    dispatcher({type: 'fnameError', payload: null});
+    dispatcher({type: 'lnameError', payload: null});
+    dispatcher({type: 'phoneError', payload: null});
     dispatcher({type: 'personalEmailError', payload: null});
+    dispatcher({type: 'emailError', payload: null});
+    dispatcher({type: 'projectError', payload: null});
     dispatcher({type: 'primarySkillError', payload: null});
+    dispatcher({type: 'secondarySkillError', payload: null});
     dispatcher({type: 'experienceError', payload: null});
     dispatcher({type: 'relationshipError', payload: null});
-    dispatcher({
-      type: 'alternativeContactError',
-      payload: null,
-    });
-    dispatcher({
-      type: 'residentLocalityError',
-      payload: null,
-    });
+    dispatcher({type: 'alternateNoError', payload: null});
+    dispatcher({type: 'residentAddressError', payload: null});
     dispatcher({type: 'resumeError', payload: null});
-    dispatcher({type: 'usaShiftError', payload: null});
+    dispatcher({type: 'usShiftError', payload: null});
     dispatcher({type: 'ukShiftError', payload: null});
-    dispatcher({type: 'relocateError', payload: null});
+    dispatcher({type: 'canRelocateError', payload: null});
+    dispatcher({type: 'contractStartDateError', payload: null});
+    dispatcher({type: 'contractEndDateError', payload: null});
+    dispatcher({type: 'contractFileError', payload: null});
+    dispatcher({type: 'checklistError', payload: null});
+    dispatcher({type: 'otherDocsError', payload: null});
     dispatcher({type: 'passingYearError', payload: null});
-    dispatcher({type: 'panCardError', payload: null});
-    dispatcher({type: 'aadharCardError', payload: null});
-    dispatcher({type: 'pfFormError', payload: null});
+    dispatcher({type: 'panLinkError', payload: null});
+    dispatcher({type: 'aadharError', payload: null});
+    dispatcher({type: 'pfOptOutFormLinkError', payload: null});
+    dispatcher({type: 'costError', payload: null});
+    // dispatcher({type: 'l1Error', payload: null});
   };
 
   return (
@@ -537,6 +275,7 @@ const AddResource = () => {
         <CustomNavigationBar back={true} headername="Add Resource" />
         <ScrollView style={styles.scrollViewStyle}>
           <View style={styles.formContainer}>
+            {/*For vender list */}
             <Dropdown
               data={venderList}
               style={styles.dropdownViewStyle}
@@ -545,53 +284,56 @@ const AddResource = () => {
               labelField="label"
               valueField="value"
               placeholder="Select Vender"
-              value={formData.vendor}
+              value={formData.vendor_id}
               onChange={item => {
-                dispatcher({type: 'vendor', payload: item.value});
+                dispatcher({type: 'vendor_id', payload: item.value});
                 dispatcher({
-                  type: 'vendorError',
+                  type: 'vendor_id_error',
                   payload: validation.validateField(item.value),
                 });
               }}
             />
-            {formData.vendorError !== null && (
-              <Text style={styles.errorText}>{formData.vendorError}</Text>
+            {formData.vendor_id_error !== null && (
+              <Text style={styles.errorText}>{formData.vendor_id_error}</Text>
             )}
             <View style={styles.verticalSpace} />
+            {/*For first name */}
             <TextInput
               style={styles.textInputStyle}
               placeholder="First Name"
               placeholderTextColor={'gray'}
-              value={formData.firstName}
+              value={formData.fname}
               onChangeText={text => {
-                dispatcher({type: 'firstname', payload: text});
+                dispatcher({type: 'fname', payload: text});
                 dispatcher({
-                  type: 'firstNameError',
+                  type: 'fname_error',
                   payload: validation.validateCharField(text),
                 });
               }}
             />
-            {formData.firstNameError !== null && (
-              <Text style={styles.errorText}>{formData.firstNameError}</Text>
+            {formData.fname_error !== null && (
+              <Text style={styles.errorText}>{formData.fname_error}</Text>
             )}
             <View style={styles.verticalSpace} />
+            {/*For last name */}
             <TextInput
               style={styles.textInputStyle}
               placeholder="Last Name"
               placeholderTextColor={'gray'}
-              value={formData.lastName}
+              value={formData.lname}
               onChangeText={text => {
-                dispatcher({type: 'lastname', payload: text});
+                dispatcher({type: 'lname', payload: text});
                 dispatcher({
-                  type: 'lastNameError',
+                  type: 'lname_error',
                   payload: validation.validateCharField(text),
                 });
               }}
             />
-            {formData.lastNameError !== null && (
-              <Text style={styles.errorText}>{formData.lastNameError}</Text>
+            {formData.lname_error !== null && (
+              <Text style={styles.errorText}>{formData.lname_error}</Text>
             )}
             <View style={styles.verticalSpace} />
+            {/*For contact number  */}
             <View style={{flexDirection: 'row'}}>
               <View style={styles.textInputIconView}>
                 <FontAwesome name="phone" color={COLORS.blue} size={20} />
@@ -600,22 +342,23 @@ const AddResource = () => {
                 style={[styles.textInputStyle, {flex: 1}]}
                 placeholder="Mobile"
                 placeholderTextColor={'gray'}
-                value={formData.mobile}
+                value={formData.phone}
                 maxLength={10}
                 keyboardType="numeric"
                 onChangeText={text => {
-                  dispatcher({type: 'mobile', payload: text});
+                  dispatcher({type: 'phone', payload: text});
                   dispatcher({
-                    type: 'mobileError',
+                    type: 'phone_error',
                     payload: validation.contactValidation(text),
                   });
                 }}
               />
             </View>
-            {formData.mobileError !== null && (
-              <Text style={styles.errorText}>{formData.mobileError}</Text>
+            {formData.phone_error !== null && (
+              <Text style={styles.errorText}>{formData.phone_error}</Text>
             )}
             <View style={styles.verticalSpace} />
+            {/*For personal email */}
             <View style={{flexDirection: 'row'}}>
               <View style={styles.textInputIconView}>
                 <MaterialCommunityIcons
@@ -629,22 +372,23 @@ const AddResource = () => {
                 placeholder="Personal Email Id"
                 placeholderTextColor={'gray'}
                 keyboardType="email-address"
-                value={formData.lastName}
+                value={formData.personal_email}
                 onChangeText={text => {
-                  dispatcher({type: 'personalEmail', payload: text});
+                  dispatcher({type: 'personal_email', payload: text});
                   dispatcher({
-                    type: 'personalEmailError',
+                    type: 'personal_email_error',
                     payload: validation.validateEmail(text),
                   });
                 }}
               />
             </View>
-            {formData.personalEmailError !== null && (
+            {formData.personal_email_error !== null && (
               <Text style={styles.errorText}>
-                {formData.personalEmailError}
+                {formData.personal_email_error}
               </Text>
             )}
             <View style={styles.verticalSpace} />
+            {/*For official email */}
             <View style={{flexDirection: 'row'}}>
               <View style={styles.textInputIconView}>
                 <MaterialCommunityIcons
@@ -657,33 +401,40 @@ const AddResource = () => {
                 style={[styles.textInputStyle, {flex: 1}]}
                 placeholder="Official Email Id"
                 placeholderTextColor={'gray'}
-                value={formData.lastName}
+                value={formData.email}
                 keyboardType="email-address"
                 onChangeText={text => {
-                  dispatcher({type: 'officialEmail', payload: text});
+                  dispatcher({type: 'email', payload: text});
                   dispatcher({
-                    type: 'officialEmailError',
+                    type: 'email_error',
                     payload: validation.validateNotRequiredEmail(text),
                   });
                 }}
               />
             </View>
-            {formData.officialEmailError !== null && (
-              <Text style={styles.errorText}>
-                {formData.officialEmailError}
-              </Text>
+            {formData.email_error !== null && (
+              <Text style={styles.errorText}>{formData.email_error}</Text>
             )}
             <View style={styles.verticalSpace} />
+            {/*For project name */}
             <TextInput
               style={styles.textInputStyle}
               placeholder="Enter Project Name"
               placeholderTextColor={'gray'}
-              value={formData.alternativeContact}
+              value={formData.project}
               onChangeText={text => {
-                dispatcher({type: 'projectname', payload: text});
+                dispatcher({type: 'project', payload: text});
+                dispatcher({
+                  type: 'project_error',
+                  payload: validation.validateField(text),
+                });
               }}
             />
+            {formData.project_error !== null && (
+              <Text style={styles.errorText}>{formData.project_error}</Text>
+            )}
             <View style={styles.verticalSpace} />
+            {/*For primary skill */}
             <Dropdown
               data={technologyList}
               style={styles.dropdownViewStyle}
@@ -692,19 +443,22 @@ const AddResource = () => {
               labelField="label"
               valueField="value"
               placeholder="Select Primary Skill"
-              value={formData.primarySkill}
+              value={formData.primary_skill_error}
               onChange={item => {
-                dispatcher({type: 'primarySkill', payload: item.value});
+                dispatcher({type: 'primary_skill_error', payload: item.value});
                 dispatcher({
-                  type: 'primarySkillError',
+                  type: 'primary_skill_error',
                   payload: validation.validateField(item.value),
                 });
               }}
             />
-            {formData.primarySkillError !== null && (
-              <Text style={styles.errorText}>{formData.primarySkillError}</Text>
+            {formData.primary_skill_error !== null && (
+              <Text style={styles.errorText}>
+                {formData.primary_skill_error}
+              </Text>
             )}
             <View style={styles.verticalSpace} />
+            {/*For secondary skill*/}
             <Dropdown
               data={technologyList}
               style={styles.dropdownViewStyle}
@@ -713,12 +467,22 @@ const AddResource = () => {
               labelField="label"
               valueField="value"
               placeholder="Select Secondary Skill"
-              value={formData.secondarySkill}
+              value={formData.secondary_skill}
               onChange={item => {
-                dispatcher({type: 'secondarySkill', payload: item.value});
+                dispatcher({type: 'secondary_skill', payload: item.value});
+                dispatcher({
+                  type: 'secondary_skill_error',
+                  payload: validation.validateField(item.value),
+                });
               }}
             />
+            {formData.secondary_skill_error !== null && (
+              <Text style={styles.errorText}>
+                {formData.secondary_skill_error}
+              </Text>
+            )}
             <View style={styles.verticalSpace} />
+            {/*For experience */}
             <Dropdown
               data={technologyList}
               style={styles.dropdownViewStyle}
@@ -731,15 +495,16 @@ const AddResource = () => {
               onChange={item => {
                 dispatcher({type: 'experience', payload: item.value});
                 dispatcher({
-                  type: 'experienceError',
+                  type: 'experience_error',
                   payload: validation.validateField(item.value),
                 });
               }}
             />
-            {formData.experienceError !== null && (
-              <Text style={styles.errorText}>{formData.experienceError}</Text>
+            {formData.experience_error !== null && (
+              <Text style={styles.errorText}>{formData.experience_error}</Text>
             )}
             <View style={styles.verticalSpace} />
+            {/*For relationship */}
             <Dropdown
               data={technologyList}
               style={styles.dropdownViewStyle}
@@ -748,62 +513,67 @@ const AddResource = () => {
               labelField="label"
               valueField="value"
               placeholder="Select Relationship"
-              value={formData.experience}
+              value={formData.relationship}
               onChange={item => {
                 dispatcher({type: 'relationship', payload: item.value});
                 dispatcher({
-                  type: 'relationshipError',
+                  type: 'relationship_error',
                   payload: validation.validateField(item.value),
                 });
               }}
             />
-            {formData.relationshipError !== null && (
-              <Text style={styles.errorText}>{formData.relationshipError}</Text>
+            {formData.relationship_error !== null && (
+              <Text style={styles.errorText}>
+                {formData.relationship_error}
+              </Text>
             )}
             <View style={styles.verticalSpace} />
+            {/*For alternate number */}
             <TextInput
               style={styles.textInputStyle}
               placeholder="Enter Alternative Number"
               placeholderTextColor={'gray'}
               keyboardType="numeric"
-              value={formData.alternativeContact}
+              value={formData.alternate_no}
               onChangeText={text => {
-                dispatcher({type: 'alternativeContact', payload: text});
+                dispatcher({type: 'alternate_no', payload: text});
                 dispatcher({
-                  type: 'alternativeContactError',
+                  type: 'alternate_no_error',
                   payload: validation.contactValidation(text),
                 });
               }}
             />
-            {formData.alternativeContactError !== null && (
+            {formData.alternate_no_error !== null && (
               <Text style={styles.errorText}>
-                {formData.alternativeContactError}
+                {formData.alternate_no_error}
               </Text>
             )}
             <View style={styles.verticalSpace} />
+            {/*For resident locality */}
             <TextInput
               style={styles.textInputAreaStyle}
               placeholder="Resident Locality"
               placeholderTextColor={'gray'}
-              value={formData.residentLocality}
+              value={formData.resident_address}
               onChangeText={text => {
-                dispatcher({type: 'residentLocality', payload: text});
+                dispatcher({type: 'resident_address', payload: text});
                 dispatcher({
-                  type: 'residentLocalityError',
+                  type: 'resident_address_error',
                   payload: validation.validateField(text),
                 });
               }}
             />
-            {formData.residentLocalityError !== null && (
+            {formData.resident_address_error !== null && (
               <Text style={styles.errorText}>
-                {formData.residentLocalityError}
+                {formData.resident_address_error}
               </Text>
             )}
             <View style={styles.verticalSpace} />
+            {/*For resume */}
             <TouchableOpacity
               style={styles.btnStyle}
               onPress={() => {
-                selectResume('resume', 'resumeError');
+                selectResume('resume', 'resume_error');
               }}>
               {formData.resume !== null ? (
                 <Text style={styles.uploadBtnTextStyle}>
@@ -816,10 +586,11 @@ const AddResource = () => {
                 </>
               )}
             </TouchableOpacity>
-            {formData.resumeError !== null && (
-              <Text style={styles.errorText}>{formData.resumeError}</Text>
+            {formData.resume_error !== null && (
+              <Text style={styles.errorText}>{formData.resume_error}</Text>
             )}
             <View style={styles.verticalSpace} />
+            {/*For US Shift */}
             <Dropdown
               data={technologyList}
               style={styles.dropdownViewStyle}
@@ -828,19 +599,20 @@ const AddResource = () => {
               labelField="label"
               valueField="value"
               placeholder="Willing to work for US Shift"
-              value={formData.usaShift}
+              value={formData.us_shift}
               onChange={item => {
-                dispatcher({type: 'usaShift', payload: item.value});
+                dispatcher({type: 'us_shift', payload: item.value});
                 dispatcher({
-                  type: 'usaShiftError',
+                  type: 'us_shift_error',
                   payload: validation.validateField(item.value),
                 });
               }}
             />
-            {formData.usaShiftError !== null && (
-              <Text style={styles.errorText}>{formData.usaShiftError}</Text>
+            {formData.us_shift_error !== null && (
+              <Text style={styles.errorText}>{formData.us_shift_error}</Text>
             )}
             <View style={styles.verticalSpace} />
+            {/*For UK Shift */}
             <Dropdown
               data={technologyList}
               style={styles.dropdownViewStyle}
@@ -849,19 +621,20 @@ const AddResource = () => {
               labelField="label"
               valueField="value"
               placeholder="Willing to work for UK Shift"
-              value={formData.ukShift}
+              value={formData.uk_shift}
               onChange={item => {
-                dispatcher({type: 'ukShift', payload: item.value});
+                dispatcher({type: 'uk_shift', payload: item.value});
                 dispatcher({
-                  type: 'ukShiftError',
+                  type: 'uk_shift_error',
                   payload: validation.validateField(item.value),
                 });
               }}
             />
-            {formData.ukShiftError !== null && (
-              <Text style={styles.errorText}>{formData.ukShiftError}</Text>
+            {formData.uk_shift_error !== null && (
+              <Text style={styles.errorText}>{formData.uk_shift_error}</Text>
             )}
             <View style={styles.verticalSpace} />
+            {/*For willing to relocate */}
             <Dropdown
               data={technologyList}
               style={styles.dropdownViewStyle}
@@ -870,75 +643,89 @@ const AddResource = () => {
               labelField="label"
               valueField="value"
               placeholder="Willing to Relocate"
-              value={formData.relocate}
+              value={formData.can_relocate}
               onChange={item => {
-                dispatcher({type: 'relocate', payload: item.value});
+                dispatcher({type: 'can_relocate', payload: item.value});
                 dispatcher({
-                  type: 'relocateError',
+                  type: 'can_relocate_error',
                   payload: validation.validateField(item.value),
                 });
               }}
             />
-            {formData.relocateError !== null && (
-              <Text style={styles.errorText}>{formData.relocateError}</Text>
+            {formData.can_relocate_error !== null && (
+              <Text style={styles.errorText}>
+                {formData.can_relocate_error}
+              </Text>
             )}
             <View style={styles.verticalSpace} />
+            {/*For contract start date */}
             <TouchableOpacity
               onPress={() => setStartOpenDatePicer(true)}
               style={styles.dateInputStyle}>
               <Text
                 style={
-                  formData.contractEndDate === null
+                  formData.contract_start_date === null
                     ? styles.dropDownPlaceholderStyle
                     : {color: COLORS.black}
                 }>
-                {formData.contractStartDate === null
+                {formData.contract_start_date === null
                   ? 'Contract Start Date'
                   : dayjs(
-                      new Date(formData.contractStartDate.toString()),
+                      new Date(formData.contract_start_date.toString()),
                     ).format('DD/MM/YYYY')}
               </Text>
+
+              <DatePicker
+                date={
+                  formData.contract_start_date
+                    ? formData.contract_start_date
+                    : new Date()
+                }
+                modal
+                mode="date"
+                open={openStartDatePicker}
+                onConfirm={value => {
+                  dispatcher({
+                    type: 'contract_start_date',
+                    payload: value,
+                  });
+                  dispatcher({
+                    type: 'contract_start_date_error',
+                    payload: validation.validateField(value),
+                  });
+                  setStartOpenDatePicer(false);
+                }}
+                onCancel={() => {
+                  setStartOpenDatePicer(false);
+                }}
+              />
             </TouchableOpacity>
-            <DatePicker
-              date={
-                formData.contractStartDate
-                  ? formData.contractStartDate
-                  : new Date()
-              }
-              modal
-              mode="date"
-              open={openStartDatePicker}
-              onConfirm={value => {
-                dispatcher({
-                  type: 'contractStartDate',
-                  payload: value,
-                });
-                setStartOpenDatePicer(false);
-              }}
-              onCancel={() => {
-                setStartOpenDatePicer(false);
-              }}
-            />
+            {formData.contract_start_date_error !== null && (
+              <Text style={styles.errorText}>
+                {formData.contract_start_date_error}
+              </Text>
+            )}
             <View style={styles.verticalSpace} />
+            {/*For contract end date */}
             <TouchableOpacity
               onPress={() => setEndOpenDatePicer(true)}
               style={styles.dateInputStyle}>
               <Text
                 style={
-                  formData.contractEndDate === null
+                  formData.contract_end_date === null
                     ? styles.dropDownPlaceholderStyle
                     : {color: COLORS.black}
                 }>
-                {formData.contractEndDate === null
+                {formData.contract_end_date === null
                   ? 'Contract End Date'
-                  : dayjs(new Date(formData.contractEndDate.toString())).format(
-                      'DD/MM/YYYY',
-                    )}
+                  : dayjs(
+                      new Date(formData.contract_end_date.toString()),
+                    ).format('DD/MM/YYYY')}
               </Text>
               <DatePicker
                 date={
-                  formData.contractStartDate
-                    ? formData.contractStartDate
+                  formData.contract_end_date
+                    ? formData.contract_end_date
                     : new Date()
                 }
                 modal
@@ -946,8 +733,12 @@ const AddResource = () => {
                 open={openEndDatePicker}
                 onConfirm={value => {
                   dispatcher({
-                    type: 'contractEndDate',
+                    type: 'contract_end_date',
                     payload: value,
+                  });
+                  dispatcher({
+                    type: 'contract_end_date_error',
+                    payload: validation.validateField(value),
                   });
                   setEndOpenDatePicer(false);
                 }}
@@ -956,15 +747,21 @@ const AddResource = () => {
                 }}
               />
             </TouchableOpacity>
+            {formData.contract_end_date_error !== null && (
+              <Text style={styles.errorText}>
+                {formData.contract_end_date_error}
+              </Text>
+            )}
             <View style={styles.verticalSpace} />
+            {/*For contarct file */}
             <TouchableOpacity
               style={styles.btnStyle}
               onPress={() => {
-                selectResume('contractFile');
+                selectResume('contract_file', 'contract_file_error');
               }}>
-              {formData.contractFile !== null ? (
+              {formData.contract_file !== null ? (
                 <Text style={styles.uploadBtnTextStyle}>
-                  {formData?.contractFile?.name}
+                  {formData?.contract_file?.name}
                 </Text>
               ) : (
                 <>
@@ -975,15 +772,21 @@ const AddResource = () => {
                 </>
               )}
             </TouchableOpacity>
+            {formData.contract_file_error !== null && (
+              <Text style={styles.errorText}>
+                {formData.contract_file_error}
+              </Text>
+            )}
             <View style={styles.verticalSpace} />
+            {/*For checklist */}
             <TouchableOpacity
               style={styles.btnStyle}
               onPress={() => {
-                selectResume('checkList');
+                selectResume('checklist', 'checklist_error');
               }}>
-              {formData.checkList !== null ? (
+              {formData.checklist !== null ? (
                 <Text style={styles.uploadBtnTextStyle}>
-                  {formData?.checkList?.name}
+                  {formData?.checklist?.name}
                 </Text>
               ) : (
                 <>
@@ -994,15 +797,19 @@ const AddResource = () => {
                 </>
               )}
             </TouchableOpacity>
+            {formData.checklist_error !== null && (
+              <Text style={styles.errorText}>{formData.checklist_error}</Text>
+            )}
             <View style={styles.verticalSpace} />
+            {/*For other documents */}
             <TouchableOpacity
               style={styles.btnStyle}
               onPress={() => {
-                selectResume('otherDocument');
+                selectResume('other_docs', 'other_docs_error');
               }}>
-              {formData.otherDocument !== null ? (
+              {formData.other_docs !== null ? (
                 <Text style={styles.uploadBtnTextStyle}>
-                  {formData?.otherDocument?.name}
+                  {formData?.other_docs?.name}
                 </Text>
               ) : (
                 <>
@@ -1013,33 +820,40 @@ const AddResource = () => {
                 </>
               )}
             </TouchableOpacity>
+            {formData.other_docs_error !== null && (
+              <Text style={styles.errorText}>{formData.other_docs_error}</Text>
+            )}
             <View style={styles.verticalSpace} />
+            {/*For passing year */}
             <TextInput
               style={styles.textInputStyle}
               placeholder="Passing Year"
               placeholderTextColor={'gray'}
-              value={formData.passingYear}
+              value={formData.passing_year}
               maxLength={4}
               onChangeText={text => {
-                dispatcher({type: 'passingYear', payload: text});
+                dispatcher({type: 'passing_year', payload: text});
                 dispatcher({
-                  type: 'passingYearError',
+                  type: 'passing_year_error',
                   payload: validation.numericValidation(text),
                 });
               }}
             />
-            {formData.passingYearError !== null && (
-              <Text style={styles.errorText}>{formData.passingYearError}</Text>
+            {formData.passing_year_error !== null && (
+              <Text style={styles.errorText}>
+                {formData.passing_year_error}
+              </Text>
             )}
             <View style={styles.verticalSpace} />
+            {/*For pan card */}
             <TouchableOpacity
               style={styles.btnStyle}
               onPress={() => {
-                selectResume('panCard', 'panCardError');
+                selectResume('pan_link', 'pan_link_error');
               }}>
-              {formData.panCard !== null ? (
+              {formData.pan_link !== null ? (
                 <Text style={styles.uploadBtnTextStyle}>
-                  {formData?.panCard?.name}
+                  {formData?.pan_link?.name}
                 </Text>
               ) : (
                 <>
@@ -1048,18 +862,19 @@ const AddResource = () => {
                 </>
               )}
             </TouchableOpacity>
-            {formData.panCardError !== null && (
-              <Text style={styles.errorText}>{formData.panCardError}</Text>
+            {formData.pan_link_error !== null && (
+              <Text style={styles.errorText}>{formData.pan_link_error}</Text>
             )}
             <View style={styles.verticalSpace} />
+            {/*For aadhar card */}
             <TouchableOpacity
               style={styles.btnStyle}
               onPress={() => {
-                selectResume('aadharCard', 'aadharCardError');
+                selectResume('aadhar', 'aadhar_error');
               }}>
-              {formData.aadharCard !== null ? (
+              {formData.aadhar !== null ? (
                 <Text style={styles.uploadBtnTextStyle}>
-                  {formData?.aadharCard?.name}
+                  {formData?.aadhar?.name}
                 </Text>
               ) : (
                 <>
@@ -1070,18 +885,22 @@ const AddResource = () => {
                 </>
               )}
             </TouchableOpacity>
-            {formData.aadharCardError !== null && (
-              <Text style={styles.errorText}>{formData.aadharCardError}</Text>
+            {formData.aadhar_error !== null && (
+              <Text style={styles.errorText}>{formData.aadhar_error}</Text>
             )}
             <View style={styles.verticalSpace} />
+            {/*For pf form */}
             <TouchableOpacity
               style={styles.btnStyle}
               onPress={() => {
-                selectResume('pfForm', 'pfFormError');
+                selectResume(
+                  'pf_opt_out_form_link',
+                  'pf_opt_out_form_link_error',
+                );
               }}>
-              {formData.pfForm !== null ? (
+              {formData.pf_opt_out_form_link !== null ? (
                 <Text style={styles.uploadBtnTextStyle}>
-                  {formData?.pfForm?.name}
+                  {formData?.pf_opt_out_form_link?.name}
                 </Text>
               ) : (
                 <>
@@ -1092,19 +911,29 @@ const AddResource = () => {
                 </>
               )}
             </TouchableOpacity>
-            {formData.pfFormError !== null && (
-              <Text style={styles.errorText}>{formData.pfFormError}</Text>
+            {formData.pf_opt_out_form_link_error !== null && (
+              <Text style={styles.errorText}>
+                {formData.pf_opt_out_form_link_error}
+              </Text>
             )}
             <View style={styles.verticalSpace} />
+            {/*For cost */}
             <TextInput
               style={styles.textInputStyle}
               placeholder="Enter Cost"
               placeholderTextColor={'gray'}
-              value={formData.firstName}
+              value={formData.cost}
               onChangeText={text => {
                 dispatcher({type: 'cost', payload: text});
+                dispatcher({
+                  type: 'cost_error',
+                  payload: validation.validateField(text),
+                });
               }}
             />
+            {formData.cost_error !== null && (
+              <Text style={styles.errorText}>{formData.cost_error}</Text>
+            )}
             <View style={styles.verticalSpace} />
             <TouchableOpacity
               style={styles.btnStyle}
