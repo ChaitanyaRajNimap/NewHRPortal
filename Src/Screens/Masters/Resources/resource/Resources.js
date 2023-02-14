@@ -42,8 +42,11 @@ const Resources = () => {
   //for filtering search results
   const getResourceFilterData = () => {
     const filterValue = resources?.filter(data => {
-      // let resFullName = data.fname.toLowerCase() + data.lname.toLowerCase();
-      // let currStatus = data.on_bench === 1 ? 'Bench' : data.client_name;
+      let resFullName = data.fname
+        ? data.fname.toLowerCase() + ' ' + data.lname.toLowerCase()
+        : '';
+      let currStatus = data.on_bench === 1 ? 'Bench' : data.client_name;
+      console.log('RESFULL NAME & STATUS : ', resFullName, currStatus);
       if (search.length === 0) {
         return data;
       } else if (data.company_name) {
@@ -55,10 +58,9 @@ const Resources = () => {
           data.passing_year.toLowerCase().includes(search.toLowerCase()) ||
           // data.project.toLowerCase().includes(search.toLowerCase()) ||
           data.primary_skill.toLowerCase().includes(search.toLowerCase()) ||
-          data.resident_address.toLowerCase().includes(search.toLowerCase())
-          // ||
+          data.resident_address.toLowerCase().includes(search.toLowerCase()) ||
           // currStatus.includes(search.toLowerCase()) ||
-          // resFullName.includes(search.toLowerCase())
+          resFullName.includes(search.toLowerCase())
         ) {
           return data;
         }

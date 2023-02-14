@@ -4,6 +4,7 @@ import {GLOBALSTYLE} from '../../../../Constants/Styles';
 import {COLORS} from '../../../../Constants/Theme';
 import SmallButton from '../../../../Components/SmallButton';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import dayjs from 'dayjs';
 
 function ResourceList({data, deleteResourcse, editResourcse}) {
@@ -41,6 +42,9 @@ function ResourceList({data, deleteResourcse, editResourcse}) {
   const _renderItem = ({item}) => {
     return (
       <View style={[GLOBALSTYLE.cardView]}>
+        <TouchableOpacity style={styles.archiveIconContainer}>
+          <MaterialIcons name={'archive'} size={26} color={COLORS.purple} />
+        </TouchableOpacity>
         <View style={[styles.upperViewStyle, styles.upperViewStyleAligner]}>
           <View style={styles.innerViewStyle}>
             <Text style={styles.indicatorTextStyle}>Name</Text>
@@ -200,6 +204,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 20,
     backgroundColor: '#fff',
+  },
+  archiveIconContainer: {
+    marginHorizontal: 20,
+    flex: 1,
+    alignItems: 'flex-end',
   },
   nameViewStyle: {
     width: '100%',

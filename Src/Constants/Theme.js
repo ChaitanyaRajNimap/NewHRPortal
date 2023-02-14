@@ -9,7 +9,7 @@ export const COLORS = {
   tomatto: '#FFA86C',
   lightgreen: '#8BC535',
   green: '#58A158',
-
+  purple: '#8A2BE2',
 };
 
 const nimaplogo = require('../Constants/assets/images/nimap-logo.png');
