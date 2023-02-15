@@ -17,23 +17,23 @@ const fetchTechnology = () => {
   };
 };
 
-const AddResource = postObject => {
-  return async dispatch => {
-    dispatch(resourceActions.addResourceRequest);
-    try {
-      const {data, status} = await request({
-        url: '/resource',
-        method: 'POST',
-        data: postObject,
-      });
+// const AddResource = postObject => {
+//   return async dispatch => {
+//     dispatch(resourceActions.addResourceRequest);
+//     try {
+//       const {data, status} = await request({
+//         url: '/resource',
+//         method: 'POST',
+//         data: postObject,
+//       });
 
-      if (status === 200) {
-        dispatch(resourceActions.addResourceSuccess(data));
-      }
-    } catch (error) {
-      dispatch(resourceActions.addResourceFailuer(error));
-    }
-  };
-};
+//       if (status === 200) {
+//         dispatch(resourceActions.addResourceSuccess(data));
+//       }
+//     } catch (error) {
+//       dispatch(resourceActions.addResourceFailuer(error));
+//     }
+//   };
+// };
 
-export {fetchTechnology, AddResource};
+export {fetchTechnology};

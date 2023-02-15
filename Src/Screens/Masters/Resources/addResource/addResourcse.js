@@ -25,6 +25,8 @@ import {Dropdown} from 'react-native-element-dropdown';
 import validation from '../../../../Util/helper';
 import {initalState, reducer} from './addResourcseFormData';
 import dayjs from 'dayjs';
+import CustomRadioBtn3opt from '../../../../Components/CustomRadioBtn3opt';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
 
@@ -34,8 +36,11 @@ const AddResource = () => {
   const [formData, dispatcher] = useReducer(reducer, initalState);
   const [venderList, setVenderList] = useState([]);
   const [technologyList, setTechnologyList] = useState([]);
-  const [openStartDatePicker, setStartOpenDatePicer] = useState(false);
-  const [openEndDatePicker, setEndOpenDatePicer] = useState(false);
+  // const [openStartDatePicker, setStartOpenDatePicer] = useState(false);
+  // const [openEndDatePicker, setEndOpenDatePicer] = useState(false);
+
+  //For radio button
+  const [radioValue, setRadioValue] = useState(null);
 
   const {vendor, technology} = useSelector(state => ({
     vendor: state.vendor,
@@ -44,6 +49,144 @@ const AddResource = () => {
 
   const {vendorSuccess, vendorRequest} = vendor;
   const {technologyError, technologySuccess, technologyRequest} = technology;
+
+  //For experience years dropdown
+  const experienceYears = [
+    {label: '0.5 years', value: '0.5 years'},
+    {label: '1 years', value: '1 years'},
+    {label: '1.5 years', value: '1.5 years'},
+    {label: '2 years', value: '2 years'},
+    {label: '2.5 years', value: '2.5 years'},
+    {label: '3 years', value: '3 years'},
+    {label: '3.5 years', value: '3.5 years'},
+    {label: '4 years', value: '4 years'},
+    {label: '4.5 years', value: '4.5 years'},
+    {label: '5 years', value: '5 years'},
+    {label: '5.5 years', value: '5.5 years'},
+    {label: '6 years', value: '6 years'},
+    {label: '6.5 years', value: '6.5 years'},
+    {label: '7 years', value: '7 years'},
+    {label: '7.5 years', value: '7.5 years'},
+    {label: '8 years', value: '8 years'},
+    {label: '8.5 years', value: '8.5 years'},
+    {label: '9 years', value: '9 years'},
+    {label: '9.5 years', value: '9.5 years'},
+    {label: '10 years', value: '10 years'},
+  ];
+
+  //For relation ship dropdown
+  const relationshipList = [
+    {label: 'Father', value: 'Father'},
+    {label: 'Mother', value: 'Mother'},
+    {label: 'Brother', value: 'Brother'},
+  ];
+
+  //For yes no dropdown
+  const yesNoList = [
+    {label: 'Yes', value: 'Yes'},
+    {label: 'No', value: 'No'},
+  ];
+
+  //For date pickers
+  const [date, setDate] = useState({
+    startDate: new Date(Date.now()),
+    endDate: new Date(Date.now()),
+  });
+  const [datePicker, setDatePicker] = useState({
+    startDatePicker: false,
+    endDatePicker: false,
+  });
+  const [displayDate, setDisplayDate] = useState({
+    startDate: 'Start Date',
+    endDate: 'End Date',
+  });
+
+  const convertDate = value => {
+    const currentDate = value || date;
+    let tempDate = new Date(currentDate);
+    let month = '' + (tempDate.getMonth() + 1),
+      day = '' + tempDate.getDate(),
+      year = tempDate.getFullYear();
+
+    if (month.length < 2) {
+      month = '0' + month;
+    }
+    if (day.length < 2) {
+      day = '0' + day;
+    }
+
+    return [year, month, day].join('/');
+  };
+
+  //Covert to send in post req
+  const convertDateToSend = value => {
+    const currentDate = value || date;
+    let tempDate = new Date(currentDate);
+    let month = '' + (tempDate.getMonth() + 1),
+      day = '' + tempDate.getDate(),
+      year = tempDate.getFullYear();
+
+    if (month.length < 2) {
+      month = '0' + month;
+    }
+    if (day.length < 2) {
+      day = '0' + day;
+    }
+
+    return [year, month, day].join('-');
+  };
+
+  function onStartDateSelected(event, value) {
+    setDatePicker(prevDatePickers => {
+      return {...prevDatePickers, startDatePicker: false};
+    });
+    setDate(prevDates => {
+      return {...prevDates, startDate: value};
+    });
+    setDisplayDate(prevDates => {
+      return {...prevDates, startDate: convertDate(value)};
+    });
+    dispatcher({
+      type: 'contract_start_date',
+      payload: convertDateToSend(value),
+    });
+    dispatcher({
+      type: 'contract_start_date_error',
+      payload: null,
+    });
+  }
+
+  function onEndDateSelected(event, value) {
+    setDatePicker(prevDatePickers => {
+      return {...prevDatePickers, endDatePicker: false};
+    });
+    setDate(prevDates => {
+      return {...prevDates, endDate: value};
+    });
+    setDisplayDate(prevDates => {
+      return {...prevDates, endDate: convertDate(value)};
+    });
+    dispatcher({
+      type: 'contract_end_date',
+      payload: convertDateToSend(value),
+    });
+    dispatcher({
+      type: 'contract_end_date_error',
+      payload: null,
+    });
+  }
+
+  function showStartDatePicker() {
+    setDatePicker(prevDatePickers => {
+      return {...prevDatePickers, startDatePicker: true};
+    });
+  }
+
+  function showEndDatePicker() {
+    setDatePicker(prevDatePickers => {
+      return {...prevDatePickers, endDatePicker: true};
+    });
+  }
 
   useEffect(() => {
     if (vendorSuccess) {
@@ -105,6 +248,39 @@ const AddResource = () => {
     }
   };
 
+  const convertResourceData = data => {
+    return {
+      vendor_id: data.vendor_id,
+      fname: data.fname,
+      lname: data.lname,
+      phone: data.phone,
+      personal_email: data.personal_email,
+      email: data.email,
+      project: data.project,
+      primary_skill: data.primary_skill,
+      secondary_skill: data.secondary_skill,
+      experience: data.experience,
+      relationship: data.relationship,
+      alternate_no: data.alternate_no,
+      resident_address: data.resident_address,
+      resume: data.resume,
+      us_shift: data.us_shift,
+      uk_shift: data.uk_shift,
+      can_relocate: data.can_relocate,
+      contract_start_date: data.contract_start_date,
+      contract_end_date: data.contract_end_date,
+      contract_file: data.contract_file,
+      checklist: data.checklist,
+      other_docs: data.other_docs,
+      passing_year: data.passing_year,
+      pan_link: data.pan_link,
+      aadhar: data.aadhar,
+      pf_opt_out_form_link: data.pf_opt_out_form_link,
+      cost: data.cost,
+      l1: data.l1,
+    };
+  };
+
   const onSubmit = () => {
     const vendorError = validation.validateField(formData.vendor_id);
     const fnameError = validation.validateField(formData.fname);
@@ -145,7 +321,7 @@ const AddResource = () => {
       formData.pf_opt_out_form_link,
     );
     const costError = validation.validateField(formData.cost);
-    // const l1Error = validation.validateField(formData.l1);
+    const l1Error = validation.validateField(formData.l1);
 
     if (
       vendorError ||
@@ -174,11 +350,9 @@ const AddResource = () => {
       panLinkError ||
       aadharError ||
       pfOptOutFormLinkError ||
-      costError
-      // ||
-      // l1Error
+      costError ||
+      l1Error
     ) {
-      console.log('ERROR DISPATCHER REACHED');
       dispatcher({type: 'vendor_id_error', payload: vendorError});
       dispatcher({type: 'fname_error', payload: fnameError});
       dispatcher({type: 'lname_error', payload: lnameError});
@@ -218,40 +392,54 @@ const AddResource = () => {
         payload: pfOptOutFormLinkError,
       });
       dispatcher({type: 'cost_error', payload: costError});
-      // dispatcher({type: 'l1_error', payload: l1Error});
+      dispatcher({type: 'l1_error', payload: l1Error});
 
       return;
     }
-    dispatcher({type: 'vendorError', payload: null});
-    dispatcher({type: 'fnameError', payload: null});
-    dispatcher({type: 'lnameError', payload: null});
-    dispatcher({type: 'phoneError', payload: null});
-    dispatcher({type: 'personalEmailError', payload: null});
-    dispatcher({type: 'emailError', payload: null});
-    dispatcher({type: 'projectError', payload: null});
-    dispatcher({type: 'primarySkillError', payload: null});
-    dispatcher({type: 'secondarySkillError', payload: null});
-    dispatcher({type: 'experienceError', payload: null});
-    dispatcher({type: 'relationshipError', payload: null});
-    dispatcher({type: 'alternateNoError', payload: null});
-    dispatcher({type: 'residentAddressError', payload: null});
-    dispatcher({type: 'resumeError', payload: null});
-    dispatcher({type: 'usShiftError', payload: null});
-    dispatcher({type: 'ukShiftError', payload: null});
-    dispatcher({type: 'canRelocateError', payload: null});
-    dispatcher({type: 'contractStartDateError', payload: null});
-    dispatcher({type: 'contractEndDateError', payload: null});
-    dispatcher({type: 'contractFileError', payload: null});
-    dispatcher({type: 'checklistError', payload: null});
-    dispatcher({type: 'otherDocsError', payload: null});
-    dispatcher({type: 'passingYearError', payload: null});
-    dispatcher({type: 'panLinkError', payload: null});
-    dispatcher({type: 'aadharError', payload: null});
-    dispatcher({type: 'pfOptOutFormLinkError', payload: null});
-    dispatcher({type: 'costError', payload: null});
-    // dispatcher({type: 'l1Error', payload: null});
+    dispatcher({type: 'vendor_id_error', payload: null});
+    dispatcher({type: 'fname_error', payload: null});
+    dispatcher({type: 'lname_error', payload: null});
+    dispatcher({type: 'phone_error', payload: null});
+    dispatcher({type: 'personal_email_error', payload: null});
+    dispatcher({type: 'email_error', payload: null});
+    dispatcher({type: 'project_error', payload: null});
+    dispatcher({type: 'primary_skill_error', payload: null});
+    dispatcher({type: 'secondary_skill_error', payload: null});
+    dispatcher({type: 'experience_error', payload: null});
+    dispatcher({type: 'relationship_error', payload: null});
+    dispatcher({type: 'alternate_no_error', payload: null});
+    dispatcher({
+      type: 'resident_address_error',
+      payload: null,
+    });
+    dispatcher({type: 'resume_error', payload: null});
+    dispatcher({type: 'us_shift_error', payload: null});
+    dispatcher({type: 'uk_shift_error', payload: null});
+    dispatcher({type: 'can_relocate_error', payload: null});
+    dispatcher({
+      type: 'contract_start_date_error',
+      payload: null,
+    });
+    dispatcher({
+      type: 'contract_end_date_error',
+      payload: null,
+    });
+    dispatcher({type: 'contract_file_error', payload: null});
+    dispatcher({type: 'checklist_error', payload: null});
+    dispatcher({type: 'other_docs_error', payload: null});
+    dispatcher({type: 'passing_year_error', payload: null});
+    dispatcher({type: 'pan_link_error', payload: null});
+    dispatcher({type: 'aadhar_error', payload: null});
+    dispatcher({
+      type: 'pf_opt_out_form_link_error',
+      payload: null,
+    });
+    dispatcher({type: 'cost_error', payload: null});
+    dispatcher({type: 'l1_error', payload: null});
 
     console.log('FORMDATA FROM RESOURCES : ==>', formData);
+    let data = convertResourceData(formData);
+    console.log('<----------$CONVERTED RESOURCES DATA$---------->', data);
   };
 
   return (
@@ -320,12 +508,12 @@ const AddResource = () => {
             )}
             <View style={styles.verticalSpace} />
             {/*For contact number  */}
-            <View style={{flexDirection: 'row'}}>
+            <View style={{flexDirection: 'row', marginHorizontal: 10}}>
               <View style={styles.textInputIconView}>
                 <FontAwesome name="phone" color={COLORS.blue} size={20} />
               </View>
               <TextInput
-                style={[styles.textInputStyle, {flex: 1}]}
+                style={[styles.textInputStyle, {flex: 1, marginHorizontal: 0}]}
                 placeholder="Mobile"
                 placeholderTextColor={'gray'}
                 value={formData.phone}
@@ -345,7 +533,7 @@ const AddResource = () => {
             )}
             <View style={styles.verticalSpace} />
             {/*For personal email */}
-            <View style={{flexDirection: 'row'}}>
+            <View style={{flexDirection: 'row', marginHorizontal: 10}}>
               <View style={styles.textInputIconView}>
                 <MaterialCommunityIcons
                   name="email-outline"
@@ -354,7 +542,7 @@ const AddResource = () => {
                 />
               </View>
               <TextInput
-                style={[styles.textInputStyle, {flex: 1}]}
+                style={[styles.textInputStyle, {flex: 1, marginHorizontal: 0}]}
                 placeholder="Personal Email Id"
                 placeholderTextColor={'gray'}
                 keyboardType="email-address"
@@ -375,7 +563,7 @@ const AddResource = () => {
             )}
             <View style={styles.verticalSpace} />
             {/*For official email */}
-            <View style={{flexDirection: 'row'}}>
+            <View style={{flexDirection: 'row', marginHorizontal: 10}}>
               <View style={styles.textInputIconView}>
                 <MaterialCommunityIcons
                   name="email-outline"
@@ -384,7 +572,7 @@ const AddResource = () => {
                 />
               </View>
               <TextInput
-                style={[styles.textInputStyle, {flex: 1}]}
+                style={[styles.textInputStyle, {flex: 1, marginHorizontal: 0}]}
                 placeholder="Official Email Id"
                 placeholderTextColor={'gray'}
                 value={formData.email}
@@ -431,7 +619,7 @@ const AddResource = () => {
               placeholder="Select Primary Skill"
               value={formData.primary_skill_error}
               onChange={item => {
-                dispatcher({type: 'primary_skill_error', payload: item.value});
+                dispatcher({type: 'primary_skill', payload: item.value});
                 dispatcher({
                   type: 'primary_skill_error',
                   payload: validation.validateField(item.value),
@@ -470,7 +658,7 @@ const AddResource = () => {
             <View style={styles.verticalSpace} />
             {/*For experience */}
             <Dropdown
-              data={technologyList}
+              data={experienceYears}
               style={styles.dropdownViewStyle}
               selectedTextStyle={{color: COLORS.black}}
               placeholderStyle={styles.dropDownPlaceholderStyle}
@@ -492,7 +680,7 @@ const AddResource = () => {
             <View style={styles.verticalSpace} />
             {/*For relationship */}
             <Dropdown
-              data={technologyList}
+              data={relationshipList}
               style={styles.dropdownViewStyle}
               selectedTextStyle={{color: COLORS.black}}
               placeholderStyle={styles.dropDownPlaceholderStyle}
@@ -519,6 +707,7 @@ const AddResource = () => {
               style={styles.textInputStyle}
               placeholder="Enter Alternative Number"
               placeholderTextColor={'gray'}
+              maxLength={10}
               keyboardType="numeric"
               value={formData.alternate_no}
               onChangeText={text => {
@@ -578,7 +767,7 @@ const AddResource = () => {
             <View style={styles.verticalSpace} />
             {/*For US Shift */}
             <Dropdown
-              data={technologyList}
+              data={yesNoList}
               style={styles.dropdownViewStyle}
               selectedTextStyle={{color: COLORS.black}}
               placeholderStyle={styles.dropDownPlaceholderStyle}
@@ -600,7 +789,7 @@ const AddResource = () => {
             <View style={styles.verticalSpace} />
             {/*For UK Shift */}
             <Dropdown
-              data={technologyList}
+              data={yesNoList}
               style={styles.dropdownViewStyle}
               selectedTextStyle={{color: COLORS.black}}
               placeholderStyle={styles.dropDownPlaceholderStyle}
@@ -622,7 +811,7 @@ const AddResource = () => {
             <View style={styles.verticalSpace} />
             {/*For willing to relocate */}
             <Dropdown
-              data={technologyList}
+              data={yesNoList}
               style={styles.dropdownViewStyle}
               selectedTextStyle={{color: COLORS.black}}
               placeholderStyle={styles.dropDownPlaceholderStyle}
@@ -645,7 +834,7 @@ const AddResource = () => {
             )}
             <View style={styles.verticalSpace} />
             {/*For contract start date */}
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={() => setStartOpenDatePicer(true)}
               style={styles.dateInputStyle}>
               <Text
@@ -685,7 +874,26 @@ const AddResource = () => {
                   setStartOpenDatePicer(false);
                 }}
               />
+            </TouchableOpacity> */}
+            <TouchableOpacity
+              style={styles.dateBtnStyle}
+              onPress={showStartDatePicker}>
+              <Text style={{color: COLORS.grey}}>{displayDate.startDate}</Text>
+              <FontAwesome
+                name="calendar-o"
+                size={20}
+                style={{alignSelf: 'center', right: 30}}
+              />
             </TouchableOpacity>
+            {datePicker.startDatePicker === true ? (
+              <DateTimePicker
+                value={date.startDate}
+                mode={'date'}
+                display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                is24Hour={true}
+                onChange={onStartDateSelected}
+              />
+            ) : null}
             {formData.contract_start_date_error !== null && (
               <Text style={styles.errorText}>
                 {formData.contract_start_date_error}
@@ -693,7 +901,7 @@ const AddResource = () => {
             )}
             <View style={styles.verticalSpace} />
             {/*For contract end date */}
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={() => setEndOpenDatePicer(true)}
               style={styles.dateInputStyle}>
               <Text
@@ -732,7 +940,27 @@ const AddResource = () => {
                   setEndOpenDatePicer(false);
                 }}
               />
+            </TouchableOpacity> */}
+            <TouchableOpacity
+              style={styles.dateBtnStyle}
+              onPress={showEndDatePicker}>
+              <Text style={{color: COLORS.grey}}>{displayDate.endDate}</Text>
+              <FontAwesome
+                name="calendar-o"
+                size={20}
+                style={{alignSelf: 'center', right: 30}}
+              />
             </TouchableOpacity>
+            {datePicker.endDatePicker === true ? (
+              <DateTimePicker
+                value={date.endDate}
+                mode={'date'}
+                display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                is24Hour={true}
+                onChange={onEndDateSelected}
+                minimumDate={date.startDate}
+              />
+            ) : null}
             {formData.contract_end_date_error !== null && (
               <Text style={styles.errorText}>
                 {formData.contract_end_date_error}
@@ -821,7 +1049,7 @@ const AddResource = () => {
                 dispatcher({type: 'passing_year', payload: text});
                 dispatcher({
                   type: 'passing_year_error',
-                  payload: validation.numericValidation(text),
+                  payload: validation.validateField(text),
                 });
               }}
             />
@@ -921,6 +1149,30 @@ const AddResource = () => {
               <Text style={styles.errorText}>{formData.cost_error}</Text>
             )}
             <View style={styles.verticalSpace} />
+            <CustomRadioBtn3opt
+              value={radioValue}
+              title="Interview Level*"
+              onPressFunction={value => {
+                let intLevel;
+                if (value === 0) {
+                  intLevel = 'L1';
+                } else if (value === 1) {
+                  intLevel = 'L2';
+                } else {
+                  intLevel = 'Final';
+                }
+                setRadioValue(value);
+                dispatcher({type: 'l1', payload: intLevel});
+                dispatcher({
+                  type: 'l1_error',
+                  payload: validation.validateField(intLevel),
+                });
+              }}
+            />
+            {formData.l1_error !== null && (
+              <Text style={styles.errorText}>{formData.l1_error}</Text>
+            )}
+            <View style={styles.verticalSpace} />
             <TouchableOpacity
               style={styles.btnStyle}
               onPress={() => {
@@ -951,6 +1203,7 @@ const styles = StyleSheet.create({
     height: 48,
     borderRadius: 8,
     paddingHorizontal: 8,
+    marginHorizontal: 10,
     borderColor: COLORS.white,
   },
   dropDownPlaceholderStyle: {
@@ -971,18 +1224,30 @@ const styles = StyleSheet.create({
   scrollViewStyle: {
     flex: 1,
   },
+  dateBtnStyle: {
+    // width: Dimensions.get('screen').width - 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    backgroundColor: COLORS.white,
+    borderRadius: 10,
+    // margin: 10,
+    marginHorizontal: 10,
+    padding: 15,
+  },
   dateInputStyle: {
     height: 48,
     backgroundColor: COLORS.white,
     borderRadius: 8,
     paddingHorizontal: 8,
+    marginHorizontal: 10,
     justifyContent: 'center',
   },
   textInputStyle: {
     height: 48,
+    paddingHorizontal: 8,
     backgroundColor: COLORS.white,
     borderRadius: 8,
-    paddingHorizontal: 8,
+    marginHorizontal: 10,
   },
   textInputAreaStyle: {
     textAlignVertical: 'top',
@@ -990,6 +1255,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
     borderRadius: 8,
     paddingHorizontal: 8,
+    marginHorizontal: 10,
   },
   textInputIconView: {
     height: 48,
@@ -1004,6 +1270,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.lightBlue,
     borderRadius: 8,
     paddingHorizontal: 8,
+    marginHorizontal: 10,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -1024,6 +1291,7 @@ const styles = StyleSheet.create({
     color: COLORS.red,
     fontSize: 12,
     marginVertical: 2,
+    marginHorizontal: 10,
     paddingHorizontal: 2,
   },
 });
