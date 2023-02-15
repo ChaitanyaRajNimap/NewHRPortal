@@ -106,30 +106,6 @@ const AddResource = () => {
   };
 
   const onSubmit = () => {
-    // const vendorError = validation.validateField(formData.vendor);
-    // const firstNameError = validation.validateCharField(formData.firstName);
-    // const lastNameError = validation.validateCharField(formData.lastName);
-    // const mobileError = validation.contactValidation(formData.mobile);
-    // const personalEmailError = validation.validateEmail(formData.personalEmail);
-    // const primarySkillError = validation.validateField(formData.primarySkill);
-    // const experienceError = validation.validateField(formData.experience);
-    // const relationshipError = validation.validateField(formData.relationship);
-    // const alternativeContactError = validation.contactValidation(
-    //   formData.alternativeContact,
-    // );
-    // const residentLocalityError = validation.validateField(
-    //   formData.residentLocality,
-    // );
-
-    // const resumeError = validation.validatefile(formData.resume?.uri);
-    // const usaShiftError = validation.validateField(formData.usaShift);
-    // const ukShiftError = validation.validateField(formData.ukShift);
-    // const relocateError = validation.validateField(formData.relocate);
-    // const passingYearError = validation.numericValidation(formData.passingYear);
-    // const panCardError = validation.validatefile(formData.panCard?.uri);
-    // const aadharCardError = validation.validatefile(formData.aadharCard?.uri);
-    // const pfFormError = validation.validatefile(formData.pfForm?.uri);
-
     const vendorError = validation.validateField(formData.vendor_id);
     const fnameError = validation.validateField(formData.fname);
     const lnameError = validation.validateField(formData.lname);
@@ -202,40 +178,47 @@ const AddResource = () => {
       // ||
       // l1Error
     ) {
-      dispatcher({type: 'vendorError', payload: vendorError});
-      dispatcher({type: 'fnameError', payload: fnameError});
-      dispatcher({type: 'lnameError', payload: lnameError});
-      dispatcher({type: 'phoneError', payload: phoneError});
-      dispatcher({type: 'personalEmailError', payload: personalEmailError});
-      dispatcher({type: 'emailError', payload: emailError});
-      dispatcher({type: 'projectError', payload: projectError});
-      dispatcher({type: 'primarySkillError', payload: primarySkillError});
-      dispatcher({type: 'secondarySkillError', payload: secondarySkillError});
-      dispatcher({type: 'experienceError', payload: experienceError});
-      dispatcher({type: 'relationshipError', payload: relationshipError});
-      dispatcher({type: 'alternateNoError', payload: alternateNoError});
-      dispatcher({type: 'residentAddressError', payload: residentAddressError});
-      dispatcher({type: 'resumeError', payload: resumeError});
-      dispatcher({type: 'usShiftError', payload: usShiftError});
-      dispatcher({type: 'ukShiftError', payload: ukShiftError});
-      dispatcher({type: 'canRelocateError', payload: canRelocateError});
+      console.log('ERROR DISPATCHER REACHED');
+      dispatcher({type: 'vendor_id_error', payload: vendorError});
+      dispatcher({type: 'fname_error', payload: fnameError});
+      dispatcher({type: 'lname_error', payload: lnameError});
+      dispatcher({type: 'phone_error', payload: phoneError});
+      dispatcher({type: 'personal_email_error', payload: personalEmailError});
+      dispatcher({type: 'email_error', payload: emailError});
+      dispatcher({type: 'project_error', payload: projectError});
+      dispatcher({type: 'primary_skill_error', payload: primarySkillError});
+      dispatcher({type: 'secondary_skill_error', payload: secondarySkillError});
+      dispatcher({type: 'experience_error', payload: experienceError});
+      dispatcher({type: 'relationship_error', payload: relationshipError});
+      dispatcher({type: 'alternate_no_error', payload: alternateNoError});
       dispatcher({
-        type: 'contractStartDateError',
+        type: 'resident_address_error',
+        payload: residentAddressError,
+      });
+      dispatcher({type: 'resume_error', payload: resumeError});
+      dispatcher({type: 'us_shift_error', payload: usShiftError});
+      dispatcher({type: 'uk_shift_error', payload: ukShiftError});
+      dispatcher({type: 'can_relocate_error', payload: canRelocateError});
+      dispatcher({
+        type: 'contract_start_date_error',
         payload: contractStartDateError,
       });
-      dispatcher({type: 'contractEndDateError', payload: contractEndDateError});
-      dispatcher({type: 'contractFileError', payload: contractFileError});
-      dispatcher({type: 'checklistError', payload: checklistError});
-      dispatcher({type: 'otherDocsError', payload: otherDocsError});
-      dispatcher({type: 'passingYearError', payload: passingYearError});
-      dispatcher({type: 'panLinkError', payload: panLinkError});
-      dispatcher({type: 'aadharError', payload: aadharError});
       dispatcher({
-        type: 'pfOptOutFormLinkError',
+        type: 'contract_end_date_error',
+        payload: contractEndDateError,
+      });
+      dispatcher({type: 'contract_file_error', payload: contractFileError});
+      dispatcher({type: 'checklist_error', payload: checklistError});
+      dispatcher({type: 'other_docs_error', payload: otherDocsError});
+      dispatcher({type: 'passing_year_error', payload: passingYearError});
+      dispatcher({type: 'pan_link_error', payload: panLinkError});
+      dispatcher({type: 'aadhar_error', payload: aadharError});
+      dispatcher({
+        type: 'pf_opt_out_form_link_error',
         payload: pfOptOutFormLinkError,
       });
-      dispatcher({type: 'costError', payload: costError});
-      // dispatcher({type: 'l1Error', payload: l1Error});
+      dispatcher({type: 'cost_error', payload: costError});
+      // dispatcher({type: 'l1_error', payload: l1Error});
 
       return;
     }
@@ -267,6 +250,8 @@ const AddResource = () => {
     dispatcher({type: 'pfOptOutFormLinkError', payload: null});
     dispatcher({type: 'costError', payload: null});
     // dispatcher({type: 'l1Error', payload: null});
+
+    console.log('FORMDATA FROM RESOURCES : ==>', formData);
   };
 
   return (
@@ -296,6 +281,7 @@ const AddResource = () => {
             {formData.vendor_id_error !== null && (
               <Text style={styles.errorText}>{formData.vendor_id_error}</Text>
             )}
+            {/* {console.log(formData.vvendor_id_error)} */}
             <View style={styles.verticalSpace} />
             {/*For first name */}
             <TextInput
