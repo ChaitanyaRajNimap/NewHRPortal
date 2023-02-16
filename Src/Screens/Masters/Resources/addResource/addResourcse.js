@@ -1,37 +1,40 @@
-import React, {useEffect, useReducer, useState} from 'react';
+import React, {useState, useEffect, useReducer} from 'react';
 import {
   View,
-  SafeAreaView,
-  StyleSheet,
   Text,
-  TouchableOpacity,
+  StyleSheet,
+  SafeAreaView,
   TextInput,
+  TouchableOpacity,
   ScrollView,
   LogBox,
+  KeyboardAvoidingView,
 } from 'react-native';
-import {GLOBALSTYLE} from '../../../../Constants/Styles';
+import {addResource} from '../../../../Redux/Actions/resourceActions';
 import CustomNavigationBar from '../../../../Components/CustomNavigationBar';
 import {useDispatch, useSelector} from 'react-redux';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {COLORS} from '../../../../Constants/Theme';
 import {fetchVenders} from '../../Vendor/vendor/vendorServices';
 import {fetchTechnology} from './addResourceServices';
 import DocumentPicker from 'react-native-document-picker';
-import DatePicker from 'react-native-date-picker';
-import Toast from 'react-native-simple-toast';
 import {Dropdown} from 'react-native-element-dropdown';
-import validation from '../../../../Util/helper';
-import {initalState, reducer} from './addResourcseFormData';
-import dayjs from 'dayjs';
 import CustomRadioBtn3opt from '../../../../Components/CustomRadioBtn3opt';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import {initalState, reducer} from './addResourcseFormData';
+import validation from '../../../../Util/helper';
+import {GLOBALSTYLE} from '../../../../Constants/Styles';
+import {COLORS} from '../../../../Constants/Theme';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Toast from 'react-native-simple-toast';
+import DatePicker from 'react-native-date-picker';
+import dayjs from 'dayjs';
 
 LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
 
-const AddResource = () => {
+const AddResource = ({navigation}) => {
   const dispatch = useDispatch();
+  const reducerData = useSelector(state => state.resource);
 
   const [formData, dispatcher] = useReducer(reducer, initalState);
   const [venderList, setVenderList] = useState([]);
@@ -440,6 +443,7 @@ const AddResource = () => {
     console.log('FORMDATA FROM RESOURCES : ==>', formData);
     let data = convertResourceData(formData);
     console.log('<----------$CONVERTED RESOURCES DATA$---------->', data);
+    dispatch(addResource(data, navigation));
   };
 
   return (

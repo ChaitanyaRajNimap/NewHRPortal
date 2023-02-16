@@ -175,7 +175,7 @@ function ResourceList({data, deleteResourcse, editResourcse}) {
               color={COLORS.blue}
               title={'Edit'}
               onPressFunction={() => {
-                editResourcse(item.id);
+                // editResourcse(item.id);
               }}
             />
           </View>
@@ -184,7 +184,7 @@ function ResourceList({data, deleteResourcse, editResourcse}) {
               color={COLORS.red}
               title={'Delete'}
               onPressFunction={() => {
-                deleteResourcse(item.id);
+                // deleteResourcse(item.id);
               }}
             />
           </View>

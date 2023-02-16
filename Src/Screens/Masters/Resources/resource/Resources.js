@@ -6,28 +6,58 @@ import {
   ActivityIndicator,
   Text,
 } from 'react-native';
+import {
+  getResource,
+  deleteResource,
+} from '../../../../Redux/Actions/resourceActions';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {GLOBALSTYLE} from '../../../../Constants/Styles';
-import {fetchResurces, deleteResource} from '../resourceServices';
+import {fetchResurces} from '../resourceServices';
 import {COLORS} from '../../../../Constants/Theme';
 import ResourceList from './resourceList';
 import SearchBox from '../../../../Components/SearchBox';
 
-const Resources = () => {
+const Resources = ({navigation}) => {
   //For dispatching actions for resources reducer
   const dispatch = useDispatch();
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
+  const reducerData = useSelector(state => state.resource);
+  // console.log('reducerData from resources : ', reducerData);
 
   const [resources, setResources] = useState(null);
   const [filterResources, setFilterResources] = useState([]);
   const [search, setSearch] = useState('');
+  const [refreshFlatlist, setRefreshFlatlist] = useState(false);
+
+  //for showing loading
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const {reducer} = useSelector(state => ({
-    reducer: state.resource,
-  }));
+  // const {reducer} = useSelector(state => ({
+  //   reducer: state.resource,
+  // }));
+
+  useEffect(() => {
+    //To fetch data when user navigate on this screen
+    const unSubscribe = navigation.addListener('focus', () => {
+      setLoading(true);
+      dispatch(getResource());
+    });
+    return unSubscribe;
+  }, [navigation]);
+
+  useEffect(() => {
+    //for setting state for resources
+    if (reducerData.getResourceData) {
+      setError(null);
+      setLoading(false);
+      setResources(reducerData.getResourceData);
+      setFilterResources(reducerData.getResourceData);
+    } else {
+      setError('Data not found!');
+    }
+  }, [reducerData.getResourceData]);
 
   //for getting filter data on search
   useEffect(() => {
@@ -69,62 +99,62 @@ const Resources = () => {
     setFilterResources(filterValue);
   };
 
-  const {
-    resourceError,
-    resourceRequest,
-    resourceSuccess,
-    deleteResourceRequest,
-    deleteResourceSuccess,
-    deleteResourceError,
-  } = reducer;
+  // const {
+  //   resourceError,
+  //   resourceRequest,
+  //   resourceSuccess,
+  //   deleteResourceRequest,
+  //   deleteResourceSuccess,
+  //   deleteResourceError,
+  // } = reducer;
 
-  const DeleteResource = id => {
-    dispatch(deleteResource(id));
-  };
+  // const DeleteResource = id => {
+  //   dispatch(deleteResource(id));
+  // };
 
-  const EditResource = id => {
-    console.log(id);
-  };
+  // const EditResource = id => {
+  //   console.log(id);
+  // };
 
-  useEffect(() => {
-    if (deleteResourceSuccess) {
-      setLoading(true);
-      dispatch(fetchResurces());
-    }
-  }, [deleteResourceSuccess, dispatch]);
+  // useEffect(() => {
+  //   if (deleteResourceSuccess) {
+  //     setLoading(true);
+  //     dispatch(fetchResurces());
+  //   }
+  // }, [deleteResourceSuccess, dispatch]);
 
-  useEffect(() => {
-    if (resourceSuccess) {
-      // console.log('RESOURCE DATA ++>', resourceSuccess.data.resources);
-      setResources(resourceSuccess.data.resources);
-      setFilterResources(resourceSuccess.data.resources);
-      setLoading(false);
-    }
-  }, [resourceSuccess]);
+  // useEffect(() => {
+  //   if (resourceSuccess) {
+  //     // console.log('RESOURCE DATA ++>', resourceSuccess.data.resources);
+  //     setResources(resourceSuccess.data.resources);
+  //     setFilterResources(resourceSuccess.data.resources);
+  //     setLoading(false);
+  //   }
+  // }, [resourceSuccess]);
 
-  useEffect(() => {
-    if (resourceError) {
-      setLoading(false);
-      setError(resourceError);
-      setResources([]);
-    }
-  }, [resourceError]);
+  // useEffect(() => {
+  //   if (resourceError) {
+  //     setLoading(false);
+  //     setError(resourceError);
+  //     setResources([]);
+  //   }
+  // }, [resourceError]);
 
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      dispatch(fetchResurces());
-    });
-    return unsubscribe;
-  }, [navigation, dispatch]);
+  // useEffect(() => {
+  //   const unsubscribe = navigation.addListener('focus', () => {
+  //     dispatch(fetchResurces());
+  //   });
+  //   return unsubscribe;
+  // }, [navigation, dispatch]);
 
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('blur', () => {
-      setLoading(true);
-      setResources(null);
-      setError(null);
-    });
-    return unsubscribe;
-  }, [navigation, dispatch]);
+  // useEffect(() => {
+  //   const unsubscribe = navigation.addListener('blur', () => {
+  //     setLoading(true);
+  //     setResources(null);
+  //     setError(null);
+  //   });
+  //   return unsubscribe;
+  // }, [navigation, dispatch]);
 
   return (
     <SafeAreaView style={GLOBALSTYLE.safeAreaViewStyle}>
@@ -136,22 +166,24 @@ const Resources = () => {
           </View>
         )}
 
-        {/* {!loading && error !== null && (
+        {!loading && error !== null && (
           <View style={styles.loadingContainer}>
             <Text> Something went wrong. </Text>
           </View>
-        )} */}
+        )}
+
         {!loading && resources && error === null && resources.length === 0 && (
           <View style={styles.loadingContainer}>
             <Text> Resource Information is not found </Text>
           </View>
         )}
+
         {!loading && resources && resources.length > 0 && (
           <View style={styles.listContainer}>
             <ResourceList
               data={filterResources}
-              deleteResourcse={DeleteResource}
-              editResourcse={EditResource}
+              // deleteResourcse={DeleteResource}
+              // editResourcse={EditResource}
             />
           </View>
         )}

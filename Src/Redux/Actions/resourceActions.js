@@ -64,11 +64,13 @@ import Toast from 'react-native-simple-toast';
 //For fetching resources
 export function getResource() {
   return async dispatch => {
+    // console.log('Reached!');
     dispatch(resourceDispatch({isLoading: true}, FETCH_RESOURCE_REQUEST));
     try {
       const data = await request({url: '/resource', method: 'GET'});
+      // console.log('getResource data :------> ', data);
       dispatch(
-        resourceDispatch(data.data.data.resource, FETCH_RESOURCE_SUCCESS),
+        resourceDispatch(data.data.data.resources, FETCH_RESOURCE_SUCCESS),
       );
     } catch (error) {
       console.log('getResource error', error);
@@ -78,7 +80,7 @@ export function getResource() {
 }
 
 //For adding resources
-export function addresource(values, navigation) {
+export function addResource(values, navigation) {
   return async dispatch => {
     dispatch(resourceDispatch({}, ADD_RESOURCE_REQUEST));
     try {

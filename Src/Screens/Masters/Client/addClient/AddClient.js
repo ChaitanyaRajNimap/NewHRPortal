@@ -1,4 +1,4 @@
-import React, {useReducer, useState, useCallback, useEffect} from 'react';
+import React, {useState, useEffect, useCallback, useReducer} from 'react';
 import {
   View,
   Text,
@@ -14,14 +14,14 @@ import {addClient} from '../../../../Redux/Actions/ClientAction';
 import CustomNavigationBar from '../../../../Components/CustomNavigationBar';
 import {useSelector, useDispatch} from 'react-redux';
 import DropDownPicker from 'react-native-dropdown-picker';
+import {initialState, reducer} from '../ClientFormData';
+import CustomRadioButtons from '../../../../Components/CustomRadioButtons';
 import Toast from 'react-native-simple-toast';
 import validation from '../../../../Util/helper';
 import {GLOBALSTYLE} from '../../../../Constants/Styles';
 import {COLORS} from '../../../../Constants/Theme';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {initialState, reducer} from '../ClientFormData';
-import CustomRadioButtons from '../../../../Components/CustomRadioButtons';
 
 LogBox.ignoreLogs([
   'VirtualizedLists should never be nested inside plain ScrollViews with the same orientation because it can break windowing and other functionality - use another VirtualizedList-backed container instead.',
