@@ -185,6 +185,7 @@ function ResourceList({data, deleteResourcse, editResourcse}) {
               title={'Delete'}
               onPressFunction={() => {
                 // deleteResourcse(item.id);
+                deleteResourcse();
               }}
             />
           </View>

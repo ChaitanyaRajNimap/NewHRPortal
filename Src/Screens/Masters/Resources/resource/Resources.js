@@ -5,6 +5,8 @@ import {
   StyleSheet,
   ActivityIndicator,
   Text,
+  Alert,
+  Modal,
 } from 'react-native';
 import {
   getResource,
@@ -17,6 +19,8 @@ import {fetchResurces} from '../resourceServices';
 import {COLORS} from '../../../../Constants/Theme';
 import ResourceList from './resourceList';
 import SearchBox from '../../../../Components/SearchBox';
+import SmallButton from '../../../../Components/SmallButton';
+import DeleteResourceView from '../deleteResource/DeleteResourceView';
 
 const Resources = ({navigation}) => {
   //For dispatching actions for resources reducer
@@ -29,6 +33,9 @@ const Resources = ({navigation}) => {
   const [filterResources, setFilterResources] = useState([]);
   const [search, setSearch] = useState('');
   const [refreshFlatlist, setRefreshFlatlist] = useState(false);
+
+  //For modal
+  const [modalVisible, setModalVisible] = useState(false);
 
   //for showing loading
   const [loading, setLoading] = useState(true);
@@ -64,6 +71,11 @@ const Resources = ({navigation}) => {
     getResourceFilterData();
   }, [search]);
 
+  //For closing modal
+  const closeModalHandler = () => {
+    setModalVisible(!modalVisible);
+  };
+
   //for setting search input text
   const setSearchValue = value => {
     setSearch(value);
@@ -97,6 +109,11 @@ const Resources = ({navigation}) => {
       }
     });
     setFilterResources(filterValue);
+  };
+
+  //For deleting resource
+  const deleteResourceFun = () => {
+    setModalVisible(true);
   };
 
   // const {
@@ -159,6 +176,16 @@ const Resources = ({navigation}) => {
   return (
     <SafeAreaView style={GLOBALSTYLE.safeAreaViewStyle}>
       <View style={styles.container}>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            Alert.alert('Modal has been closed.');
+            setModalVisible(!modalVisible);
+          }}>
+          <DeleteResourceView onCancel={closeModalHandler} />
+        </Modal>
         <SearchBox setSearchValue={setSearchValue} />
         {loading && (
           <View style={styles.loadingContainer}>
@@ -182,7 +209,7 @@ const Resources = ({navigation}) => {
           <View style={styles.listContainer}>
             <ResourceList
               data={filterResources}
-              // deleteResourcse={DeleteResource}
+              deleteResourcse={deleteResourceFun}
               // editResourcse={EditResource}
             />
           </View>
