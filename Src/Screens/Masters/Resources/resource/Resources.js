@@ -41,6 +41,9 @@ const Resources = ({navigation}) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  //For passind id to delete
+  const [idToDelete, setIdToDelete] = useState(null);
+
   // const {reducer} = useSelector(state => ({
   //   reducer: state.resource,
   // }));
@@ -112,7 +115,9 @@ const Resources = ({navigation}) => {
   };
 
   //For deleting resource
-  const deleteResourceFun = () => {
+  const deleteResourceFun = id => {
+    console.log('RESOURCE TO DELTE : ', id);
+    setIdToDelete(id);
     setModalVisible(true);
   };
 
@@ -184,7 +189,10 @@ const Resources = ({navigation}) => {
             Alert.alert('Modal has been closed.');
             setModalVisible(!modalVisible);
           }}>
-          <DeleteResourceView onCancel={closeModalHandler} />
+          <DeleteResourceView
+            onCancel={closeModalHandler}
+            idToDel={idToDelete}
+          />
         </Modal>
         <SearchBox setSearchValue={setSearchValue} />
         {loading && (

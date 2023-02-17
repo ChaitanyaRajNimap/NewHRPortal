@@ -42,6 +42,10 @@ function ResourceList({data, deleteResourcse, editResourcse}) {
     ]);
   };
 
+  const deleteResWithId = id => {
+    deleteResourcse(id);
+  };
+
   const _renderItem = ({item}) => {
     return (
       <View style={[GLOBALSTYLE.cardView]}>
@@ -185,7 +189,8 @@ function ResourceList({data, deleteResourcse, editResourcse}) {
               title={'Delete'}
               onPressFunction={() => {
                 // deleteResourcse(item.id);
-                deleteResourcse();
+                // deleteResourcse();
+                deleteResWithId(item.id);
               }}
             />
           </View>
