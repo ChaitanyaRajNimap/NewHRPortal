@@ -10,16 +10,48 @@ import {
 import {COLORS} from '../../../../Constants/Theme';
 import SmallButton from '../../../../Components/SmallButton';
 import {actions, RichEditor, RichToolbar} from 'react-native-pell-rich-editor';
+import Mailer from 'react-native-mail';
 
 const PreviewMail = ({closeModal, resEndDate, previewMailBody}) => {
   const [mailBody, setMailBody] = useState(null);
+  const [adminMail, setAdminMail] = useState(null);
 
   useEffect(() => {
     setMailBody(previewMailBody);
+    setAdminMail(previewMailBody.admin_mail);
   }, []);
 
   //For rich text Editor
   const richText = useRef();
+
+  const sendMails = () => {
+    if (mailBody) {
+      sendEmail(mailBody.admin_mail);
+      sendEmail(mailBody.account_mail);
+      sendEmail(mailBody.hr_mail);
+    }
+  };
+
+  //For sending mail
+  const sendEmail = content => {
+    Mailer.mail(
+      {
+        subject: 'Test Email',
+        recipients: ['monica@nimapinfotech.com'],
+        ccRecipients: ['chaitanyarajiwade@nimapinfotech.com'],
+        bccRecipients: [],
+        body: content,
+        isHTML: true,
+      },
+      (error, event) => {
+        if (error) {
+          // handle error
+        } else {
+          // handle success
+        }
+      },
+    );
+  };
 
   return (
     <View style={styles.conatiner}>
@@ -158,7 +190,7 @@ const PreviewMail = ({closeModal, resEndDate, previewMailBody}) => {
           <SmallButton
             color={COLORS.red}
             title={'Send'}
-            onPressFunction={() => {}}
+            onPressFunction={sendMails}
           />
         </View>
         <View>
