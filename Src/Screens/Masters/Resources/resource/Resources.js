@@ -116,7 +116,7 @@ const Resources = ({navigation}) => {
 
   //For deleting resource
   const deleteResourceFun = id => {
-    console.log('RESOURCE TO DELTE : ', id);
+    // console.log('RESOURCE TO DELTE : ', id);
     setIdToDelete(id);
     setModalVisible(true);
   };
