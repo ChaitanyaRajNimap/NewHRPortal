@@ -14,6 +14,7 @@ import AccountReducer from './AccountReducer';
 import ReasonReducer from './ReasonReducer';
 import ClientAgreementReducer from './ClientAgreementReducer';
 import ClientReducer from './ClientReducer';
+import DashboardReducer from './DashboardReducer';
 
 const rootReducer = combineReducers({
   loginReducer: loginReducer,
@@ -31,5 +32,6 @@ const rootReducer = combineReducers({
   ReasonReducer: ReasonReducer,
   ClientAgreementReducer: ClientAgreementReducer,
   ClientReducer: ClientReducer,
+  DashboardReducer: DashboardReducer,
 });
 export default rootReducer;

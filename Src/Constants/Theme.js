@@ -11,6 +11,8 @@ export const COLORS = {
   lightgreen: '#8BC535',
   green: '#58A158',
   purple: '#8A2BE2',
+  pink: '#FF52F2',
+  orange: '#F8855B',
 };
 
 const nimaplogo = require('../Constants/assets/images/nimap-logo.png');
