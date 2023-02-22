@@ -20,6 +20,7 @@ import {COLORS} from '../../Constants/Theme';
 import DashBoardHead from './DashBoardHead';
 import TopClients from './TopClients';
 import ResourceDetails from './ResourceDetails';
+import Notes from './Notes';
 
 LogBox.ignoreLogs([
   'VirtualizedLists should never be nested inside plain ScrollViews with the same orientation because it can break windowing and other functionality - use another VirtualizedList-backed container instead.',
@@ -94,6 +95,7 @@ const Home = ({navigation}) => {
       setDashboardHeadData(dashHeadData);
       setTopClients(reducerData.getTopClients);
       setTopClientDetails(reducerData.getTopClientDetails);
+      setNotes(reducerData.getNotes);
     } else {
       setError('Data not found!');
     }
@@ -135,6 +137,7 @@ const Home = ({navigation}) => {
               topClientDetails={topClientDetails}
               onResPress={handleResPress}
             />
+            <Notes data={notes} />
           </ScrollView>
         )}
       </View>
