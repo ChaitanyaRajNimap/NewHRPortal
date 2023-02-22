@@ -2,15 +2,27 @@ import React from 'react';
 import {View, Text, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
 import {GLOBALSTYLE} from '../../Constants/Styles';
 import {COLORS} from '../../Constants/Theme';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
-const TopClients = ({data}) => {
+const TopClients = ({navigation, data, topClientDetails, onResPress}) => {
+  //For passing client of res to Home page
+  const handlePress = id => {
+    onResPress(id);
+    navigation.navigate('ResourceDetails', {
+      topClientDetails: topClientDetails,
+    });
+  };
+
   //For top clients flalist item
   const renderItem = item => {
     return (
-      <View style={styles.topClientsContainer}>
-        <Text style={styles.normaltext}>{item.client_name}</Text>
-        <TouchableOpacity style={{width: '50%', alignItems: 'center'}}>
-          <Text style={[styles.normaltext, {color: COLORS.lightBlue}]}>
+      <View style={styles.listContainer}>
+        <Text style={styles.text}>{item.client_name}</Text>
+        <TouchableOpacity
+          onPress={() => {
+            handlePress(item.client_id);
+          }}>
+          <Text style={[styles.text, {color: COLORS.lightBlue}]}>
             {item.resourcecount}
           </Text>
         </TouchableOpacity>
@@ -19,17 +31,22 @@ const TopClients = ({data}) => {
   };
 
   return (
-    <View style={[GLOBALSTYLE.cardView, {paddingHorizontal: 15}]}>
-      <Text style={styles.dashHeadTitle}>Top Clients</Text>
-      <View style={styles.topClientsContainer}>
-        <Text style={styles.title}>Client Name</Text>
-        <Text style={styles.title}>No. Of Resources</Text>
+    <View style={[GLOBALSTYLE.cardView, styles.cardViewAligner]}>
+      <View style={styles.headrViewStyle}>
+        <View style={styles.headerContentStyle}>
+          <Text style={styles.headerTextStyle}>Top Clients</Text>
+        </View>
+        <TouchableOpacity onPress={() => {}}>
+          <AntDesign name="arrowright" size={30} color={COLORS.white} />
+        </TouchableOpacity>
       </View>
       <FlatList
         data={data}
         renderItem={({item}) => {
           return renderItem(item);
         }}
+        style={styles.flatListStyle}
+        keyExtractor={(item, index) => index.toString()}
       />
     </View>
   );
@@ -38,20 +55,43 @@ const TopClients = ({data}) => {
 export default TopClients;
 
 const styles = StyleSheet.create({
-  dashHeadTitle: {
-    marginBottom: 10,
-    color: COLORS.black,
-    fontSize: 20,
-    fontWeight: 'bold',
+  cardViewAligner: {
+    padding: 0,
+    borderRadius: 20,
+    margin: 0,
   },
-  topClientsContainer: {
+  headrViewStyle: {
+    height: 50,
+    width: '100%',
+    flexDirection: 'row',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    alignItems: 'center',
+    backgroundColor: COLORS.lightBlue,
+    justifyContent: 'space-between',
+  },
+  headerContentStyle: {
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+  },
+  headerTextStyle: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: COLORS.white,
+  },
+  flatListStyle: {
+    paddingVertical: 10,
+    paddingHorizontal: 17,
+  },
+  listContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  title: {
+  text: {
     marginBottom: 5,
-    color: COLORS.lightBlue,
-    fontSize: 18,
-    fontWeight: 'bold',
+    color: COLORS.black,
+    fontSize: 15,
   },
 });

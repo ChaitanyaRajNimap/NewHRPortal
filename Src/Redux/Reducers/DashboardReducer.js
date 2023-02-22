@@ -8,6 +8,9 @@ import {
   GETNOTES_PROGRESS,
   GETNOTES_SUCCESS,
   GETNOTES_FAIL,
+  GETTOPCLIENTDETAILS_PROGRESS,
+  GETTOPCLIENTDETAILS_SUCCESS,
+  GETTOPCLIENTDETAILS_FAIL,
 } from '../ActionConstant';
 
 const initialState = {
@@ -15,6 +18,7 @@ const initialState = {
   getDashboardHeadData: null,
   getTopClients: null,
   getNotes: null,
+  getTopClientDetails: null,
 };
 
 const DashboardReducer = (state = initialState, action) => {
@@ -71,6 +75,24 @@ const DashboardReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         getNotes: action.payload,
+      };
+
+    case GETTOPCLIENTDETAILS_PROGRESS:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case GETTOPCLIENTDETAILS_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        getTopClientDetails: action.payload,
+      };
+    case GETTOPCLIENTDETAILS_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        getTopClientDetails: action.payload,
       };
 
     default:

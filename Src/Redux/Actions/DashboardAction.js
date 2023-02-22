@@ -8,6 +8,9 @@ import {
   GETNOTES_PROGRESS,
   GETNOTES_SUCCESS,
   GETNOTES_FAIL,
+  GETTOPCLIENTDETAILS_PROGRESS,
+  GETTOPCLIENTDETAILS_SUCCESS,
+  GETTOPCLIENTDETAILS_FAIL,
 } from '../ActionConstant';
 import request from '../../Util/request';
 import Toast from 'react-native-simple-toast';
@@ -59,6 +62,27 @@ export function getNotes() {
     } catch (error) {
       dispatch(dashboardDispatch(error, GETNOTES_FAIL));
       console.log('getNotes error from dashboard :====>');
+    }
+  };
+}
+
+//For fetching top clients
+export function getTopClientDetails(id) {
+  return async dispatch => {
+    dispatch(dashboardDispatch({}, GETTOPCLIENTDETAILS_PROGRESS));
+    try {
+      const data = await request({
+        url: `/client/top-client/${id}`,
+        method: 'GET',
+      });
+      // console.log(
+      //   'getTopClientDetails response from dashboard :====>',
+      //   data.data.data,
+      // );
+      dispatch(dashboardDispatch(data.data.data, GETTOPCLIENTDETAILS_SUCCESS));
+    } catch (error) {
+      dispatch(dashboardDispatch(error, GETTOPCLIENTDETAILS_FAIL));
+      console.log('getTopClientDetails error from dashboard :====>');
     }
   };
 }

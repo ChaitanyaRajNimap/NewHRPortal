@@ -6,17 +6,24 @@ import {
   SafeAreaView,
   ScrollView,
   ActivityIndicator,
+  LogBox,
 } from 'react-native';
 import {
   getDashboardHead,
   getTopClients,
   getNotes,
+  getTopClientDetails,
 } from '../../Redux/Actions/DashboardAction';
 import {useSelector, useDispatch} from 'react-redux';
 import {GLOBALSTYLE} from '../../Constants/Styles';
 import {COLORS} from '../../Constants/Theme';
 import DashBoardHead from './DashBoardHead';
 import TopClients from './TopClients';
+import ResourceDetails from './ResourceDetails';
+
+LogBox.ignoreLogs([
+  'VirtualizedLists should never be nested inside plain ScrollViews with the same orientation because it can break windowing and other functionality - use another VirtualizedList-backed container instead.',
+]);
 
 const Home = ({navigation}) => {
   //For dispatching actions for dashboard reducer
@@ -26,6 +33,7 @@ const Home = ({navigation}) => {
 
   const [dashboardHeadData, setDashboardHeadData] = useState([]);
   const [topClients, setTopClients] = useState([]);
+  const [topClientDetails, setTopClientDetails] = useState([]);
   const [notes, setNotes] = useState([]);
 
   //For showing loading
@@ -85,37 +93,51 @@ const Home = ({navigation}) => {
       ];
       setDashboardHeadData(dashHeadData);
       setTopClients(reducerData.getTopClients);
+      setTopClientDetails(reducerData.getTopClientDetails);
     } else {
       setError('Data not found!');
     }
   }, [reducerData]);
 
+  //For handling res press in top clients
+  const handleResPress = clientId => {
+    console.log('ClientId ', clientId);
+    dispatch(getTopClientDetails(clientId));
+  };
+
   return (
     <SafeAreaView style={GLOBALSTYLE.safeAreaViewStyle}>
-      {loading && (
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color={COLORS.blue} />
-        </View>
-      )}
+      <View style={styles.rootContainer}>
+        {loading && (
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator size="large" color={COLORS.blue} />
+          </View>
+        )}
 
-      {!loading && error && (
-        <View style={styles.loadingContainer}>
-          <Text>Something Went Wrong</Text>
-        </View>
-      )}
+        {!loading && error && (
+          <View style={styles.loadingContainer}>
+            <Text>Something Went Wrong</Text>
+          </View>
+        )}
 
-      {!loading && dashboardHeadData && dashboardHeadData.length === 0 && (
-        <View style={styles.loadingContainer}>
-          <Text>Dashboard information is not found</Text>
-        </View>
-      )}
+        {!loading && dashboardHeadData && dashboardHeadData.length === 0 && (
+          <View style={styles.loadingContainer}>
+            <Text>Dashboard information is not found</Text>
+          </View>
+        )}
 
-      {!loading && dashboardHeadData && dashboardHeadData.length > 0 && (
-        <ScrollView style={styles.rootContainer}>
-          <DashBoardHead data={dashboardHeadData} />
-          <TopClients data={topClients} />
-        </ScrollView>
-      )}
+        {!loading && dashboardHeadData && dashboardHeadData.length > 0 && (
+          <ScrollView style={styles.rootContainer}>
+            <DashBoardHead data={dashboardHeadData} />
+            <TopClients
+              navigation={navigation}
+              data={topClients}
+              topClientDetails={topClientDetails}
+              onResPress={handleResPress}
+            />
+          </ScrollView>
+        )}
+      </View>
     </SafeAreaView>
   );
 };
