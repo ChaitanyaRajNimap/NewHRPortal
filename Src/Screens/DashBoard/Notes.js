@@ -5,7 +5,7 @@ import {COLORS} from '../../Constants/Theme';
 import SmallButton from '../../Components/SmallButton';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-const Notes = ({data}) => {
+const Notes = ({data, openModal}) => {
   //For converting data to display
   const convertDate = value => {
     const currentDate = value || date;
@@ -26,7 +26,6 @@ const Notes = ({data}) => {
 
   //For notes flatlist item
   const renderItem = item => {
-    console.log(item.created_by.name);
     let createdBy = item.created_by !== null ? item.created_by.name : 'null';
     return (
       <View style={styles.noteContainer}>
@@ -42,7 +41,9 @@ const Notes = ({data}) => {
           <SmallButton
             color={COLORS.lightBlue}
             title={'Edit'}
-            onPressFunction={() => {}}
+            onPressFunction={() => {
+              openModal(item);
+            }}
           />
           <SmallButton
             color={COLORS.red}
@@ -80,7 +81,7 @@ export default Notes;
 
 const styles = StyleSheet.create({
   cardViewAligner: {
-    height: 250,
+    height: 230,
     padding: 0,
     borderRadius: 20,
     margin: 0,

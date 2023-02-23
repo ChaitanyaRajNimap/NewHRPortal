@@ -7,6 +7,7 @@ import {
   ScrollView,
   ActivityIndicator,
   LogBox,
+  Modal,
 } from 'react-native';
 import {
   getDashboardHead,
@@ -21,6 +22,7 @@ import DashBoardHead from './DashBoardHead';
 import TopClients from './TopClients';
 import ResourceDetails from './ResourceDetails';
 import Notes from './Notes';
+import EditNote from './Modals/EditNote';
 
 LogBox.ignoreLogs([
   'VirtualizedLists should never be nested inside plain ScrollViews with the same orientation because it can break windowing and other functionality - use another VirtualizedList-backed container instead.',
@@ -40,6 +42,19 @@ const Home = ({navigation}) => {
   //For showing loading
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  //For modal
+  const [modalVisible, setModalVisible] = useState(false);
+  const [editMsgToPass, setEditMsgToPass] = useState(null);
+
+  //For openning modal
+  const openModalHandler = noteMsg => {
+    setModalVisible(true);
+    setEditMsgToPass(noteMsg);
+  };
+
+  //For closing model
+  const closeModalHandler = () => setModalVisible(!modalVisible);
 
   useEffect(() => {
     //To fetch data when user navigate on this screen
@@ -109,6 +124,17 @@ const Home = ({navigation}) => {
 
   return (
     <SafeAreaView style={GLOBALSTYLE.safeAreaViewStyle}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(!modalVisible)}>
+        <EditNote
+          onCancel={closeModalHandler}
+          editMsg={editMsgToPass}
+          navigation={navigation}
+        />
+      </Modal>
       <View style={styles.rootContainer}>
         {loading && (
           <View style={styles.loadingContainer}>
@@ -137,7 +163,7 @@ const Home = ({navigation}) => {
               topClientDetails={topClientDetails}
               onResPress={handleResPress}
             />
-            <Notes data={notes} />
+            <Notes data={notes} openModal={openModalHandler} />
           </ScrollView>
         )}
       </View>

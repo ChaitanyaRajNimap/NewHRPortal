@@ -11,6 +11,9 @@ import {
   GETTOPCLIENTDETAILS_PROGRESS,
   GETTOPCLIENTDETAILS_SUCCESS,
   GETTOPCLIENTDETAILS_FAIL,
+  EDITNOTES_PROGRESS,
+  EDITNOTES_SUCCESS,
+  EDITNOTES_FAIL,
 } from '../ActionConstant';
 import request from '../../Util/request';
 import Toast from 'react-native-simple-toast';
@@ -83,6 +86,32 @@ export function getTopClientDetails(id) {
     } catch (error) {
       dispatch(dashboardDispatch(error, GETTOPCLIENTDETAILS_FAIL));
       console.log('getTopClientDetails error from dashboard :====>');
+    }
+  };
+}
+
+//For editing note
+export function editNote(values, id, navigation) {
+  console.log('VAL X ', values, 'ID X ', id);
+  return async dispatch => {
+    dispatch(dashboardDispatch({isLoading: true}, EDITNOTES_PROGRESS));
+    try {
+      const data = await request({
+        url: `/note/${id}`,
+        method: 'PUT',
+        data: values,
+      });
+      console.log('editNote response data ====>', data.data.message);
+      if (data.data.message) {
+        dispatch(dashboardDispatch(data, EDITNOTES_SUCCESS));
+        Toast.show('Note updated Successfully');
+      }
+      // navigation.navigate('Home');
+      // navigation.reset();
+    } catch (err) {
+      console.log('editNote error', err);
+      dispatch(dashboardDispatch(err, EDITNOTES_FAIL));
+      Toast.show('Note Not Edited Successfully');
     }
   };
 }

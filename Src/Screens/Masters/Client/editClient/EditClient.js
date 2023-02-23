@@ -487,7 +487,7 @@ const EditClient = ({navigation, route}) => {
 
     // console.log('<--------- FORMDATA -------->', formData);
     let data = convertClientData(formData);
-    // console.log('<---------# CONVERTED DATA #-------->', data);
+    console.log('<---------# CONVERTED DATA #-------->', data);
     dispatch(editClient(data, params.id, navigation));
   };
 
