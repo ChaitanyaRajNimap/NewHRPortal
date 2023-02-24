@@ -108,6 +108,7 @@ export function editNote(values, id, navigation) {
       }
       // navigation.navigate('Home');
       // navigation.reset();
+      navigation.goBack();
     } catch (err) {
       console.log('editNote error', err);
       dispatch(dashboardDispatch(err, EDITNOTES_FAIL));

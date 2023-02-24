@@ -5,7 +5,7 @@ import {COLORS} from '../../Constants/Theme';
 import SmallButton from '../../Components/SmallButton';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-const Notes = ({data, openModal}) => {
+const Notes = ({data, navigation}) => {
   //For converting data to display
   const convertDate = value => {
     const currentDate = value || date;
@@ -42,7 +42,11 @@ const Notes = ({data, openModal}) => {
             color={COLORS.lightBlue}
             title={'Edit'}
             onPressFunction={() => {
-              openModal(item);
+              // openModal(item);
+              navigation.navigate('EditNote', {
+                noteId: item.id,
+                noteMsg: item.notes,
+              });
             }}
           />
           <SmallButton
