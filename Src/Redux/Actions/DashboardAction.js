@@ -20,6 +20,7 @@ import {
   DELETENOTES_PROGRESS,
   DELETENOTES_SUCCESS,
   DELETENOTES_FAIL,
+  RESET_NOTES,
 } from '../ActionConstant';
 import request from '../../Util/request';
 import Toast from 'react-native-simple-toast';
@@ -147,7 +148,6 @@ export function editNote(values, id, navigation) {
 
 //For deleteing note
 export function deleteNotes(id) {
-  console.log('ID TO DEL FROM DASHACTION', id);
   return async dispatch => {
     dispatch(dashboardDispatch({}, DELETENOTES_PROGRESS));
     try {
@@ -158,13 +158,20 @@ export function deleteNotes(id) {
       console.log('deleteNotes response ====>', data);
       if (data.data.message) {
         dispatch(dashboardDispatch(data, DELETENOTES_SUCCESS));
-        Toast.show('Note deleted Successfully');
+        Toast.show(data.data.message);
       }
     } catch (err) {
       console.log('deleteNotes error', err);
       dispatch(dashboardDispatch(err, DELETENOTES_FAIL));
-      Toast.show('Note Not deleted Successfully');
+      Toast.show(err);
     }
+  };
+}
+
+//For deleteing note
+export function resetNotes() {
+  return dispatch => {
+    dispatch(dashboardDispatch(null, DELETENOTES_SUCCESS));
   };
 }
 

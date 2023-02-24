@@ -79,11 +79,11 @@ const Notes = ({data, extraData, navigation, deleteNote}) => {
           <AntDesign name="plus" size={30} color={COLORS.white} />
         </TouchableOpacity>
       </View>
-      {console.log('DATA FROM NOTES', data)}
-      {console.log('EXTRADATA FROM NOTES', extraData)}
+      {/* {console.log('DATA FROM NOTES', data)} */}
+      {/* {console.log('EXTRADATA FROM NOTES', extraData)} */}
       <FlatList
         data={data}
-        extraData={extraData}
+        // extraData={extraData}
         renderItem={({item}) => {
           return renderItem(item);
         }}

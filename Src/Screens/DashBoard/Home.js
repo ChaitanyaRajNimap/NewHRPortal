@@ -13,9 +13,10 @@ import {
 import {
   getDashboardHead,
   getTopClients,
-  getNotes,
+  getNotes as getNotesAction,
   getTopClientDetails,
   deleteNotes,
+  resetNotes,
 } from '../../Redux/Actions/DashboardAction';
 import {useSelector, useDispatch} from 'react-redux';
 import {GLOBALSTYLE} from '../../Constants/Styles';
@@ -33,13 +34,14 @@ const Home = ({navigation}) => {
   const dispatch = useDispatch();
   const reducerData = useSelector(state => state.DashboardReducer);
   console.log('reducerData from dashboard : ', reducerData);
+  const {getNotes, deleteNotesData} = reducerData;
 
   const [dashboardHeadData, setDashboardHeadData] = useState([]);
   const [topClients, setTopClients] = useState([]);
   const [topClientDetails, setTopClientDetails] = useState([]);
   const [notes, setNotes] = useState([]);
-  const [filterNotes, setFilterNotes] = useState([]);
-  const [refreshNotes, setRefreshNotes] = useState(false);
+  // const [filterNotes, setFilterNotes] = useState([]);
+  // const [refreshNotes, setRefreshNotes] = useState(false);
 
   //For showing loading
   const [loading, setLoading] = useState(true);
@@ -61,13 +63,31 @@ const Home = ({navigation}) => {
   //For closing model
   // const closeModalHandler = () => setModalVisible(!modalVisible);
 
+  //For making call for getNotes
+  useEffect(() => {
+    // console.log('------------>', refreshNotes);
+    if (getNotes && getNotes.length > 0) {
+      // console.log('getNotes XXXX', getNotes);
+      // setRefreshNotes(false);
+      setNotes(getNotes);
+    }
+    dispatch(resetNotes());
+  }, [getNotes]);
+
+  //For calling getNotes data after deleting
+  useEffect(() => {
+    if (deleteNotesData) {
+      dispatch(getNotesAction());
+    }
+  }, [deleteNotesData]);
+
   useEffect(() => {
     //To fetch data when user navigate on this screen
     const unSubscribe = navigation.addListener('focus', () => {
       setLoading(true);
       dispatch(getDashboardHead());
       dispatch(getTopClients());
-      dispatch(getNotes());
+      dispatch(getNotesAction());
     });
     return unSubscribe;
   }, [navigation]);
@@ -115,8 +135,8 @@ const Home = ({navigation}) => {
       setDashboardHeadData(dashHeadData);
       setTopClients(reducerData.getTopClients);
       setTopClientDetails(reducerData.getTopClientDetails);
-      setNotes(reducerData.getNotes);
-      setFilterNotes(reducerData.getNotes);
+      // setNotes(reducerData.getNotes);
+      // setFilterNotes(reducerData.getNotes);
     } else {
       setError('Data not found!');
     }
@@ -130,15 +150,16 @@ const Home = ({navigation}) => {
 
   //For deleting client
   const deleteOk = id => {
+    // setRefreshNotes(true);
     dispatch(deleteNotes(id));
-    setRefreshNotes(!refreshNotes);
-    const remaningData = notes.filter(t => t.id !== id);
-    setFilterNotes([...remaningData]);
+    // dispatch(getNotesAction());
+    // const remaningData = notes.filter(t => t.id !== id);
+    // setFilterNotes([...remaningData]);
   };
 
   //For handling note delete
   const handleNoteDelete = id => {
-    console.log('Note id to delete: ', id);
+    // console.log('Note id to delete: ', id);
     Alert.alert(
       'Are you sure want to Delete?',
       'You wont be able to revert this.',
@@ -198,10 +219,9 @@ const Home = ({navigation}) => {
               onResPress={handleResPress}
             />
             {/* <Notes data={notes} openModal={openModalHandler} /> */}
-            {console.log('filterNotes', filterNotes)}
+            {/* {console.log('filterNotes', filterNotes)} */}
             <Notes
-              data={filterNotes}
-              extraData={refreshNotes}
+              data={notes}
               navigation={navigation}
               deleteNote={handleNoteDelete}
             />
