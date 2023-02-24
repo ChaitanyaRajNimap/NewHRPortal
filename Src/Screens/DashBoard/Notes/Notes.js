@@ -1,11 +1,16 @@
 import React from 'react';
 import {View, Text, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
-import {GLOBALSTYLE} from '../../Constants/Styles';
-import {COLORS} from '../../Constants/Theme';
-import SmallButton from '../../Components/SmallButton';
+import {GLOBALSTYLE} from '../../../Constants/Styles';
+import {COLORS} from '../../../Constants/Theme';
+import SmallButton from '../../../Components/SmallButton';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-const Notes = ({data, navigation}) => {
+const Notes = ({data, extraData, navigation, deleteNote}) => {
+  //For deleting note
+  const handleDelte = id => {
+    deleteNote(id);
+  };
+
   //For converting data to display
   const convertDate = value => {
     const currentDate = value || date;
@@ -52,7 +57,9 @@ const Notes = ({data, navigation}) => {
           <SmallButton
             color={COLORS.red}
             title={'Delete'}
-            onPressFunction={() => {}}
+            onPressFunction={() => {
+              handleDelte(item.id);
+            }}
           />
         </View>
       </View>
@@ -65,12 +72,18 @@ const Notes = ({data, navigation}) => {
         <View style={styles.headerContentStyle}>
           <Text style={styles.headerTextStyle}>Notes</Text>
         </View>
-        <TouchableOpacity onPress={() => {}}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('AddNote');
+          }}>
           <AntDesign name="plus" size={30} color={COLORS.white} />
         </TouchableOpacity>
       </View>
+      {console.log('DATA FROM NOTES', data)}
+      {console.log('EXTRADATA FROM NOTES', extraData)}
       <FlatList
         data={data}
+        extraData={extraData}
         renderItem={({item}) => {
           return renderItem(item);
         }}

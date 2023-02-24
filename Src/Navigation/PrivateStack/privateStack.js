@@ -46,7 +46,8 @@ import EditClientAgreement from '../../Screens/Masters/ClientAgreement/editClien
 import AddClient from '../../Screens/Masters/Client/addClient/AddClient';
 import EditClient from '../../Screens/Masters/Client/editClient/EditClient';
 import ResourceDetails from '../../Screens/DashBoard/ResourceDetails';
-import EditNote from '../../Screens/DashBoard/EditNote';
+import AddNote from '../../Screens/DashBoard/Notes/AddNote';
+import EditNote from '../../Screens/DashBoard/Notes/EditNote';
 
 const privatestack = createNativeStackNavigator();
 
@@ -133,6 +134,7 @@ function privateStack() {
       <privatestack.Screen name="AddClient" component={AddClient} />
       <privatestack.Screen name="EditClient" component={EditClient} />
       <privatestack.Screen name="ResourceDetails" component={ResourceDetails} />
+      <privatestack.Screen name="AddNote" component={AddNote} />
       <privatestack.Screen name="EditNote" component={EditNote} />
     </privatestack.Navigator>
   );

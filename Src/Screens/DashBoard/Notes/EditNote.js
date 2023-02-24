@@ -9,13 +9,13 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity,
 } from 'react-native';
-import {editNote} from '../../Redux/Actions/DashboardAction';
-import CustomNavigationBar from '../../Components/CustomNavigationBar';
+import {editNote} from '../../../Redux/Actions/DashboardAction';
+import CustomNavigationBar from '../../../Components/CustomNavigationBar';
 import {useSelector, useDispatch} from 'react-redux';
-import {GLOBALSTYLE} from '../../Constants/Styles';
-import {COLORS} from '../../Constants/Theme';
-import validation from '../../Util/helper';
-import SmallButton from '../../Components/SmallButton';
+import {GLOBALSTYLE} from '../../../Constants/Styles';
+import {COLORS} from '../../../Constants/Theme';
+import validation from '../../../Util/helper';
+import SmallButton from '../../../Components/SmallButton';
 
 const EditNote = ({navigation, route}) => {
   const {noteId, noteMsg} = route.params;

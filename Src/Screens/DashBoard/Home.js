@@ -7,6 +7,7 @@ import {
   ScrollView,
   ActivityIndicator,
   LogBox,
+  Alert,
   Modal,
 } from 'react-native';
 import {
@@ -14,15 +15,14 @@ import {
   getTopClients,
   getNotes,
   getTopClientDetails,
+  deleteNotes,
 } from '../../Redux/Actions/DashboardAction';
 import {useSelector, useDispatch} from 'react-redux';
 import {GLOBALSTYLE} from '../../Constants/Styles';
 import {COLORS} from '../../Constants/Theme';
 import DashBoardHead from './DashBoardHead';
 import TopClients from './TopClients';
-import ResourceDetails from './ResourceDetails';
-import Notes from './Notes';
-import EditNote from './EditNote';
+import Notes from './Notes/Notes';
 
 LogBox.ignoreLogs([
   'VirtualizedLists should never be nested inside plain ScrollViews with the same orientation because it can break windowing and other functionality - use another VirtualizedList-backed container instead.',
@@ -38,6 +38,8 @@ const Home = ({navigation}) => {
   const [topClients, setTopClients] = useState([]);
   const [topClientDetails, setTopClientDetails] = useState([]);
   const [notes, setNotes] = useState([]);
+  const [filterNotes, setFilterNotes] = useState([]);
+  const [refreshNotes, setRefreshNotes] = useState(false);
 
   //For showing loading
   const [loading, setLoading] = useState(true);
@@ -114,6 +116,7 @@ const Home = ({navigation}) => {
       setTopClients(reducerData.getTopClients);
       setTopClientDetails(reducerData.getTopClientDetails);
       setNotes(reducerData.getNotes);
+      setFilterNotes(reducerData.getNotes);
     } else {
       setError('Data not found!');
     }
@@ -123,6 +126,34 @@ const Home = ({navigation}) => {
   const handleResPress = clientId => {
     console.log('ClientId ', clientId);
     dispatch(getTopClientDetails(clientId));
+  };
+
+  //For deleting client
+  const deleteOk = id => {
+    dispatch(deleteNotes(id));
+    setRefreshNotes(!refreshNotes);
+    const remaningData = notes.filter(t => t.id !== id);
+    setFilterNotes([...remaningData]);
+  };
+
+  //For handling note delete
+  const handleNoteDelete = id => {
+    console.log('Note id to delete: ', id);
+    Alert.alert(
+      'Are you sure want to Delete?',
+      'You wont be able to revert this.',
+      [
+        {
+          text: 'Yes, Delete it',
+          onPress: () => deleteOk(id),
+        },
+        {
+          type: 'cancel',
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+        },
+      ],
+    );
   };
 
   return (
@@ -167,7 +198,13 @@ const Home = ({navigation}) => {
               onResPress={handleResPress}
             />
             {/* <Notes data={notes} openModal={openModalHandler} /> */}
-            <Notes data={notes} navigation={navigation} />
+            {console.log('filterNotes', filterNotes)}
+            <Notes
+              data={filterNotes}
+              extraData={refreshNotes}
+              navigation={navigation}
+              deleteNote={handleNoteDelete}
+            />
           </ScrollView>
         )}
       </View>

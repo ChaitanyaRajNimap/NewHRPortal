@@ -11,9 +11,15 @@ import {
   GETTOPCLIENTDETAILS_PROGRESS,
   GETTOPCLIENTDETAILS_SUCCESS,
   GETTOPCLIENTDETAILS_FAIL,
+  ADDNOTES_PROGRESS,
+  ADDNOTES_SUCCESS,
+  ADDNOTES_FAIL,
   EDITNOTES_PROGRESS,
   EDITNOTES_SUCCESS,
   EDITNOTES_FAIL,
+  DELETENOTES_PROGRESS,
+  DELETENOTES_SUCCESS,
+  DELETENOTES_FAIL,
 } from '../ActionConstant';
 
 const initialState = {
@@ -21,8 +27,10 @@ const initialState = {
   getDashboardHeadData: null,
   getTopClients: null,
   getNotes: null,
+  addNotesData: null,
   getTopClientDetails: null,
   updateNotesData: null,
+  deleteNotesData: null,
 };
 
 const DashboardReducer = (state = initialState, action) => {
@@ -81,6 +89,24 @@ const DashboardReducer = (state = initialState, action) => {
         getNotes: action.payload,
       };
 
+    case ADDNOTES_PROGRESS:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case ADDNOTES_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        addNotesData: action.payload,
+      };
+    case ADDNOTES_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        addNotesData: action.payload,
+      };
+
     case GETTOPCLIENTDETAILS_PROGRESS:
       return {
         ...state,
@@ -115,6 +141,24 @@ const DashboardReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         updateNotesData: action.payload,
+      };
+
+    case DELETENOTES_PROGRESS:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case DELETENOTES_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        deleteNotesData: action.payload,
+      };
+    case DELETENOTES_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        deleteNotesData: action.payload,
       };
 
     default:
