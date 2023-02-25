@@ -4,13 +4,10 @@ import {GLOBALSTYLE} from '../../Constants/Styles';
 import {COLORS} from '../../Constants/Theme';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-const TopClients = ({navigation, data, topClientDetails, onResPress}) => {
+const TopClients = ({navigation, data, onResPress}) => {
   //For passing client of res to Home page
   const handlePress = id => {
     onResPress(id);
-    navigation.navigate('ResourceDetails', {
-      topClientDetails: topClientDetails,
-    });
   };
 
   //For top clients flalist item

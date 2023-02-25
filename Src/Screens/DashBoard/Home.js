@@ -14,7 +14,7 @@ import {
   getDashboardHead,
   getTopClients,
   getNotes as getNotesAction,
-  getTopClientDetails,
+  getTopClientDetails as getTopClientDetailsAction,
   deleteNotes,
   resetNotes,
 } from '../../Redux/Actions/DashboardAction';
@@ -38,10 +38,7 @@ const Home = ({navigation}) => {
 
   const [dashboardHeadData, setDashboardHeadData] = useState([]);
   const [topClients, setTopClients] = useState([]);
-  const [topClientDetails, setTopClientDetails] = useState([]);
   const [notes, setNotes] = useState([]);
-  // const [filterNotes, setFilterNotes] = useState([]);
-  // const [refreshNotes, setRefreshNotes] = useState(false);
 
   //For showing loading
   const [loading, setLoading] = useState(true);
@@ -49,10 +46,7 @@ const Home = ({navigation}) => {
 
   //For modal
   // const [modalVisible, setModalVisible] = useState(false);
-  const [editMsgToPass, setEditMsgToPass] = useState(null);
-
-  //For notes
-  // const [refreshOnNoteUpdate, setRefreshOnNoteUpdate] = useState(false);
+  // const [editMsgToPass, setEditMsgToPass] = useState(null);
 
   // //For openning modal
   // const openModalHandler = noteMsg => {
@@ -65,10 +59,7 @@ const Home = ({navigation}) => {
 
   //For making call for getNotes
   useEffect(() => {
-    // console.log('------------>', refreshNotes);
     if (getNotes && getNotes.length > 0) {
-      // console.log('getNotes XXXX', getNotes);
-      // setRefreshNotes(false);
       setNotes(getNotes);
     }
     dispatch(resetNotes());
@@ -134,9 +125,7 @@ const Home = ({navigation}) => {
       ];
       setDashboardHeadData(dashHeadData);
       setTopClients(reducerData.getTopClients);
-      setTopClientDetails(reducerData.getTopClientDetails);
-      // setNotes(reducerData.getNotes);
-      // setFilterNotes(reducerData.getNotes);
+      // setTopClientDetails(reducerData.getTopClientDetails);
     } else {
       setError('Data not found!');
     }
@@ -145,16 +134,16 @@ const Home = ({navigation}) => {
   //For handling res press in top clients
   const handleResPress = clientId => {
     console.log('ClientId ', clientId);
-    dispatch(getTopClientDetails(clientId));
+    dispatch(getTopClientDetailsAction(clientId)).then(data => {
+      navigation.navigate('ResourceDetails', {
+        topClientDetails: data,
+      });
+    });
   };
 
   //For deleting client
   const deleteOk = id => {
-    // setRefreshNotes(true);
     dispatch(deleteNotes(id));
-    // dispatch(getNotesAction());
-    // const remaningData = notes.filter(t => t.id !== id);
-    // setFilterNotes([...remaningData]);
   };
 
   //For handling note delete
@@ -210,16 +199,14 @@ const Home = ({navigation}) => {
         )}
 
         {!loading && dashboardHeadData && dashboardHeadData.length > 0 && (
-          <ScrollView style={styles.rootContainer}>
+          <ScrollView nestedScrollEnabled={true} style={styles.rootContainer}>
             <DashBoardHead data={dashboardHeadData} />
             <TopClients
               navigation={navigation}
               data={topClients}
-              topClientDetails={topClientDetails}
               onResPress={handleResPress}
             />
             {/* <Notes data={notes} openModal={openModalHandler} /> */}
-            {/* {console.log('filterNotes', filterNotes)} */}
             <Notes
               data={notes}
               navigation={navigation}

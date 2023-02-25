@@ -35,7 +35,7 @@ export function getDashboardHead() {
       dispatch(dashboardDispatch(data.data, GETDASHBOARDHEAD_SUCCESS));
     } catch (error) {
       dispatch(dashboardDispatch(error, GETDASHBOARDHEAD_FAIL));
-      console.log('getDashboardHead error from dashboard :====>');
+      console.log('getDashboardHead error from dashboard :====>', error);
     }
   };
 }
@@ -53,7 +53,7 @@ export function getTopClients() {
       dispatch(dashboardDispatch(data.data.client, GETTOPCLIENTS_SUCCESS));
     } catch (error) {
       dispatch(dashboardDispatch(error, GETTOPCLIENTS_FAIL));
-      console.log('getTopClients error from dashboard :====>');
+      console.log('getTopClients error from dashboard :====>', error);
     }
   };
 }
@@ -71,7 +71,7 @@ export function getNotes() {
       dispatch(dashboardDispatch(data.data.data.notes, GETNOTES_SUCCESS));
     } catch (error) {
       dispatch(dashboardDispatch(error, GETNOTES_FAIL));
-      console.log('getNotes error from dashboard :====>');
+      console.log('getNotes error from dashboard :====>', error);
     }
   };
 }
@@ -89,13 +89,13 @@ export function addNote(values, navigation) {
       console.log('addNote response data ====>', data.data.message);
       if (data.data.message) {
         dispatch(dashboardDispatch(data, ADDNOTES_SUCCESS));
-        Toast.show('Note Added Successfully');
+        Toast.show(data.data.message);
       }
       navigation.goBack();
     } catch (err) {
       console.log('addNote error', err);
       dispatch(dashboardDispatch(err, ADDNOTES_FAIL));
-      Toast.show('Note Not Added Successfully');
+      Toast.show(err);
     }
   };
 }
@@ -114,16 +114,17 @@ export function getTopClientDetails(id) {
       //   data.data.data,
       // );
       dispatch(dashboardDispatch(data.data.data, GETTOPCLIENTDETAILS_SUCCESS));
+      return data.data.data;
     } catch (error) {
       dispatch(dashboardDispatch(error, GETTOPCLIENTDETAILS_FAIL));
-      console.log('getTopClientDetails error from dashboard :====>');
+      console.log('getTopClientDetails error from dashboard :====>', error);
     }
   };
 }
 
 //For editing note
 export function editNote(values, id, navigation) {
-  console.log('VAL X ', values, 'ID X ', id);
+  // console.log('VAL X ', values, 'ID X ', id);
   return async dispatch => {
     dispatch(dashboardDispatch({isLoading: true}, EDITNOTES_PROGRESS));
     try {
@@ -135,13 +136,13 @@ export function editNote(values, id, navigation) {
       // console.log('editNote response data ====>', data.data.message);
       if (data.data.message) {
         dispatch(dashboardDispatch(data, EDITNOTES_SUCCESS));
-        Toast.show('Note updated Successfully');
+        Toast.show(data.data.message);
       }
       navigation.goBack();
     } catch (err) {
       console.log('editNote error', err);
       dispatch(dashboardDispatch(err, EDITNOTES_FAIL));
-      Toast.show('Note Not Edited Successfully');
+      Toast.show(err);
     }
   };
 }
@@ -172,6 +173,13 @@ export function deleteNotes(id) {
 export function resetNotes() {
   return dispatch => {
     dispatch(dashboardDispatch(null, DELETENOTES_SUCCESS));
+  };
+}
+
+//For clearing top client details
+export function resetTopClientDetails() {
+  return dispatch => {
+    dispatch(dashboardDispatch(null, GETTOPCLIENTDETAILS_SUCCESS));
   };
 }
 
