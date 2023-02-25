@@ -5,7 +5,7 @@ import {COLORS} from '../../../Constants/Theme';
 import SmallButton from '../../../Components/SmallButton';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-const Notes = ({data, extraData, navigation, deleteNote}) => {
+const Notes = ({data, navigation, deleteNote}) => {
   //For deleting note
   const handleDelte = id => {
     deleteNote(id);
@@ -79,11 +79,8 @@ const Notes = ({data, extraData, navigation, deleteNote}) => {
           <AntDesign name="plus" size={30} color={COLORS.white} />
         </TouchableOpacity>
       </View>
-      {/* {console.log('DATA FROM NOTES', data)} */}
-      {/* {console.log('EXTRADATA FROM NOTES', extraData)} */}
       <FlatList
         data={data}
-        // extraData={extraData}
         renderItem={({item}) => {
           return renderItem(item);
         }}

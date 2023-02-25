@@ -20,7 +20,9 @@ import {
   DELETENOTES_PROGRESS,
   DELETENOTES_SUCCESS,
   DELETENOTES_FAIL,
-  RESET_NOTES,
+  GETCURRENTRES_PROGRESS,
+  GETCURRENTRES_SUCCESS,
+  GETCURRENTRES_FAIL,
 } from '../ActionConstant';
 import request from '../../Util/request';
 import Toast from 'react-native-simple-toast';
@@ -72,6 +74,24 @@ export function getNotes() {
     } catch (error) {
       dispatch(dashboardDispatch(error, GETNOTES_FAIL));
       console.log('getNotes error from dashboard :====>', error);
+    }
+  };
+}
+
+//For fetching current resources
+export function getCurrentRes() {
+  return async dispatch => {
+    dispatch(dashboardDispatch({}, GETCURRENTRES_PROGRESS));
+    try {
+      const data = await request({
+        url: '/home/current-resource?search=',
+        method: 'GET',
+      });
+      console.log('getCurrentRes response from dashboard :====>', data.data);
+      dispatch(dashboardDispatch(data.data, GETCURRENTRES_SUCCESS));
+    } catch (error) {
+      dispatch(dashboardDispatch(error, GETCURRENTRES_FAIL));
+      console.log('getCurrentRes error from dashboard :====>', error);
     }
   };
 }
@@ -173,13 +193,6 @@ export function deleteNotes(id) {
 export function resetNotes() {
   return dispatch => {
     dispatch(dashboardDispatch(null, DELETENOTES_SUCCESS));
-  };
-}
-
-//For clearing top client details
-export function resetTopClientDetails() {
-  return dispatch => {
-    dispatch(dashboardDispatch(null, GETTOPCLIENTDETAILS_SUCCESS));
   };
 }
 

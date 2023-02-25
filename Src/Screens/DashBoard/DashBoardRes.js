@@ -1,10 +1,89 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
+import {GLOBALSTYLE} from '../../Constants/Styles';
+import {COLORS} from '../../Constants/Theme';
 
-const DashBoardRes = () => {
-  return <View></View>;
+const DashBoardRes = ({navigation, data}) => {
+  const data = data.data;
+  const count = data.count;
+  //For dash board res item
+  const renderItem = item => {
+    console.log(item);
+    // return (
+    //   <View style={styles.listContainer}>
+    //     <Text style={styles.text}>{item.client_name}</Text>
+    //     <TouchableOpacity
+    //       onPress={() => {
+    //         handlePress(item.client_id);
+    //       }}>
+    //       <Text style={[styles.text, {color: COLORS.lightBlue}]}>
+    //         {item.resourcecount}
+    //       </Text>
+    //     </TouchableOpacity>
+    //   </View>
+    // );
+  };
+
+  return (
+    <View style={[GLOBALSTYLE.cardView, styles.cardViewAligner]}>
+      <View style={styles.headrViewStyle}>
+        <View style={styles.headerContentStyle}>
+          <Text style={styles.headerTextStyle}>Resources</Text>
+        </View>
+      </View>
+      <FlatList
+        data={data}
+        renderItem={({item}) => {
+          return renderItem(item);
+        }}
+        style={styles.flatListStyle}
+        keyExtractor={(item, index) => index.toString()}
+      />
+    </View>
+  );
 };
 
 export default DashBoardRes;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  cardViewAligner: {
+    height: 225,
+    padding: 0,
+    borderRadius: 20,
+    margin: 0,
+  },
+  headrViewStyle: {
+    height: 50,
+    width: '100%',
+    flexDirection: 'row',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    alignItems: 'center',
+    backgroundColor: COLORS.lightBlue,
+    justifyContent: 'space-between',
+  },
+  headerContentStyle: {
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+  },
+  headerTextStyle: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: COLORS.white,
+  },
+  flatListStyle: {
+    paddingVertical: 10,
+    paddingHorizontal: 17,
+  },
+  listContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  text: {
+    marginBottom: 5,
+    color: COLORS.black,
+    fontSize: 15,
+  },
+});

@@ -20,6 +20,9 @@ import {
   DELETENOTES_PROGRESS,
   DELETENOTES_SUCCESS,
   DELETENOTES_FAIL,
+  GETCURRENTRES_PROGRESS,
+  GETCURRENTRES_SUCCESS,
+  GETCURRENTRES_FAIL,
 } from '../ActionConstant';
 
 const initialState = {
@@ -27,8 +30,9 @@ const initialState = {
   getDashboardHeadData: null,
   getTopClients: null,
   getNotes: null,
-  addNotesData: null,
   getTopClientDetails: null,
+  getCurrentRes: null,
+  addNotesData: null,
   updateNotesData: null,
   deleteNotesData: null,
 };
@@ -87,6 +91,24 @@ const DashboardReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         getNotes: action.payload,
+      };
+
+    case GETCURRENTRES_PROGRESS:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case GETCURRENTRES_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        getCurrentRes: action.payload,
+      };
+    case GETCURRENTRES_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        getCurrentRes: action.payload,
       };
 
     case ADDNOTES_PROGRESS:

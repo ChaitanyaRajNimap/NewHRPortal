@@ -53,6 +53,7 @@ export default TopClients;
 
 const styles = StyleSheet.create({
   cardViewAligner: {
+    height: 225,
     padding: 0,
     borderRadius: 20,
     margin: 0,

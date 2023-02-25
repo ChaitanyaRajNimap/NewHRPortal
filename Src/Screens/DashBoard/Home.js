@@ -15,6 +15,7 @@ import {
   getTopClients,
   getNotes as getNotesAction,
   getTopClientDetails as getTopClientDetailsAction,
+  getCurrentRes,
   deleteNotes,
   resetNotes,
 } from '../../Redux/Actions/DashboardAction';
@@ -24,6 +25,7 @@ import {COLORS} from '../../Constants/Theme';
 import DashBoardHead from './DashBoardHead';
 import TopClients from './TopClients';
 import Notes from './Notes/Notes';
+import DashBoardRes from './DashBoardRes';
 
 LogBox.ignoreLogs([
   'VirtualizedLists should never be nested inside plain ScrollViews with the same orientation because it can break windowing and other functionality - use another VirtualizedList-backed container instead.',
@@ -39,6 +41,7 @@ const Home = ({navigation}) => {
   const [dashboardHeadData, setDashboardHeadData] = useState([]);
   const [topClients, setTopClients] = useState([]);
   const [notes, setNotes] = useState([]);
+  const [currRes, setCurrRes] = useState([]);
 
   //For showing loading
   const [loading, setLoading] = useState(true);
@@ -79,6 +82,7 @@ const Home = ({navigation}) => {
       dispatch(getDashboardHead());
       dispatch(getTopClients());
       dispatch(getNotesAction());
+      dispatch(getCurrentRes());
     });
     return unSubscribe;
   }, [navigation]);
@@ -125,7 +129,7 @@ const Home = ({navigation}) => {
       ];
       setDashboardHeadData(dashHeadData);
       setTopClients(reducerData.getTopClients);
-      // setTopClientDetails(reducerData.getTopClientDetails);
+      setCurrRes(reducerData.getCurrentRes);
     } else {
       setError('Data not found!');
     }
@@ -192,28 +196,60 @@ const Home = ({navigation}) => {
           </View>
         )}
 
-        {!loading && dashboardHeadData && dashboardHeadData.length === 0 && (
+        {/* {!loading && dashboardHeadData && dashboardHeadData.length === 0 && (
           <View style={styles.loadingContainer}>
             <Text>Dashboard information is not found</Text>
           </View>
-        )}
+        )} */}
 
-        {!loading && dashboardHeadData && dashboardHeadData.length > 0 && (
-          <ScrollView nestedScrollEnabled={true} style={styles.rootContainer}>
+        {/* {!loading && dashboardHeadData && dashboardHeadData.length > 0 && ( */}
+        <ScrollView nestedScrollEnabled={true} style={styles.rootContainer}>
+          {!loading && dashboardHeadData && dashboardHeadData.length !== 0 ? (
             <DashBoardHead data={dashboardHeadData} />
+          ) : (
+            <View style={styles.loadingContainer}>
+              {/* <Text>Dashboard information is not found</Text> */}
+              <ActivityIndicator size="large" color={COLORS.blue} />
+            </View>
+          )}
+
+          {!loading && topClients && topClients.length !== 0 ? (
             <TopClients
               navigation={navigation}
               data={topClients}
               onResPress={handleResPress}
             />
-            {/* <Notes data={notes} openModal={openModalHandler} /> */}
+          ) : (
+            <View style={styles.loadingContainer}>
+              {/* <Text>Top clients information is not found</Text> */}
+              <ActivityIndicator size="large" color={COLORS.blue} />
+            </View>
+          )}
+
+          {/* <Notes data={notes} openModal={openModalHandler} /> */}
+          {!loading && notes && notes.length !== 0 ? (
             <Notes
               data={notes}
               navigation={navigation}
               deleteNote={handleNoteDelete}
             />
-          </ScrollView>
-        )}
+          ) : (
+            <View style={styles.loadingContainer}>
+              {/* <Text>Notes information is not found</Text> */}
+              <ActivityIndicator size="large" color={COLORS.blue} />
+            </View>
+          )}
+
+          {!loading && currRes && currRes.length !== 0 ? (
+            <DashBoardRes data={currRes} />
+          ) : (
+            <View style={styles.loadingContainer}>
+              {/* <Text>currRes information is not found</Text> */}
+              <ActivityIndicator size="large" color={COLORS.blue} />
+            </View>
+          )}
+        </ScrollView>
+        {/* )} */}
       </View>
     </SafeAreaView>
   );
