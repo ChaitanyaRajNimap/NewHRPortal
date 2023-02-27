@@ -3,25 +3,61 @@ import {View, Text, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
 import {GLOBALSTYLE} from '../../Constants/Styles';
 import {COLORS} from '../../Constants/Theme';
 
-const DashBoardRes = ({navigation, data}) => {
-  const data = data.data;
-  const count = data.count;
+const DashBoardRes = ({
+  navigation,
+  currRes,
+  dashUpcomingRes,
+  dashProjectTarget,
+}) => {
+  const dataToRender = [
+    {
+      id: 0,
+      data: 'Current',
+      count: currRes.count,
+    },
+    {
+      id: 1,
+      data: 'Upcoming',
+      count: dashUpcomingRes.count,
+    },
+    {
+      id: 2,
+      data: 'Project',
+      count: dashProjectTarget.count,
+    },
+  ];
+
+  //For handling press
+  const handlePress = id => {
+    let flag;
+    if (id === 0) {
+      flag = 'currentRes';
+    } else if (id === 1) {
+      flag = 'upcomingRes';
+    } else {
+      flag = 'projectTarget';
+    }
+    console.log('FLAG : ', flag);
+    navigation.navigate('ShowRes', {
+      flag: flag,
+    });
+  };
+
   //For dash board res item
   const renderItem = item => {
-    console.log(item);
-    // return (
-    //   <View style={styles.listContainer}>
-    //     <Text style={styles.text}>{item.client_name}</Text>
-    //     <TouchableOpacity
-    //       onPress={() => {
-    //         handlePress(item.client_id);
-    //       }}>
-    //       <Text style={[styles.text, {color: COLORS.lightBlue}]}>
-    //         {item.resourcecount}
-    //       </Text>
-    //     </TouchableOpacity>
-    //   </View>
-    // );
+    return (
+      <View style={styles.listContainer}>
+        <Text style={styles.text}>{item.data}</Text>
+        <TouchableOpacity
+          onPress={() => {
+            handlePress(item.id);
+          }}>
+          <Text style={[styles.text, {color: COLORS.lightBlue}]}>
+            {item.count}
+          </Text>
+        </TouchableOpacity>
+      </View>
+    );
   };
 
   return (
@@ -32,7 +68,7 @@ const DashBoardRes = ({navigation, data}) => {
         </View>
       </View>
       <FlatList
-        data={data}
+        data={dataToRender}
         renderItem={({item}) => {
           return renderItem(item);
         }}
@@ -47,7 +83,7 @@ export default DashBoardRes;
 
 const styles = StyleSheet.create({
   cardViewAligner: {
-    height: 225,
+    height: 150,
     padding: 0,
     borderRadius: 20,
     margin: 0,

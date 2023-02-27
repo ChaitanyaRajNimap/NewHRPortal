@@ -23,6 +23,12 @@ import {
   GETCURRENTRES_PROGRESS,
   GETCURRENTRES_SUCCESS,
   GETCURRENTRES_FAIL,
+  GETDASHUPCOMINGRES_PROGRESS,
+  GETDASHUPCOMINGRES_SUCCESS,
+  GETDASHUPCOMINGRES_FAIL,
+  GETDASHPROJECTTARGET_PROGRESS,
+  GETDASHPROJECTTARGET_SUCCESS,
+  GETDASHPROJECTTARGET_FAIL,
 } from '../ActionConstant';
 import request from '../../Util/request';
 import Toast from 'react-native-simple-toast';
@@ -87,11 +93,53 @@ export function getCurrentRes() {
         url: '/home/current-resource?search=',
         method: 'GET',
       });
-      console.log('getCurrentRes response from dashboard :====>', data.data);
+      // console.log('getCurrentRes response from dashboard :====>', data.data);
       dispatch(dashboardDispatch(data.data, GETCURRENTRES_SUCCESS));
     } catch (error) {
       dispatch(dashboardDispatch(error, GETCURRENTRES_FAIL));
       console.log('getCurrentRes error from dashboard :====>', error);
+    }
+  };
+}
+
+//For fetching dashboard upcoming resource
+export function getDashUpcomingRes() {
+  return async dispatch => {
+    dispatch(dashboardDispatch({}, GETDASHUPCOMINGRES_PROGRESS));
+    try {
+      const data = await request({
+        url: '/resource/dashboard-upcoming-resource?search=',
+        method: 'GET',
+      });
+      // console.log(
+      //   'getDashUpcomingRes response from dashboard :====>',
+      //   data.data,
+      // );
+      dispatch(dashboardDispatch(data.data, GETDASHUPCOMINGRES_SUCCESS));
+    } catch (error) {
+      dispatch(dashboardDispatch(error, GETDASHUPCOMINGRES_FAIL));
+      console.log('getDashUpcomingRes error from dashboard :====>', error);
+    }
+  };
+}
+
+//For fetching dashboard project target
+export function getDashProjectTarget() {
+  return async dispatch => {
+    dispatch(dashboardDispatch({}, GETDASHPROJECTTARGET_PROGRESS));
+    try {
+      const data = await request({
+        url: '/home/project-target-dashboard?search=',
+        method: 'GET',
+      });
+      // console.log(
+      //   'getDashProjectTarget response from dashboard :====>',
+      //   data.data,
+      // );
+      dispatch(dashboardDispatch(data.data, GETDASHPROJECTTARGET_SUCCESS));
+    } catch (error) {
+      dispatch(dashboardDispatch(error, GETDASHPROJECTTARGET_FAIL));
+      console.log('getDashProjectTarget error from dashboard :====>', error);
     }
   };
 }
@@ -106,7 +154,7 @@ export function addNote(values, navigation) {
         method: 'POST',
         data: values,
       });
-      console.log('addNote response data ====>', data.data.message);
+      // console.log('addNote response data ====>', data.data.message);
       if (data.data.message) {
         dispatch(dashboardDispatch(data, ADDNOTES_SUCCESS));
         Toast.show(data.data.message);
@@ -176,7 +224,7 @@ export function deleteNotes(id) {
         url: `/note/${id}`,
         method: 'DELETE',
       });
-      console.log('deleteNotes response ====>', data);
+      // console.log('deleteNotes response ====>', data);
       if (data.data.message) {
         dispatch(dashboardDispatch(data, DELETENOTES_SUCCESS));
         Toast.show(data.data.message);

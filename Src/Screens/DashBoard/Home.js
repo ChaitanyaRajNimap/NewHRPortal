@@ -15,7 +15,9 @@ import {
   getTopClients,
   getNotes as getNotesAction,
   getTopClientDetails as getTopClientDetailsAction,
-  getCurrentRes,
+  getCurrentRes as getCurrentResAction,
+  getDashUpcomingRes as getDashUpcomingResAction,
+  getDashProjectTarget as getDashProjectTargetAction,
   deleteNotes,
   resetNotes,
 } from '../../Redux/Actions/DashboardAction';
@@ -36,29 +38,23 @@ const Home = ({navigation}) => {
   const dispatch = useDispatch();
   const reducerData = useSelector(state => state.DashboardReducer);
   console.log('reducerData from dashboard : ', reducerData);
-  const {getNotes, deleteNotesData} = reducerData;
+  const {
+    getNotes,
+    deleteNotesData,
+    getCurrentRes,
+    getDashUpcomingRes,
+    getDashProjectTarget,
+  } = reducerData;
 
   const [dashboardHeadData, setDashboardHeadData] = useState([]);
   const [topClients, setTopClients] = useState([]);
   const [notes, setNotes] = useState([]);
   const [currRes, setCurrRes] = useState([]);
-
+  const [dashUpcomingRes, setDashUpcomingRes] = useState([]);
+  const [dashProjectTarget, setDashProjectTarget] = useState([]);
   //For showing loading
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  //For modal
-  // const [modalVisible, setModalVisible] = useState(false);
-  // const [editMsgToPass, setEditMsgToPass] = useState(null);
-
-  // //For openning modal
-  // const openModalHandler = noteMsg => {
-  //   setModalVisible(true);
-  //   setEditMsgToPass(noteMsg);
-  // };
-
-  //For closing model
-  // const closeModalHandler = () => setModalVisible(!modalVisible);
 
   //For making call for getNotes
   useEffect(() => {
@@ -82,7 +78,9 @@ const Home = ({navigation}) => {
       dispatch(getDashboardHead());
       dispatch(getTopClients());
       dispatch(getNotesAction());
-      dispatch(getCurrentRes());
+      dispatch(getCurrentResAction());
+      dispatch(getDashUpcomingResAction());
+      dispatch(getDashProjectTargetAction());
     });
     return unSubscribe;
   }, [navigation]);
@@ -130,6 +128,8 @@ const Home = ({navigation}) => {
       setDashboardHeadData(dashHeadData);
       setTopClients(reducerData.getTopClients);
       setCurrRes(reducerData.getCurrentRes);
+      setDashUpcomingRes(reducerData.getDashUpcomingRes);
+      setDashProjectTarget(reducerData.getDashProjectTarget);
     } else {
       setError('Data not found!');
     }
@@ -137,7 +137,6 @@ const Home = ({navigation}) => {
 
   //For handling res press in top clients
   const handleResPress = clientId => {
-    console.log('ClientId ', clientId);
     dispatch(getTopClientDetailsAction(clientId)).then(data => {
       navigation.navigate('ResourceDetails', {
         topClientDetails: data,
@@ -152,7 +151,6 @@ const Home = ({navigation}) => {
 
   //For handling note delete
   const handleNoteDelete = id => {
-    // console.log('Note id to delete: ', id);
     Alert.alert(
       'Are you sure want to Delete?',
       'You wont be able to revert this.',
@@ -172,17 +170,6 @@ const Home = ({navigation}) => {
 
   return (
     <SafeAreaView style={GLOBALSTYLE.safeAreaViewStyle}>
-      {/* <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(!modalVisible)}>
-        <EditNote
-          onCancel={closeModalHandler}
-          editMsg={editMsgToPass}
-          navigation={navigation}
-        />
-      </Modal> */}
       <View style={styles.rootContainer}>
         {loading && (
           <View style={styles.loadingContainer}>
@@ -195,12 +182,6 @@ const Home = ({navigation}) => {
             <Text>Something Went Wrong</Text>
           </View>
         )}
-
-        {/* {!loading && dashboardHeadData && dashboardHeadData.length === 0 && (
-          <View style={styles.loadingContainer}>
-            <Text>Dashboard information is not found</Text>
-          </View>
-        )} */}
 
         {/* {!loading && dashboardHeadData && dashboardHeadData.length > 0 && ( */}
         <ScrollView nestedScrollEnabled={true} style={styles.rootContainer}>
@@ -240,16 +221,26 @@ const Home = ({navigation}) => {
             </View>
           )}
 
-          {!loading && currRes && currRes.length !== 0 ? (
-            <DashBoardRes data={currRes} />
+          {!loading &&
+          currRes &&
+          currRes.length !== 0 &&
+          dashUpcomingRes &&
+          dashProjectTarget.length !== 0 &&
+          dashProjectTarget &&
+          dashProjectTarget.length !== 0 ? (
+            <DashBoardRes
+              navigation={navigation}
+              currRes={currRes}
+              dashUpcomingRes={dashUpcomingRes}
+              dashProjectTarget={dashProjectTarget}
+            />
           ) : (
             <View style={styles.loadingContainer}>
-              {/* <Text>currRes information is not found</Text> */}
+              {/* <Text>Dashboard resources information is not found</Text> */}
               <ActivityIndicator size="large" color={COLORS.blue} />
             </View>
           )}
         </ScrollView>
-        {/* )} */}
       </View>
     </SafeAreaView>
   );

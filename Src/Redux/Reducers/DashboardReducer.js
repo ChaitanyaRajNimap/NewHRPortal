@@ -23,6 +23,12 @@ import {
   GETCURRENTRES_PROGRESS,
   GETCURRENTRES_SUCCESS,
   GETCURRENTRES_FAIL,
+  GETDASHUPCOMINGRES_PROGRESS,
+  GETDASHUPCOMINGRES_SUCCESS,
+  GETDASHUPCOMINGRES_FAIL,
+  GETDASHPROJECTTARGET_PROGRESS,
+  GETDASHPROJECTTARGET_SUCCESS,
+  GETDASHPROJECTTARGET_FAIL,
 } from '../ActionConstant';
 
 const initialState = {
@@ -32,6 +38,8 @@ const initialState = {
   getNotes: null,
   getTopClientDetails: null,
   getCurrentRes: null,
+  getDashUpcomingRes: null,
+  getDashProjectTarget: null,
   addNotesData: null,
   updateNotesData: null,
   deleteNotesData: null,
@@ -109,6 +117,42 @@ const DashboardReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         getCurrentRes: action.payload,
+      };
+
+    case GETDASHUPCOMINGRES_PROGRESS:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case GETDASHUPCOMINGRES_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        getDashUpcomingRes: action.payload,
+      };
+    case GETDASHUPCOMINGRES_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        getDashUpcomingRes: action.payload,
+      };
+
+    case GETDASHPROJECTTARGET_PROGRESS:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case GETDASHPROJECTTARGET_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        getDashProjectTarget: action.payload,
+      };
+    case GETDASHPROJECTTARGET_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        getDashProjectTarget: action.payload,
       };
 
     case ADDNOTES_PROGRESS:

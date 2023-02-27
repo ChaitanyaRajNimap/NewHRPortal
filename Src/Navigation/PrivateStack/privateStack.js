@@ -48,6 +48,7 @@ import EditClient from '../../Screens/Masters/Client/editClient/EditClient';
 import ResourceDetails from '../../Screens/DashBoard/ResourceDetails';
 import AddNote from '../../Screens/DashBoard/Notes/AddNote';
 import EditNote from '../../Screens/DashBoard/Notes/EditNote';
+import ShowRes from '../../Screens/DashBoard/ShowRes';
 
 const privatestack = createNativeStackNavigator();
 
@@ -136,6 +137,7 @@ function privateStack() {
       <privatestack.Screen name="ResourceDetails" component={ResourceDetails} />
       <privatestack.Screen name="AddNote" component={AddNote} />
       <privatestack.Screen name="EditNote" component={EditNote} />
+      <privatestack.Screen name="ShowRes" component={ShowRes} />
     </privatestack.Navigator>
   );
 }
