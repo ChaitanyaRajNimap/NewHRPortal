@@ -5,7 +5,7 @@ export const COLORS = {
   // lightBlue: '#91A3FF',
   lightBlue: '#63B8EC',
   grey: '#707070',
-  litegrey: 'AFAFAF',
+  litegrey: '#AFAFAF',
   red: '#FF0000',
   whiteBlue: '#CCE5FF',
   tomatto: '#FFA86C',

@@ -37,9 +37,15 @@ const DashBoardRes = ({
     } else {
       flag = 'projectTarget';
     }
-    console.log('FLAG : ', flag);
+    // console.log('FLAG : ', flag);
+    // console.log('currRes FLAG : ', currRes.data.data);
+    // console.log('dashUpcomingRes FLAG : ', dashUpcomingRes.data);
+    // console.log('dashProjectTarget FLAG : ', dashProjectTarget.data);
     navigation.navigate('ShowRes', {
       flag: flag,
+      currRes: currRes,
+      dashUpcomingRes: dashUpcomingRes,
+      dashProjectTarget: dashProjectTarget,
     });
   };
 
