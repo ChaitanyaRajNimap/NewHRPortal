@@ -33,9 +33,9 @@ const TopClients = ({navigation, data, onResPress}) => {
         <View style={styles.headerContentStyle}>
           <Text style={styles.headerTextStyle}>Top Clients</Text>
         </View>
-        <TouchableOpacity onPress={() => {}}>
+        {/* <TouchableOpacity onPress={() => {}}>
           <AntDesign name="arrowright" size={30} color={COLORS.white} />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
       <FlatList
         data={data}

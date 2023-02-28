@@ -4,12 +4,16 @@ import {GLOBALSTYLE} from '../../../Constants/Styles';
 import {COLORS} from '../../../Constants/Theme';
 import SmallButton from '../../../Components/SmallButton';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Notes = ({data, navigation, deleteNote}) => {
   //For deleting note
   const handleDelte = id => {
     deleteNote(id);
   };
+
+  const notesData = data.filter((item, idx) => idx < 2);
 
   //For converting data to display
   const convertDate = value => {
@@ -41,13 +45,35 @@ const Notes = ({data, navigation, deleteNote}) => {
             Last Modified: {convertDate(item.updated_at)}
           </Text>
         </View>
+        <View style={styles.iconContainer}>
+          <TouchableOpacity
+            style={styles.iconBtnStyle}
+            onPress={() => {
+              navigation.navigate('EditNote', {
+                noteId: item.id,
+                noteMsg: item.notes,
+              });
+            }}>
+            <EvilIcons name="pencil" size={30} color={COLORS.orange} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.iconBtnStyle}
+            onPress={() => {
+              handleDelte(item.id);
+            }}>
+            <MaterialCommunityIcons
+              name="delete"
+              size={25}
+              color={COLORS.red}
+            />
+          </TouchableOpacity>
+        </View>
         {/*For Edit and Delete Buttons */}
-        <View style={[GLOBALSTYLE.rowView, styles.rowViewAligner]}>
+        {/* <View style={[GLOBALSTYLE.rowView, styles.rowViewAligner]}>
           <SmallButton
             color={COLORS.lightBlue}
             title={'Edit'}
             onPressFunction={() => {
-              // openModal(item);
               navigation.navigate('EditNote', {
                 noteId: item.id,
                 noteMsg: item.notes,
@@ -61,7 +87,7 @@ const Notes = ({data, navigation, deleteNote}) => {
               handleDelte(item.id);
             }}
           />
-        </View>
+        </View> */}
       </View>
     );
   };
@@ -74,16 +100,17 @@ const Notes = ({data, navigation, deleteNote}) => {
         </View>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate('AddNote');
+            navigation.navigate('ShowNote');
           }}>
-          <AntDesign name="plus" size={30} color={COLORS.white} />
+          <AntDesign name="arrowright" size={30} color={COLORS.white} />
         </TouchableOpacity>
       </View>
       <FlatList
-        data={data}
+        data={notesData}
         renderItem={({item}) => {
           return renderItem(item);
         }}
+        ItemSeparatorComponent={<Text></Text>}
         style={styles.flatListStyle}
         keyExtractor={(item, index) => index.toString()}
       />
@@ -95,7 +122,7 @@ export default Notes;
 
 const styles = StyleSheet.create({
   cardViewAligner: {
-    height: 230,
+    // height: 230,
     padding: 0,
     borderRadius: 20,
     margin: 0,
@@ -127,9 +154,15 @@ const styles = StyleSheet.create({
   },
   noteContainer: {
     marginBottom: 5,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   rowViewAligner: {
     margin: 0,
+  },
+  note: {
+    width: '70%',
   },
   noteMsg: {
     marginBottom: 5,
@@ -140,5 +173,14 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     color: COLORS.black,
     fontSize: 14,
+  },
+  iconContainer: {
+    width: '30%',
+    flexDirection: 'row',
+  },
+  iconBtnStyle: {
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    width: 60,
   },
 });
