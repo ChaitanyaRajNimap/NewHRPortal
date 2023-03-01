@@ -43,7 +43,12 @@ const Notes = ({data, navigation, deleteNote}) => {
                 noteMsg: item.notes,
               });
             }}>
-            <EvilIcons name="pencil" size={30} color={COLORS.orange} />
+            <EvilIcons
+              name="pencil"
+              size={30}
+              color={COLORS.orange}
+              style={styles.iconStyle}
+            />
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.iconBtnStyle}
@@ -54,6 +59,7 @@ const Notes = ({data, navigation, deleteNote}) => {
               name="delete"
               size={25}
               color={COLORS.red}
+              style={styles.iconStyle}
             />
           </TouchableOpacity>
         </View>
@@ -144,14 +150,14 @@ const styles = StyleSheet.create({
   noteContainer: {
     marginBottom: 5,
     flexDirection: 'row',
-    alignItems: 'center',
+    // alignItems: 'center',
     justifyContent: 'space-between',
   },
   rowViewAligner: {
     margin: 0,
   },
   note: {
-    width: '70%',
+    width: '80%',
   },
   noteMsg: {
     marginBottom: 5,
@@ -164,12 +170,15 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   iconContainer: {
-    width: '30%',
+    width: '20%',
     flexDirection: 'row',
   },
   iconBtnStyle: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    width: 60,
+    height: 35,
+    padding: 4,
+  },
+  iconStyle: {
+    height: 25,
+    width: 25,
   },
 });

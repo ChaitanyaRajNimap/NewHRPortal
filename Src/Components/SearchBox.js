@@ -12,7 +12,7 @@ const SearchBox = props => {
     <View
       style={[
         {
-          padding: 5,
+          // padding: 5,
           margin: 10,
           flexDirection: 'row',
           backgroundColor: COLORS.white,
@@ -24,7 +24,9 @@ const SearchBox = props => {
       <Feather
         name="search"
         style={{
-          fontSize: 35,
+          // fontSize: 35,
+          marginLeft: 10,
+          fontSize: 25,
           alignSelf: 'center',
         }}
       />

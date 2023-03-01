@@ -494,7 +494,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   tabContainer: {
-    paddingVertical: 15,
+    paddingVertical: 10,
     paddingHorizontal: 10,
     borderRadius: 10,
     backgroundColor: COLORS.white,

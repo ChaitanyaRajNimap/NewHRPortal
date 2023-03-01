@@ -43,7 +43,7 @@ const Home = ({navigation}) => {
   //For dispatching actions for dashboard reducer
   const dispatch = useDispatch();
   const reducerData = useSelector(state => state.DashboardReducer);
-  console.log('reducerData from dashboard : ', reducerData);
+  // console.log('reducerData from dashboard : ', reducerData);
   const {
     getNotes,
     deleteNotesData,
@@ -199,95 +199,115 @@ const Home = ({navigation}) => {
           </View>
         )}
 
-        {/* {!loading && dashboardHeadData && dashboardHeadData.length > 0 && ( */}
-        <ScrollView nestedScrollEnabled={true} style={styles.rootContainer}>
-          {!loading && dashboardHeadData && dashboardHeadData.length !== 0 ? (
-            <DashBoardHead data={dashboardHeadData} />
-          ) : (
-            <View style={styles.loadingContainer}>
-              {/* <Text>Dashboard information is not found</Text> */}
-              <ActivityIndicator size="large" color={COLORS.blue} />
-            </View>
-          )}
+        {!loading &&
+        dashboardHeadData &&
+        dashboardHeadData.length !== 0 &&
+        topClients &&
+        topClients.length !== 0 &&
+        notes &&
+        notes.length !== 0 &&
+        currRes &&
+        currRes.length !== 0 &&
+        dashUpcomingRes &&
+        dashProjectTarget.length !== 0 &&
+        dashProjectTarget &&
+        dashProjectTarget.length !== 0 &&
+        resContractEnd &&
+        resContractEnd.length !== 0 &&
+        purchaseOrderEnd &&
+        purchaseOrderEnd.length !== 0 &&
+        clientAgreementEnd &&
+        clientAgreementEnd.length !== 0 ? (
+          <ScrollView nestedScrollEnabled={true} style={styles.rootContainer}>
+            {!loading && dashboardHeadData && dashboardHeadData.length !== 0 ? (
+              <DashBoardHead data={dashboardHeadData} />
+            ) : (
+              <View style={styles.loadingContainer}>
+                <Text>Dashboard information is not found</Text>
+                {/* <ActivityIndicator size="large" color={COLORS.blue} /> */}
+              </View>
+            )}
 
-          {!loading && topClients && topClients.length !== 0 ? (
-            <TopClients
-              navigation={navigation}
-              data={topClients}
-              onResPress={handleResPress}
-            />
-          ) : (
-            <View style={styles.loadingContainer}>
-              {/* <Text>Top clients information is not found</Text> */}
-              <ActivityIndicator size="large" color={COLORS.blue} />
-            </View>
-          )}
+            {!loading && topClients && topClients.length !== 0 ? (
+              <TopClients
+                navigation={navigation}
+                data={topClients}
+                onResPress={handleResPress}
+              />
+            ) : (
+              <View style={styles.loadingContainer}>
+                <Text>Top clients information is not found</Text>
+                {/* <ActivityIndicator size="large" color={COLORS.blue} /> */}
+              </View>
+            )}
 
-          {/* <Notes data={notes} openModal={openModalHandler} /> */}
-          {!loading && notes && notes.length !== 0 ? (
-            <Notes
-              data={notes}
-              navigation={navigation}
-              deleteNote={handleNoteDelete}
-            />
-          ) : (
-            <View style={styles.loadingContainer}>
-              {/* <Text>Notes information is not found</Text> */}
-              <ActivityIndicator size="large" color={COLORS.blue} />
-            </View>
-          )}
+            {!loading && notes && notes.length !== 0 ? (
+              <Notes
+                data={notes}
+                navigation={navigation}
+                deleteNote={handleNoteDelete}
+              />
+            ) : (
+              <View style={styles.loadingContainer}>
+                <Text>Notes information is not found</Text>
+                {/* <ActivityIndicator size="large" color={COLORS.blue} /> */}
+              </View>
+            )}
 
-          {!loading &&
-          currRes &&
-          currRes.length !== 0 &&
-          dashUpcomingRes &&
-          dashProjectTarget.length !== 0 &&
-          dashProjectTarget &&
-          dashProjectTarget.length !== 0 ? (
-            <DashBoardRes
-              navigation={navigation}
-              currRes={currRes}
-              dashUpcomingRes={dashUpcomingRes}
-              dashProjectTarget={dashProjectTarget}
-            />
-          ) : (
-            <View style={styles.loadingContainer}>
-              {/* <Text>Dashboard resources information is not found</Text> */}
-              <ActivityIndicator size="large" color={COLORS.blue} />
-            </View>
-          )}
+            {!loading &&
+            currRes &&
+            currRes.length !== 0 &&
+            dashUpcomingRes &&
+            dashProjectTarget.length !== 0 &&
+            dashProjectTarget &&
+            dashProjectTarget.length !== 0 ? (
+              <DashBoardRes
+                navigation={navigation}
+                currRes={currRes}
+                dashUpcomingRes={dashUpcomingRes}
+                dashProjectTarget={dashProjectTarget}
+              />
+            ) : (
+              <View style={styles.loadingContainer}>
+                <Text>Dashboard resources information is not found</Text>
+                {/* <ActivityIndicator size="large" color={COLORS.blue} /> */}
+              </View>
+            )}
 
-          {console.log('resContractEnd ', resContractEnd)}
-          {console.log('purchaseOrderEnd ', purchaseOrderEnd)}
-          {console.log('clientAgreementEnd ', clientAgreementEnd)}
+            {!loading && resContractEnd && resContractEnd.length !== 0 ? (
+              <ResContractEnd data={resContractEnd} />
+            ) : (
+              <View style={styles.loadingContainer}>
+                <Text>Res contract end information is not found</Text>
+                {/* <ActivityIndicator size="large" color={COLORS.blue} /> */}
+              </View>
+            )}
 
-          {!loading && resContractEnd && resContractEnd.length !== 0 ? (
-            <ResContractEnd data={resContractEnd} />
-          ) : (
-            <View style={styles.loadingContainer}>
-              {/* <Text>Res contract end information is not found</Text> */}
-              <ActivityIndicator size="large" color={COLORS.blue} />
-            </View>
-          )}
+            {!loading && purchaseOrderEnd && purchaseOrderEnd.length !== 0 ? (
+              <PurchaseOrderEnd data={purchaseOrderEnd} />
+            ) : (
+              <View style={styles.loadingContainer}>
+                <Text>Purchase order end information is not found</Text>
+                {/* <ActivityIndicator size="large" color={COLORS.blue} /> */}
+              </View>
+            )}
 
-          {!loading && purchaseOrderEnd && purchaseOrderEnd.length !== 0 ? (
-            <PurchaseOrderEnd data={purchaseOrderEnd} />
-          ) : (
-            <View style={styles.loadingContainer}>
-              {/* <Text>Purchase order end information is not found</Text> */}
-              <ActivityIndicator size="large" color={COLORS.blue} />
-            </View>
-          )}
-
-          {!loading && clientAgreementEnd && clientAgreementEnd.length !== 0 ? (
-            <ClientAgreementEnd data={clientAgreementEnd} />
-          ) : (
-            <View style={styles.loadingContainer}>
-              {/* <Text>Client agreement end information is not found</Text> */}
-              <ActivityIndicator size="large" color={COLORS.blue} />
-            </View>
-          )}
-        </ScrollView>
+            {!loading &&
+            clientAgreementEnd &&
+            clientAgreementEnd.length !== 0 ? (
+              <ClientAgreementEnd data={clientAgreementEnd} />
+            ) : (
+              <View style={styles.loadingContainer}>
+                <Text>Client agreement end information is not found</Text>
+                {/* <ActivityIndicator size="large" color={COLORS.blue} /> */}
+              </View>
+            )}
+          </ScrollView>
+        ) : (
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator size="large" color={COLORS.blue} />
+          </View>
+        )}
       </View>
     </SafeAreaView>
   );

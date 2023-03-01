@@ -91,16 +91,7 @@ const ShowNote = ({navigation}) => {
           <Text style={GLOBALSTYLE.label}>Message</Text>
           <Text style={GLOBALSTYLE.text}>{item.notes}</Text>
         </View>
-        {/*For Added By */}
-        {/* <View style={[GLOBALSTYLE.columnView, styles.columnViewAligner]}>
-          <Text style={GLOBALSTYLE.label}>Added By</Text>
-          <Text style={GLOBALSTYLE.text}>{createdBy}</Text>
-        </View> */}
-        {/*For Last Modified */}
-        {/* <View style={[GLOBALSTYLE.columnView, styles.columnViewAligner]}>
-          <Text style={GLOBALSTYLE.label}>Last Modified</Text>
-          <Text style={GLOBALSTYLE.text}>{convertDate(item.updated_at)}</Text>
-        </View> */}
+
         {/*For Added By and Last Modified */}
         <View style={[GLOBALSTYLE.rowView, styles.rowViewAligner]}>
           <View style={GLOBALSTYLE.columnView}>
@@ -108,7 +99,7 @@ const ShowNote = ({navigation}) => {
             <Text style={GLOBALSTYLE.text}>{createdBy}</Text>
           </View>
 
-          <View style={GLOBALSTYLE.columnView}>
+          <View style={[GLOBALSTYLE.columnView, {marginLeft: 25}]}>
             <Text style={GLOBALSTYLE.label}>Last Modified</Text>
             <Text style={GLOBALSTYLE.text}>
               {item.updated_at === null
