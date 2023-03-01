@@ -29,6 +29,15 @@ import {
   GETDASHPROJECTTARGET_PROGRESS,
   GETDASHPROJECTTARGET_SUCCESS,
   GETDASHPROJECTTARGET_FAIL,
+  GETRESCONTRACTEND_PROGRESS,
+  GETRESCONTRACTEND_SUCCESS,
+  GETRESCONTRACTEND_FAIL,
+  GETPURCHASEORDEREND_PROGRESS,
+  GETPURCHASEORDEREND_SUCCESS,
+  GETPURCHASEORDEREND_FAIL,
+  GETCLIENTAGREEMENTEND_PROGRESS,
+  GETCLIENTAGREEMENTEND_SUCCESS,
+  GETCLIENTAGREEMENTEND_FAIL,
 } from '../ActionConstant';
 
 const initialState = {
@@ -40,6 +49,9 @@ const initialState = {
   getCurrentRes: null,
   getDashUpcomingRes: null,
   getDashProjectTarget: null,
+  getResContractEnd: null,
+  getPurchaseOrderEnd: null,
+  getClientAgreementEnd: null,
   addNotesData: null,
   updateNotesData: null,
   deleteNotesData: null,
@@ -153,6 +165,60 @@ const DashboardReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         getDashProjectTarget: action.payload,
+      };
+
+    case GETRESCONTRACTEND_PROGRESS:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case GETRESCONTRACTEND_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        getResContractEnd: action.payload,
+      };
+    case GETRESCONTRACTEND_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        getResContractEnd: action.payload,
+      };
+
+    case GETPURCHASEORDEREND_PROGRESS:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case GETPURCHASEORDEREND_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        getPurchaseOrderEnd: action.payload,
+      };
+    case GETPURCHASEORDEREND_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        getPurchaseOrderEnd: action.payload,
+      };
+
+    case GETCLIENTAGREEMENTEND_PROGRESS:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case GETCLIENTAGREEMENTEND_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        getClientAgreementEnd: action.payload,
+      };
+    case GETCLIENTAGREEMENTEND_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        getClientAgreementEnd: action.payload,
       };
 
     case ADDNOTES_PROGRESS:

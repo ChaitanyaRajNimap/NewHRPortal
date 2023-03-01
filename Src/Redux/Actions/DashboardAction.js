@@ -29,6 +29,15 @@ import {
   GETDASHPROJECTTARGET_PROGRESS,
   GETDASHPROJECTTARGET_SUCCESS,
   GETDASHPROJECTTARGET_FAIL,
+  GETRESCONTRACTEND_PROGRESS,
+  GETRESCONTRACTEND_SUCCESS,
+  GETRESCONTRACTEND_FAIL,
+  GETPURCHASEORDEREND_PROGRESS,
+  GETPURCHASEORDEREND_SUCCESS,
+  GETPURCHASEORDEREND_FAIL,
+  GETCLIENTAGREEMENTEND_PROGRESS,
+  GETCLIENTAGREEMENTEND_SUCCESS,
+  GETCLIENTAGREEMENTEND_FAIL,
 } from '../ActionConstant';
 import request from '../../Util/request';
 import Toast from 'react-native-simple-toast';
@@ -140,6 +149,78 @@ export function getDashProjectTarget() {
     } catch (error) {
       dispatch(dashboardDispatch(error, GETDASHPROJECTTARGET_FAIL));
       console.log('getDashProjectTarget error from dashboard :====>', error);
+    }
+  };
+}
+
+//For fetching reesource contract end
+export function getResContractEnd() {
+  return async dispatch => {
+    dispatch(dashboardDispatch({}, GETRESCONTRACTEND_PROGRESS));
+    try {
+      const data = await request({
+        url: '/home/resource-contract-end',
+        method: 'GET',
+      });
+      // console.log(
+      //   'getResContractEnd response from dashboard :====>',
+      //   data.data.resourceData,
+      // );
+      dispatch(
+        dashboardDispatch(data.data.resourceData, GETRESCONTRACTEND_SUCCESS),
+      );
+    } catch (error) {
+      dispatch(dashboardDispatch(error, GETRESCONTRACTEND_FAIL));
+      console.log('getResContractEnd error from dashboard :====>', error);
+    }
+  };
+}
+
+//For fetching purchase order end
+export function getPurchaseOrderEnd() {
+  return async dispatch => {
+    dispatch(dashboardDispatch({}, GETPURCHASEORDEREND_PROGRESS));
+    try {
+      const data = await request({
+        url: '/home/purchase-order-end',
+        method: 'GET',
+      });
+      // console.log(
+      //   'getPurchaseOrderEnd response from dashboard :PPPP>',
+      //   data.data.purchaseOrder,
+      // );
+      dispatch(
+        dashboardDispatch(data.data.purchaseOrder, GETPURCHASEORDEREND_SUCCESS),
+      );
+    } catch (error) {
+      dispatch(dashboardDispatch(error, GETPURCHASEORDEREND_FAIL));
+      console.log('getPurchaseOrderEnd error from dashboard :====>', error);
+    }
+  };
+}
+
+//For fetching client agreemnet end
+export function getClientAgreementEnd() {
+  return async dispatch => {
+    dispatch(dashboardDispatch({}, GETCLIENTAGREEMENTEND_PROGRESS));
+    try {
+      const data = await request({
+        url: '/resource/readClientAgreements',
+        method: 'GET',
+      });
+      // console.log(
+      //   'getClientAgreementEnd response from dashboard :CCCC>',
+      //   data.data.data.clientAgreements,
+      // );
+      dispatch(
+        dashboardDispatch(
+          data.data.data.clientAgreements,
+          GETCLIENTAGREEMENTEND_SUCCESS,
+        ),
+      );
+    } catch (error) {
+      dispatch(dashboardDispatch(error, GETCLIENTAGREEMENTEND_FAIL));
+      console.log('getClientAgreementEnd error from dashboard :====>', error);
     }
   };
 }

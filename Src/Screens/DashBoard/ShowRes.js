@@ -390,8 +390,8 @@ const ShowRes = ({navigation, route}) => {
     }
   };
 
-  console.log('....>', dataToDisplay);
-  console.log('XXXX>', filterData);
+  // console.log('....>', dataToDisplay);
+  // console.log('XXXX>', filterData);
 
   return (
     <SafeAreaView style={GLOBALSTYLE.safeAreaViewStyle}>

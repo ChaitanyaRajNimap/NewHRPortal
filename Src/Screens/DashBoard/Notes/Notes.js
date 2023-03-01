@@ -15,24 +15,6 @@ const Notes = ({data, navigation, deleteNote}) => {
 
   const notesData = data.filter((item, idx) => idx < 2);
 
-  //For converting data to display
-  const convertDate = value => {
-    const currentDate = value || date;
-    let tempDate = new Date(currentDate);
-    let month = '' + (tempDate.getMonth() + 1),
-      day = '' + tempDate.getDate(),
-      year = tempDate.getFullYear();
-
-    if (month.length < 2) {
-      month = '0' + month;
-    }
-    if (day.length < 2) {
-      day = '0' + day;
-    }
-
-    return [day, month, year].join('/');
-  };
-
   //For notes flatlist item
   const renderItem = item => {
     let createdBy = item.created_by !== null ? item.created_by.name : 'null';
@@ -42,7 +24,14 @@ const Notes = ({data, navigation, deleteNote}) => {
           <Text style={styles.noteMsg}>{item.notes}</Text>
           <Text style={styles.noteText}>Added By: {createdBy}</Text>
           <Text style={styles.noteText}>
-            Last Modified: {convertDate(item.updated_at)}
+            Last Modified:{' '}
+            {item.updated_at === null
+              ? '-'
+              : new Date(item.updated_at).toLocaleDateString('en-GB', {
+                  day: '2-digit',
+                  month: 'short',
+                  year: 'numeric',
+                })}
           </Text>
         </View>
         <View style={styles.iconContainer}>

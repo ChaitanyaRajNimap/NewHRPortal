@@ -18,6 +18,9 @@ import {
   getCurrentRes as getCurrentResAction,
   getDashUpcomingRes as getDashUpcomingResAction,
   getDashProjectTarget as getDashProjectTargetAction,
+  getResContractEnd,
+  getPurchaseOrderEnd,
+  getClientAgreementEnd,
   deleteNotes,
   resetNotes,
 } from '../../Redux/Actions/DashboardAction';
@@ -28,6 +31,9 @@ import DashBoardHead from './DashBoardHead';
 import TopClients from './TopClients';
 import Notes from './Notes/Notes';
 import DashBoardRes from './DashBoardRes';
+import ResContractEnd from './ResContractEnd';
+import PurchaseOrderEnd from './PurchaseOrderEnd';
+import ClientAgreementEnd from './ClientAgreementEnd';
 
 LogBox.ignoreLogs([
   'VirtualizedLists should never be nested inside plain ScrollViews with the same orientation because it can break windowing and other functionality - use another VirtualizedList-backed container instead.',
@@ -52,6 +58,10 @@ const Home = ({navigation}) => {
   const [currRes, setCurrRes] = useState([]);
   const [dashUpcomingRes, setDashUpcomingRes] = useState([]);
   const [dashProjectTarget, setDashProjectTarget] = useState([]);
+  const [resContractEnd, setResContractEnd] = useState([]);
+  const [purchaseOrderEnd, setPurchaseOrderEnd] = useState([]);
+  const [clientAgreementEnd, setClientAgreementEnd] = useState([]);
+
   //For showing loading
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -81,6 +91,9 @@ const Home = ({navigation}) => {
       dispatch(getCurrentResAction());
       dispatch(getDashUpcomingResAction());
       dispatch(getDashProjectTargetAction());
+      dispatch(getResContractEnd());
+      dispatch(getPurchaseOrderEnd());
+      dispatch(getClientAgreementEnd());
     });
     return unSubscribe;
   }, [navigation]);
@@ -130,6 +143,9 @@ const Home = ({navigation}) => {
       setCurrRes(reducerData.getCurrentRes);
       setDashUpcomingRes(reducerData.getDashUpcomingRes);
       setDashProjectTarget(reducerData.getDashProjectTarget);
+      setResContractEnd(reducerData.getResContractEnd);
+      setPurchaseOrderEnd(reducerData.getPurchaseOrderEnd);
+      setClientAgreementEnd(reducerData.getClientAgreementEnd);
     } else {
       setError('Data not found!');
     }
@@ -237,6 +253,37 @@ const Home = ({navigation}) => {
           ) : (
             <View style={styles.loadingContainer}>
               {/* <Text>Dashboard resources information is not found</Text> */}
+              <ActivityIndicator size="large" color={COLORS.blue} />
+            </View>
+          )}
+
+          {console.log('resContractEnd ', resContractEnd)}
+          {console.log('purchaseOrderEnd ', purchaseOrderEnd)}
+          {console.log('clientAgreementEnd ', clientAgreementEnd)}
+
+          {!loading && resContractEnd && resContractEnd.length !== 0 ? (
+            <ResContractEnd data={resContractEnd} />
+          ) : (
+            <View style={styles.loadingContainer}>
+              {/* <Text>Res contract end information is not found</Text> */}
+              <ActivityIndicator size="large" color={COLORS.blue} />
+            </View>
+          )}
+
+          {!loading && purchaseOrderEnd && purchaseOrderEnd.length !== 0 ? (
+            <PurchaseOrderEnd data={purchaseOrderEnd} />
+          ) : (
+            <View style={styles.loadingContainer}>
+              {/* <Text>Purchase order end information is not found</Text> */}
+              <ActivityIndicator size="large" color={COLORS.blue} />
+            </View>
+          )}
+
+          {!loading && clientAgreementEnd && clientAgreementEnd.length !== 0 ? (
+            <ClientAgreementEnd data={clientAgreementEnd} />
+          ) : (
+            <View style={styles.loadingContainer}>
+              {/* <Text>Client agreement end information is not found</Text> */}
               <ActivityIndicator size="large" color={COLORS.blue} />
             </View>
           )}
