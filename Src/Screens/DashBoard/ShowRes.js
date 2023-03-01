@@ -16,6 +16,7 @@ import {GLOBALSTYLE} from '../../Constants/Styles';
 import {COLORS} from '../../Constants/Theme';
 import SmallButton from '../../Components/SmallButton';
 import CustomTab from '../../Components/CustomTab';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 LogBox.ignoreLogs([
   'VirtualizedLists should never be nested inside plain ScrollViews with the same orientation because it can break windowing and other functionality - use another VirtualizedList-backed container instead.',
@@ -39,9 +40,23 @@ const ShowRes = ({navigation, route}) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  //For setting data to display
+  useEffect(() => {
+    if (displayFlag === 'currentRes') {
+      setDataToDisplay(currResData);
+      setFilterData(currResData);
+    } else if (displayFlag === 'upcomingRes') {
+      setDataToDisplay(dashUpcomingResData);
+      setFilterData(dashUpcomingResData);
+    } else if (displayFlag === 'projectTarget') {
+      setDataToDisplay(dashProjectTargetData);
+      setFilterData(dashProjectTargetData);
+    }
+  }, [navigation]);
+
   //For getting filter data on search
   useEffect(() => {
-    getFilterData();
+    getFilterResData();
   }, [search]);
 
   //For setting search input text
@@ -49,27 +64,36 @@ const ShowRes = ({navigation, route}) => {
     setSearch(value);
   };
 
-  //For setting data to display
-  useEffect(() => {
-    if (displayFlag === 'currentRes') {
-      // dispalyData = currResData;
-      setDataToDisplay(currResData);
-    } else if (displayFlag === 'upcomingRes') {
-      // dispalyData = dashUpcomingResData;
-      setDataToDisplay(dashUpcomingResData);
-    } else {
-      // dispalyData = dashProjectTargetData;
-      setDataToDisplay(dashProjectTargetData);
-    }
-  }, [navigation]);
-
-  const getFilterData = () => {
+  //for filtering search results
+  const getFilterResData = () => {
     const filterValue = dataToDisplay?.filter(data => {
+      const fullName =
+        data.fname.toLowerCase() + ' ' + data.lname.toLowerCase();
+
       if (search.length === 0) {
         return data;
+      } else if (data.fname !== null) {
+        if (
+          data.fname.toLowerCase().includes(search.toLocaleLowerCase()) ||
+          data.lname.toLowerCase().includes(search.toLocaleLowerCase()) ||
+          fullName.includes(search.toLocaleLowerCase()) ||
+          data.email.toLowerCase().includes(search.toLocaleLowerCase()) ||
+          data.resident_address
+            .toLowerCase()
+            .includes(search.toLocaleLowerCase()) ||
+          data.Technology.toLowerCase().includes(search.toLocaleLowerCase()) ||
+          data.exp_date.toLowerCase().includes(search.toLocaleLowerCase())
+          //  ||
+          // data.company_name.toLowerCase().includes(search.toLocaleLowerCase()) ||
+          // data.client_name.toLowerCase().includes(search.toLocaleLowerCase())
+        ) {
+          return data;
+        }
       }
-      setFilterData(filterValue);
     });
+    if (filterValue.length !== 0) {
+      setFilterData(filterValue);
+    }
   };
 
   //For downloading resume
@@ -106,6 +130,7 @@ const ShowRes = ({navigation, route}) => {
 
   //For render item of flatlist
   const renderItem = item => {
+    // console.log('DATA IETM', item);
     if (displayFlag === 'currentRes') {
       return (
         <View style={GLOBALSTYLE.cardView}>
@@ -123,7 +148,7 @@ const ShowRes = ({navigation, route}) => {
               <Text style={GLOBALSTYLE.label}>Name</Text>
               <Text style={GLOBALSTYLE.text}>
                 {item.fname === null && item.lname === null
-                  ? '-'
+                  ? '--'
                   : item.fname + ' ' + item.lname}
               </Text>
             </View>
@@ -131,7 +156,7 @@ const ShowRes = ({navigation, route}) => {
             <View style={GLOBALSTYLE.columnView}>
               <Text style={GLOBALSTYLE.label}>Email</Text>
               <Text style={GLOBALSTYLE.text}>
-                {item.email === null ? '-' : item.email}
+                {item.email === null ? '--' : item.email}
               </Text>
             </View>
           </View>
@@ -141,14 +166,14 @@ const ShowRes = ({navigation, route}) => {
             <View style={GLOBALSTYLE.columnView}>
               <Text style={GLOBALSTYLE.label}>Mobile No.</Text>
               <Text style={GLOBALSTYLE.text}>
-                {item.phone === null ? '-' : item.phone}
+                {item.phone === null ? '--' : item.phone}
               </Text>
             </View>
 
             <View style={GLOBALSTYLE.columnView}>
               <Text style={GLOBALSTYLE.label}>Address</Text>
               <Text style={GLOBALSTYLE.text}>
-                {item.resident_address === null ? '-' : item.resident_address}
+                {item.resident_address === null ? '--' : item.resident_address}
               </Text>
             </View>
           </View>
@@ -158,14 +183,14 @@ const ShowRes = ({navigation, route}) => {
             <View style={GLOBALSTYLE.columnView}>
               <Text style={GLOBALSTYLE.label}>Technology</Text>
               <Text style={GLOBALSTYLE.text}>
-                {item.Technology === null ? '-' : item.Technology}
+                {item.Technology === null ? '--' : item.Technology}
               </Text>
             </View>
 
             <View style={GLOBALSTYLE.columnView}>
               <Text style={GLOBALSTYLE.label}>Vendor Name</Text>
               <Text style={GLOBALSTYLE.text}>
-                {item.company_name === null ? '-' : item.company_name}
+                {item.company_name === null ? '--' : item.company_name}
               </Text>
             </View>
           </View>
@@ -175,14 +200,14 @@ const ShowRes = ({navigation, route}) => {
             <View style={GLOBALSTYLE.columnView}>
               <Text style={GLOBALSTYLE.label}>Experience</Text>
               <Text style={GLOBALSTYLE.text}>
-                {item.exp_date === null ? '-' : item.exp_date}
+                {item.exp_date === null ? '--' : item.exp_date}
               </Text>
             </View>
 
             <View style={GLOBALSTYLE.columnView}>
               <Text style={GLOBALSTYLE.label}>SR</Text>
               <Text style={GLOBALSTYLE.text}>
-                {item.successRatio === null ? '-' : item.successRatio}
+                {item.successRatio === null ? '--' : item.successRatio}
               </Text>
             </View>
           </View>
@@ -203,7 +228,7 @@ const ShowRes = ({navigation, route}) => {
             <View style={GLOBALSTYLE.columnView}>
               <Text style={GLOBALSTYLE.label}>Idle</Text>
               <Text style={GLOBALSTYLE.text}>
-                {item.idleDays === null ? '-' : item.idleDays}
+                {item.idleDays === null ? '--' : item.idleDays}
               </Text>
             </View>
           </View>
@@ -218,7 +243,7 @@ const ShowRes = ({navigation, route}) => {
               <Text style={GLOBALSTYLE.label}>Name</Text>
               <Text style={GLOBALSTYLE.text}>
                 {item.fname === null && item.lname === null
-                  ? '-'
+                  ? '--'
                   : item.fname + ' ' + item.lname}
               </Text>
             </View>
@@ -226,7 +251,7 @@ const ShowRes = ({navigation, route}) => {
             <View style={GLOBALSTYLE.columnView}>
               <Text style={GLOBALSTYLE.label}>Address</Text>
               <Text style={GLOBALSTYLE.text}>
-                {item.resident_address === null ? '-' : item.resident_address}
+                {item.resident_address === null ? '--' : item.resident_address}
               </Text>
             </View>
           </View>
@@ -236,14 +261,14 @@ const ShowRes = ({navigation, route}) => {
             <View style={GLOBALSTYLE.columnView}>
               <Text style={GLOBALSTYLE.label}>Technology</Text>
               <Text style={GLOBALSTYLE.text}>
-                {item.Technology === null ? '-' : item.Technology}
+                {item.Technology === null ? '--' : item.Technology}
               </Text>
             </View>
 
             <View style={GLOBALSTYLE.columnView}>
               <Text style={GLOBALSTYLE.label}>Experience</Text>
               <Text style={GLOBALSTYLE.text}>
-                {item.exp_date === null ? '-' : item.exp_date}
+                {item.exp_date === null ? '--' : item.exp_date}
               </Text>
             </View>
           </View>
@@ -264,7 +289,7 @@ const ShowRes = ({navigation, route}) => {
             <View style={GLOBALSTYLE.columnView}>
               <Text style={GLOBALSTYLE.label}>Client Name</Text>
               <Text style={GLOBALSTYLE.text}>
-                {item.client_name === null ? '-' : item.client_name}
+                {item.client_name === null ? '--' : item.client_name}
               </Text>
             </View>
           </View>
@@ -274,7 +299,7 @@ const ShowRes = ({navigation, route}) => {
             <Text style={GLOBALSTYLE.label}>End Date</Text>
             <Text style={GLOBALSTYLE.text}>
               {item.end_date === null
-                ? '-'
+                ? '--'
                 : new Date(item.end_date)
                     .toDateString('en-US', {})
                     .split(' ')
@@ -284,7 +309,7 @@ const ShowRes = ({navigation, route}) => {
           </View>
         </View>
       );
-    } else {
+    } else if (displayFlag === 'projectTarget') {
       return (
         <View style={GLOBALSTYLE.cardView}>
           {/*For Name and Address */}
@@ -293,7 +318,7 @@ const ShowRes = ({navigation, route}) => {
               <Text style={GLOBALSTYLE.label}>Name</Text>
               <Text style={GLOBALSTYLE.text}>
                 {item.fname === null && item.lname === null
-                  ? '-'
+                  ? '--'
                   : item.fname + ' ' + item.lname}
               </Text>
             </View>
@@ -301,7 +326,7 @@ const ShowRes = ({navigation, route}) => {
             <View style={GLOBALSTYLE.columnView}>
               <Text style={GLOBALSTYLE.label}>Address</Text>
               <Text style={GLOBALSTYLE.text}>
-                {item.resident_address === null ? '-' : item.resident_address}
+                {item.resident_address === null ? '--' : item.resident_address}
               </Text>
             </View>
           </View>
@@ -311,14 +336,14 @@ const ShowRes = ({navigation, route}) => {
             <View style={GLOBALSTYLE.columnView}>
               <Text style={GLOBALSTYLE.label}>Technology</Text>
               <Text style={GLOBALSTYLE.text}>
-                {item.Technology === null ? '-' : item.Technology}
+                {item.Technology === null ? '--' : item.Technology}
               </Text>
             </View>
 
             <View style={GLOBALSTYLE.columnView}>
               <Text style={GLOBALSTYLE.label}>Experience</Text>
               <Text style={GLOBALSTYLE.text}>
-                {item.exp_date === null ? '-' : item.exp_date}
+                {item.exp_date === null ? '--' : item.exp_date}
               </Text>
             </View>
           </View>
@@ -339,7 +364,7 @@ const ShowRes = ({navigation, route}) => {
             <View style={GLOBALSTYLE.columnView}>
               <Text style={GLOBALSTYLE.label}>Client Name</Text>
               <Text style={GLOBALSTYLE.text}>
-                {item.client_name === null ? '-' : item.client_name}
+                {item.client_name === null ? '--' : item.client_name}
               </Text>
             </View>
           </View>
@@ -348,68 +373,89 @@ const ShowRes = ({navigation, route}) => {
           <View style={[GLOBALSTYLE.columnView, styles.columnViewAligner]}>
             <Text style={GLOBALSTYLE.label}>On Project</Text>
             <Text style={GLOBALSTYLE.text}>
-              {item.on_project === null ? '-' : item.on_project}
+              {item.on_project === null ? '--' : item.on_project}
             </Text>
+          </View>
+        </View>
+      );
+    } else {
+      return (
+        <View style={GLOBALSTYLE.cardView}>
+          {/* Data not found */}
+          <View style={[GLOBALSTYLE.columnView, styles.columnViewAligner]}>
+            <Text style={GLOBALSTYLE.label}>Resources Not Found</Text>
           </View>
         </View>
       );
     }
   };
 
+  console.log('....>', dataToDisplay);
+  console.log('XXXX>', filterData);
+
   return (
     <SafeAreaView style={GLOBALSTYLE.safeAreaViewStyle}>
       <View style={styles.rootContainer}>
         <CustomNavigationBar back={true} headername="Show Resource" />
-        <SearchBox setSearchValue={setSearchValue} />
-        {/*For Filter and Export Buttons */}
-        <View style={[GLOBALSTYLE.rowView, styles.rowViewAligner]}>
-          <SmallButton
-            color={COLORS.lightBlue}
-            title={'Filter'}
-            onPressFunction={() => {}}
-            customStyle={{marginHorizontal: 0}}
+        <View style={styles.toolbar}>
+          <SearchBox
+            setSearchValue={setSearchValue}
+            customStyle={{width: '70%'}}
           />
-          <SmallButton
-            color={COLORS.lightBlue}
-            title={'Export'}
-            onPressFunction={() => {}}
-          />
+          {/*For Filter and Export Buttons */}
+          <View style={styles.iconContainer}>
+            <TouchableOpacity onPress={() => {}}>
+              <AntDesign name="filter" size={30} color={COLORS.lightBlue} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => {}}>
+              <AntDesign name="export" size={30} color={COLORS.lightBlue} />
+            </TouchableOpacity>
+          </View>
         </View>
-        {/*For current, upcoming and project Buttons */}
-        <View style={[GLOBALSTYLE.rowView, styles.rowViewAligner]}>
+        {/*For current, upcoming and project tabs */}
+        <View
+          style={[
+            GLOBALSTYLE.rowView,
+            styles.rowViewAligner,
+            styles.tabContainer,
+          ]}>
           <CustomTab
-            color={COLORS.lightBlue}
+            color={COLORS.lightergrey}
             title="Current"
             count={currRes.count}
             onPressFunction={() => {
               setDataToDisplay(currResData);
+              setFilterData(currResData);
               setDisplayFlag('currentRes');
               setRefreshFlatList(!refreshFlatlist);
             }}
           />
           <CustomTab
-            color={COLORS.lightBlue}
+            color={COLORS.lightergrey}
             title="Upcoming"
             count={dashUpcomingRes.count}
             onPressFunction={() => {
               setDataToDisplay(dashUpcomingResData);
+              setFilterData(dashUpcomingResData);
               setDisplayFlag('upcomingRes');
               setRefreshFlatList(!refreshFlatlist);
             }}
           />
           <CustomTab
-            color={COLORS.lightBlue}
+            color={COLORS.lightergrey}
             title="Project"
             count={dashProjectTarget.count}
             onPressFunction={() => {
               setDataToDisplay(dashProjectTargetData);
+              setFilterData(dashProjectTargetData);
               setDisplayFlag('projectTarget');
               setRefreshFlatList(!refreshFlatlist);
             }}
           />
         </View>
+
         <FlatList
-          data={dataToDisplay}
+          data={filterData}
           extraData={refreshFlatlist}
           renderItem={({item}) => {
             return renderItem(item);
@@ -426,7 +472,7 @@ export default ShowRes;
 
 const styles = StyleSheet.create({
   rootContainer: {flex: 1},
-  flatList: {marginVertical: 20},
+  flatList: {marginTop: 10, marginBottom: 20},
   heading: {
     color: '#000',
     fontSize: 25,
@@ -446,5 +492,20 @@ const styles = StyleSheet.create({
   btnTextStyle: {
     color: COLORS.blue,
     fontSize: 14,
+  },
+  tabContainer: {
+    paddingVertical: 15,
+    paddingHorizontal: 10,
+    borderRadius: 10,
+    backgroundColor: COLORS.white,
+  },
+  toolbar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  iconContainer: {
+    width: '18%',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
   },
 });

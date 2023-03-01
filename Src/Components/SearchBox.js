@@ -10,14 +10,17 @@ const SearchBox = props => {
   };
   return (
     <View
-      style={{
-        padding: 5,
-        margin: 10,
-        flexDirection: 'row',
-        backgroundColor: COLORS.white,
-        borderRadius: 10,
-        marginHorizontal: 15,
-      }}>
+      style={[
+        {
+          padding: 5,
+          margin: 10,
+          flexDirection: 'row',
+          backgroundColor: COLORS.white,
+          borderRadius: 10,
+          marginHorizontal: 15,
+        },
+        props.customStyle,
+      ]}>
       <Feather
         name="search"
         style={{

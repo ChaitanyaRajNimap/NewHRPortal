@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
 import {GLOBALSTYLE} from '../../Constants/Styles';
 import {COLORS} from '../../Constants/Theme';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const DashBoardRes = ({
   navigation,
@@ -72,6 +73,17 @@ const DashBoardRes = ({
         <View style={styles.headerContentStyle}>
           <Text style={styles.headerTextStyle}>Resources</Text>
         </View>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('ShowRes', {
+              flag: 'currentRes',
+              currRes: currRes,
+              dashUpcomingRes: dashUpcomingRes,
+              dashProjectTarget: dashProjectTarget,
+            });
+          }}>
+          <AntDesign name="arrowright" size={30} color={COLORS.white} />
+        </TouchableOpacity>
       </View>
       <FlatList
         data={dataToRender}

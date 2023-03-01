@@ -11,16 +11,16 @@ const CustomTab = props => {
     <TouchableOpacity
       style={{
         width: Dimensions.get('screen').width / 4,
-        padding: 15,
         paddingHorizontal: 5,
-        borderRadius: 8,
+        paddingVertical: 7,
+        borderRadius: 15,
         alignItems: 'center',
         backgroundColor: props.color,
       }}
       onPress={() => {
         onPressFun();
       }}>
-      <Text style={{color: COLORS.white, fontWeight: '600', fontSize: 14}}>
+      <Text style={{color: COLORS.black, fontWeight: '600', fontSize: 14}}>
         {props.title + ' (' + props.count + ')'}
       </Text>
     </TouchableOpacity>
