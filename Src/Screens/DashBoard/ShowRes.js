@@ -9,6 +9,8 @@ import {
   ScrollView,
   LogBox,
   Alert,
+  Modal,
+  Button,
 } from 'react-native';
 import SearchBox from '../../Components/SearchBox';
 import CustomNavigationBar from '../../Components/CustomNavigationBar';
@@ -17,6 +19,7 @@ import {COLORS} from '../../Constants/Theme';
 import SmallButton from '../../Components/SmallButton';
 import CustomTab from '../../Components/CustomTab';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import FilterModal from './Modals/FilterModal';
 
 LogBox.ignoreLogs([
   'VirtualizedLists should never be nested inside plain ScrollViews with the same orientation because it can break windowing and other functionality - use another VirtualizedList-backed container instead.',
@@ -37,8 +40,13 @@ const ShowRes = ({navigation, route}) => {
   const [search, setSearch] = useState('');
   const [refreshFlatlist, setRefreshFlatList] = useState(false);
 
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  //For modal
+  const [modalVisible, setModalVisible] = useState(false);
+
+  //For closing modal
+  const closeModalHandler = () => {
+    setModalVisible(!modalVisible);
+  };
 
   //For setting data to display
   useEffect(() => {
@@ -62,6 +70,35 @@ const ShowRes = ({navigation, route}) => {
   //For setting search input text
   const setSearchValue = value => {
     setSearch(value);
+  };
+
+  //for filtering data  on filter conditions
+  const applyFilter = value => {
+    console.log('APPLY FILTERR : ', value);
+    console.log('...>', dataToDisplay);
+    console.log('FDATA>', value.location);
+    console.log('FDATA>', value.technology);
+    console.log('FDATA>', value.experience);
+    const filterValue = dataToDisplay?.filter(data => {
+      if (
+        data.resident_address
+          .toLocaleLowerCase()
+          .includes(value.location.toLocaleLowerCase()) &&
+        data.Technology.toLowerCase().includes(
+          value.technology.toLocaleLowerCase(),
+        ) &&
+        data.exp_date
+          .toLowerCase()
+          .includes(value.experience.toLocaleLowerCase())
+      ) {
+        return data;
+      }
+    });
+    console.log('FV>>>>>>>', filterValue);
+    if (filterValue.length !== 0) {
+      console.log('FVxxxx', filterValue);
+      setFilterData(filterValue);
+    }
   };
 
   //for filtering search results
@@ -395,6 +432,15 @@ const ShowRes = ({navigation, route}) => {
 
   return (
     <SafeAreaView style={GLOBALSTYLE.safeAreaViewStyle}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}>
+        <FilterModal onCancel={closeModalHandler} applyFilter={applyFilter} />
+      </Modal>
       <View style={styles.rootContainer}>
         <CustomNavigationBar back={true} headername="Show Resource" />
         <View style={styles.toolbar}>
@@ -404,7 +450,10 @@ const ShowRes = ({navigation, route}) => {
           />
           {/*For Filter and Export Buttons */}
           <View style={styles.iconContainer}>
-            <TouchableOpacity onPress={() => {}}>
+            <TouchableOpacity
+              onPress={() => {
+                setModalVisible(true);
+              }}>
               <AntDesign name="filter" size={30} color={COLORS.lightBlue} />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => {}}>
@@ -427,6 +476,7 @@ const ShowRes = ({navigation, route}) => {
               setDataToDisplay(currResData);
               setFilterData(currResData);
               setDisplayFlag('currentRes');
+              getFilterResData();
               setRefreshFlatList(!refreshFlatlist);
             }}
           />
@@ -438,6 +488,7 @@ const ShowRes = ({navigation, route}) => {
               setDataToDisplay(dashUpcomingResData);
               setFilterData(dashUpcomingResData);
               setDisplayFlag('upcomingRes');
+              getFilterResData();
               setRefreshFlatList(!refreshFlatlist);
             }}
           />
@@ -449,6 +500,7 @@ const ShowRes = ({navigation, route}) => {
               setDataToDisplay(dashProjectTargetData);
               setFilterData(dashProjectTargetData);
               setDisplayFlag('projectTarget');
+              getFilterResData();
               setRefreshFlatList(!refreshFlatlist);
             }}
           />

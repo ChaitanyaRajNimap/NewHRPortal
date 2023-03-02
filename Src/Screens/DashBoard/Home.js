@@ -193,11 +193,11 @@ const Home = ({navigation}) => {
           </View>
         )}
 
-        {!loading && error && (
+        {/* {!loading && error && (
           <View style={styles.loadingContainer}>
             <Text>Something Went Wrong</Text>
           </View>
-        )}
+        )} */}
 
         {!loading &&
         dashboardHeadData &&

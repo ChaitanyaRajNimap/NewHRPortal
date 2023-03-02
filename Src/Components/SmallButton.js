@@ -8,15 +8,18 @@ const SmallButton = props => {
   };
   return (
     <TouchableOpacity
-      style={{
-        marginHorizontal: 15,
-        padding: 15,
-        marginVertical: 10,
-        borderRadius: 8,
-        alignItems: 'center',
-        backgroundColor: props.color,
-        width: Dimensions.get('window').width / 3,
-      }}
+      style={[
+        {
+          marginHorizontal: 15,
+          padding: 15,
+          marginVertical: 10,
+          borderRadius: 8,
+          alignItems: 'center',
+          backgroundColor: props.color,
+          width: Dimensions.get('window').width / 3,
+        },
+        props.customStyles,
+      ]}
       onPress={() => {
         onPressFun();
       }}>

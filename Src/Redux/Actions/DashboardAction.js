@@ -38,6 +38,9 @@ import {
   GETCLIENTAGREEMENTEND_PROGRESS,
   GETCLIENTAGREEMENTEND_SUCCESS,
   GETCLIENTAGREEMENTEND_FAIL,
+  GETTECHNOLOGY_PROGRESS,
+  GETTECHNOLOGY_SUCCESS,
+  GETTECHNOLOGY_FAIL,
 } from '../ActionConstant';
 import request from '../../Util/request';
 import Toast from 'react-native-simple-toast';
@@ -221,6 +224,27 @@ export function getClientAgreementEnd() {
     } catch (error) {
       dispatch(dashboardDispatch(error, GETCLIENTAGREEMENTEND_FAIL));
       console.log('getClientAgreementEnd error from dashboard :====>', error);
+    }
+  };
+}
+
+//For fetching technology
+export function getTechnology() {
+  return async dispatch => {
+    dispatch(dashboardDispatch({}, GETTECHNOLOGY_PROGRESS));
+    try {
+      const data = await request({
+        url: '/technology',
+        method: 'GET',
+      });
+      // console.log(
+      //   'getTechnology response from filter modal :====>',
+      //   data.data.data,
+      // );
+      dispatch(dashboardDispatch(data.data.data, GETTECHNOLOGY_SUCCESS));
+    } catch (error) {
+      dispatch(dashboardDispatch(error, GETTECHNOLOGY_FAIL));
+      console.log('getTechnology error from filter modal :====>', error);
     }
   };
 }

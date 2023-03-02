@@ -38,6 +38,9 @@ import {
   GETCLIENTAGREEMENTEND_PROGRESS,
   GETCLIENTAGREEMENTEND_SUCCESS,
   GETCLIENTAGREEMENTEND_FAIL,
+  GETTECHNOLOGY_PROGRESS,
+  GETTECHNOLOGY_SUCCESS,
+  GETTECHNOLOGY_FAIL,
 } from '../ActionConstant';
 
 const initialState = {
@@ -52,6 +55,7 @@ const initialState = {
   getResContractEnd: null,
   getPurchaseOrderEnd: null,
   getClientAgreementEnd: null,
+  getTechnology: null,
   addNotesData: null,
   updateNotesData: null,
   deleteNotesData: null,
@@ -219,6 +223,24 @@ const DashboardReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         getClientAgreementEnd: action.payload,
+      };
+
+    case GETTECHNOLOGY_PROGRESS:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case GETTECHNOLOGY_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        getTechnology: action.payload,
+      };
+    case GETTECHNOLOGY_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        getTechnology: action.payload,
       };
 
     case ADDNOTES_PROGRESS:
