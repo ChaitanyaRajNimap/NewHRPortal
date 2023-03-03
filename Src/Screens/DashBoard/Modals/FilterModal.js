@@ -224,13 +224,13 @@ const FilterModal = ({onCancel, applyFilter}) => {
               onPressFunction={value => {
                 let expLevel;
                 if (value === 0) {
-                  expLevel = '0-1 year';
+                  expLevel = '0-1';
                 } else if (value === 1) {
-                  expLevel = '1-2 year';
+                  expLevel = '1-2';
                 } else if (value === 2) {
-                  expLevel = '2-3 year';
+                  expLevel = '2-3';
                 } else {
-                  expLevel = '3+ year';
+                  expLevel = '3-4';
                 }
                 setRadioValue(value);
                 let err = validation.validateField(expLevel);

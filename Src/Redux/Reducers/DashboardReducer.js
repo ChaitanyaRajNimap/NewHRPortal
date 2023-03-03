@@ -23,12 +23,21 @@ import {
   GETCURRENTRES_PROGRESS,
   GETCURRENTRES_SUCCESS,
   GETCURRENTRES_FAIL,
+  GETCURRENTRESFILTER_PROGRESS,
+  GETCURRENTRESFILTER_SUCCESS,
+  GETCURRENTRESFILTER_FAIL,
   GETDASHUPCOMINGRES_PROGRESS,
   GETDASHUPCOMINGRES_SUCCESS,
   GETDASHUPCOMINGRES_FAIL,
+  GETDASHUPCOMINGRESFILTER_PROGRESS,
+  GETDASHUPCOMINGRESFILTER_SUCCESS,
+  GETDASHUPCOMINGRESFILTER_FAIL,
   GETDASHPROJECTTARGET_PROGRESS,
   GETDASHPROJECTTARGET_SUCCESS,
   GETDASHPROJECTTARGET_FAIL,
+  GETDASHPROJECTTARGETFILTER_PROGRESS,
+  GETDASHPROJECTTARGETFILTER_SUCCESS,
+  GETDASHPROJECTTARGETFILTER_FAIL,
   GETRESCONTRACTEND_PROGRESS,
   GETRESCONTRACTEND_SUCCESS,
   GETRESCONTRACTEND_FAIL,
@@ -50,8 +59,11 @@ const initialState = {
   getNotes: null,
   getTopClientDetails: null,
   getCurrentRes: null,
+  getCurrentResFilter: null,
   getDashUpcomingRes: null,
+  getDashUpcomingResFilter: null,
   getDashProjectTarget: null,
+  getDashProjectTargetFilter: null,
   getResContractEnd: null,
   getPurchaseOrderEnd: null,
   getClientAgreementEnd: null,
@@ -135,6 +147,24 @@ const DashboardReducer = (state = initialState, action) => {
         getCurrentRes: action.payload,
       };
 
+    case GETCURRENTRESFILTER_PROGRESS:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case GETCURRENTRESFILTER_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        getCurrentResFilter: action.payload,
+      };
+    case GETCURRENTRESFILTER_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        getCurrentResFilter: action.payload,
+      };
+
     case GETDASHUPCOMINGRES_PROGRESS:
       return {
         ...state,
@@ -153,6 +183,24 @@ const DashboardReducer = (state = initialState, action) => {
         getDashUpcomingRes: action.payload,
       };
 
+    case GETDASHUPCOMINGRESFILTER_PROGRESS:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case GETDASHUPCOMINGRESFILTER_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        getDashUpcomingResFilter: action.payload,
+      };
+    case GETDASHUPCOMINGRESFILTER_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        getDashUpcomingResFilter: action.payload,
+      };
+
     case GETDASHPROJECTTARGET_PROGRESS:
       return {
         ...state,
@@ -169,6 +217,24 @@ const DashboardReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         getDashProjectTarget: action.payload,
+      };
+
+    case GETDASHPROJECTTARGETFILTER_PROGRESS:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case GETDASHPROJECTTARGETFILTER_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        getDashProjectTargetFilter: action.payload,
+      };
+    case GETDASHPROJECTTARGETFILTER_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        getDashProjectTargetFilter: action.payload,
       };
 
     case GETRESCONTRACTEND_PROGRESS:

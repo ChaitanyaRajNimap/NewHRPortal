@@ -23,12 +23,21 @@ import {
   GETCURRENTRES_PROGRESS,
   GETCURRENTRES_SUCCESS,
   GETCURRENTRES_FAIL,
+  GETCURRENTRESFILTER_PROGRESS,
+  GETCURRENTRESFILTER_SUCCESS,
+  GETCURRENTRESFILTER_FAIL,
   GETDASHUPCOMINGRES_PROGRESS,
   GETDASHUPCOMINGRES_SUCCESS,
   GETDASHUPCOMINGRES_FAIL,
+  GETDASHUPCOMINGRESFILTER_PROGRESS,
+  GETDASHUPCOMINGRESFILTER_SUCCESS,
+  GETDASHUPCOMINGRESFILTER_FAIL,
   GETDASHPROJECTTARGET_PROGRESS,
   GETDASHPROJECTTARGET_SUCCESS,
   GETDASHPROJECTTARGET_FAIL,
+  GETDASHPROJECTTARGETFILTER_PROGRESS,
+  GETDASHPROJECTTARGETFILTER_SUCCESS,
+  GETDASHPROJECTTARGETFILTER_FAIL,
   GETRESCONTRACTEND_PROGRESS,
   GETRESCONTRACTEND_SUCCESS,
   GETRESCONTRACTEND_FAIL,
@@ -114,6 +123,34 @@ export function getCurrentRes() {
   };
 }
 
+//For fetching current resources filter data
+export function getCurrentResFilter(location, technology, experience) {
+  console.log('getCurrentResFilter ACTION REACHED!!!');
+  return async dispatch => {
+    dispatch(dashboardDispatch({}, GETCURRENTRESFILTER_PROGRESS));
+    try {
+      console.log('getCurrentResFilter TRY REACHED!!!');
+      const data = await request({
+        url: `/home/current-resource-filter?location=${location}&Technology=${technology}&exp=${experience}`,
+        method: 'GET',
+      });
+      console.log(
+        'getCurrentResFilter response from dashboard :F====>',
+        data.data.data.data,
+      );
+      dispatch(
+        dashboardDispatch(data.data.data.data, GETCURRENTRESFILTER_SUCCESS),
+      );
+    } catch (error) {
+      dispatch(dashboardDispatch(error.data.message, GETCURRENTRESFILTER_FAIL));
+      // console.log(
+      //   'getCurrentResFilter error from dashboard :F====>',
+      //   error.data.message,
+      // );
+    }
+  };
+}
+
 //For fetching dashboard upcoming resource
 export function getDashUpcomingRes() {
   return async dispatch => {
@@ -135,6 +172,41 @@ export function getDashUpcomingRes() {
   };
 }
 
+//For fetching dashboard upcoming resource filter data
+export function getDashUpcomingResFilter(location, technology, experience) {
+  console.log('getDashUpcomingResFilter ACTION REACHED!!!');
+  console.log(
+    'getDashUpcomingResFilter values : ',
+    location,
+    technology,
+    experience,
+  );
+  return async dispatch => {
+    dispatch(dashboardDispatch({}, GETDASHUPCOMINGRESFILTER_PROGRESS));
+    try {
+      console.log('getDashUpcomingResFilter TRY REACHED!!!');
+      const data = await request({
+        url: `/home/upcoming-resource-filter?location=${location}&Technology=${technology}&exp=${experience}`,
+        // url: `/resource/dashboard-upcoming-resource?location=${location}&Technology=${technology}&exp=${experience}`,
+        method: 'GET',
+      });
+      console.log(
+        'getDashUpcomingResFilter response from dashboard :F====>',
+        data,
+      );
+      // dispatch(dashboardDispatch(data.data, GETDASHUPCOMINGRESFILTER_SUCCESS));
+    } catch (error) {
+      // dispatch(
+      //   dashboardDispatch(error.data.message, GETDASHUPCOMINGRESFILTER_FAIL),
+      // );
+      console.log(
+        'getDashUpcomingResFilter error from dashboard :====>',
+        error.data.message,
+      );
+    }
+  };
+}
+
 //For fetching dashboard project target
 export function getDashProjectTarget() {
   return async dispatch => {
@@ -152,6 +224,32 @@ export function getDashProjectTarget() {
     } catch (error) {
       dispatch(dashboardDispatch(error, GETDASHPROJECTTARGET_FAIL));
       console.log('getDashProjectTarget error from dashboard :====>', error);
+    }
+  };
+}
+
+//For fetching dashboard project target
+export function getDashProjectTargetFilter(location, technology, experience) {
+  console.log('getDashProjectTargetFilter ACTION REACHED!!!');
+  return async dispatch => {
+    dispatch(dashboardDispatch({}, GETDASHPROJECTTARGETFILTER_PROGRESS));
+    try {
+      console.log('getDashProjectTargetFilter TRY REACHED!!!');
+      const data = await request({
+        url: `/home/project-target-filter?location=${location}&Technology=${technology}&exp=${experience}`,
+        method: 'GET',
+      });
+      console.log(
+        'getDashProjectTargetFilter response from dashboard :F====>',
+        data,
+      );
+      // dispatch(dashboardDispatch(data.data, GETDASHPROJECTTARGETFILTER_SUCCESS));
+    } catch (error) {
+      // dispatch(dashboardDispatch(error.data.message, GETDASHPROJECTTARGETFILTER_FAIL));
+      console.log(
+        'getDashProjectTargetFilter error from dashboard :====>',
+        error,
+      );
     }
   };
 }

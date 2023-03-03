@@ -12,6 +12,12 @@ import {
   Modal,
   Button,
 } from 'react-native';
+import {
+  getCurrentResFilter as getCurrentResFilterAction,
+  getDashUpcomingResFilter as getDashUpcomingResFilterAction,
+  getDashProjectTargetFilter as getDashProjectTargetFilterAction,
+} from '../../Redux/Actions/DashboardAction';
+import {useSelector, useDispatch} from 'react-redux';
 import SearchBox from '../../Components/SearchBox';
 import CustomNavigationBar from '../../Components/CustomNavigationBar';
 import {GLOBALSTYLE} from '../../Constants/Styles';
@@ -26,6 +32,10 @@ LogBox.ignoreLogs([
 ]);
 
 const ShowRes = ({navigation, route}) => {
+  const dispatch = useDispatch();
+  const reducerData = useSelector(state => state.DashboardReducer);
+  console.log('REDUCER DATA FROM SHOWRESSSSSSS : ', reducerData);
+
   const {flag, currRes, dashUpcomingRes, dashProjectTarget} = route.params;
   const currResData = currRes.data.data;
   const dashUpcomingResData = dashUpcomingRes.data;
@@ -75,31 +85,81 @@ const ShowRes = ({navigation, route}) => {
   //for filtering data  on filter conditions
   const applyFilter = value => {
     console.log('APPLY FILTERR : ', value);
-    console.log('...>', dataToDisplay);
+    // console.log('...>', dataToDisplay);
     console.log('FDATA>', value.location);
     console.log('FDATA>', value.technology);
     console.log('FDATA>', value.experience);
-    const filterValue = dataToDisplay?.filter(data => {
-      if (
-        data.resident_address
-          .toLocaleLowerCase()
-          .includes(value.location.toLocaleLowerCase()) &&
-        data.Technology.toLowerCase().includes(
-          value.technology.toLocaleLowerCase(),
-        ) &&
-        data.exp_date
-          .toLowerCase()
-          .includes(value.experience.toLocaleLowerCase())
-      ) {
-        return data;
-      }
-    });
-    console.log('FV>>>>>>>', filterValue);
-    if (filterValue.length !== 0) {
-      console.log('FVxxxx', filterValue);
-      setFilterData(filterValue);
+
+    if (displayFlag === 'currentRes') {
+      console.log('IN DISPLAY', displayFlag);
+      dispatch(
+        getCurrentResFilterAction(
+          value.location,
+          value.technology,
+          value.experience,
+        ),
+      );
+      console.log('IN currentRes after dispatch', displayFlag);
+    } else if (displayFlag === 'upcomingRes') {
+      console.log('IN DISPLAY', displayFlag);
+      getDashUpcomingResFilterAction(
+        value.location,
+        value.technology,
+        value.experience,
+      );
+      console.log('IN upcomingRes after dispatch', displayFlag);
+    } else if (displayFlag === 'projectTarget') {
+      console.log('IN DISPLAY', displayFlag);
+      getDashProjectTargetFilterAction(
+        value.location,
+        value.technology,
+        value.experience,
+      );
+      console.log('IN projectTarget after dispatch', displayFlag);
     }
   };
+
+  //For current res filter data
+  useEffect(() => {
+    console.log('CURRFILTER DATA: ', reducerData.getCurrentResFilter);
+    if (reducerData.getCurrentResFilter) {
+      if (reducerData.getCurrentResFilter !== 'No data Found') {
+        setFilterData(reducerData.getCurrentResFilter);
+      } else {
+        setFilterData([]);
+      }
+    }
+  }, [reducerData.getCurrentResFilter]);
+
+  //For upcoming res filter data
+  useEffect(() => {
+    console.log(
+      'DASH UPCOMING RES FILTER DATA: ',
+      reducerData.getDashUpcomingResFilter,
+    );
+    if (reducerData.getDashUpcomingResFilter) {
+      if (reducerData.getDashUpcomingResFilter !== 'No data Found') {
+        setFilterData(reducerData.getDashUpcomingResFilter);
+      } else {
+        setFilterData([]);
+      }
+    }
+  }, [reducerData.getDashUpcomingResFilter]);
+
+  //For project target filter data
+  useEffect(() => {
+    console.log(
+      'DASH PROJECT TARGET FILTER DATA: ',
+      reducerData.getDashProjectTargetFilter,
+    );
+    if (reducerData.getDashProjectTargetFilter) {
+      if (reducerData.getDashProjectTargetFilter !== 'No data Found') {
+        setFilterData(reducerData.getDashProjectTargetFilter);
+      } else {
+        setFilterData([]);
+      }
+    }
+  }, [reducerData.getDashProjectTargetFilter]);
 
   //for filtering search results
   const getFilterResData = () => {
@@ -120,9 +180,6 @@ const ShowRes = ({navigation, route}) => {
             .includes(search.toLocaleLowerCase()) ||
           data.Technology.toLowerCase().includes(search.toLocaleLowerCase()) ||
           data.exp_date.toLowerCase().includes(search.toLocaleLowerCase())
-          //  ||
-          // data.company_name.toLowerCase().includes(search.toLocaleLowerCase()) ||
-          // data.client_name.toLowerCase().includes(search.toLocaleLowerCase())
         ) {
           return data;
         }
@@ -427,8 +484,7 @@ const ShowRes = ({navigation, route}) => {
     }
   };
 
-  // console.log('....>', dataToDisplay);
-  // console.log('XXXX>', filterData);
+  console.log('----->', filterData);
 
   return (
     <SafeAreaView style={GLOBALSTYLE.safeAreaViewStyle}>
