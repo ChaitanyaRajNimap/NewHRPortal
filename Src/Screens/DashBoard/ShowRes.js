@@ -34,7 +34,7 @@ LogBox.ignoreLogs([
 const ShowRes = ({navigation, route}) => {
   const dispatch = useDispatch();
   const reducerData = useSelector(state => state.DashboardReducer);
-  console.log('REDUCER DATA FROM SHOWRESSSSSSS : ', reducerData);
+  // console.log('REDUCER DATA FROM SHOWRESSSSSSS : ', reducerData);
 
   const {flag, currRes, dashUpcomingRes, dashProjectTarget} = route.params;
   const currResData = currRes.data.data;
@@ -49,6 +49,7 @@ const ShowRes = ({navigation, route}) => {
 
   //For modal
   const [modalVisible, setModalVisible] = useState(false);
+  const [isFilterModalVisible, setIsFilterModalVisible] = useState(false);
 
   //For closing modal
   const closeModalHandler = () => {
@@ -57,6 +58,10 @@ const ShowRes = ({navigation, route}) => {
 
   //For setting data to display
   useEffect(() => {
+    console.log(' currResData DATAAAA : _', currResData);
+    console.log(' dashUpcomingResData DATAAAA : _', dashUpcomingResData);
+    console.log(' dashProjectTargetData DATAAAA : _', dashProjectTargetData);
+    dashProjectTargetData;
     if (displayFlag === 'currentRes') {
       setDataToDisplay(currResData);
       setFilterData(currResData);
@@ -67,7 +72,7 @@ const ShowRes = ({navigation, route}) => {
       setDataToDisplay(dashProjectTargetData);
       setFilterData(dashProjectTargetData);
     }
-  }, [navigation]);
+  }, []);
 
   //For getting filter data on search
   useEffect(() => {
@@ -454,6 +459,10 @@ const ShowRes = ({navigation, route}) => {
     }
   };
 
+  console.log('DISPALY CURRENT FLASGGG :- ', displayFlag);
+  console.log('filterData CURRENT DATAAA :- ', filterData);
+  console.log(filterData.length > 0);
+
   return (
     <SafeAreaView style={GLOBALSTYLE.safeAreaViewStyle}>
       <Modal
@@ -463,7 +472,14 @@ const ShowRes = ({navigation, route}) => {
         onRequestClose={() => {
           setModalVisible(!modalVisible);
         }}>
-        <FilterModal onCancel={closeModalHandler} applyFilter={applyFilter} />
+        {isFilterModalVisible ? (
+          <FilterModal onCancel={closeModalHandler} applyFilter={applyFilter} />
+        ) : (
+          <View style={{height: 200, width: 200, backgroundColor: '#fff'}}>
+            <Text>EXPORT MODAL</Text>
+            <Button title="CLose" onPress={closeModalHandler} />
+          </View>
+        )}
       </Modal>
       <View style={styles.rootContainer}>
         <CustomNavigationBar back={true} headername="Show Resource" />
@@ -477,10 +493,15 @@ const ShowRes = ({navigation, route}) => {
             <TouchableOpacity
               onPress={() => {
                 setModalVisible(true);
+                setIsFilterModalVisible(true);
               }}>
               <AntDesign name="filter" size={30} color={COLORS.lightBlue} />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => {}}>
+            <TouchableOpacity
+              onPress={() => {
+                setModalVisible(true);
+                setIsFilterModalVisible(false);
+              }}>
               <AntDesign name="export" size={30} color={COLORS.lightBlue} />
             </TouchableOpacity>
           </View>
@@ -500,7 +521,6 @@ const ShowRes = ({navigation, route}) => {
               setDataToDisplay(currResData);
               setFilterData(currResData);
               setDisplayFlag('currentRes');
-              getFilterResData();
               setRefreshFlatList(!refreshFlatlist);
             }}
           />
@@ -512,7 +532,6 @@ const ShowRes = ({navigation, route}) => {
               setDataToDisplay(dashUpcomingResData);
               setFilterData(dashUpcomingResData);
               setDisplayFlag('upcomingRes');
-              getFilterResData();
               setRefreshFlatList(!refreshFlatlist);
             }}
           />
@@ -524,21 +543,35 @@ const ShowRes = ({navigation, route}) => {
               setDataToDisplay(dashProjectTargetData);
               setFilterData(dashProjectTargetData);
               setDisplayFlag('projectTarget');
-              getFilterResData();
               setRefreshFlatList(!refreshFlatlist);
             }}
           />
         </View>
 
-        <FlatList
-          data={filterData}
-          extraData={refreshFlatlist}
-          renderItem={({item}) => {
-            return renderItem(item);
-          }}
-          keyExtractor={item => item.id}
-          style={styles.flatList}
-        />
+        {filterData.length > 0 ? (
+          <FlatList
+            data={filterData}
+            extraData={refreshFlatlist}
+            renderItem={({item}) => {
+              return renderItem(item);
+            }}
+            keyExtractor={item => item.id}
+            style={styles.flatList}
+          />
+        ) : (
+          <View style={[GLOBALSTYLE.cardView, {flex: 0, height: 50}]}>
+            <Text
+              style={{
+                padding: 5,
+                color: COLORS.red,
+                fontSize: 16,
+                fontWeight: 'bold',
+              }}>
+              Resources Not Found
+            </Text>
+            {/* </View> */}
+          </View>
+        )}
       </View>
     </SafeAreaView>
   );
