@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import {
   getCurrentResFilter as getCurrentResFilterAction,
-  getDashUpcomingResFilter as getDashUpcomingResFilterAction,
+  getDashUpcomingResFilter as getDashUpcomingResFilterACT,
   getDashProjectTargetFilter as getDashProjectTargetFilterAction,
 } from '../../Redux/Actions/DashboardAction';
 import {useSelector, useDispatch} from 'react-redux';
@@ -40,9 +40,6 @@ const ShowRes = ({navigation, route}) => {
   const currResData = currRes.data.data;
   const dashUpcomingResData = dashUpcomingRes.data;
   const dashProjectTargetData = dashProjectTarget.data;
-  // let dispalyData;
-
-  // console.log('FLAG FROM SHOW RESSS', flag);
 
   const [displayFlag, setDisplayFlag] = useState(flag);
   const [dataToDisplay, setDataToDisplay] = useState([]);
@@ -84,14 +81,7 @@ const ShowRes = ({navigation, route}) => {
 
   //for filtering data  on filter conditions
   const applyFilter = value => {
-    console.log('APPLY FILTERR : ', value);
-    // console.log('...>', dataToDisplay);
-    console.log('FDATA>', value.location);
-    console.log('FDATA>', value.technology);
-    console.log('FDATA>', value.experience);
-
     if (displayFlag === 'currentRes') {
-      console.log('IN DISPLAY', displayFlag);
       dispatch(
         getCurrentResFilterAction(
           value.location,
@@ -99,29 +89,27 @@ const ShowRes = ({navigation, route}) => {
           value.experience,
         ),
       );
-      console.log('IN currentRes after dispatch', displayFlag);
     } else if (displayFlag === 'upcomingRes') {
-      console.log('IN DISPLAY', displayFlag);
-      getDashUpcomingResFilterAction(
-        value.location,
-        value.technology,
-        value.experience,
+      dispatch(
+        getDashUpcomingResFilterACT(
+          value.location,
+          value.technology,
+          value.experience,
+        ),
       );
-      console.log('IN upcomingRes after dispatch', displayFlag);
     } else if (displayFlag === 'projectTarget') {
-      console.log('IN DISPLAY', displayFlag);
-      getDashProjectTargetFilterAction(
-        value.location,
-        value.technology,
-        value.experience,
+      dispatch(
+        getDashProjectTargetFilterAction(
+          value.location,
+          value.technology,
+          value.experience,
+        ),
       );
-      console.log('IN projectTarget after dispatch', displayFlag);
     }
   };
 
   //For current res filter data
   useEffect(() => {
-    console.log('CURRFILTER DATA: ', reducerData.getCurrentResFilter);
     if (reducerData.getCurrentResFilter) {
       if (reducerData.getCurrentResFilter !== 'No data Found') {
         setFilterData(reducerData.getCurrentResFilter);
@@ -133,10 +121,6 @@ const ShowRes = ({navigation, route}) => {
 
   //For upcoming res filter data
   useEffect(() => {
-    console.log(
-      'DASH UPCOMING RES FILTER DATA: ',
-      reducerData.getDashUpcomingResFilter,
-    );
     if (reducerData.getDashUpcomingResFilter) {
       if (reducerData.getDashUpcomingResFilter !== 'No data Found') {
         setFilterData(reducerData.getDashUpcomingResFilter);
@@ -148,10 +132,6 @@ const ShowRes = ({navigation, route}) => {
 
   //For project target filter data
   useEffect(() => {
-    console.log(
-      'DASH PROJECT TARGET FILTER DATA: ',
-      reducerData.getDashProjectTargetFilter,
-    );
     if (reducerData.getDashProjectTargetFilter) {
       if (reducerData.getDashProjectTargetFilter !== 'No data Found') {
         setFilterData(reducerData.getDashProjectTargetFilter);
@@ -206,7 +186,6 @@ const ShowRes = ({navigation, route}) => {
         text: 'Yes, Download',
         onPress: () => {
           Linking.canOpenURL(url).then(supported => {
-            console.log('Download supported : ', supported);
             if (supported) {
               Linking.openURL(url);
             } else {
@@ -224,18 +203,9 @@ const ShowRes = ({navigation, route}) => {
 
   //For render item of flatlist
   const renderItem = item => {
-    // console.log('DATA IETM', item);
     if (displayFlag === 'currentRes') {
       return (
         <View style={GLOBALSTYLE.cardView}>
-          {/* for name */}
-          {/* <View style={[GLOBALSTYLE.columnView, styles.columnViewAligner]}>
-            <Text style={GLOBALSTYLE.label}>Name</Text>
-            <Text style={GLOBALSTYLE.text}>
-              {item.fname + ' ' + item.lname}
-            </Text>
-          </View> */}
-
           {/*For Name and Email */}
           <View style={[GLOBALSTYLE.rowView, styles.rowViewAligner]}>
             <View style={GLOBALSTYLE.columnView}>
@@ -483,8 +453,6 @@ const ShowRes = ({navigation, route}) => {
       );
     }
   };
-
-  console.log('----->', filterData);
 
   return (
     <SafeAreaView style={GLOBALSTYLE.safeAreaViewStyle}>
