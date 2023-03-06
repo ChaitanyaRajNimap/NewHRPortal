@@ -26,6 +26,7 @@ import SmallButton from '../../Components/SmallButton';
 import CustomTab from '../../Components/CustomTab';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FilterModal from './Modals/FilterModal';
+import ExportModal from './Modals/ExportModal';
 
 LogBox.ignoreLogs([
   'VirtualizedLists should never be nested inside plain ScrollViews with the same orientation because it can break windowing and other functionality - use another VirtualizedList-backed container instead.',
@@ -475,10 +476,7 @@ const ShowRes = ({navigation, route}) => {
         {isFilterModalVisible ? (
           <FilterModal onCancel={closeModalHandler} applyFilter={applyFilter} />
         ) : (
-          <View style={{height: 200, width: 200, backgroundColor: '#fff'}}>
-            <Text>EXPORT MODAL</Text>
-            <Button title="CLose" onPress={closeModalHandler} />
-          </View>
+          <ExportModal onCancel={closeModalHandler} />
         )}
       </Modal>
       <View style={styles.rootContainer}>

@@ -278,16 +278,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   modalView: {
-    // margin: 20,
-    // height: 250,
     width: 350,
     backgroundColor: COLORS.white,
     borderRadius: 20,
-    // paddingVertical: 35,
-    // paddingHorizontal: 30,
     padding: 30,
-    // alignItems: 'center',
-    // justifyContent: 'center',
     shadowColor: COLORS.black,
     shadowOffset: {
       width: 0,
