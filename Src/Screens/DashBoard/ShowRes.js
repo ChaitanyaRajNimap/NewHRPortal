@@ -476,7 +476,12 @@ const ShowRes = ({navigation, route}) => {
         {isFilterModalVisible ? (
           <FilterModal onCancel={closeModalHandler} applyFilter={applyFilter} />
         ) : (
-          <ExportModal onCancel={closeModalHandler} />
+          <ExportModal
+            onCancel={closeModalHandler}
+            currRes={currResData}
+            dashUpcomingRes={dashUpcomingResData}
+            dashProjectTarget={dashProjectTargetData}
+          />
         )}
       </Modal>
       <View style={styles.rootContainer}>

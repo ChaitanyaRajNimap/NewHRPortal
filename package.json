@@ -18,6 +18,8 @@
     "axios": "^0.26.0",
     "date-fns": "^2.29.3",
     "dayjs": "^1.11.6",
+    "exceljs-node": "^1.6.7",
+    "moment": "^2.29.4",
     "react": "18.1.0",
     "react-native": "0.70.2",
     "react-native-blob-util": "^0.17.1",

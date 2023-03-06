@@ -6,16 +6,24 @@ import {
   TextInput,
   TouchableOpacity,
   KeyboardAvoidingView,
+  Alert,
 } from 'react-native';
 import {GLOBALSTYLE} from '../../../Constants/Styles';
 import {COLORS} from '../../../Constants/Theme';
 import DropDownPicker from 'react-native-dropdown-picker';
 import validation from '../../../Util/helper';
 import SmallButton from '../../../Components/SmallButton';
-import CustomRadioButtons from '../../../Components/CustomRadioButtons';
 import CustomDownloadRadioBtn from '../../../Components/CustomDownloadRadioBtn';
+import Mailer from 'react-native-mail';
+// import ExcelJS from 'exceljs-node';
+// import moment from 'moment';
 
-const ExportModal = ({onCancel}) => {
+const ExportModal = ({
+  onCancel,
+  currRes,
+  dashUpcomingRes,
+  dashProjectTarget,
+}) => {
   const [resOpen, setResOpen] = useState(false);
   const [resValue, setResValue] = useState(null);
   const [resItems, setResItems] = useState([
@@ -45,6 +53,113 @@ const ExportModal = ({onCancel}) => {
     actionError: null,
     emailError: null,
   });
+
+  //for handling send
+  const handleSend = () => {
+    let err = validation.validateEmail(inputs.email);
+    setError(prevIp => {
+      return {
+        ...prevIp,
+        emailError: err,
+      };
+    });
+    if (!err) {
+      console.log('ID TO SEND MAIL :', inputs.email);
+      setInputs(prevIp => {
+        return {
+          ...prevIp,
+          email: null,
+        };
+      });
+      setError(prevIp => {
+        return {
+          ...prevIp,
+          emailError: null,
+        };
+      });
+      Mailer.mail(
+        {
+          subject: 'AutoMail: Current Resource Details',
+          recipients: [`${inputs.email}`],
+          ccRecipients: ['test1@gmail.com'],
+          body: '<b>Hi</b>\n<p>Please check attached Current Resource file</p>',
+          isHTML: true,
+          // attachments: [
+          //   {
+          //     path: '',
+          //     uri: '',
+          //     type: '',
+          //     name: '',
+          //   },
+          // ],
+        },
+        (error, event) => {
+          Alert.alert(
+            error,
+            event,
+            [
+              {
+                text: 'Ok',
+                onPress: () => console.log('OK: Email Error Response'),
+              },
+              {
+                text: 'Cancel',
+                onPress: () => console.log('CANCEL: Email Error Response'),
+              },
+            ],
+            {cancelable: true},
+          );
+        },
+      );
+    }
+  };
+
+  //For handling download
+  const handleDownload = () => {
+    // const workbook = new ExcelJS.Workbook();
+    // exportCurrRes(workbook);
+  };
+
+  //For exporting current res
+  // const exportCurrRes = async (req, res, workbook) => {
+  //   let date = new Date();
+  //   let filename = `CurrentResource${moment(date).format('D-MM-YY')}.xlsx`;
+
+  //   let worksheet = workbook.addWorksheet('sheet1');
+  //   worksheet.columns = [
+  //     {header: 'Full Name', key: 'fullName', width: 10},
+  //     {header: 'Total Experience', key: 'totalExp', width: 10},
+  //     {header: 'Idle Days', key: 'idleDays', width: 10},
+  //     {header: 'Technology Name', key: 'technologyName', width: 10},
+  //   ];
+
+  //   for (const ele in currRes) {
+  //     let data = {...ele};
+  //     await worksheet.addRow({
+  //       fullName: `${data.name}`,
+  //       totalExp: `${data.exp_date}`,
+  //       idleDays: `${data.idleDays}`,
+  //       technologyName: `${data.languages} ${data.otherlanguages}`,
+  //     });
+  //   }
+  //   if (req.body.email) {
+  //     console.log(req.body.email);
+  //     let buffer = await workbook.xlsx.writeBuffer();
+  //     await sendMailtoCurrentResource(buffer, filename, req.body.email);
+  //     res.status(200).json({message: 'Mail Sent Successfully'});
+  //   } else if (req.body.type == 'Download') {
+  //     res.setHeader(
+  //       'Content-Type',
+  //       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  //     );
+  //     res.setHeader(
+  //       'Content-Disposition',
+  //       'attachment; filename=' + `${filename}`,
+  //     );
+  //     await workbook.xlsx.write(res);
+  //     res.end();
+  //   }
+  // };
 
   console.log(inputs.action);
 
@@ -155,12 +270,21 @@ const ExportModal = ({onCancel}) => {
             </View>
           ) : null}
           <View style={styles.upperViewStyle}>
-            <SmallButton
-              color={COLORS.lightBlue}
-              title={'Download'}
-              onPressFunction={() => {}}
-              customStyles={{marginHorizontal: 5}}
-            />
+            {inputs.action === 'Send' ? (
+              <SmallButton
+                color={COLORS.lightBlue}
+                title={'Send'}
+                onPressFunction={handleSend}
+                customStyles={{marginHorizontal: 5}}
+              />
+            ) : (
+              <SmallButton
+                color={COLORS.lightBlue}
+                title={'Download'}
+                onPressFunction={handleDownload}
+                customStyles={{marginHorizontal: 5}}
+              />
+            )}
             <SmallButton
               color={COLORS.grey}
               title={'Cancel'}
