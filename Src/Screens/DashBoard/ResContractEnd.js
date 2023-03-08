@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   headerTextStyle: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '700',
     color: COLORS.white,
   },
@@ -100,12 +100,12 @@ const styles = StyleSheet.create({
   },
   listHeader: {
     color: COLORS.lightBlue,
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: 'bold',
   },
   text: {
     marginBottom: 5,
     color: COLORS.black,
-    fontSize: 15,
+    fontSize: 14,
   },
 });

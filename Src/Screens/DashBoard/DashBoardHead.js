@@ -50,13 +50,13 @@ const styles = StyleSheet.create({
   dashHeadValue: {
     marginBottom: 10,
     color: '#000',
-    fontSize: 30,
+    fontSize: 27,
     fontWeight: 'bold',
   },
   dashHeadTitle: {
     marginBottom: 10,
     color: COLORS.black,
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
   },
 });

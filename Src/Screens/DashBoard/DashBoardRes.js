@@ -82,7 +82,7 @@ const DashBoardRes = ({
               dashProjectTarget: dashProjectTarget,
             });
           }}>
-          <AntDesign name="arrowright" size={30} color={COLORS.white} />
+          <AntDesign name="arrowright" size={25} color={COLORS.white} />
         </TouchableOpacity>
       </View>
       <FlatList
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   headerTextStyle: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '700',
     color: COLORS.white,
   },
@@ -138,6 +138,6 @@ const styles = StyleSheet.create({
   text: {
     marginBottom: 5,
     color: COLORS.black,
-    fontSize: 15,
+    fontSize: 14,
   },
 });

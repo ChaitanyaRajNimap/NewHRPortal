@@ -97,7 +97,7 @@ const Notes = ({data, navigation, deleteNote}) => {
           onPress={() => {
             navigation.navigate('ShowNote');
           }}>
-          <AntDesign name="arrowright" size={30} color={COLORS.white} />
+          <AntDesign name="arrowright" size={25} color={COLORS.white} />
         </TouchableOpacity>
       </View>
       <FlatList
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   headerTextStyle: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '700',
     color: COLORS.white,
   },
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
   noteMsg: {
     marginBottom: 5,
     color: COLORS.black,
-    fontSize: 18,
+    fontSize: 16,
   },
   noteText: {
     marginBottom: 5,

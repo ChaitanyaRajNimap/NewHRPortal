@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   headerTextStyle: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '700',
     color: COLORS.white,
   },
@@ -90,6 +90,6 @@ const styles = StyleSheet.create({
   text: {
     marginBottom: 5,
     color: COLORS.black,
-    fontSize: 15,
+    fontSize: 14,
   },
 });
