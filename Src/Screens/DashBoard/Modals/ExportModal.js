@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Alert,
+  Linking,
 } from 'react-native';
 import {GLOBALSTYLE} from '../../../Constants/Styles';
 import {COLORS} from '../../../Constants/Theme';
@@ -14,6 +15,10 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import validation from '../../../Util/helper';
 import SmallButton from '../../../Components/SmallButton';
 import CustomDownloadRadioBtn from '../../../Components/CustomDownloadRadioBtn';
+import XLSX from 'xlsx';
+import RNFS from 'react-native-fs';
+import {writeFile} from 'react-native-fs';
+import Share from 'react-native-share';
 import Mailer from 'react-native-mail';
 // import ExcelJS from 'exceljs-node';
 // import moment from 'moment';
@@ -116,50 +121,29 @@ const ExportModal = ({
 
   //For handling download
   const handleDownload = () => {
-    // const workbook = new ExcelJS.Workbook();
-    // exportCurrRes(workbook);
+    const worksheet = XLSX.utils.json_to_sheet(currRes);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Current Resources');
+    // Convert the workbook to a binary string
+    const excelData = XLSX.write(workbook, {type: 'base64'});
+    console.log('excelData', excelData);
+    //   // Convert the binary string to a Uint8Array
+    //   const buffer = new ArrayBuffer(excelData.length);
+    //   const view = new Uint8Array(buffer);
+    //   for (let i = 0; i < excelData.length; i++) {
+    //     view[i] = excelData.charCodeAt(i) & 0xff;
+    //   }
+    //   // Write the binary data to the file
+    const path = RNFS.DocumentDirectoryPath + '/curr-res.xlsx';
+    RNFS.writeFile(path, excelData, 'base64')
+      .then(() => {
+        // Share the file
+        Share.open({url: `file://${path}`, type: 'application/vnd.ms-excel'});
+      })
+      .catch(error => {
+        console.error('Error saving file:', error);
+      });
   };
-
-  //For exporting current res
-  // const exportCurrRes = async (req, res, workbook) => {
-  //   let date = new Date();
-  //   let filename = `CurrentResource${moment(date).format('D-MM-YY')}.xlsx`;
-
-  //   let worksheet = workbook.addWorksheet('sheet1');
-  //   worksheet.columns = [
-  //     {header: 'Full Name', key: 'fullName', width: 10},
-  //     {header: 'Total Experience', key: 'totalExp', width: 10},
-  //     {header: 'Idle Days', key: 'idleDays', width: 10},
-  //     {header: 'Technology Name', key: 'technologyName', width: 10},
-  //   ];
-
-  //   for (const ele in currRes) {
-  //     let data = {...ele};
-  //     await worksheet.addRow({
-  //       fullName: `${data.name}`,
-  //       totalExp: `${data.exp_date}`,
-  //       idleDays: `${data.idleDays}`,
-  //       technologyName: `${data.languages} ${data.otherlanguages}`,
-  //     });
-  //   }
-  //   if (req.body.email) {
-  //     console.log(req.body.email);
-  //     let buffer = await workbook.xlsx.writeBuffer();
-  //     await sendMailtoCurrentResource(buffer, filename, req.body.email);
-  //     res.status(200).json({message: 'Mail Sent Successfully'});
-  //   } else if (req.body.type == 'Download') {
-  //     res.setHeader(
-  //       'Content-Type',
-  //       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-  //     );
-  //     res.setHeader(
-  //       'Content-Disposition',
-  //       'attachment; filename=' + `${filename}`,
-  //     );
-  //     await workbook.xlsx.write(res);
-  //     res.end();
-  //   }
-  // };
 
   console.log(inputs.action);
 

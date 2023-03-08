@@ -38,7 +38,7 @@ const PurchaseOrderEnd = ({data}) => {
           style={[
             styles.text,
             styles.listHeader,
-            {width: '30%', textAlign: 'center'},
+            {width: '35%', textAlign: 'center'},
           ]}>
           End Date
         </Text>

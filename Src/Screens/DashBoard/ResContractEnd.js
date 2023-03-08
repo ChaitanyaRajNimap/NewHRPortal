@@ -10,7 +10,7 @@ const ResContractEnd = ({data}) => {
     return (
       <View style={styles.listContainer}>
         <Text style={styles.text}>{item.fname + ' ' + item.lname}</Text>
-        <Text style={[styles.text, {width: '30%', textAlign: 'center'}]}>
+        <Text style={[styles.text, {width: '35%', textAlign: 'center'}]}>
           {item.contract_end_date === null
             ? '-'
             : new Date(item.contract_end_date).toLocaleDateString('en-GB', {
