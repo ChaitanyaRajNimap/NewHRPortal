@@ -11,6 +11,7 @@ import {
   Alert,
   Modal,
   Button,
+  Linking,
 } from 'react-native';
 import {
   getCurrentResFilter as getCurrentResFilterAction,

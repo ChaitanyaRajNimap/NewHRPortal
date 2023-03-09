@@ -8,6 +8,7 @@ import {
   KeyboardAvoidingView,
   Alert,
   Linking,
+  Platform,
 } from 'react-native';
 import {GLOBALSTYLE} from '../../../Constants/Styles';
 import {COLORS} from '../../../Constants/Theme';
@@ -16,11 +17,14 @@ import validation from '../../../Util/helper';
 import SmallButton from '../../../Components/SmallButton';
 import CustomDownloadRadioBtn from '../../../Components/CustomDownloadRadioBtn';
 import XLSX from 'xlsx';
-import RNFS from 'react-native-fs';
+// import RNFS from 'react-native-fs';
+import Mailer from 'react-native-mail';
 import {writeFile} from 'react-native-fs';
 import Share from 'react-native-share';
 import {MailComposer} from 'react-native-mail';
-import Mailer from 'react-native-mail';
+import RNFS from 'react-native-fs';
+import RNFetchBlob from 'rn-fetch-blob';
+
 // import ExcelJS from 'exceljs-node';
 // import moment from 'moment';
 
@@ -144,6 +148,18 @@ const ExportModal = ({
     return result;
   };
 
+  //For creating Excel file from list
+  const createExcelFile = async (data, fileName) => {
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, fileName);
+    const excelData = XLSX.write(workbook, {type: 'base64', bookType: 'xlsx'});
+    // console.log('excelData', excelData);
+    const file = `${RNFS.DocumentDirectoryPath}/${fileName}.xlsx`;
+    await RNFS.writeFile(file, excelData, 'base64');
+    return file;
+  };
+
   //for handling send
   const handleSend = async () => {
     let err = validation.validateEmail(inputs.email);
@@ -191,18 +207,6 @@ const ExportModal = ({
     }
   };
 
-  //For creating Excel file from list
-  const createExcelFile = async (data, fileName) => {
-    const worksheet = XLSX.utils.json_to_sheet(data);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, fileName);
-    const excelData = XLSX.write(workbook, {type: 'base64', bookType: 'xlsx'});
-    // console.log('excelData', excelData);
-    const file = `${RNFS.DocumentDirectoryPath}/${fileName}.xlsx`;
-    await RNFS.writeFile(file, excelData, 'base64');
-    return file;
-  };
-
   //For sending email with excel attachment
   const sendEmail = (excelFile, resName) => {
     Mailer.mail(
@@ -241,30 +245,67 @@ const ExportModal = ({
     );
   };
 
-  //For handling download
-  const handleDownload = () => {
-    const worksheet = XLSX.utils.json_to_sheet(currRes);
+  //For converting res data to excel to download
+  const convertToDownload = async (data, fileName) => {
+    const worksheet = XLSX.utils.json_to_sheet(data);
     const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Current Resources');
-    // Convert the workbook to a binary string
-    const excelData = XLSX.write(workbook, {type: 'base64'});
-    console.log('excelData', excelData);
-    //   // Convert the binary string to a Uint8Array
-    //   const buffer = new ArrayBuffer(excelData.length);
-    //   const view = new Uint8Array(buffer);
-    //   for (let i = 0; i < excelData.length; i++) {
-    //     view[i] = excelData.charCodeAt(i) & 0xff;
-    //   }
-    //   // Write the binary data to the file
-    const path = RNFS.DocumentDirectoryPath + '/curr-res.xlsx';
-    RNFS.writeFile(path, excelData, 'base64')
-      .then(() => {
-        // Share the file
-        Share.open({url: `file://${path}`, type: 'application/vnd.ms-excel'});
-      })
-      .catch(error => {
-        console.error('Error saving file:', error);
-      });
+    XLSX.utils.book_append_sheet(workbook, worksheet, fileName);
+    const wbout = XLSX.write(workbook, {type: 'base64', bookType: 'xlsx'});
+    // const uri = `data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,${wbout}`;
+    // return uri;
+    const fileUri = `${RNFS.DocumentDirectoryPath}/list.xlsx`;
+    await RNFS.writeFile(fileUri, wbout, 'ascii');
+    return fileUri;
+  };
+
+  //For downloading
+  const downloadExcelFile = async (fileUri, fileName) => {
+    const flName = fileName + '.xlsx';
+    const downloadDest = `${RNFS.DownloadDirectoryPath}/${flName}`;
+    const result = await RNFS.copyFile(fileUri, downloadDest);
+    return result;
+    // const {dirs} = RNFetchBlob.fs;
+    // const flName = fileName + '.xlsx';
+    // const path = `${dirs.DownloadDir}/${flName}`;
+    // const config = {
+    //   fileCache: true,
+    //   addAndroidDownloads: {
+    //     useDownloadManager: true,
+    //     notification: true,
+    //     path,
+    //     description: 'Downloading Excel file',
+    //     mediaScannable: true,
+    //     mime: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    //     title: flName,
+    //   },
+    // };
+    // const result = await RNFetchBlob.config(config).fetch('GET', uri);
+    // return result;
+  };
+
+  //For handling download
+  const handleDownload = async () => {
+    const uri = convertToDownload(
+      formatedData.currResFData,
+      'current-resource',
+    );
+    const result = await downloadExcelFile(uri, 'current-resource');
+    console.log('Downloaded successfully');
+    // const worksheet = XLSX.utils.json_to_sheet(currRes);
+    // const workbook = XLSX.utils.book_new();
+    // XLSX.utils.book_append_sheet(workbook, worksheet, 'Current Resources');
+    // // Convert the workbook to a binary string
+    // const excelData = XLSX.write(workbook, {type: 'base64'});
+    // console.log('excelData', excelData);
+    // const path = RNFS.DocumentDirectoryPath + '/curr-res.xlsx';
+    // RNFS.writeFile(path, excelData, 'base64')
+    //   .then(() => {
+    //     // Share the file
+    //     Share.open({url: `file://${path}`, type: 'application/vnd.ms-excel'});
+    //   })
+    //   .catch(error => {
+    //     console.error('Error saving file:', error);
+    //   });
   };
 
   return (
