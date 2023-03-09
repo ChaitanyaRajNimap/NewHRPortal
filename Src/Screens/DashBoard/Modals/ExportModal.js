@@ -19,6 +19,7 @@ import XLSX from 'xlsx';
 import RNFS from 'react-native-fs';
 import {writeFile} from 'react-native-fs';
 import Share from 'react-native-share';
+import {MailComposer} from 'react-native-mail';
 import Mailer from 'react-native-mail';
 // import ExcelJS from 'exceljs-node';
 // import moment from 'moment';
@@ -59,8 +60,92 @@ const ExportModal = ({
     emailError: null,
   });
 
+  const [formatedData, setFormatedData] = useState({
+    currResFData: null,
+    dashUpcomingResFData: null,
+    dashProjectTargetFData: null,
+  });
+
+  //For formatting res data
+  useEffect(() => {
+    let currResFormatedData = formatCurrResData(currRes);
+    let upcomingResFormatedData = formatUpcomingResData(dashUpcomingRes);
+    let projectTargetFormatedData = formatProjectTargetData(dashProjectTarget);
+    if (
+      currResFormatedData &&
+      upcomingResFormatedData &&
+      projectTargetFormatedData
+    ) {
+      setFormatedData(prevData => {
+        return {
+          ...prevData,
+          currResFData: currResFormatedData,
+          dashUpcomingResFData: upcomingResFormatedData,
+          dashProjectTargetFData: projectTargetFormatedData,
+        };
+      });
+    }
+  }, []);
+
+  //For formatting curr res data
+  const formatCurrResData = data => {
+    const result = data.map(item => {
+      return {
+        Name: item.fname && item.lname ? item.fname + ' ' + item.lname : '--',
+        Email: item.email ? item.email : '--',
+        MobileNo: item.phone ? item.phone : '--',
+        Address: item.resident_address ? item.resident_address : '--',
+        Technology: item.Technology ? item.Technology : '--',
+        VendorName: item.company_name ? item.company_name : '--',
+        Experience: item.exp_date ? item.exp_date : '--',
+        SR: item.successRatio ? item.successRatio : '--',
+        CV: item.resume ? item.resume : '--',
+        Idle: item.idleDays ? item.idleDays : '--',
+      };
+    });
+    return result;
+  };
+
+  //For formatting curr res data
+  const formatUpcomingResData = data => {
+    const result = data.map(item => {
+      return {
+        Name: item.fname && item.lname ? item.fname + ' ' + item.lname : '--',
+        Address: item.resident_address ? item.resident_address : '--',
+        Technology: item.Technology ? item.Technology : '--',
+        Experience: item.exp_date ? item.exp_date : '--',
+        CV: item.resume ? item.resume : '--',
+        ClientName: item.client_name ? item.client_name : '--',
+        EndDate: item.end_date
+          ? new Date(item.end_date)
+              .toDateString('en-US', {})
+              .split(' ')
+              .slice(1)
+              .join(' ')
+          : '--',
+      };
+    });
+    return result;
+  };
+
+  //For formatting curr res data
+  const formatProjectTargetData = data => {
+    const result = data.map(item => {
+      return {
+        Name: item.fname && item.lname ? item.fname + ' ' + item.lname : '--',
+        Address: item.resident_address ? item.resident_address : '--',
+        Technology: item.Technology ? item.Technology : '--',
+        Experience: item.exp_date ? item.exp_date : '--',
+        CV: item.resume ? item.resume : '--',
+        ClientName: item.client_name ? item.client_name : '--',
+        OnProject: item.on_project ? item.on_project : '--',
+      };
+    });
+    return result;
+  };
+
   //for handling send
-  const handleSend = () => {
+  const handleSend = async () => {
     let err = validation.validateEmail(inputs.email);
     setError(prevIp => {
       return {
@@ -82,41 +167,78 @@ const ExportModal = ({
           emailError: null,
         };
       });
-      Mailer.mail(
-        {
-          subject: 'AutoMail: Current Resource Details',
-          recipients: [`${inputs.email}`],
-          ccRecipients: ['test1@gmail.com'],
-          body: '<b>Hi</b>\n<p>Please check attached Current Resource file</p>',
-          isHTML: true,
-          // attachments: [
-          //   {
-          //     path: '',
-          //     uri: '',
-          //     type: '',
-          //     name: '',
-          //   },
-          // ],
-        },
-        (error, event) => {
-          Alert.alert(
-            error,
-            event,
-            [
-              {
-                text: 'Ok',
-                onPress: () => console.log('OK: Email Error Response'),
-              },
-              {
-                text: 'Cancel',
-                onPress: () => console.log('CANCEL: Email Error Response'),
-              },
-            ],
-            {cancelable: true},
-          );
-        },
-      );
+      // console.log('Cho9sse: ', inputs.res);
+      if (inputs.res === 'Current Resource Export') {
+        const excelFile = await createExcelFile(
+          formatedData.currResFData,
+          'current-resource',
+        );
+        await sendEmail(excelFile, 'Current Resource');
+      } else if (inputs.res === 'Upcoming Resource Export') {
+        const excelFile = await createExcelFile(
+          formatedData.dashUpcomingResFData,
+          'upcoming-resource',
+        );
+        await sendEmail(excelFile, 'Upcoming Resource');
+      } else if (inputs.res === 'Project Export') {
+        const excelFile = await createExcelFile(
+          formatedData.dashProjectTargetFData,
+          'project',
+        );
+        await sendEmail(excelFile, 'Project');
+      }
+      onCancel();
     }
+  };
+
+  //For creating Excel file from list
+  const createExcelFile = async (data, fileName) => {
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, fileName);
+    const excelData = XLSX.write(workbook, {type: 'base64', bookType: 'xlsx'});
+    // console.log('excelData', excelData);
+    const file = `${RNFS.DocumentDirectoryPath}/${fileName}.xlsx`;
+    await RNFS.writeFile(file, excelData, 'base64');
+    return file;
+  };
+
+  //For sending email with excel attachment
+  const sendEmail = (excelFile, resName) => {
+    Mailer.mail(
+      {
+        subject: `AutoMail: ${resName} Details`,
+        recipients: [`${inputs.email}`],
+        ccRecipients: ['test1@gmail.com'],
+        body: `<b>Hi</b>\n<p>Please check attached ${resName} file</p>`,
+        isHTML: true,
+        attachments: [
+          {
+            path: excelFile,
+            uri: '',
+            type: '',
+            name: '',
+          },
+        ],
+      },
+      (error, event) => {
+        Alert.alert(
+          error,
+          event,
+          [
+            {
+              text: 'Ok',
+              onPress: () => console.log('OK: Email Error Response'),
+            },
+            {
+              text: 'Cancel',
+              onPress: () => console.log('CANCEL: Email Error Response'),
+            },
+          ],
+          {cancelable: true},
+        );
+      },
+    );
   };
 
   //For handling download
@@ -144,8 +266,6 @@ const ExportModal = ({
         console.error('Error saving file:', error);
       });
   };
-
-  console.log(inputs.action);
 
   return (
     <View style={styles.rootContainer}>
@@ -356,7 +476,6 @@ const styles = StyleSheet.create({
   upperViewStyle: {flexDirection: 'row'},
   inputAligner: {
     width: 290,
-    // backgroundColor: '#f00',
     borderRadius: 1,
     borderWidth: 1,
     borderRadius: 10,
