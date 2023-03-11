@@ -119,6 +119,8 @@ function PurchaseOrderList({
               </View>
             )}
 
+            <View><Text>Testing </Text></View>
+
             {item.end_date && (
               <View style={GLOBALSTYLE.columnView}>
                 <Text style={GLOBALSTYLE.label}>End Date</Text>
