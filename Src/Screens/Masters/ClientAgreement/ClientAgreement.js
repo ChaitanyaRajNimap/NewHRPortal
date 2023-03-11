@@ -27,7 +27,7 @@ import EditClientAgreement from './editClientAgreement/EditClientAgreement';
 const ClientAgreement = ({navigation}) => {
   const dispatch = useDispatch();
   const reducerData = useSelector(state => state.ClientAgreementReducer);
-  console.log('reducerData from clientagreement : ', reducerData);
+  // console.log('reducerData from clientagreement : ', reducerData);
   const [clientAgreements, setClientAgreements] = useState([]);
   const [filterClientAgreements, setFilterClientAgreements] = useState([]);
   const [search, setSearch] = useState('');

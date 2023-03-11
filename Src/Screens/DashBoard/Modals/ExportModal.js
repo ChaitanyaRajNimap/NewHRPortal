@@ -23,7 +23,7 @@ import {writeFile} from 'react-native-fs';
 import Share from 'react-native-share';
 import {MailComposer} from 'react-native-mail';
 import RNFS from 'react-native-fs';
-import RNFetchBlob from 'rn-fetch-blob';
+// import RNFetchBlob from 'rn-fetch-blob';
 
 // import ExcelJS from 'exceljs-node';
 // import moment from 'moment';

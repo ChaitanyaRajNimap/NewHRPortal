@@ -27,7 +27,7 @@ LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
 const EditClientAgreement = ({navigation}) => {
   //For getting data from ClientAgreementReducer
   const reducerData = useSelector(state => state.ClientAgreementReducer);
-  console.log('reducerdata------->', reducerData);
+  // console.log('reducerdata------->', reducerData);
   // console.log('reducerdata------->', reducerData.getClientData);
 
   const [formData, dispatcher] = useReducer(reducer, initialState);
@@ -141,7 +141,7 @@ const EditClientAgreement = ({navigation}) => {
       type: 'startDateError',
       payload: null,
     });
-    console.log('onStartDateSelected--------------->');
+    // console.log('onStartDateSelected--------------->');
   }
 
   //For storing end date in form data
@@ -355,7 +355,7 @@ const EditClientAgreement = ({navigation}) => {
 
     // let data = convertClientAgreement(formData);
 
-    console.log(formData);
+    // console.log(formData);
 
     // dispatch(addClientAgreement(formData, navigation));
   };

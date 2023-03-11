@@ -35,7 +35,7 @@ LogBox.ignoreLogs([
 const AddClientAgreement = ({navigation}) => {
   const dispatch = useDispatch();
   const reducerData = useSelector(state => state.ClientAgreementReducer);
-  console.log('reducerdata from Add Client Agreement------->', reducerData);
+  // console.log('reducerdata from Add Client Agreement------->', reducerData);
 
   const [formData, dispatcher] = useReducer(reducer, initialState);
 
@@ -330,7 +330,7 @@ const AddClientAgreement = ({navigation}) => {
 
     const pdfData = await pdfToBinary(formData.agreement.uri);
 
-    console.log('pdfDAta', formData.agreement.uri, formData.client.id);
+    // console.log('pdfDAta', formData.agreement.uri, formData.client.id);
 
     fmData.append('client_id', formData.client.id);
     fmData.append('start_date', formData.startDate);
@@ -340,7 +340,7 @@ const AddClientAgreement = ({navigation}) => {
     fmData.append('pdf_file', pdfData);
     fmData.append('resource_id', resourcesArr);
 
-    console.log('FMDATA=========>', fmData);
+    // console.log('FMDATA=========>', fmData);
 
     const boundary = '--------------------------125436698574584';
 
