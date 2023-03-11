@@ -6,8 +6,10 @@ import Home from '../Screens/DashBoard/Home';
 import CompareReport from '../Screens/CompareReport/CompareReport';
 import InvoiceStatus from '../Screens/Invoice/InvoiceStatus/InvoiceStatus';
 import InvoiceHistory from '../Screens/Invoice/InvoiceHistory/InvoiceHistory';
-import ExternalProjectInvoiceHistory from '../Screens/Invoice/ExternalProjectInvoiceHistory/ExternalProjectInvoiceHistory';
-import ExternalProjectInvoiceStatus from '../Screens/Invoice/ExternalProjectInvoiceStatus/ExternalProjectInvoiceStatus';
+// import ExternalProjectInvoiceHistory from '../Screens/Invoice/ExternalProjectInvoiceHistory/ExternalProjectInvoiceHistory';
+// import ExternalProjectInvoiceStatus from '../Screens/Invoice/ExternalProjectInvoiceStatus/ExternalProjectInvoiceStatus';
+import ExternalProjectInvoiceHistory from '../Screens/Invoice/ExternalProjectInvoicHistory/ExternalProjectInvoiceHistory';
+import ExternalProjectInvoiceStatus from '../Screens/Invoice/ExternalProjectInvoiceHistory/ExternalProjectInvoiceStatus';
 import InterViewReport from '../Screens/Reports/InterViewReport';
 import InterView from '../Screens/Process/InterView/InterView';
 import Joining from '../Screens/Process/Joining/Joining';
@@ -199,7 +201,19 @@ const DrawerNavigation = ({navigation}) => {
       <Drawer.Screen
         name="Purchase Order"
         component={PurchaseOrder}
-        options={{headerShown: true, headerTitleAlign: 'center'}}
+        options={{
+          headerShown: true,
+          headerTitleAlign: 'center',
+          headerRight: () => (
+            <AntDesign
+              name="plus"
+              size={25}
+              color="black"
+              style={GLOBALSTYLE.headerRightStyle}
+              onPress={() => navigation.navigate('AddPurchaseorder')}
+            />
+          ),
+        }}
       />
       <Drawer.Screen
         name="Client Agreement"

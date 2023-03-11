@@ -4,77 +4,59 @@ import {
   SafeAreaView,
   StyleSheet,
   Text,
-  Modal,
   TouchableOpacity,
   Dimensions,
+  Modal,
 } from 'react-native';
+import Export from '../Export';
 import SearchBox from '../../../Components/SearchBox';
 import {COLORS} from '../../../Constants/Theme';
-import InvoiceHistoryCard from './InvoiceHistoryCard';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import InvoiceHistoryCard from '../InvoiceHistory/InvoiceHistoryCard';
 import {useDispatch} from 'react-redux';
 import {useSelector} from 'react-redux';
-import Export from '../Export';
 import dayjs from 'dayjs';
 import DropDownPicker from 'react-native-dropdown-picker';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import {GLOBALSTYLE} from '../../../Constants/Styles';
 import {
-  GetInvoiceHistoryDataMonthlyData,
-  SendInvoiceHistoryData,
-  GetInvoiceHistoryDataMonthlySearchData,
-} from '../../../Redux/Actions/InvoiceHistoryAction';
-// import {} from "../../../Redux/Actions/InvoiceHistoryAction"
+  GetExternalInvoiceHistory,
+  getExternalInvoiceMonthlyData,
+  SendExternalInvoiceHistoryData,
+} from '../../../Redux/Actions/ExternalProjectInvoiceHistory';
 import {ActivityIndicator} from 'react-native';
 
-const InvoiceHistory = ({navigation}) => {
-  const [InovoiceInternalData, setInovoiceInternalData] = useState([]);
-  const [InternalinvoicehistoryMonthdata, setInternalinvoicehistoryMonthdata] =
+const ExternalProjectInvoiceHistory = ({navigation}) => {
+  const [Externalinvoicehistorydata, setExternalinvoicehistorydata] =
+    useState(null);
+  const [ExternalinvoicehistoryMonthdata, setExternalinvoicehistoryMonthdata] =
     useState(null);
   const dispatch = useDispatch();
   const reducerdata = useSelector(
-    state => state.InvoiceHistoryReducer.getInvoiceHistorydata,
+    state => state.Externalinvicehistoryreducer.getExternalinvicehistorydata,
   );
-  const reducerdMonthdata = useSelector(
-    state => state.InvoiceHistoryReducer.getInternalInvoiceMonthdata,
+  const reducerdata1 = useSelector(
+    state => state.Externalinvicehistoryreducer.GetMonthData,
   );
-  const reducerdMonthSearchdata = useSelector(
-    state => state.InvoiceHistoryReducer.SearchInvoicehistoryData,
-  );
+  console.log('reducerExternalInvoicedataMonthly Data=>>>>>>', reducerdata1);
   const [modalVisible, setModalVisible] = useState(false);
-  console.log(
-    'reducerdatatainvoce xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx=>>>>>>',
-    reducerdMonthSearchdata,
-  );
-  // console.log("reducerdatatainvoceFirst =>>>>>>",reducerdata)
   const [openYear, setOpenyear] = useState(false);
-  const [getyearvalue, setGetYearvalue] = useState();
+  const [getyearvalue, setGetYearvalue] = useState(null);
   const [getyearitem, setgetyearitem] = useState([]);
   const [openMonth, setopenMonth] = useState(false);
-  const [getMonthvalue, setGetMonthvalue] = useState([]);
+  const [getMonthvalue, setGetMonthvalue] = useState(null);
   const [getMonthitem, setgetMonthitem] = useState([]);
   const [search, setSearch] = useState('');
-  const [FilterInvoiceData, setFilterInvoiceData] = useState([]);
+  const [ExternalFilterInvoiceData, setExternalFilterInvoiceData] =
+    useState(null);
   const [loading, setLoading] = useState(true);
-  // const [MergedData,setMergedData]=useState([])
 
-  console.log('mergedata', getMonthvalue, 'getmonth===========', getyearvalue);
-
-  useEffect(() => {
-    const unSubscribe = navigation.addListener('focus', () => {
-      setLoading(true);
-      let month = 'march';
-      let year = '2023';
-      if (month !== undefined || year !== undefined) {
-        dispatch(GetInvoiceHistoryDataMonthlyData(month, year));
-      }
-    });
-    return unSubscribe;
-  }, [navigation]);
-
+  // useEffect(()=>{
+  //   GetExternalInvoiceHistory()
+  // },[])
   const GetYears = () => {
     const years = new Date().getFullYear();
     const year = [];
-    for (let i = years; i >= 1900; i--) {
+    for (let i = years; i >= 2000; i--) {
       // console.log("iiiiiiiiiiiiiiiiii",i)
       let item = {value: i};
       year.push(item);
@@ -82,7 +64,7 @@ const InvoiceHistory = ({navigation}) => {
     setgetyearitem(year);
   };
 
-  console.log('mmmmmmmmmmmmmmmmmmmmmmmmmmm', InternalinvoicehistoryMonthdata);
+  // console.log("mmmmmmmmmmmmmmmmmmmmmmmmmmm",getMonthvalue,getyearvalue)
 
   const Getmonth = () => {
     let Month = [];
@@ -109,66 +91,86 @@ const InvoiceHistory = ({navigation}) => {
   useEffect(() => {
     GetYears();
     Getmonth();
-  }, [reducerdata]);
+  }, []);
 
-  // console.log("getyearvalue=>>>>>>>>>>>>>>>>",getMonthitem)
+  //  console.log("currentMonth",currentMonth,getMonthValue)
 
   const SendMonthData = (getyearvalue, getMonthvalue) => {
-    console.log('getyearvalue,getMonthvalue', getyearvalue, getMonthvalue);
-    if (getyearvalue !== null && getMonthvalue !== null) {
-      // console.log("GetInvoiceHistoryDataMonthlyData",getMonth,getyear)
-      dispatch(GetInvoiceHistoryDataMonthlyData(getyearvalue, getMonthvalue));
-    }
+    console.log('getyearvalue=>>>>>>>>>>', getyearvalue);
+    // console.log("getMonthvalue=>>>>>>>>>>",getMonthvalue.length)
+
+    const MonthData = {
+      month: getMonthvalue,
+      year: getyearvalue,
+    };
+    console.log('monthdatttttttttttttttttttttttt', MonthData);
+    dispatch(getExternalInvoiceMonthlyData(MonthData));
   };
 
   useEffect(() => {
+    const unSubscribe = navigation.addListener('focus', () => {
+      setLoading(true);
+      dispatch(GetExternalInvoiceHistory());
+    });
+    return unSubscribe;
+  }, [navigation]);
+
+  useEffect(() => {
     setLoading(true);
-    SendMonthData();
+    dispatch(getExternalInvoiceMonthlyData());
   }, [getMonthvalue]);
 
   useEffect(() => {
-    if (reducerdMonthdata) {
-      setInternalinvoicehistoryMonthdata(reducerdMonthdata);
-      setFilterInvoiceData(reducerdMonthdata);
+    if (reducerdata && reducerdata.data) {
+      setExternalinvoicehistorydata(reducerdata.data);
+      setExternalFilterInvoiceData(reducerdata.data);
       setLoading(false);
     }
-  }, [reducerdMonthdata]);
-
-  // useEffect(()=>{
-  //   if(reducerdMonthSearchdata){
-  //     setInternalinvoicehistoryMonthdata(reducerdMonthSearchdata)
-  //       setLoading(false)
-  //   }
-  // },[reducerdMonthSearchdata])
-
-  console.log();
+  }, [reducerdata.data]);
 
   useEffect(() => {
-    if (search !== null) {
-      dispatch(
-        GetInvoiceHistoryDataMonthlySearchData(
-          getyearvalue,
-          getMonthvalue,
-          search,
-        ),
-      );
-    }
-  }, [search]);
-
-  useEffect(() => {
-    if (reducerdMonthSearchdata) {
-      setInternalinvoicehistoryMonthdata(reducerdMonthSearchdata);
+    if (reducerdata1 && reducerdata1) {
+      setExternalinvoicehistoryMonthdata(reducerdata1);
       setLoading(false);
     }
-  }, [reducerdMonthSearchdata]);
+  }, [reducerdata1]);
 
   console.log(
-    'InternalinvoicehistoryMonthdata=>>>>>>>>',
-    InternalinvoicehistoryMonthdata,
+    'tExternalinvoicehistoryMonthdata',
+    ExternalinvoicehistoryMonthdata,
   );
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('blur', () => {
+      setLoading(true);
+      setExternalFilterInvoiceData(null);
+    });
+    return unsubscribe;
+  }, [navigation, dispatch]);
+
+  useEffect(() => {
+    getFliternvoicedata();
+  }, [search]);
 
   const setSearchValue = value => {
     setSearch(value);
+  };
+  // console.log("searchhhhhhhhhhhhhhhhhhhhhhhhhhh",Externalinvoicehistorydata)
+
+  const getFliternvoicedata = () => {
+    // console.log("getFliternvoicedata=>>>>>>>>>>>>>>>>>>>>>>>")
+    const filterValue = Externalinvoicehistorydata?.filter(data => {
+      console.log("''''''''''''''", data);
+      if (search.length === 0) {
+        return data;
+      } else if (
+        data.client_name.toLowerCase().includes(search.toLowerCase())
+      ) {
+        return data;
+      }
+    });
+    // console.log("''''''''''''''",filterValue)
+    setExternalFilterInvoiceData(filterValue);
   };
 
   const ModalOpen = () => {
@@ -182,16 +184,18 @@ const InvoiceHistory = ({navigation}) => {
   };
 
   const HandelSend = data => {
-    dispatch(SendInvoiceHistoryData(data, navigation));
+    dispatch(SendExternalInvoiceHistoryData(data, navigation));
   };
 
-  console.log('setionvoicedattaa->>>>>>>>>>>>', FilterInvoiceData);
+  // console.log(" getMonthvalue!==null?Externalinvoicehistorydata :ExternalinvoicehistoryMonthdata",
+  //  getMonthvalue.length!==null?ExternalinvoicehistoryMonthdata:Externalinvoicehistorydata)
   return (
     <>
       <Modal animationType="slide" transparent={true} visible={modalVisible}>
         <Export Onpress={Handelcancel} ondatatSend={HandelSend} />
       </Modal>
       <SafeAreaView style={GLOBALSTYLE.safeAreaViewStyle}>
+        {/* <View style={styles.container}> */}
         <View
           style={{
             flexDirection: 'row',
@@ -218,14 +222,20 @@ const InvoiceHistory = ({navigation}) => {
             <Text
               style={{
                 paddingHorizontal: 19,
-                paddingVertical: 19,
-                borderRadius: 10,
+                paddingVertical: 30,
+                borderRadius: 19,
                 flexDirection: 'column',
               }}>
               <AntDesign name="export" size={25} color="black" />
             </Text>
           </TouchableOpacity>
         </View>
+
+        {!loading && search && (
+          <View style={style.loadingContainer}>
+            <Text> purchase order Information is not found </Text>
+          </View>
+        )}
 
         <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
           <View style={{width: '45%', marginHorizontal: 10}}>
@@ -289,16 +299,30 @@ const InvoiceHistory = ({navigation}) => {
             <ActivityIndicator size="large" color={COLORS.blue} />
           </View>
         )}
+        {!loading &&
+          Externalinvoicehistorydata &&
+          Externalinvoicehistorydata.length > 0 && (
+            <View style={style.listContainer}>
+              <InvoiceHistoryCard
+                data={
+                  getMonthvalue !== null
+                    ? ExternalinvoicehistoryMonthdata
+                    : Externalinvoicehistorydata
+                }
+              />
+            </View>
+          )}
 
-        <View style={style.listContainer}>
-          <InvoiceHistoryCard data={InternalinvoicehistoryMonthdata} />
-        </View>
+        {/* </View>  */}
       </SafeAreaView>
     </>
   );
 };
 
 const style = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   dropdownViewStyle: {
     backgroundColor: '#fff',
     marginTop: 10,
@@ -306,12 +330,12 @@ const style = StyleSheet.create({
     alignSelf: 'center',
     borderColor: '#fff',
     zIndex: 100,
-    width: '100%',
-    padding: 50,
+    // width:"100%",
+    // padding:50
   },
   dropDownContainerStyle: {
-    width: '100%',
-    marginVertical: 10,
+    // width:"100%",
+    marginVertical: 19,
     // marginHorizontal:85,
     paddingVertical: 4,
     borderColor: '#fff',
@@ -350,4 +374,6 @@ const style = StyleSheet.create({
   },
 });
 
-export default InvoiceHistory;
+export default ExternalProjectInvoiceHistory;
+
+// ExternalProjectInvoiceHistory

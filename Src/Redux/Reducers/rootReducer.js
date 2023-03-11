@@ -15,6 +15,12 @@ import ReasonReducer from './ReasonReducer';
 import ClientAgreementReducer from './ClientAgreementReducer';
 import ClientReducer from './ClientReducer';
 import DashboardReducer from './DashboardReducer';
+import PurchaseOrderReducer from './PurchaseOrderReducer';
+import RequestClientReducer from './RequestClientReducer';
+import InvoiceStatusReducer from './InvoiceStatusReducer';
+import InvoiceHistoryReducer from './InvoiceHistoryReducer';
+import Externalinvicehistoryreducer from './Externalinvicehistoryreducer';
+import ExternalInvoiceStatusReducer from './ExternalInvoiceStatusReducer';
 
 const rootReducer = combineReducers({
   loginReducer: loginReducer,
@@ -33,5 +39,11 @@ const rootReducer = combineReducers({
   ClientAgreementReducer: ClientAgreementReducer,
   ClientReducer: ClientReducer,
   DashboardReducer: DashboardReducer,
+  PurchaseOrderReducer: PurchaseOrderReducer,
+  RequestClientReducer: RequestClientReducer,
+  InvoiceStatusReducer: InvoiceStatusReducer,
+  InvoiceHistoryReducer: InvoiceHistoryReducer,
+  Externalinvicehistoryreducer: Externalinvicehistoryreducer,
+  ExternalInvoiceStatusReducer: ExternalInvoiceStatusReducer,
 });
 export default rootReducer;

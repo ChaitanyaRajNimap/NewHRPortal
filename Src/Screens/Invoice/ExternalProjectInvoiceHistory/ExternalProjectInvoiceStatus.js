@@ -9,20 +9,21 @@ import {
 } from 'react-native';
 import {GLOBALSTYLE} from '../../../Constants/Styles';
 import SearchBox from '../../../Components/SearchBox';
-import InvoiceStatuCard from './InvoiceComponents/InvoiceStatuCard';
+// import InvoiceStatuCard from './InvoiceComponents/InvoiceStatuCard';
+import InvoiceStatuCard from '../InvoiceStatus/InvoiceComponents/InvoiceStatuCard';
 import {
-  InvoiceStaus,
-  InvoiceStausSearch,
-} from '../../../Redux/Actions/InvoiceStatusAction';
+  ExternalInvoiceStatus,
+  SendExternalInvoicestatesData,
+  ExternalInvoiceStausSearch,
+} from '../../../Redux/Actions/ExternalProjectInvoiceStatusAction';
 import {useDispatch, useSelector} from 'react-redux';
 import {ActivityIndicator} from 'react-native';
 import {COLORS} from '../../../Constants/Theme';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import dayjs from 'dayjs';
 import Export from '../Export';
-import {SendInvoicestatesData} from '../../../Redux/Actions/InvoiceStatusAction';
 
-const InvoiceStatus = ({navigation}) => {
+const ExternalProjectInvoiceStatus = ({navigation}) => {
   const [InvoiceData, setInvoiceData] = useState([]);
   const [FilterInvoiceData, setFilterInvoiceData] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
@@ -35,22 +36,16 @@ const InvoiceStatus = ({navigation}) => {
 
   const dispatch = useDispatch();
   const reducerData = useSelector(
-    state => state.InvoiceStatusReducer.InvoicestatesData,
+    state => state.ExternalInvoiceStatusReducer.ExternalInvoicestatesData,
   );
   const searchReducerData = useSelector(
-    state => state.InvoiceStatusReducer.InvoicestatusSearchData,
+    state => state.ExternalInvoiceStatusReducer.ExternalInvoiceStautsSearchData,
   );
-
-  const emailExportreducer = useSelector(
-    state => state.InvoiceStatusReducer.invoicestatusAdd,
-  );
-  // console.log('reducerdatata=>>>>>>>>>>', reducerData);
-  // console.log('searchReducerData=============',searchReducerData)
 
   useEffect(() => {
     const unSubscribe = navigation.addListener('focus', () => {
       setLoading(true);
-      dispatch(InvoiceStaus());
+      dispatch(ExternalInvoiceStatus());
     });
     return unSubscribe;
   }, [navigation]);
@@ -58,7 +53,7 @@ const InvoiceStatus = ({navigation}) => {
   useEffect(() => {
     if (search !== null) {
       setLoading(true);
-      dispatch(InvoiceStausSearch(search));
+      dispatch(ExternalInvoiceStausSearch(search));
     }
   }, [search]);
 
@@ -93,7 +88,8 @@ const InvoiceStatus = ({navigation}) => {
   };
 
   const HandelSend = data => {
-    dispatch(SendInvoicestatesData(data, navigation));
+    console.log('data===========', data);
+    dispatch(SendExternalInvoicestatesData(data, navigation));
   };
 
   return (
@@ -178,7 +174,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default InvoiceStatus;
+export default ExternalProjectInvoiceStatus;
 
 // const MonthYear =()=>{
 //   const YearArray=[]

@@ -5,8 +5,10 @@ import Home from '../../Screens/DashBoard/Home';
 import CompareReport from '../../Screens/CompareReport/CompareReport';
 import InvoiceStatus from '../../Screens/Invoice/InvoiceStatus/InvoiceStatus';
 import InvoiceHistory from '../../Screens/Invoice/InvoiceHistory/InvoiceHistory';
-import ExternalProjectInvoiceStatus from '../../Screens/Invoice/ExternalProjectInvoiceStatus/ExternalProjectInvoiceStatus';
-import ExternalProjectInvoiceHistory from '../../Screens/Invoice/ExternalProjectInvoiceHistory/ExternalProjectInvoiceHistory';
+// import ExternalProjectInvoiceStatus from '../../Screens/Invoice/ExternalProjectInvoiceStatus/ExternalProjectInvoiceStatus';
+// import ExternalProjectInvoiceHistory from '../../Screens/Invoice/ExternalProjectInvoiceHistory/ExternalProjectInvoiceHistory';
+import ExternalProjectInvoiceStatus from '../../Screens/Invoice/ExternalProjectInvoiceHistory/ExternalProjectInvoiceStatus';
+import ExternalProjectInvoiceHistory from '../../Screens/Invoice/ExternalProjectInvoicHistory/ExternalProjectInvoiceHistory';
 import InterViewReport from '../../Screens/Reports/InterViewReport';
 import InterView from '../../Screens/Process/InterView/InterView';
 import Joining from '../../Screens/Process/Joining/Joining';
@@ -50,6 +52,8 @@ import AddNote from '../../Screens/DashBoard/Notes/AddNote';
 import EditNote from '../../Screens/DashBoard/Notes/EditNote';
 import ShowRes from '../../Screens/DashBoard/ShowRes';
 import ShowNote from '../../Screens/DashBoard/Notes/ShowNote';
+import EditPurchaseOrder from '../../Screens/Masters/PurchaseOrder/EditpurchaseOrder/EditPurchaseOrder.js/EditPurchaseOrder.js';
+import AddPurchaseorder from '../../Screens/Masters/PurchaseOrder/Addpurchaseorder/AddPurchaseorder';
 
 const privatestack = createNativeStackNavigator();
 
@@ -65,11 +69,11 @@ function privateStack() {
       <privatestack.Screen name="InvoiceStatus" component={InvoiceStatus} />
       <privatestack.Screen name="InvoiceHistory" component={InvoiceHistory} />
       <privatestack.Screen
-        name="ExternalProjectInvoiceStatus"
+        name="External Project Invoice Status"
         component={ExternalProjectInvoiceStatus}
       />
       <privatestack.Screen
-        name="ExternalProjectInvoiceHistory"
+        name="External Project Invoice Historys"
         component={ExternalProjectInvoiceHistory}
       />
       <privatestack.Screen name="InterViewReport" component={InterViewReport} />
@@ -140,6 +144,14 @@ function privateStack() {
       <privatestack.Screen name="EditNote" component={EditNote} />
       <privatestack.Screen name="ShowRes" component={ShowRes} />
       <privatestack.Screen name="ShowNote" component={ShowNote} />
+      <privatestack.Screen
+        name="AddPurchaseorder"
+        component={AddPurchaseorder}
+      />
+      <privatestack.Screen
+        name="EditPurchaseOrder"
+        component={EditPurchaseOrder}
+      />
     </privatestack.Navigator>
   );
 }
